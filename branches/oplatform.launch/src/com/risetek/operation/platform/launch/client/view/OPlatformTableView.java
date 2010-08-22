@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Node;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public abstract class OPlatformTableView extends DockPanel {
 
@@ -43,20 +44,19 @@ public abstract class OPlatformTableView extends DockPanel {
 	    info.setWidget(0, 0, infoLabel);
 		messagePanel.add(info, DockPanel.EAST);
 		messagePanel.setCellWidth(info, "40%");
-		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_RIGHT);
-//		toolPanel.setWidth("100%");
-//		toolPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_CENTER);
 		outer.add(messagePanel);
 		
-//	    toolPanel.add(infoLabel, DockPanel.WEST);
-//		toolPanel.setVerticalAlignment(DockPanel.ALIGN_MIDDLE);
-//		toolPanel.setCellHorizontalAlignment(infoLabel, HasAlignment.ALIGN_LEFT);
-//		toolPanel.setCellVerticalAlignment(infoLabel, HasAlignment.ALIGN_MIDDLE);
-//	    toolPanel.setCellWidth(infoLabel, "50%");
-
 	    outer.add(grid);
 	    
 	    add(outer, DockPanel.SOUTH);
+	}
+	
+	public void formatGrid(Grid grid, int rowCount, String[] columns){
+		grid.resize(rowCount+1, columns.length);
+		for(int i=0;i<grid.getColumnCount();i++){
+			grid.setText(0, i, columns[i]);
+		}
 	}
 	
 	public void setInfo(String text){
@@ -69,5 +69,17 @@ public abstract class OPlatformTableView extends DockPanel {
     
     public void setLocation(String text){
     	locationLabel.setText(text);
+    }
+    
+    public void renderLine(OPlatformData data, int index){
+    	if(index<4){
+    		for(int i=0;i<grid.getColumnCount();i++){
+    			grid.setText(index+1, i, "123456");
+    		}
+    	}
+    }
+    
+    public void renderStatistic(OPlatformData data){
+    	setStatisticText(data.getSum());
     }
 }
