@@ -4,6 +4,7 @@ import com.risetek.operation.platform.base.client.control.BaseController;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
+import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 
 public class BaseSink extends Sink {
 
@@ -22,6 +23,10 @@ public class BaseSink extends Sink {
 				return new BaseSink();
 			}
 		};
+	}
+	
+	public static IOPlatformView getView(){
+		return BaseController.INSTANCE.view;
 	}
 	
 	public BaseSink() {
