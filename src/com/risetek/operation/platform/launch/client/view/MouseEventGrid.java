@@ -40,14 +40,24 @@ public abstract class MouseEventGrid extends Grid {
 		// GWT.log("Row: " +row);
 		// 这是为了确保该行存在数据。
 		String index = getText(row, 0);
-		try {
-			int id = Integer.parseInt(index);
-			if (id <= 0){
-				return;
+		index = index.trim();
+		if(index.length()>0){
+			if(index.length()==1){
+				if(((int)index.charAt(0))==160){
+					return;
+				}
 			}
-		} catch (NumberFormatException nfe) {
+		} else {
 			return;
 		}
+//		try {
+//			int id = Integer.parseInt(index);
+//			if (id <= 0){
+//				return;
+//			}
+//		} catch (NumberFormatException nfe) {
+//			return;
+//		}
 
 		int column = DOM.getChildIndex(tr, td);
 		switch (DOM.eventGetType(event)) {
