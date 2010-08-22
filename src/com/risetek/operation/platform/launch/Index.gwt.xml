@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='oplatform'>
+	<inherits name='com.google.gwt.user.User' />
+	<stylesheet src="standard.css" />
+	<!-- <entry-point class='com.risetek.operation.platform.launch.client.Index' /> -->
+	<inherits name="com.google.gwt.i18n.I18N" />
+	<inherits name="com.google.gwt.xml.XML"/>
+	<extend-property name="locale" values="zh" />
+</module>
