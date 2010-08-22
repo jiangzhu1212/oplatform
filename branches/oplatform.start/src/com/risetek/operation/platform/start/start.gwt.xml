@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='oplatform'>
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.risetek.operation.platform.launch.index' />
+  <inherits name='com.risetek.operation.platform.base.base' />
+  <entry-point class='com.risetek.operation.platform.start.client.StartUp'/>
+</module>
