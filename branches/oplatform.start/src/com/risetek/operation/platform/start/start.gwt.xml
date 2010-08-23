@@ -3,5 +3,6 @@
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.risetek.operation.platform.launch.index' />
   <inherits name='com.risetek.operation.platform.base.base' />
+  <inherits name='com.risetek.operation.platform.process.process' />
   <entry-point class='com.risetek.operation.platform.start.client.StartUp'/>
 </module>

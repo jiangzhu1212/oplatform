@@ -9,6 +9,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
+/**
+ * @author Amber
+ * 功能：数据表框架，基本都写完了，具体用的时候只需要注入表头和数据内容即可
+ * 2010-8-23 下午11:35:29
+ */
 public abstract class OPlatformTableView extends DockPanel {
 
 	public Grid grid = getGrid();
@@ -52,6 +57,14 @@ public abstract class OPlatformTableView extends DockPanel {
 	    add(outer, DockPanel.SOUTH);
 	}
 	
+	/**
+	 * 功能：格式化表格样式
+	 *
+	 * void
+	 * @param grid
+	 * @param rowCount
+	 * @param columns
+	 */
 	public void formatGrid(Grid grid, int rowCount, String[] columns){
 		grid.resize(rowCount+1, columns.length);
 		for(int i=0;i<grid.getColumnCount();i++){
@@ -59,18 +72,43 @@ public abstract class OPlatformTableView extends DockPanel {
 		}
 	}
 	
+	/**
+	 * 功能：显示鼠标事件名称
+	 *
+	 * void
+	 * @param text
+	 */
 	public void setInfo(String text){
 		infoLabel.setText(text);
 	}
 
+    /**
+     * 功能：显示数据表内总条数
+     *
+     * void
+     * @param total
+     */
     public void setStatisticText(int total){
     	statisticLabel.setText("总数："+Integer.toString(total));
     }
     
+    /**
+     * 功能：显示当前所打开页面在系统中的位置，个人认为放在这里不妥，暂时没有找到更好的位置
+     *
+     * void
+     * @param text
+     */
     public void setLocation(String text){
     	locationLabel.setText(text);
     }
     
+    /**
+     * 功能：按行读取并填写数据
+     *
+     * void
+     * @param data
+     * @param index
+     */
     public void renderLine(OPlatformData data, int index){
     	if(index<4){
     		for(int i=0;i<grid.getColumnCount();i++){
@@ -79,6 +117,12 @@ public abstract class OPlatformTableView extends DockPanel {
     	}
     }
     
+    /**
+     * 功能：填写数据总条数
+     *
+     * void
+     * @param data
+     */
     public void renderStatistic(OPlatformData data){
     	setStatisticText(data.getSum());
     }

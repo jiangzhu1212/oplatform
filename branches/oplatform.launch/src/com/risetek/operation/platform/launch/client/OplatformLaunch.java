@@ -23,22 +23,40 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * @author Amber
+ * 功能：项目主框架类
+ * 2010-8-23 下午11:21:54
  */
 @SuppressWarnings("deprecation")
 public abstract class OplatformLaunch implements EntryPoint {
-	
+	/** 
+	 * 功能： 项目起始点
+	 *(non-Javadoc)
+	 * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
+	 */
 	public void onModuleLoad() {
 		displayNowTime();
 		Widget mainPanel = initMainPanel();
 		RootPanel.get("main").add(mainPanel);
 	}
 	
+	/**
+	 * 功能：功能模块注册方法
+	 *
+	 * Tree
+	 * @param userMenu
+	 * @return
+	 */
 	public abstract Tree registerTreeMenu(Tree userMenu);
 	
+	/**
+	 * 功能：初始化主框架视图部分
+	 *
+	 * Widget
+	 * @return
+	 */
 	private Widget initMainPanel(){
 		HorizontalPanel main = new HorizontalPanel();
 		main.setWidth("100%");
@@ -56,17 +74,6 @@ public abstract class OplatformLaunch implements EntryPoint {
 		Tree userMenu = new Tree();
 		userMenu.setWidth("100%");
 		userMenu = registerTreeMenu(userMenu);
-//		TreeItem userMenuItem = new TreeItem();
-//		userMenuItem.setText("dddd");
-//		TreeItem item = new TreeItem();
-//		item.setText("tteesstt");
-//		item.setTitle("ttteeesssttt");
-//		VerticalPanel vp = new VerticalPanel();
-//		vp.add(new HTML("haha"));
-//		vp.add(new HTML("hehe"));
-//		item.setUserObject(vp);
-//		userMenuItem.addItem(item);
-//		userMenu.addItem(userMenuItem);
 		userMenu.addBlurHandler(new BlurHandler() {
 			public void onBlur(BlurEvent event) {
 				if(event.getSource() instanceof Tree){
@@ -87,11 +94,10 @@ public abstract class OplatformLaunch implements EntryPoint {
 				TreeItem item = event.getSelectedItem();
 				if(item.getChildCount()<1){
 					Object obj = item.getUserObject();
-					if(obj instanceof SinkInfo){
+					if(obj instanceof Widget){
 						body.clear();
-						SinkInfo sink = (SinkInfo)obj;
-						body.add(sink.getWidget());
-						sink.getInstance().getController().disablePrivate();
+						Widget w = (Widget)obj;
+						body.add(w);
 					}
 				}
 			}
@@ -127,6 +133,11 @@ public abstract class OplatformLaunch implements EntryPoint {
 		return main;
 	}
 	
+	/**
+	 * 功能：主页面右上角实时显示时间的方法
+	 *
+	 * void
+	 */
 	private void displayNowTime(){
 		final Label nowTime = new Label();
 		Timer timer = new Timer() {
@@ -136,7 +147,6 @@ public abstract class OplatformLaunch implements EntryPoint {
 				nowTime.setText(time);
 			}
 		};
-//		timer.schedule(1000);
 		timer.scheduleRepeating(1000);
 		timer.run();
 		RootPanel.get("nowTime").add(nowTime);
