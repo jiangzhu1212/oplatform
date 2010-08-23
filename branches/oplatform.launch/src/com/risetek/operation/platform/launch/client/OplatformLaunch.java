@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -86,9 +87,11 @@ public abstract class OplatformLaunch implements EntryPoint {
 				TreeItem item = event.getSelectedItem();
 				if(item.getChildCount()<1){
 					Object obj = item.getUserObject();
-					if(obj instanceof Widget){
+					if(obj instanceof SinkInfo){
 						body.clear();
-						body.add((Widget)obj);
+						SinkInfo sink = (SinkInfo)obj;
+						body.add(sink.getWidget());
+						sink.getInstance().getController().disablePrivate();
 					}
 				}
 			}
