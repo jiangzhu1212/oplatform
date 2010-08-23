@@ -14,7 +14,7 @@ public class BaseController extends AController {
 	public final BaseView view = new BaseView();
 	
 	private BaseController(){
-		
+		String name = new TableEditAction().getActionName();
 	}
 	
 	public static void load(){
@@ -28,14 +28,12 @@ public class BaseController extends AController {
 	
 	@Override
 	public void disablePrivate() {
-		// TODO Auto-generated method stub
-		
+		view.disablePrivate();
 	}
 
 	@Override
 	public void enablePrivate() {
-		// TODO Auto-generated method stub
-		
+		view.enablePrivate();
 	}
 
 	public static class TableEditAction implements ClickActionHandler {

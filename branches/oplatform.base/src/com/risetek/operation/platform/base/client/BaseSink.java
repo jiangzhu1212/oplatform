@@ -29,6 +29,9 @@ public class BaseSink extends Sink {
 		return BaseController.INSTANCE.view;
 	}
 	
+	public BaseSink(String flag) {
+	}
+	
 	public BaseSink() {
 		initWidget(BaseController.INSTANCE.view);//new HTML("haha"));
 	}
@@ -39,4 +42,7 @@ public class BaseSink extends Sink {
 		return BaseController.INSTANCE;
 	}
 
+	public void getActionList(){
+//		BaseController.INSTANCE.
+	}
 }
