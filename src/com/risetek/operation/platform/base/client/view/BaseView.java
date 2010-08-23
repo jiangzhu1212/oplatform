@@ -70,8 +70,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 
 	@Override
 	public void disablePrivate() {
-		// TODO Auto-generated method stub
-		
+		action1.setVisible(false);
 	}
 
 	@Override
