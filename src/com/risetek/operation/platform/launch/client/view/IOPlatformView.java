@@ -1,12 +1,11 @@
 package com.risetek.operation.platform.launch.client.view;
 
-import java.util.ArrayList;
 
-import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
-
+/**
+ * @author Amber
+ * 功能：模块视图框架，定义了按键响应的接口方法
+ * 2010-8-23 下午11:32:38
+ */
 public interface IOPlatformView {
-	public void disablePrivate();
-	public void enablePrivate();
 	public void ProcessControlKey(int keyCode, boolean alt);
-	public ArrayList<ClickActionHandler> getActionList();
 }

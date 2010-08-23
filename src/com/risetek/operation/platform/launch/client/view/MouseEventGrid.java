@@ -5,6 +5,11 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Grid;
 
+/**
+ * @author Amber
+ * 功能：重载表格类，实现表格的鼠标移动事件
+ * 2010-8-23 下午11:33:42
+ */
 public abstract class MouseEventGrid extends Grid {
 
 	public MouseEventGrid () {
@@ -15,6 +20,11 @@ public abstract class MouseEventGrid extends Grid {
 		sinkEvents(Event.MOUSEEVENTS);
 	}
 	
+	/** 
+	 * 功能： 我理解为事件响应入口，具体怎么移动里面有代码判断
+	 *(non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.Widget#onBrowserEvent(com.google.gwt.user.client.Event)
+	 */
 	public void onBrowserEvent(Event event) {
 		Element td = getEventTargetCell(event);
 		if (null == td){
@@ -50,14 +60,6 @@ public abstract class MouseEventGrid extends Grid {
 		} else {
 			return;
 		}
-//		try {
-//			int id = Integer.parseInt(index);
-//			if (id <= 0){
-//				return;
-//			}
-//		} catch (NumberFormatException nfe) {
-//			return;
-//		}
 
 		int column = DOM.getChildIndex(tr, td);
 		switch (DOM.eventGetType(event)) {
@@ -75,7 +77,21 @@ public abstract class MouseEventGrid extends Grid {
 		super.onBrowserEvent(event);
 	}
 
+	/**
+	 * 功能：鼠标移开事件响应
+	 *
+	 * void
+	 * @param td
+	 * @param column
+	 */
 	public abstract void onMouseOver(Element td, int column);
 
+	/**
+	 * 功能：鼠标移入事件响应
+	 *
+	 * void
+	 * @param td
+	 * @param column
+	 */
 	public abstract void onMouseOut(Element td, int column);
 }
