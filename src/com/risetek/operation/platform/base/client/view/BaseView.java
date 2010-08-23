@@ -1,7 +1,5 @@
 package com.risetek.operation.platform.base.client.view;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
@@ -15,17 +13,18 @@ import com.risetek.operation.platform.base.client.BaseSink;
 import com.risetek.operation.platform.base.client.control.BaseController;
 import com.risetek.operation.platform.base.client.model.BaseData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
-import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.MouseEventGrid;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
+/**
+ * @author Amber
+ * 功能：模块的视图，也是模块主要的表现内容
+ * 2010-8-23 下午11:51:41
+ */
 public class BaseView extends OPlatformTableView implements IOPlatformView {
 
 	private final Button action1 = new Button("action1");
-	ClickActionHandler tableEditAction = new BaseController.TableEditAction();
-	ClickActionHandler tableShowAction = new BaseController.TableShowAction();
-	public static ArrayList<ClickActionHandler> handlerList = new ArrayList<ClickActionHandler>();
 	public final static String[] columns = {"列1", "列2", "列3", "列4"};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	
@@ -38,6 +37,12 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 		
 	};
 	
+	/**
+	 * 功能：设置表格内鼠标事件的名称
+	 *
+	 * void
+	 * @param tips
+	 */
 	public void setBannerTips(String tips) {
 		banner_tips = tips;
 		setInfo(banner_tips);
@@ -49,11 +54,14 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 		setCellHeight(action, "38px");
 		setLocation(BaseSink.Group + " -> " + BaseSink.Name);
 		setStatisticText(100);
-		setInfo("this is info");
-		handlerList.add(tableEditAction);
-		handlerList.add(tableShowAction);
 	}
 	
+	/**
+	 * 功能：实现工具栏按钮
+	 *
+	 * Widget
+	 * @return
+	 */
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -64,33 +72,42 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 		return actionPanel;
 	}
 	
+	/** 
+	 * 功能： 加载数据方法
+	 *(non-Javadoc)
+	 * @see com.google.gwt.user.client.ui.Panel#onLoad()
+	 */
 	public void onLoad(){
 		BaseController.load();
 	}
 
-	@Override
-	public void disablePrivate() {
-		action1.setVisible(false);
-	}
-
-	@Override
-	public void enablePrivate() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	/** 
+	 * 功能： 按键事件处理方法
+	 *(non-Javadoc)
+	 * @see com.risetek.operation.platform.launch.client.view.IOPlatformView#ProcessControlKey(int, boolean)
+	 */
 	@Override
 	public void ProcessControlKey(int keyCode, boolean alt) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/** 
+	 * 功能： 格式化行，不一定会用的，暂时写起备用
+	 *(non-Javadoc)
+	 * @see com.risetek.operation.platform.launch.client.view.OPlatformTableView#parseRow(com.google.gwt.xml.client.Node)
+	 */
 	@Override
 	public String[] parseRow(Node node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/** 
+	 * 功能： 创建带鼠标事件的表格
+	 *(non-Javadoc)
+	 * @see com.risetek.operation.platform.launch.client.view.OPlatformTableView#getGrid()
+	 */
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
@@ -105,6 +122,12 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 		return grid;
 	}
 
+	/**
+	 * 功能：向数据表中注入数据
+	 *
+	 * void
+	 * @param data
+	 */
 	public void render(BaseData data){
 		for(int index=0;index<rowCount;index++){
 			renderLine(data, index);
@@ -112,6 +135,11 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 		renderStatistic(data);
 	}
 	
+	/**
+	 * @author Amber
+	 * 功能：数据表鼠标移动样式事件处理子类
+	 * 2010-8-23 下午11:55:34
+	 */
 	class GreenMouseEventGrid extends MouseEventGrid {
 
 		@Override
@@ -142,10 +170,5 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 //			}
 		}
 		
-	}
-
-	@Override
-	public ArrayList<ClickActionHandler> getActionList() {
-		return handlerList;
 	}
 }

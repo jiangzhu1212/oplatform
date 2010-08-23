@@ -1,11 +1,22 @@
 package com.risetek.operation.platform.base.client.control;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.model.BaseData;
 import com.risetek.operation.platform.base.client.view.BaseView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 
+/**
+ * @author Amber
+ * 功能：模块控制器实体
+ * 2010-8-23 下午11:48:58
+ */
+/**
+ * @author Amber
+ * 功能：
+ * 2010-8-23 下午11:49:50
+ */
 public class BaseController extends AController {
 
 	public static BaseController INSTANCE = new BaseController();
@@ -15,27 +26,34 @@ public class BaseController extends AController {
 	
 	private BaseController(){
 		String name = new TableEditAction().getActionName();
+		System.out.println(name);
 	}
 	
+	/**
+	 * 功能：加载数据，会实现一个回调函数
+	 *
+	 * void
+	 */
 	public static void load(){
 		INSTANCE.data.setSum(100);
 		INSTANCE.view.render(INSTANCE.data);
 	}
 	
+	/**
+	 * 功能：得到模块数据资源
+	 *
+	 * BaseData
+	 * @return
+	 */
 	public BaseData getData() {
 		return data;
 	}
 	
-	@Override
-	public void disablePrivate() {
-		view.disablePrivate();
-	}
-
-	@Override
-	public void enablePrivate() {
-		view.enablePrivate();
-	}
-
+	/**
+	 * @author Amber
+	 * 功能：以下子类分别是该模块事件的实体
+	 * 2010-8-23 下午11:49:52
+	 */
 	public static class TableEditAction implements ClickActionHandler {
 		
 		private String actionName = "编辑表格";
@@ -60,5 +78,15 @@ public class BaseController extends AController {
 		public void onClick(ClickEvent event) {
 			
 		}
+	}
+
+	/** 
+	 * 功能： 时间接口方法，返回该模块视图
+	 *(non-Javadoc)
+	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
+	 */
+	@Override
+	public Widget getView() {
+		return view;
 	}
 }
