@@ -16,6 +16,7 @@ public class BaseData extends OPlatformData {
 	 * @param text
 	 */
 	public void parseData(String text){
+		System.out.println("the text is :" + text);
 		setSum(100);
 	}
 	

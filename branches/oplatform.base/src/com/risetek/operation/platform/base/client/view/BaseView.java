@@ -99,7 +99,6 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public String[] parseRow(Node node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -114,11 +113,6 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns);
-//		grid.resize(2, 2);
-//		grid.setText(0, 0, "00");
-//		grid.setText(0, 1, "01");
-//		grid.setText(1, 0, "10");
-//		grid.setText(1, 1, "11");
 		return grid;
 	}
 
