@@ -13,12 +13,13 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.DecoratedStackPanel;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -40,6 +41,23 @@ public abstract class OplatformLaunch implements EntryPoint {
 		displayNowTime();
 		Widget mainPanel = initMainPanel();
 		RootPanel.get("main").add(mainPanel);
+		Grid userInfoGrid = new Grid(1, 8);
+		userInfoGrid.setText(0, 0, "登录用户:");
+		userInfoGrid.setText(0, 1, "测试");
+		userInfoGrid.setText(0, 2, "权限:");
+		userInfoGrid.setText(0, 3, "值班技术");
+		userInfoGrid.setText(0, 4, "上次登录时间:");
+		userInfoGrid.setText(0, 5, "2010-08-24 22:48:30");
+		userInfoGrid.setText(0, 6, "上次登录地址:");
+		userInfoGrid.setText(0, 7, "125.69.69.135");
+		for(int i=0;i<userInfoGrid.getColumnCount();i++){
+			if(i%2==0){
+				userInfoGrid.getCellFormatter().setStyleName(0, i, "userinfo-name");
+			} else {
+				userInfoGrid.getCellFormatter().setStyleName(0, i, "userinfo-content");
+			}
+		}
+		RootPanel.get("userinfo").add(userInfoGrid);
 	}
 	
 	/**
@@ -62,7 +80,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		main.setWidth("100%");
 		main.setHeight("100%");
 		
-		DecoratedStackPanel menuList = new DecoratedStackPanel();
+		StackPanel menuList = new StackPanel();
 		menuList.setWidth("200px");
 		menuList.setHeight("100%");
 		
@@ -72,7 +90,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		body.setHeight("100%");
 		
 		Tree userMenu = new Tree();
-		userMenu.setWidth("100%");
+//		userMenu.setWidth("100%");
 		userMenu = registerTreeMenu(userMenu);
 		userMenu.addBlurHandler(new BlurHandler() {
 			public void onBlur(BlurEvent event) {
@@ -125,7 +143,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		
 		menuList.add(userMenu, "功能操作");
 		menuList.add(baseMenu, "基本操作");
-		
+
 		main.add(menuList);
 		main.add(body);
 		main.setCellWidth(menuList, "203px");
