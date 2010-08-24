@@ -69,7 +69,7 @@ public class StartUp extends OplatformLaunch {
 	 */
 	private TreeItem creatGrpupTreeItem(String group, SinkInfo info){
 		TreeItem item = new TreeItem(group);
-		item.setWidth("100%");
+//		item.setWidth("100%");
 		TreeItem childItem = creatChildTreeItem(info);
 		item.addItem(childItem);
 		return item;
@@ -85,7 +85,6 @@ public class StartUp extends OplatformLaunch {
 	private TreeItem creatChildTreeItem(SinkInfo info){
 		TreeItem childItem = new TreeItem();
 //		childItem.setWidth("100%");
-		childItem.setStyleName("copyright");
 		childItem.setText(info.getName());
 		childItem.setTitle(info.getDescription());
 		childItem.setUserObject(info.getInstance().getWidget());
