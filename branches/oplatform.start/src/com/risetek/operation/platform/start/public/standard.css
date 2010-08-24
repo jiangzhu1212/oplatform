@@ -608,10 +608,10 @@ a, a:visited, a:hover {
   border-width: 1px;
 }
 
-.gwt-StackPanel {
+.gwt-StackPanel1 {
   border-bottom: 1px solid #bbbbbb;
 }
-.gwt-StackPanel .gwt-StackPanelItem {
+.gwt-StackPanel1 .gwt-StackPanelItem1 {
   cursor: pointer;
   cursor: hand;
   font-weight: bold;
@@ -621,7 +621,7 @@ a, a:visited, a:hover {
   border-bottom: 0px;
   background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
 }
-.gwt-StackPanel .gwt-StackPanelContent {
+.gwt-StackPanel1 .gwt-StackPanelContent1 {
   border: 1px solid #bbbbbb;
   border-bottom: 0px;
   background: white;

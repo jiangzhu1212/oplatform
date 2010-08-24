@@ -15,8 +15,8 @@ public class ProcessController extends AController {
 	public final ProcessView view = new ProcessView();
 	
 	private ProcessController(){
-		String name = new TableEditAction().getActionName();
-		System.out.println(name);
+//		String name = new TableEditAction().getActionName();
+//		System.out.println(name);
 	}
 	
 	public static void load(){
