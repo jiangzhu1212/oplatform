@@ -977,14 +977,14 @@ a, a:visited, a:hover {
   filter: alpha(opacity=40);
 }
 
-.gwt-Tree .gwt-TreeItem {
+.gwt-Tree1 .gwt-TreeItem1 {
   padding: 1px 0px;
   margin: 0px;
   white-space: nowrap;
   cursor: hand;
   cursor: pointer;
 }
-.gwt-Tree .gwt-TreeItem-selected {
+.gwt-Tree1 .gwt-TreeItem-selected1 {
   background: #93c2f1 url(images/hborder.png) repeat-x 0px -1463px;
 }
 .gwt-TreeItem .gwt-RadioButton input,
