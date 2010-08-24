@@ -1,11 +1,15 @@
 package com.risetek.operation.platform.base.client.control;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.model.BaseData;
 import com.risetek.operation.platform.base.client.view.BaseView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
 /**
  * @author Amber
@@ -23,7 +27,20 @@ public class BaseController extends AController {
 	final BaseData data = new BaseData();
 	
 	public final BaseView view = new BaseView();
-	
+	private static RequestFactory remoteRequest = new RequestFactory();
+	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	class RemoteRequestCallback implements RequestCallback {
+		public void onResponseReceived(Request request, Response response) {
+			int code = response.getStatusCode();
+			System.out.println(code);
+			data.parseData(response.getText());
+			view.render(data);
+		}
+
+		public void onError(Request request, Throwable exception) {
+			
+		}
+	}
 	private BaseController(){
 		String name = new TableEditAction().getActionName();
 		System.out.println(name);
@@ -35,8 +52,7 @@ public class BaseController extends AController {
 	 * void
 	 */
 	public static void load(){
-		INSTANCE.data.setSum(100);
-		INSTANCE.view.render(INSTANCE.data);
+		remoteRequest.get("", "", RemoteCaller);
 	}
 	
 	/**
