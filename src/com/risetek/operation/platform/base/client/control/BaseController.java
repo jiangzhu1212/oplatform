@@ -42,8 +42,8 @@ public class BaseController extends AController {
 		}
 	}
 	private BaseController(){
-		String name = new TableEditAction().getActionName();
-		System.out.println(name);
+//		String name = new TableEditAction().getActionName();
+//		System.out.println(name);
 	}
 	
 	/**
