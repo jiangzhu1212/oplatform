@@ -130,21 +130,74 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	border: 1px solid #c5e4ff;
 }
 
-.table {
+.optable {
 	border: 1px solid #c5e4ff;
 	background-color: #FFFFFF;
+	table-layout:fixed 
+}
+
+.optable-title {
+	font-weight: bold;
+	text-align: center;
+	line-height: 30px;
+	font-size: 15px;
+}
+
+.optable-line {
+	border-top: 1px solid #c5e4ff;
+	border-left: 1px solid #c5e4ff;
+	line-height: 25px;
+	font-size: 13px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0px 5px 0px 5px;
+}
+
+.optable-bottom {
+	border-top: 1px solid #c5e4ff;
+	border-left: 1px solid #c5e4ff;
+	border-bottom: 1px solid #c5e4ff;
+	line-height: 25px;
+	font-size: 13px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0px 5px 0px 5px;
+}
+
+.optable-line-end {
+	border-top: 1px solid #c5e4ff;
+	border-left: 1px solid #c5e4ff;
+	border-right: 1px solid #c5e4ff;
+	line-height: 25px;
+	font-size: 13px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0px 5px 0px 5px;
+}
+
+.optable-bottom-end {
+	border: 1px solid #c5e4ff;
+	line-height: 25px;
+	font-size: 13px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0px 5px 0px 5px;
 }
 
 .contact-box {
 	background: #f1f1f1;
 	padding-bottom: 2px;
 	overflow: hidden;
-	line-height: 25px;
+	line-height: 55px;
 }
 
 .contact {
 	color:#006acd;
-	font-size: 13px;
+	font-size: 14px;
 	background: #f1f1f1;
 	padding-bottom: 2px;
 	overflow: hidden;

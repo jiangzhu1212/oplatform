@@ -64,7 +64,7 @@ public abstract class MouseEventGrid extends Grid {
 		int column = DOM.getChildIndex(tr, td);
 		switch (DOM.eventGetType(event)) {
 		case Event.ONMOUSEOVER:
-			getRowFormatter().getElement(row).getStyle().setBackgroundColor("#ABABAB");
+			getRowFormatter().getElement(row).getStyle().setBackgroundColor("#C5E9FC");
 			onMouseOver(td, column);
 			break;
 		case Event.ONMOUSEOUT:

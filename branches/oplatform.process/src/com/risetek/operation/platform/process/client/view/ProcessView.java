@@ -1,9 +1,6 @@
 package com.risetek.operation.platform.process.client.view;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -11,7 +8,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
-import com.risetek.operation.platform.launch.client.view.MouseEventGrid;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 import com.risetek.operation.platform.process.client.ProcessSink;
 import com.risetek.operation.platform.process.client.control.ProcessController;
@@ -21,6 +17,7 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 
 	private final Button action1 = new Button("action222");
 	public final static String[] columns = {"列1", "列2", "列3", "列4"};
+	public final static int[] columnsWidth = {25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	
 	String banner_tips = "";
@@ -71,9 +68,9 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid();
+			grid = new GreenMouseEventGrid(banner_text);
 		}
-		formatGrid(grid, rowCount, columns);
+		formatGrid(grid, rowCount, columns, columnsWidth);
 //		grid.resize(2, 2);
 //		grid.setText(0, 0, "00");
 //		grid.setText(0, 1, "01");
@@ -89,35 +86,35 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 		renderStatistic(data);
 	}
 	
-	class GreenMouseEventGrid extends MouseEventGrid {
-
-		@Override
-		public void onMouseOver(Element td, int column) {
-			DOM.removeElementAttribute(td, "title");			
-
-			setInfo(banner_text[column]);
-
-            Element tr = DOM.getParent(td);
-            Element body = DOM.getParent(tr);
-            int row = DOM.getChildIndex(body, tr);
-            if(row == 0) return;
-            renderLine(ProcessController.INSTANCE.getData(), row-1);
-		}
-
-		@Override
-		public void onMouseOut(Element td, int column) {
-			String title = td.getInnerText();
-			
-			if((column > 1) && (null != title) && !("".equals(title)) && !(" ".equalsIgnoreCase(title))) {
-//				DOM.setElementAttribute(td, "title", td.getInnerText());			
-			}
-			
-//			if(mayColor == true) {
-//				td.getStyle().setColor("red");
-				setInfo("");
-//				td.getStyle().setCursor(Cursor.POINTER);
+//	class GreenMouseEventGrid extends MouseEventGrid {
+//
+//		@Override
+//		public void onMouseOver(Element td, int column) {
+//			DOM.removeElementAttribute(td, "title");			
+//
+//			setInfo(banner_text[column]);
+//
+//            Element tr = DOM.getParent(td);
+//            Element body = DOM.getParent(tr);
+//            int row = DOM.getChildIndex(body, tr);
+//            if(row == 0) return;
+//            renderLine(ProcessController.INSTANCE.getData(), row-1);
+//		}
+//
+//		@Override
+//		public void onMouseOut(Element td, int column) {
+//			String title = td.getInnerText();
+//			
+//			if((column > 1) && (null != title) && !("".equals(title)) && !(" ".equalsIgnoreCase(title))) {
+////				DOM.setElementAttribute(td, "title", td.getInnerText());			
 //			}
-		}
-		
-	}
+//			
+////			if(mayColor == true) {
+////				td.getStyle().setColor("red");
+//				setInfo("");
+////				td.getStyle().setCursor(Cursor.POINTER);
+////			}
+//		}
+//		
+//	}
 }

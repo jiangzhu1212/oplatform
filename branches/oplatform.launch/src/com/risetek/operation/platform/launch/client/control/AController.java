@@ -1,6 +1,7 @@
 package com.risetek.operation.platform.launch.client.control;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 /**
  * @author Amber
@@ -14,5 +15,6 @@ public abstract class AController {
 	 * Widget
 	 * @return
 	 */
-	public abstract Widget getView(); 
+	public abstract Widget getView();
+	public abstract OPlatformData getData();
 }
