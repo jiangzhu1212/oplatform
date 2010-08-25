@@ -4,7 +4,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 
 /** Example rules used by the template application (remove for your app) */
 .h1 {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #777777;
   margin: 10px 0px 10px;
@@ -19,8 +19,6 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 }
 
 .body {
-	background-color: #EEEEEE;
-	border: 1px solid #006699;
 }
 
 .userinfo {
@@ -84,7 +82,84 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	color: #3f3f3f;
 }
 
+.actionPanel {
+	background: url("img/salesTitBg.gif") repeat-x;
+	padding-left: 20px;
+	line-height: 33px;
+	border: 1px solid #c5e4ff;
+}
+
+.actionPanel td {
+	vertical-align: middle;
+}
+
+.blank5 {
+	height: 5px;
+	line-height: 5px; /* _margin:-3px 0;*/
+	clear: both;
+	visibility: hidden;
+}
+
+.tableMessagePanel {
+	background: url(img/bg.gif) no-repeat 5px -165px;
+	padding-left: 15px;
+	text-align: left;
+	color: #006AD0;
+}
+
+.tableMessagePanel-content {
+	color: #006AD0;
+	font-size: 13px;
+	vertical-align: middle;
+	line-height: 20px;
+}
+
+.tableMessagePanel-content-action {
+	color: #FF6600;
+	font-size: 13px;
+	vertical-align: middle;
+	line-height: 20px;
+}
+
+.tableouter {
+	padding: 5px 8px 8px 8px;
+	overflow: hidden;
+	border: 1px solid #c5e4ff;
+	background: url(img/box_2Bg.gif) repeat-x top left;
+	background-color: #edf8fe;
+	border: 1px solid #c5e4ff;
+}
+
+.table {
+	border: 1px solid #c5e4ff;
+	background-color: #FFFFFF;
+}
+
+.contact-box {
+	background: #f1f1f1;
+	padding-bottom: 2px;
+	overflow: hidden;
+	line-height: 25px;
+}
+
+.contact {
+	color:#006acd;
+	font-size: 13px;
+	background: #f1f1f1;
+	padding-bottom: 2px;
+	overflow: hidden;
+	border: 1px solid #c5e4ff;
+}
+
 .copyright {
-	background-color: #BBEEFF;
-	border-top: 1px dashed #555555;
+	color: #404040;
+	text-decoration: none;
+	font-size: 13px;
+}
+
+.notice {
+	padding: 5px;
+	overflow: hidden;
+	white-space: normal;
+	text-overflow: ellipsis;
 }
