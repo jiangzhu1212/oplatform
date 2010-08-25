@@ -3,9 +3,7 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
@@ -50,8 +48,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	
 	public BaseView(){
 		Widget action = initPromptGrid();
-		add(action, DockPanel.SOUTH);
-		setCellHeight(action, "38px");
+		addActionPanel(action);
 		setLocation(BaseSink.Group + " -> " + BaseSink.Name);
 		setStatisticText(100);
 	}
@@ -64,10 +61,10 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	 */
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		actionPanel.setHeight("35px");
-		actionPanel.setWidth("100%");
-		actionPanel.setBorderWidth(1);
+//		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+//		actionPanel.setHeight("32px");
+//		actionPanel.setWidth("100%");
+//		actionPanel.setBorderWidth(1);
 		actionPanel.add(action1);
 		return actionPanel;
 	}

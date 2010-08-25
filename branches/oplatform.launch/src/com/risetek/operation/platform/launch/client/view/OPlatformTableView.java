@@ -4,8 +4,10 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
@@ -30,31 +32,50 @@ public abstract class OPlatformTableView extends DockPanel {
 		setWidth("100%");
 		outer.setHeight("100%");
 		outer.setWidth("100%");
+		outer.setStyleName("tableouter");
 		outer.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		outer.setBorderWidth(1);
+//		outer.setBorderWidth(1);
 		
 		messagePanel.setWidth("100%");
-		messagePanel.setHeight("30px");
+		messagePanel.setHeight("20px");
+		messagePanel.setStyleName("tableMessagePanel");
 		Grid location = new Grid(1, 1);
 		location.setWidget(0, 0, locationLabel);
+		location.getCellFormatter().setStyleName(0, 0, "tableMessagePanel-content");
 		messagePanel.add(location, DockPanel.WEST);
 		messagePanel.setCellWidth(location, "40%");
 		messagePanel.setCellHorizontalAlignment(location, HasHorizontalAlignment.ALIGN_LEFT);
 		Grid total = new Grid(1, 1);
 	    total.setWidget(0, 0, statisticLabel);
+	    total.getCellFormatter().setStyleName(0, 0, "tableMessagePanel-content");
 	    messagePanel.add(total, DockPanel.WEST);
 	    messagePanel.setCellWidth(total, "20%");
 	    messagePanel.setCellHorizontalAlignment(total, HasHorizontalAlignment.ALIGN_CENTER);
 	    Grid info = new Grid(1, 1);
 	    info.setWidget(0, 0, infoLabel);
+	    info.getCellFormatter().setStyleName(0, 0, "tableMessagePanel-content-action");
 		messagePanel.add(info, DockPanel.EAST);
 		messagePanel.setCellWidth(info, "40%");
 		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_CENTER);
 		outer.add(messagePanel);
 		
+		grid.setStyleName("table");
 	    outer.add(grid);
 	    
 	    add(outer, DockPanel.SOUTH);
+	}
+	
+	public void addActionPanel(Widget widget){
+		HorizontalPanel blank = new HorizontalPanel();
+		blank.setHeight("5px");
+		add(blank, DockPanel.SOUTH);
+		HorizontalPanel border = new HorizontalPanel();
+		border.setWidth("100%");
+		border.setHeight("32px");
+		border.add(widget);
+		border.setStyleName("actionPanel");
+		border.setCellVerticalAlignment(widget, HasVerticalAlignment.ALIGN_MIDDLE);
+		add(border, DockPanel.SOUTH);
 	}
 	
 	/**

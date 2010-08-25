@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
@@ -29,6 +30,14 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Amber
  * 功能：项目主框架类
  * 2010-8-23 下午11:21:54
+ */
+/**
+ * @author Amber
+ *
+ */
+/**
+ * @author Amber
+ *
  */
 @SuppressWarnings("deprecation")
 public abstract class OplatformLaunch implements EntryPoint {
@@ -79,6 +88,10 @@ public abstract class OplatformLaunch implements EntryPoint {
 		HorizontalPanel main = new HorizontalPanel();
 		main.setWidth("100%");
 		main.setHeight("100%");
+		
+		VerticalPanel leftPanel = new VerticalPanel();
+		leftPanel.setWidth("200px");
+		leftPanel.setHeight("100%");
 		
 		StackPanel menuList = new StackPanel();
 		menuList.setWidth("200px");
@@ -142,15 +155,62 @@ public abstract class OplatformLaunch implements EntryPoint {
 		baseMenu.add(repws);
 		
 		menuList.add(userMenu, "功能操作");
-		menuList.add(baseMenu, "基本操作");
-
-		main.add(menuList);
-		main.add(body);
-		main.setCellWidth(menuList, "203px");
+//		menuList.add(baseMenu, "基本操作");
 		
+		StackPanel notice = new StackPanel();
+		notice.setWidth("200px");
+		notice.setHeight("10px");
+		HTML html = new HTML();
+		html.setText("");
+		html.setStyleName("notice");
+		
+		HorizontalPanel blank = new HorizontalPanel();
+		blank.setStyleName("blank5");
+		
+		notice.add(html, "通知公告");
+		
+		leftPanel.add(notice);
+		leftPanel.add(blank);
+		leftPanel.add(menuList);
+		leftPanel.setCellHeight(notice, "10px;");
+		leftPanel.setCellHeight(blank, "5px;");
+		
+		main.add(leftPanel);
+		main.add(body);
+		main.setCellWidth(leftPanel, "205px");
+		selectDefaultWidget(userMenu, body);
 		return main;
 	}
 	
+	/**
+	 * 加载页面时，默认显示第一个节点的视图
+	 * @param userMenu
+	 * @param body
+	 */
+	private void selectDefaultWidget(Tree userMenu, VerticalPanel body) {
+		TreeItem item = userMenu.getItem(0);
+		item.setState(true);
+		if(item.getChildCount()>0){
+			item = item.getChild(0);
+//			item.setState(true);
+			if(item.getChildCount()>0){
+				item = item.getChild(0);
+//				item.setState(true);
+//			} else {
+//				item.setSelected(true);
+			}
+//		} else {
+//			item.setSelected(true);
+		}
+		item.getUserObject();
+		Object obj = item.getUserObject();
+		if(obj instanceof Widget){
+			body.clear();
+			Widget w = (Widget)obj;
+			body.add(w);
+		}
+	}
+
 	/**
 	 * 功能：主页面右上角实时显示时间的方法
 	 *

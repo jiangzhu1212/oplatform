@@ -39,8 +39,7 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	
 	public ProcessView(){
 		Widget action = initPromptGrid();
-		add(action, DockPanel.SOUTH);
-		setCellHeight(action, "38px");
+		addActionPanel(action);
 		setLocation(ProcessSink.Group + " -> " + ProcessSink.Name);
 		setStatisticText(100);
 		setInfo("this is info");
@@ -49,9 +48,6 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		actionPanel.setHeight("35px");
-		actionPanel.setWidth("100%");
-		actionPanel.setBorderWidth(1);
 		actionPanel.add(action1);
 		return actionPanel;
 	}

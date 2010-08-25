@@ -52,7 +52,7 @@ public class BaseController extends AController {
 	 * void
 	 */
 	public static void load(){
-		remoteRequest.get("", "", RemoteCaller);
+//		remoteRequest.get("", "", RemoteCaller);
 	}
 	
 	/**
