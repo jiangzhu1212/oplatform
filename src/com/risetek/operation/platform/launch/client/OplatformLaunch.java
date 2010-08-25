@@ -5,19 +5,14 @@ import java.util.Date;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.StackPanel;
@@ -39,7 +34,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Amber
  *
  */
-@SuppressWarnings("deprecation")
 public abstract class OplatformLaunch implements EntryPoint {
 	/** 
 	 * 功能： 项目起始点
@@ -67,6 +61,17 @@ public abstract class OplatformLaunch implements EntryPoint {
 			}
 		}
 		RootPanel.get("userinfo").add(userInfoGrid);
+		VerticalPanel pubAction = new VerticalPanel();
+		Button repws = new Button("更改密码");
+		repws.setWidth("90px");
+		Button logout = new Button("注销登录");
+		logout.setWidth("90px");
+		HTML blank = new HTML();
+		blank.setStyleName("blank5");
+		pubAction.add(repws);
+		pubAction.add(blank);
+		pubAction.add(logout);
+		RootPanel.get("public").add(pubAction);
 	}
 	
 	/**
@@ -90,11 +95,11 @@ public abstract class OplatformLaunch implements EntryPoint {
 		main.setHeight("100%");
 		
 		VerticalPanel leftPanel = new VerticalPanel();
-		leftPanel.setWidth("200px");
+		leftPanel.setWidth("140px");
 		leftPanel.setHeight("100%");
 		
 		StackPanel menuList = new StackPanel();
-		menuList.setWidth("200px");
+		menuList.setWidth("140px");
 		menuList.setHeight("100%");
 		
 		final VerticalPanel body = new VerticalPanel();
@@ -103,7 +108,6 @@ public abstract class OplatformLaunch implements EntryPoint {
 		body.setHeight("100%");
 		
 		Tree userMenu = new Tree();
-//		userMenu.setWidth("100%");
 		userMenu = registerTreeMenu(userMenu);
 		userMenu.addBlurHandler(new BlurHandler() {
 			public void onBlur(BlurEvent event) {
@@ -134,34 +138,13 @@ public abstract class OplatformLaunch implements EntryPoint {
 			}
 		});
 		
-		
-		Tree baseMenu = new Tree();
-		
-		Hyperlink repws = new Hyperlink("更改密码", "repws");
-		repws.addClickListener(new ClickListener() {
-			public void onClick(Widget sender) {
-				final DialogBox db = new DialogBox();
-				db.center();
-				db.show();
-				Button clo = new Button("close");
-				clo.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
-						db.hide();
-					}
-				});
-				db.add(clo);
-			}
-		});
-		baseMenu.add(repws);
-		
 		menuList.add(userMenu, "功能操作");
-//		menuList.add(baseMenu, "基本操作");
 		
 		StackPanel notice = new StackPanel();
-		notice.setWidth("200px");
+		notice.setWidth("140px");
 		notice.setHeight("10px");
 		HTML html = new HTML();
-		html.setText("");
+		html.setText("目前没有通知公告");
 		html.setStyleName("notice");
 		
 		HorizontalPanel blank = new HorizontalPanel();
@@ -177,7 +160,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		
 		main.add(leftPanel);
 		main.add(body);
-		main.setCellWidth(leftPanel, "205px");
+		main.setCellWidth(leftPanel, "145px");
 		selectDefaultWidget(userMenu, body);
 		return main;
 	}
@@ -192,15 +175,9 @@ public abstract class OplatformLaunch implements EntryPoint {
 		item.setState(true);
 		if(item.getChildCount()>0){
 			item = item.getChild(0);
-//			item.setState(true);
 			if(item.getChildCount()>0){
 				item = item.getChild(0);
-//				item.setState(true);
-//			} else {
-//				item.setSelected(true);
 			}
-//		} else {
-//			item.setSelected(true);
 		}
 		item.getUserObject();
 		Object obj = item.getUserObject();

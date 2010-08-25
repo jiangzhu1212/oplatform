@@ -1,11 +1,14 @@
 package com.risetek.operation.platform.launch.client.view;
 
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
@@ -34,7 +37,6 @@ public abstract class OPlatformTableView extends DockPanel {
 		outer.setWidth("100%");
 		outer.setStyleName("tableouter");
 		outer.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-//		outer.setBorderWidth(1);
 		
 		messagePanel.setWidth("100%");
 		messagePanel.setHeight("20px");
@@ -59,7 +61,7 @@ public abstract class OPlatformTableView extends DockPanel {
 		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_CENTER);
 		outer.add(messagePanel);
 		
-		grid.setStyleName("table");
+		grid.setStyleName("optable");
 	    outer.add(grid);
 	    
 	    add(outer, DockPanel.SOUTH);
@@ -85,11 +87,34 @@ public abstract class OPlatformTableView extends DockPanel {
 	 * @param grid
 	 * @param rowCount
 	 * @param columns
+	 * @param columnswidth 
 	 */
-	public void formatGrid(Grid grid, int rowCount, String[] columns){
-		grid.resize(rowCount+1, columns.length);
+	public void formatGrid(Grid grid, int rowCount, String[] columns, int[] columnsWidth){
+		grid.resize(rowCount+1, columns.length+2);
+		double total = 0.0000;
+		for(int i=0;i<columnsWidth.length;i++){
+			double temp = Double.parseDouble(Integer.toString(columnsWidth[i]));
+			total += temp;
+		}
 		for(int i=0;i<grid.getColumnCount();i++){
-			grid.setText(0, i, columns[i]);
+			if(i<2){
+				if(i==1){
+					grid.setText(0, i, "序号");
+					grid.getColumnFormatter().setWidth(i, "40px");
+				} else {
+					grid.getColumnFormatter().setWidth(i, "30px");
+				}
+				grid.getCellFormatter().setStyleName(0, i, "optable-title");
+			} else {
+				grid.setText(0, i, columns[i-2]);
+				grid.getCellFormatter().setStyleName(0, i, "optable-title");
+				double temp = Double.parseDouble(Integer.toString(columnsWidth[i-2]));
+				double percent = temp/total;
+				percent *= 100;
+				String p = Double.toString(percent);
+				p = p.substring(0, 2);
+				grid.getCellFormatter().setWidth(0, i, p + "%");
+			}
 		}
 	}
 	
@@ -131,11 +156,58 @@ public abstract class OPlatformTableView extends DockPanel {
      * @param index
      */
     public void renderLine(OPlatformData data, int index){
-    	if(index<4){
-    		for(int i=0;i<grid.getColumnCount();i++){
-    			grid.setText(index+1, i, "123456");
+    	if(index<data.getSum()){
+//    		if(index==grid.getRowCount()-1) {
+//    			for(int i=0;i<grid.getColumnCount();i++){
+//    				if(i==0){
+//    					grid.setWidget(index+1, i, new RadioButton("aa"));
+//    				} else if (i==1){
+//    					grid.setText(index+1, i, Integer.toString(i));
+//    				} else {
+//    					grid.setText(index+1, i, "123456789012345678901234567890123456789012345678901234567890");
+//    				}
+//	    			setTableBottomStyle(index, i);
+//	    		}
+//    		} else {
+    			for(int i=0;i<grid.getColumnCount();i++){
+    				if(i==0){
+    					grid.setWidget(index+1, i, new RadioButton("aa"));
+    				} else if (i==1){
+    					grid.setText(index+1, i, Integer.toString(index+1));
+    					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
+    				} else {
+    					grid.setText(index+1, i, "123456789012345678901234567890123456789012345678901234567890");
+    				}
+	    			setTableLineStyle(index, i);
+	    		}
     		}
-    	}
+//    	} else {
+    		if(index==grid.getRowCount()-1) {
+    			for(int i=0;i<grid.getColumnCount();i++){
+    				setTableBottomStyle(index, i);
+	    		}
+    		} else {
+    			for(int i=0;i<grid.getColumnCount();i++){
+    				setTableLineStyle(index, i);
+	    		}
+    		}
+//    	}
+    }
+    
+    private void setTableLineStyle(int index, int i){
+    	if(i==grid.getColumnCount()-1){
+			grid.getCellFormatter().setStyleName(index+1, i, "optable-line-end");
+		} else {
+			grid.getCellFormatter().setStyleName(index+1, i, "optable-line");
+		}
+    }
+    
+    private void setTableBottomStyle(int index, int i){
+    	if(i==grid.getColumnCount()-1){
+			grid.getCellFormatter().setStyleName(index+1, i, "optable-bottom-end");
+		} else {
+			grid.getCellFormatter().setStyleName(index+1, i, "optable-bottom");
+		}
     }
     
     /**
@@ -147,4 +219,54 @@ public abstract class OPlatformTableView extends DockPanel {
     public void renderStatistic(OPlatformData data){
     	setStatisticText(data.getSum());
     }
+    
+    /**
+	 * @author Amber
+	 * 功能：数据表鼠标移动样式事件处理子类
+	 * 2010-8-23 下午11:55:34
+	 */
+	public class GreenMouseEventGrid extends MouseEventGrid {
+
+		String[] bannerText;
+		
+		public GreenMouseEventGrid(String[] bannerText){
+			this.bannerText = bannerText;
+		}
+		
+		@Override
+		public void onMouseOver(Element td, int column) {
+			DOM.removeElementAttribute(td, "title");			
+			if(column<2){
+				if(column==1){
+					setInfo("点击查看本条记录");
+				} else {
+					setInfo("选择本条记录");
+				}
+			} else {
+				setInfo(bannerText[column-2]);
+			}
+
+            Element tr = DOM.getParent(td);
+            Element body = DOM.getParent(tr);
+            int row = DOM.getChildIndex(body, tr);
+            if(row == 0) return;
+//            renderLine(AController.this.getData(), row-1);
+		}
+
+		@Override
+		public void onMouseOut(Element td, int column) {
+			String title = td.getInnerText();
+			
+			if((column > 1) && (null != title) && !("".equals(title)) && !(" ".equalsIgnoreCase(title))) {
+//				DOM.setElementAttribute(td, "title", td.getInnerText());			
+			}
+			
+//			if(mayColor == true) {
+//				td.getStyle().setColor("red");
+				setInfo("");
+//				td.getStyle().setCursor(Cursor.POINTER);
+//			}
+		}
+		
+	}
 }
