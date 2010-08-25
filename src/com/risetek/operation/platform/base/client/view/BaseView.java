@@ -1,7 +1,5 @@
 package com.risetek.operation.platform.base.client.view;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -12,7 +10,6 @@ import com.risetek.operation.platform.base.client.control.BaseController;
 import com.risetek.operation.platform.base.client.model.BaseData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
-import com.risetek.operation.platform.launch.client.view.MouseEventGrid;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 /**
@@ -24,6 +21,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 
 	private final Button action1 = new Button("action1");
 	public final static String[] columns = {"列1", "列2", "列3", "列4"};
+	public final static int[] columnsWidth = {25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	
 	String banner_tips = "";
@@ -107,9 +105,9 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid();
+			grid = new GreenMouseEventGrid(banner_text);
 		}
-		formatGrid(grid, rowCount, columns);
+		formatGrid(grid, rowCount, columns, columnsWidth);
 		return grid;
 	}
 
@@ -124,42 +122,5 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 			renderLine(data, index);
 		}
 		renderStatistic(data);
-	}
-	
-	/**
-	 * @author Amber
-	 * 功能：数据表鼠标移动样式事件处理子类
-	 * 2010-8-23 下午11:55:34
-	 */
-	class GreenMouseEventGrid extends MouseEventGrid {
-
-		@Override
-		public void onMouseOver(Element td, int column) {
-			DOM.removeElementAttribute(td, "title");			
-
-			setInfo(banner_text[column]);
-
-            Element tr = DOM.getParent(td);
-            Element body = DOM.getParent(tr);
-            int row = DOM.getChildIndex(body, tr);
-            if(row == 0) return;
-            renderLine(BaseController.INSTANCE.getData(), row-1);
-		}
-
-		@Override
-		public void onMouseOut(Element td, int column) {
-			String title = td.getInnerText();
-			
-			if((column > 1) && (null != title) && !("".equals(title)) && !(" ".equalsIgnoreCase(title))) {
-//				DOM.setElementAttribute(td, "title", td.getInnerText());			
-			}
-			
-//			if(mayColor == true) {
-//				td.getStyle().setColor("red");
-				setInfo("");
-//				td.getStyle().setCursor(Cursor.POINTER);
-//			}
-		}
-		
 	}
 }

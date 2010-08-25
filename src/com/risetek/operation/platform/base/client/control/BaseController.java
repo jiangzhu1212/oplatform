@@ -52,7 +52,9 @@ public class BaseController extends AController {
 	 * void
 	 */
 	public static void load(){
-//		remoteRequest.get("", "", RemoteCaller);
+		INSTANCE.data.setSum(10);
+		INSTANCE.view.render(INSTANCE.data);
+		remoteRequest.get("", "", RemoteCaller);
 	}
 	
 	/**
