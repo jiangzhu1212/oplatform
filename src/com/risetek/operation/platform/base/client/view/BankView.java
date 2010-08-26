@@ -1,7 +1,5 @@
 package com.risetek.operation.platform.base.client.view;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -23,19 +21,16 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
  */
 public class BankView extends OPlatformTableView implements IOPlatformView {
 	
-	public static ArrayList<Integer> columnsIndex = new ArrayList<Integer>();
+	public final static Button addButton = new Button("增加", new BankController.TableEditAction());
 
-	private final Button addButton = new Button("增加");
-	private final Button delButton = new Button("删除");
-
-	public final static String[] columns = {"发卡行编号", "发卡行名称", "有效期", "备注"};
-	public final static int[] columnsWidth = {25, 25, 25, 25};
+	public final static String[] columns = {"发卡行代码值", "发卡行名称", "有效期", "备注"};
+	public final static int[] columnsWidth = {25, 35, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public static String descript = "";
 
 	String banner_tips = "";
 	private final static String[] banner_text = {
-		"点击修改"+columns[0],
+		"点击删除本条记录",
 		"点击修改"+columns[1],
 		"点击修改"+columns[2],
 		"点击修改"+columns[3],
@@ -60,18 +55,6 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 		setLocation(BankSink.Group + " -> " + BankSink.Name);
 		setStatisticText(100);
 		setInfo("this is info");
-		initColumnsIndex();
-	}
-	/**
-	 * @Description: 设置列数
-	 * @return void 返回类型
-	 */
-	private void initColumnsIndex(){
-		if(columnsIndex.size() == 0){
-			for(int i=0;i<columns.length;i++){
-				columnsIndex.add(i);
-			}
-		}
 	}
 	
 	/**
@@ -81,7 +64,6 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
-		actionPanel.add(delButton);
 		return actionPanel;
 	}
 	
