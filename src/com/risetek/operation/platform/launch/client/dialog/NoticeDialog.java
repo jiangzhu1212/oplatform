@@ -8,6 +8,7 @@ public class NoticeDialog extends CustomDialog {
 		Grid grid = new Grid(1, 1);
 		grid.setText(0, 0, notice);
 		grid.setWidth("300px");
+		grid.getCellFormatter().setStyleName(0, 0, "notice");
 		mainPanel.add(grid);
 		setText("通知公告");
 		setDescript("查看通知公告详细内容");
