@@ -85,6 +85,17 @@ public class BankController extends AController {
 	}
 	
 	/**
+	 * (非 Javadoc) 
+	 * Description:  事件接口方法，返回该模块视图
+	 * @return 
+	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
+	 */
+	@Override
+	public Widget getView() {
+		return view;
+	}
+	
+	/**
 	 * @ClassName: TableEditAction 
 	 * @Description: 以下子类分别是该模块事件的实体 
 	 * @author JZJ 
@@ -102,17 +113,6 @@ public class BankController extends AController {
 		public void onClick(ClickEvent event) {
 			
 		}
-	}
-
-	/**
-	 * (非 Javadoc) 
-	 * Description:  事件接口方法，返回该模块视图
-	 * @return 
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
-	 */
-	@Override
-	public Widget getView() {
-		return view;
 	}
 	
 	/**
