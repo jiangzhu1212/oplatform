@@ -99,6 +99,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 
 .actionPanel td {
 	vertical-align: middle;
+	padding: 0px 5px 0px 5px;
 }
 
 .blank5 {
@@ -227,6 +228,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	overflow: hidden;
 	white-space: normal;
 	text-overflow: ellipsis;
+	line-height: 20px;
 }
 
 .descript {
