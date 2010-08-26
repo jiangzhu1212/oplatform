@@ -49,7 +49,7 @@ public abstract class MouseEventGrid extends Grid {
 
 		// GWT.log("Row: " +row);
 		// 这是为了确保该行存在数据。
-		String index = getText(row, 0);
+		String index = getText(row, 2);
 		index = index.trim();
 		if(index.length()>0){
 			if(index.length()==1){

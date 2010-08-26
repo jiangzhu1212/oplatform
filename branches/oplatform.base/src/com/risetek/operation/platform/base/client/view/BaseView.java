@@ -23,6 +23,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	public final static String[] columns = {"列1", "列2", "列3", "列4"};
 	public final static int[] columnsWidth = {25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
+	public static String descript = "";
 	
 	String banner_tips = "";
 	private final static String[] banner_text = {
@@ -46,7 +47,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	
 	public BaseView(){
 		Widget action = initPromptGrid();
-		addActionPanel(action);
+		addActionPanel(action, descript);
 		setLocation(BaseSink.Group + " -> " + BaseSink.Name);
 		setStatisticText(100);
 	}

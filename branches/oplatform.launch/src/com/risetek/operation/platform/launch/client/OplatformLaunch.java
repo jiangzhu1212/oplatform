@@ -3,8 +3,8 @@ package com.risetek.operation.platform.launch.client;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -15,11 +15,11 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.risetek.operation.platform.launch.client.dialog.NoticeDialog;
 
 /**
  * @author Amber
@@ -40,6 +40,9 @@ public abstract class OplatformLaunch implements EntryPoint {
 	 *(non-Javadoc)
 	 * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
 	 */
+	
+	private HTML noticeHtml = new HTML();
+	
 	public void onModuleLoad() {
 		displayNowTime();
 		Widget mainPanel = initMainPanel();
@@ -98,10 +101,6 @@ public abstract class OplatformLaunch implements EntryPoint {
 		leftPanel.setWidth("140px");
 		leftPanel.setHeight("100%");
 		
-		StackPanel menuList = new StackPanel();
-		menuList.setWidth("140px");
-		menuList.setHeight("100%");
-		
 		final VerticalPanel body = new VerticalPanel();
 		body.setStyleName("body");
 		body.setWidth("100%");
@@ -109,21 +108,21 @@ public abstract class OplatformLaunch implements EntryPoint {
 		
 		Tree userMenu = new Tree();
 		userMenu = registerTreeMenu(userMenu);
-		userMenu.addBlurHandler(new BlurHandler() {
-			public void onBlur(BlurEvent event) {
-				if(event.getSource() instanceof Tree){
-					Tree tree = (Tree) event.getSource();
-					TreeItem item = tree.getSelectedItem();
-					if(item.getChildCount()>0){
-						if(item.getState()){
-							item.setState(false);
-						} else {
-							item.setState(true);
-						}
-					}
-				}
-			}
-		});
+//		userMenu.addBlurHandler(new BlurHandler() {
+//			public void onBlur(BlurEvent event) {
+//				if(event.getSource() instanceof Tree){
+//					Tree tree = (Tree) event.getSource();
+//					TreeItem item = tree.getSelectedItem();
+//					if(item.getChildCount()>0){
+//						if(item.getState()){
+//							item.setState(false);
+//						} else {
+//							item.setState(true);
+//						}
+//					}
+//				}
+//			}
+//		});
 		userMenu.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			public void onSelection(SelectionEvent<TreeItem> event) {
 				TreeItem item = event.getSelectedItem();
@@ -138,19 +137,27 @@ public abstract class OplatformLaunch implements EntryPoint {
 			}
 		});
 		
-		menuList.add(userMenu, "功能操作");
+		Widget menuList = creatStackPanel("功能操作", userMenu);
+		menuList.setWidth("140px");
+		menuList.setHeight("100%");
 		
-		StackPanel notice = new StackPanel();
-		notice.setWidth("140px");
-		notice.setHeight("10px");
-		HTML html = new HTML();
-		html.setText("目前没有通知公告");
-		html.setStyleName("notice");
+		Grid ng = new Grid(1, 1);
+		noticeHtml.setText("1目前没有通知公告2目前没有通知公告3目前没有通知公告4目前没有通知公告5目前没有通知公告6目前没有通知公告7目前没有通知公告8目前没有通知公告9目前没有通知公告10目前没有通知公告");
+		noticeHtml.setStyleName("notice");
+		noticeHtml.setTitle("点击查看详情");
+		noticeHtml.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				NoticeDialog nd = new NoticeDialog(noticeHtml.getText());
+				nd.show();
+			}
+		});
+		ng.setWidget(0, 0, noticeHtml);
 		
 		HorizontalPanel blank = new HorizontalPanel();
 		blank.setStyleName("blank5");
 		
-		notice.add(html, "通知公告");
+		Widget notice = creatStackPanel("通知公告", ng);
+		notice.setWidth("140px");
 		
 		leftPanel.add(notice);
 		leftPanel.add(blank);
@@ -205,5 +212,22 @@ public abstract class OplatformLaunch implements EntryPoint {
 		timer.scheduleRepeating(1000);
 		timer.run();
 		RootPanel.get("nowTime").add(nowTime);
+	}
+	
+	private Widget creatStackPanel(String title, Widget w){
+		VerticalPanel stack = new VerticalPanel();
+		stack.setStyleName("stackPanel");
+		Grid grid = new Grid(1, 1);
+		HTML tit = new HTML(title);
+		tit.setStyleName("stackPanelItem");
+		grid.setWidget(0, 0, tit);
+		grid.setStyleName("stackPanelItem-border");
+		grid.setWidth("100%");
+		w.setStyleName("stackPanelContent");
+		stack.add(grid);
+		stack.add(w);
+		stack.setCellHeight(grid, "30px");
+		stack.setCellHeight(w, "100%");
+		return stack;
 	}
 }

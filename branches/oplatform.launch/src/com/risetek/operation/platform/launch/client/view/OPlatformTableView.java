@@ -4,6 +4,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -58,7 +59,7 @@ public abstract class OPlatformTableView extends DockPanel {
 	    info.getCellFormatter().setStyleName(0, 0, "tableMessagePanel-content-action");
 		messagePanel.add(info, DockPanel.EAST);
 		messagePanel.setCellWidth(info, "40%");
-		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_CENTER);
+		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_RIGHT);
 		outer.add(messagePanel);
 		
 		grid.setStyleName("optable");
@@ -67,7 +68,7 @@ public abstract class OPlatformTableView extends DockPanel {
 	    add(outer, DockPanel.SOUTH);
 	}
 	
-	public void addActionPanel(Widget widget){
+	public void addActionPanel(Widget widget, String descript){
 		HorizontalPanel blank = new HorizontalPanel();
 		blank.setHeight("5px");
 		add(blank, DockPanel.SOUTH);
@@ -77,6 +78,11 @@ public abstract class OPlatformTableView extends DockPanel {
 		border.add(widget);
 		border.setStyleName("actionPanel");
 		border.setCellVerticalAlignment(widget, HasVerticalAlignment.ALIGN_MIDDLE);
+		HTML desc = new HTML(descript);
+		desc.setStyleName("descript");
+		border.add(desc);
+		border.setCellWidth(desc, "25%");
+		border.setCellHorizontalAlignment(desc, HasHorizontalAlignment.ALIGN_RIGHT);
 		add(border, DockPanel.SOUTH);
 	}
 	
@@ -180,8 +186,8 @@ public abstract class OPlatformTableView extends DockPanel {
     				}
 	    			setTableLineStyle(index, i);
 	    		}
-    		}
-//    	} else {
+//    		}
+    	} else {
     		if(index==grid.getRowCount()-1) {
     			for(int i=0;i<grid.getColumnCount();i++){
     				setTableBottomStyle(index, i);
@@ -191,7 +197,7 @@ public abstract class OPlatformTableView extends DockPanel {
     				setTableLineStyle(index, i);
 	    		}
     		}
-//    	}
+    	}
     }
     
     private void setTableLineStyle(int index, int i){

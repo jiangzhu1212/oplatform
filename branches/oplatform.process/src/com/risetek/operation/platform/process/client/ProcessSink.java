@@ -6,6 +6,7 @@ import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.process.client.control.ProcessController;
+import com.risetek.operation.platform.process.client.view.ProcessView;
 
 public class ProcessSink extends Sink {
 
@@ -17,6 +18,7 @@ public class ProcessSink extends Sink {
 	public static SinkInfo init(){
 		return new SinkInfo(Group, Tag, Name, Desc) {
 			public Sink createInstance() {
+				
 				return new ProcessSink();
 			}
 		};
@@ -36,6 +38,7 @@ public class ProcessSink extends Sink {
 	}
 	
 	public Widget getWidget(){
+		ProcessView.descript = Desc;
 		return ProcessController.INSTANCE.view;
 	}
 }

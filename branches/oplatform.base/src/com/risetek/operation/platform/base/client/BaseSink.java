@@ -2,6 +2,7 @@ package com.risetek.operation.platform.base.client;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.control.BaseController;
+import com.risetek.operation.platform.base.client.view.BaseView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
@@ -58,6 +59,7 @@ public class BaseSink extends Sink {
 	 * @see com.risetek.operation.platform.launch.client.sink.Sink#getWidget()
 	 */
 	public Widget getWidget(){
+		BaseView.descript = Desc;
 		return BaseController.INSTANCE.view;
 	}
 }
