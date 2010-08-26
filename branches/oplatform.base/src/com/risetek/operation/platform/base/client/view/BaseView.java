@@ -20,6 +20,7 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 public class BaseView extends OPlatformTableView implements IOPlatformView {
 
 	private final Button action1 = new Button("action1");
+	private final Button action2 = new Button("action2");
 	public final static String[] columns = {"列1", "列2", "列3", "列4"};
 	public final static int[] columnsWidth = {25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -65,6 +66,8 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 //		actionPanel.setWidth("100%");
 //		actionPanel.setBorderWidth(1);
 		actionPanel.add(action1);
+		actionPanel.add(action2);
+		actionPanel.setStyleName("aa");
 		return actionPanel;
 	}
 	

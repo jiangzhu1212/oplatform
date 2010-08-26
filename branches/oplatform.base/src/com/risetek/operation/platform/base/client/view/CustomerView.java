@@ -15,9 +15,9 @@ import com.risetek.operation.platform.base.client.control.CustomerController;
 import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
 import com.risetek.operation.platform.base.client.model.CustomerData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
-import com.risetek.operation.platform.launch.shared.FieldVerifier;
 
 public class CustomerView extends OPlatformTableView implements IOPlatformView {
 
@@ -82,7 +82,7 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				int row = FieldVerifier.getCheckedRow(grid);
+				int row = Util.getCheckedRow(grid);
 				if(row != 0){
 					Window.alert(""+row);
 				}
