@@ -98,7 +98,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		main.setHeight("100%");
 		
 		VerticalPanel leftPanel = new VerticalPanel();
-		leftPanel.setWidth("140px");
+		leftPanel.setWidth("180px");
 		leftPanel.setHeight("100%");
 		
 		final VerticalPanel body = new VerticalPanel();
@@ -108,21 +108,6 @@ public abstract class OplatformLaunch implements EntryPoint {
 		
 		Tree userMenu = new Tree();
 		userMenu = registerTreeMenu(userMenu);
-//		userMenu.addBlurHandler(new BlurHandler() {
-//			public void onBlur(BlurEvent event) {
-//				if(event.getSource() instanceof Tree){
-//					Tree tree = (Tree) event.getSource();
-//					TreeItem item = tree.getSelectedItem();
-//					if(item.getChildCount()>0){
-//						if(item.getState()){
-//							item.setState(false);
-//						} else {
-//							item.setState(true);
-//						}
-//					}
-//				}
-//			}
-//		});
 		userMenu.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			public void onSelection(SelectionEvent<TreeItem> event) {
 				TreeItem item = event.getSelectedItem();
@@ -138,7 +123,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		});
 		
 		Widget menuList = creatStackPanel("功能操作", userMenu);
-		menuList.setWidth("140px");
+		menuList.setWidth("180px");
 		menuList.setHeight("100%");
 		
 		Grid ng = new Grid(1, 1);
@@ -157,7 +142,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		blank.setStyleName("blank5");
 		
 		Widget notice = creatStackPanel("通知公告", ng);
-		notice.setWidth("140px");
+		notice.setWidth("180px");
 		
 		leftPanel.add(notice);
 		leftPanel.add(blank);
@@ -167,7 +152,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		
 		main.add(leftPanel);
 		main.add(body);
-		main.setCellWidth(leftPanel, "145px");
+		main.setCellWidth(leftPanel, "185px");
 		selectDefaultWidget(userMenu, body);
 		return main;
 	}
