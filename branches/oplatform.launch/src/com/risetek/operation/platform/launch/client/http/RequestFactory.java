@@ -16,7 +16,8 @@ public class RequestFactory {
 	private String SIGNATURE = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 	
 	public RequestFactory(){
-		this.baseUrl = "http://192.168.6.9:8089/billServer/billCenter!request.do";
+//		this.baseUrl = "http://192.168.6.9:8089/billServer/billCenter!request.do";
+		this.baseUrl = "http://125.69.69.135:8089/billServer/billCenter!request.do";
 	}
 	
 	private class hookRequestCallback implements RequestCallback {
