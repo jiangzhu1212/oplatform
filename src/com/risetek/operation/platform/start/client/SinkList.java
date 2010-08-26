@@ -1,6 +1,8 @@
 package com.risetek.operation.platform.start.client;
 
 import com.risetek.operation.platform.base.client.BaseSink;
+import com.risetek.operation.platform.base.client.CustomerSink;
+import com.risetek.operation.platform.base.client.TransactionSink;
 import com.risetek.operation.platform.process.client.ProcessSink;
 
 /**
@@ -20,7 +22,9 @@ public class SinkList {
 	public static Class[] getSinkList(){
 		Class[] sinkList = new Class[]{
 			BaseSink.class,
-			ProcessSink.class
+			ProcessSink.class,
+			CustomerSink.class,
+			TransactionSink.class
 		};
 		return sinkList;
 	}
