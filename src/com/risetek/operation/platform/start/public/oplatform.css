@@ -78,6 +78,11 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	height: 100%;
 }
 
+.gwt-TreeItem{
+	font-size: 13px;
+	color: #404040;
+}
+
 .gwt-TreeItem-selected {
 	background: url(img/lineBg.gif) repeat-x left bottom;
 	background-color: #C5E9FC;

@@ -1,18 +1,19 @@
 package com.risetek.operation.platform.start.client;
 
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.risetek.operation.platform.base.client.BaseSink;
 import com.risetek.operation.platform.launch.client.OplatformLaunch;
+import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
-import com.risetek.operation.platform.process.client.ProcessSink;
 
 /**
  * @author Amber
  * 功能：整个项目的入口
  * 2010-8-23 下午11:56:43
  */
+@SuppressWarnings("rawtypes")
 public class StartUp extends OplatformLaunch {
 	
 	/** 
@@ -22,41 +23,39 @@ public class StartUp extends OplatformLaunch {
 	 */
 	@Override
 	public Tree registerTreeMenu(Tree userMenu) {
-		userMenu.addItem(addTreeItem(userMenu, BaseSink.init()));
-		userMenu.addItem(addTreeItem(userMenu, ProcessSink.init()));
+		SinkInfo info = null;
+		for(int i=0;i<SinkList.getSinkList().length;i++){
+			Class cls = SinkList.getSinkList()[i];
+			Sink sink = GWT.create(cls);
+			info = sink.getSinkInfo();
+			TreeItem item = searchGroupItem(userMenu, info.getGroup());
+			if(item!=null){
+				TreeItem child = creatChildTreeItem(info);
+				item.addItem(child);
+			} else {
+				TreeItem group = creatGrpupTreeItem(info.getGroup(), info);
+				userMenu.addItem(group);
+			}
+		}
+//		TreeItem groupItem = searchGroupItem()
+//		userMenu.addItem(addTreeItem(userMenu, BaseSink.init()));
+//		userMenu.addItem(addTreeItem(userMenu, ProcessSink.init()));
 		return userMenu;
 	}
 	
-	/**
-	 * 功能：添加节点
-	 *
-	 * TreeItem
-	 * @param tree
-	 * @param info
-	 * @return
-	 */
-	private TreeItem addTreeItem(Tree tree, SinkInfo info){
-		TreeItem addItem = null;
-		String group = info.getGroup();
-		int count = tree.getItemCount();
-		boolean added = false;
+	private TreeItem searchGroupItem(Tree userMenu, String name){
+		int count = userMenu.getItemCount();
 		if(count>0){
 			for(int i=0;i<count;i++){
-				TreeItem item = tree.getItem(i);
-				if(group.equals(item.getText())){
-					TreeItem childItem = creatChildTreeItem(info);
-					item.addItem(childItem);
-					added = true;
-					break;
+				TreeItem group = userMenu.getItem(i);
+				if(group.getText().equals(name)){
+					return group;
 				}
 			}
-			if(!added){
-				addItem = creatGrpupTreeItem(group, info);
-			}
 		} else {
-			addItem = creatGrpupTreeItem(group, info);
+			return null;
 		}
-		return addItem;
+		return null;
 	}
 	
 	/**
@@ -69,7 +68,6 @@ public class StartUp extends OplatformLaunch {
 	 */
 	private TreeItem creatGrpupTreeItem(String group, SinkInfo info){
 		TreeItem item = new TreeItem(group);
-//		item.setWidth("100%");
 		TreeItem childItem = creatChildTreeItem(info);
 		item.addItem(childItem);
 		return item;
@@ -84,7 +82,6 @@ public class StartUp extends OplatformLaunch {
 	 */
 	private TreeItem creatChildTreeItem(SinkInfo info){
 		TreeItem childItem = new TreeItem();
-//		childItem.setWidth("100%");
 		childItem.setText(info.getName());
 		childItem.setTitle(info.getDescription());
 		childItem.setUserObject(info.getInstance().getWidget());
