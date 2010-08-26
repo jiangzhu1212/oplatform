@@ -24,6 +24,10 @@ public class ProcessSink extends Sink {
 		};
 	}
 	
+	public SinkInfo getSinkInfo(){
+		return init();
+	}
+	
 	public static IOPlatformView getView(){
 		return ProcessController.INSTANCE.view;
 	}

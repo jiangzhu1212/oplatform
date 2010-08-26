@@ -23,4 +23,6 @@ public abstract class Sink {
 	 * @see com.google.gwt.user.client.ui.Composite#getWidget()
 	 */
 	public abstract Widget getWidget();
+	
+	public abstract SinkInfo getSinkInfo();
 }

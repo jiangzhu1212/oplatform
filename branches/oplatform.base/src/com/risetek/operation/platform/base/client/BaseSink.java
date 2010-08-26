@@ -62,4 +62,9 @@ public class BaseSink extends Sink {
 		BaseView.descript = Desc;
 		return BaseController.INSTANCE.view;
 	}
+
+	@Override
+	public SinkInfo getSinkInfo() {
+		return init();
+	}
 }
