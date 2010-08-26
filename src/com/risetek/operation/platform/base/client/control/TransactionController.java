@@ -5,28 +5,18 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.base.client.model.BaseData;
-import com.risetek.operation.platform.base.client.view.BaseView;
+import com.risetek.operation.platform.base.client.model.TransactionData;
+import com.risetek.operation.platform.base.client.view.TransactionView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
-/**
- * @author Amber
- * 功能：模块控制器实体
- * 2010-8-23 下午11:48:58
- */
-/**
- * @author Amber
- * 功能：
- * 2010-8-23 下午11:49:50
- */
-public class BaseController extends AController {
+public class TransactionController extends AController {
 
-	public static BaseController INSTANCE = new BaseController();
-	final BaseData data = new BaseData();
+	public static TransactionController INSTANCE = new TransactionController();
+	final TransactionData data = new TransactionData();
 	
-	public final BaseView view = new BaseView();
+	public final TransactionView view = new TransactionView();
 	private static RequestFactory remoteRequest = new RequestFactory();
 	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	class RemoteRequestCallback implements RequestCallback {
@@ -41,7 +31,7 @@ public class BaseController extends AController {
 			
 		}
 	}
-	private BaseController(){
+	private TransactionController(){
 //		String name = new TableEditAction().getActionName();
 //		System.out.println(name);
 	}
@@ -63,7 +53,7 @@ public class BaseController extends AController {
 	 * BaseData
 	 * @return
 	 */
-	public BaseData getData() {
+	public TransactionData getData() {
 		return data;
 	}
 	
