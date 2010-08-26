@@ -234,13 +234,14 @@ public class CustomerController extends AController {
 			Label  oldValueLabel = new Label();
 			public TextBox newValueBox = new TextBox();
 			public String rowid;
-			
-			public CustomerEditDialog(String ColName){
+			String colName = null ;
+			public CustomerEditDialog(String colName){
+				this.colName = colName;
 				Grid gridFrame = new Grid(2, 2);
-				label.setText("请输入新的"+ColName);
-				gridFrame.setWidget(0, 0, new Label("当前"+ColName+":"));
+				label.setText("请输入新的"+colName);
+				gridFrame.setWidget(0, 0, new Label("当前"+colName+":"));
 				gridFrame.setWidget(0, 1, oldValueLabel);
-				gridFrame.setWidget(1, 0, new Label("新的"+ColName+":"));
+				gridFrame.setWidget(1, 0, new Label("新的"+colName+":"));
 				gridFrame.setWidget(1, 1, newValueBox);
 				newValueBox.setWidth("220px");
 				newValueBox.setTabIndex(1);
@@ -250,7 +251,7 @@ public class CustomerController extends AController {
 			
 			public void show(String tips_id, String tips_imsi) {
 				rowid = tips_id;
-				setText("记录序号：" + tips_id);
+				setText("修改" + colName);
 				oldValueLabel.setText(tips_imsi);
 				newValueBox.setText(tips_imsi);
 				super.show();
