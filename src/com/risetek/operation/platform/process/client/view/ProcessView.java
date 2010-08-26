@@ -19,6 +19,7 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	public final static String[] columns = {"列1", "列2", "列3", "列4"};
 	public final static int[] columnsWidth = {25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
+	public static String descript = "";
 	
 	String banner_tips = "";
 	private final static String[] banner_text = {
@@ -36,10 +37,9 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	
 	public ProcessView(){
 		Widget action = initPromptGrid();
-		addActionPanel(action);
+		addActionPanel(action, descript);
 		setLocation(ProcessSink.Group + " -> " + ProcessSink.Name);
 		setStatisticText(100);
-		setInfo("this is info");
 	}
 	
 	private Widget initPromptGrid(){
