@@ -283,3 +283,10 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	background: url("images/hborder.png") repeat-x 0px -27px;
 	border: 1px outset #ccc;
 }
+
+.tableordertitle {
+	font-size: 13px;
+	font-weight: bold;
+	padding: 15px 0px 5px 10px;
+	color: #006acd;
+}
