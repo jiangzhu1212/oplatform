@@ -1,6 +1,7 @@
 package com.risetek.operation.platform.start.client;
 
 import com.risetek.operation.platform.base.client.AcountSink;
+import com.risetek.operation.platform.base.client.AnnoucementSink;
 import com.risetek.operation.platform.base.client.BankSink;
 import com.risetek.operation.platform.base.client.BaseSink;
 import com.risetek.operation.platform.base.client.CustomerSink;
@@ -32,6 +33,7 @@ public class SinkList {
 			BankSink.class,
 			AcountSink.class,
 			TdbcSink.class,
+			AnnoucementSink.class,
 			RoleConfigSink.class
 		};
 		return sinkList;
