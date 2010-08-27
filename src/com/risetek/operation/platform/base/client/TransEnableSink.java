@@ -1,18 +1,18 @@
 package com.risetek.operation.platform.base.client;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.base.client.control.TransactionController;
+import com.risetek.operation.platform.base.client.control.TransEnableController;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 
-public class TransactionSink extends Sink{
+public class TransEnableSink extends Sink {
 
 
 	public static final String Group = "基本功能";
-	public static final String Tag = "transactionManage";
-	public static final String Name = "业务管理";
-	public static final String Desc = "这是一个业务管理";
+	public static final String Tag = "transactionEnableManage";
+	public static final String Name = "开卡终端业务绑定管理";
+	public static final String Desc = "这是一个开卡终端业务绑定管理";
 	
 	/**
 	 * 功能：初始化模块
@@ -23,7 +23,7 @@ public class TransactionSink extends Sink{
 	public static SinkInfo init(){
 		return new SinkInfo(Group, Tag, Name, Desc) {
 			public Sink createInstance() {
-				return new TransactionSink();
+				return new TransEnableSink();
 			}
 		};
 	}
@@ -36,7 +36,7 @@ public class TransactionSink extends Sink{
 	@Override
 	public AController getController() {
 		// TODO Auto-generated method stub
-		return TransactionController.INSTANCE;
+		return TransEnableController.INSTANCE;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class TransactionSink extends Sink{
 	 * @see com.risetek.operation.platform.launch.client.sink.Sink#getWidget()
 	 */
 	public Widget getWidget(){
-		return TransactionController.INSTANCE.view;
+		return TransEnableController.INSTANCE.view;
 	}
 
 	@Override

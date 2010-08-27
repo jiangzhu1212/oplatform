@@ -1,6 +1,9 @@
 package com.risetek.operation.platform.base.client.model;
 
 
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CustomerData extends OPlatformData  {
@@ -56,6 +59,68 @@ public class CustomerData extends OPlatformData  {
 
 	public void parseData(String text){
 		
+	}
+	
+	private JSONObject packetData(){
+		JSONObject json = new JSONObject();
+		if(!customer_id.equals("0")){
+			json.put(CustomerConstanst.CUSTOMER_ID, new JSONString(customer_id));
+		}
+		if(name != null && !name.equals("")){
+			json.put(CustomerConstanst.NAME, new JSONString(name));
+		}
+		if(phone != null && !phone.equals("")){
+			json.put(CustomerConstanst.PHONE, new JSONString(phone));
+		}
+		if(address != null && !address.equals("")){
+			json.put(CustomerConstanst.ADDRESS, new JSONString(address));
+		}
+		if(address_2 != null && !address_2.equals("")){
+			json.put(CustomerConstanst.ADDRESS_2, new JSONString(address_2));
+		}
+		if(email != null && !email.equals("")){
+			json.put(CustomerConstanst.EMAIL, new JSONString(email));
+		}
+		if(card_id != null && !card_id.equals("")){
+			json.put(CustomerConstanst.CARD_ID, new JSONString(card_id));
+		}
+		if(create_time != null && !create_time.equals("")){
+			json.put(CustomerConstanst.CREATE_TIME, new JSONString(create_time));
+		}
+		
+		if(validity != null && !validity.equals("")){
+			json.put(CustomerConstanst.VALIDITY, new JSONString(validity));
+		}
+		if(addition != null && !addition.equals("")){
+			json.put(CustomerConstanst.ADDITION, new JSONString(addition));
+		}
+		
+		return json;
+	}
+	
+	private JSONObject packetData(String colName , String colValue){
+		JSONObject json = new JSONObject();
+		json.put(CustomerConstanst.CUSTOMER_ID, new JSONString(customer_id));
+		if(CustomerConstanst.NAME_ZH.equals(colName)){
+			json.put(CustomerConstanst.NAME, new JSONString(colName));
+		}else if(CustomerConstanst.PHONE_ZH.equals(colName)){
+			json.put(CustomerConstanst.PHONE, new JSONString(phone));
+		}else if(CustomerConstanst.ADDRESS_ZH.equals(colName)){
+			json.put(CustomerConstanst.ADDRESS, new JSONString(colName));
+		}else if(CustomerConstanst.ADDRESS_2_ZH.equals(colName)){
+			json.put(CustomerConstanst.ADDRESS_2, new JSONString(colName));
+		}else if(CustomerConstanst.EMAIL_ZH.equals(colName)){
+			json.put(CustomerConstanst.EMAIL, new JSONString(colName));
+		}else if(CustomerConstanst.CARD_ID_ZH.equals(colName)){
+			json.put(CustomerConstanst.CARD_ID, new JSONString(colName));
+		}else if(CustomerConstanst.CREATE_TIME_ZH.equals(colName)){
+			json.put(CustomerConstanst.CREATE_TIME, new JSONString(colName));
+		}else if(CustomerConstanst.VALIDITY_ZH.equals(colName)){
+			json.put(CustomerConstanst.VALIDITY, new JSONString(colName));
+		}else if(CustomerConstanst.ADDITION_ZH.equals(colName)){
+			json.put(CustomerConstanst.ADDITION, new JSONString(colName));
+		}
+		return json;
 	}
 
 	public String getCustomer_id() {

@@ -41,4 +41,8 @@ public interface TransactionConstanst extends Constanst {
 	final String ADDTION = "ADDTION" ;
 	
 	final String ADDTION_ZH = "业务编号" ;
+	
+	final String ENABLE = "ENABLE" ;
+	
+	final String ENABLE_ZH = "是否开通" ;
 }

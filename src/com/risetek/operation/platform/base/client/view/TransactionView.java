@@ -23,10 +23,16 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	
 	String banner_tips = "";
 	private final static String[] banner_text = {
-		"点击修改列1.",
-		"点击修改列2.",
-		"点击修改列3.",
-		"点击修改列4.",		
+		"点击删除业务.",
+		"点击修改列" + columns[1],
+		"点击修改列" + columns[2],
+		"点击修改列" + columns[3],
+		"点击修改列" + columns[4],
+		"点击修改列" + columns[5],
+		"点击修改列" + columns[6],
+		"点击修改列" + columns[7],
+		"点击修改列" + columns[8],
+		"点击修改列" + columns[9]
 	};
 	
 	/**
@@ -45,6 +51,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 		addActionPanel(action,descript);
 		setLocation(TransactionSink.Group + " -> " + TransactionSink.Name);
 		setStatisticText(100);
+		grid.addClickHandler(new TransactionController.TableEditAction());
 	}
 	
 	/**

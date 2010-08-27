@@ -125,49 +125,42 @@ public class CustomerController extends AController {
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			case 5:
-				// 选择了删除用户。
 				edit_control.setColName(CustomerView.columns[3]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			case 6:
-				// 选择了删除用户。
 				edit_control.setColName(CustomerView.columns[4]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			case 7:
-				// 选择了删除用户。
 				edit_control.setColName(CustomerView.columns[5]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			case 8:
-				// 选择了删除用户。
 				edit_control.setColName(CustomerView.columns[6]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			case 9:
-				// 选择了删除用户。
 				edit_control.setColName(CustomerView.columns[7]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			case 10:
-				// 选择了删除用户。
 				edit_control.setColName(CustomerView.columns[8]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			case 11:
-				// 选择了删除用户。
 				edit_control.setColName(CustomerView.columns[9]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
@@ -185,6 +178,7 @@ public class CustomerController extends AController {
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.alert("你好");
+				
 				//delRow(dialog.rowid, myCaller);
 			}
 			
@@ -220,6 +214,9 @@ public class CustomerController extends AController {
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.alert("你好");
+				if( !dialog.isValid() ){
+					return;
+				}					
 				//delRow(dialog.rowid, myCaller);
 			}
 			
@@ -236,6 +233,8 @@ public class CustomerController extends AController {
 			public String rowid;
 			String colName = null ;
 			public CustomerEditDialog(String colName){
+				oldValueLabel.setWidth("220px");
+				newValueBox.setWidth("220px");
 				this.colName = colName;
 				Grid gridFrame = new Grid(2, 2);
 				label.setText("请输入新的"+colName);
@@ -243,7 +242,6 @@ public class CustomerController extends AController {
 				gridFrame.setWidget(0, 1, oldValueLabel);
 				gridFrame.setWidget(1, 0, new Label("新的"+colName+":"));
 				gridFrame.setWidget(1, 1, newValueBox);
-				newValueBox.setWidth("220px");
 				newValueBox.setTabIndex(1);
 				
 				mainPanel.add(gridFrame);
@@ -253,9 +251,15 @@ public class CustomerController extends AController {
 				rowid = tips_id;
 				setText("修改" + colName);
 				oldValueLabel.setText(tips_imsi);
-				newValueBox.setText(tips_imsi);
 				super.show();
 				newValueBox.setFocus(true);
+			}
+			
+			public boolean isValid()
+			{
+				//这里写入限制的判断
+				
+				return true;
 			}
 		}
 		
