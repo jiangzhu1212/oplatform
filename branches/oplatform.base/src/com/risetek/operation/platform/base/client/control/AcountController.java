@@ -13,7 +13,6 @@ import com.risetek.operation.platform.base.client.dialog.AcountAddDialog;
 import com.risetek.operation.platform.base.client.dialog.AcountModifyDialog;
 import com.risetek.operation.platform.base.client.model.AcountData;
 import com.risetek.operation.platform.base.client.view.AcountView;
-import com.risetek.operation.platform.base.client.view.BankView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
