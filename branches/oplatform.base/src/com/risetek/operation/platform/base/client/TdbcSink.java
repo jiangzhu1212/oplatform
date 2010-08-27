@@ -2,7 +2,6 @@ package com.risetek.operation.platform.base.client;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.control.TdbcController;
-import com.risetek.operation.platform.base.client.view.TdbcView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
@@ -16,8 +15,8 @@ import com.risetek.operation.platform.launch.client.sink.SinkInfo;
  */
 public class TdbcSink extends Sink {
 
-	public static final String Group = "basegroup";
-	public static final String Tag = "base";
+	public static final String Group = "基本功能";
+	public static final String Tag = "tdbc";
 	public static final String Name = "二维码管理";
 	public static final String Desc = "二维码的基本信息管理";
 
@@ -42,15 +41,7 @@ public class TdbcSink extends Sink {
 	public AController getController() {
 		return TdbcController.INSTANCE;
 	}
-
-	/**
-	 * @Description: 得到模块事件列表
-	 * @return void 返回类型
-	 */
-	public void getActionList() {
-		// BankController.INSTANCE;
-	}
-
+	
 	/**
 	 * (非 Javadoc) Description: 得到模块视图对象
 	 * @return
@@ -58,7 +49,6 @@ public class TdbcSink extends Sink {
 	 */
 	@Override
 	public Widget getWidget() {
-		TdbcView.descript = Desc;
 		return TdbcController.INSTANCE.view;
 	}
 

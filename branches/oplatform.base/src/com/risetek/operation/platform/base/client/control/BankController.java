@@ -9,7 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.BankAddDialog;
+import com.risetek.operation.platform.base.client.dialog.BankDialog;
 import com.risetek.operation.platform.base.client.dialog.BankModifyDialog;
 import com.risetek.operation.platform.base.client.model.BankData;
 import com.risetek.operation.platform.base.client.view.BankView;
@@ -54,14 +54,6 @@ public class BankController extends AController {
 			data.parseData(response.getText());
 			view.render(data);
 		}
-	}
-	
-	/**
-	 * Description: 构造器
-	 */
-	private BankController(){
-		//String name = new TableEditAction().getActionName();
-		//System.out.println(name);
 	}
 	
 	/**
@@ -128,26 +120,41 @@ public class BankController extends AController {
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
 			if(obj == BankView.addButton){
-				INSTANCE.addBank();
+				INSTANCE.processBank(null);
 				return;
+			}else if(obj == BankView.searchButton){
+				INSTANCE.processBank("search");
+				return;
+			}else{
+				INSTANCE.gridOnclick(event);
 			}
-			INSTANCE.gridOnclick(event);
 		}
 	}
 	
-	public void addBank(){
-		final BankAddDialog addDialog = new BankAddDialog();
+	/**
+	 * @Description: 执行add/search操作
+	 * @return void 返回类型
+	 */
+	private void processBank(final String tag){
+		final BankDialog addDialog = new BankDialog(tag);
 		addDialog.submit.setText("提交");
-		addDialog.show();
+		addDialog.show(tag);
 		addDialog.submit.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				addDialog.submit.setEnabled(false);
-				Window.alert("add");
+				if(addDialog.isValid(tag)){
+					addDialog.submit.setEnabled(false);
+					Window.alert(tag);
+				}
 			}
 		});
 	}
 	
+	/**
+	 * @Description: 处理所有grid事件(修改、删除)
+	 * @param event  参数 
+	 * @return void 返回类型
+	 */
 	public void gridOnclick(ClickEvent event){
 		HTMLTable table = (HTMLTable) event.getSource();
 		Cell Mycell = table.getCellForEvent(event);
@@ -172,7 +179,7 @@ public class BankController extends AController {
 		case 1:
 			break;
 		case 2:
-			// 删除发卡行信息。
+			// 删除发卡行信息。第一个参数必须为 null 
 			bank_control.init(null, 1);
 			bank_control.dialog.submit.setText("删除");
 			bank_control.dialog.submit.addClickHandler(bank_control);
@@ -204,7 +211,13 @@ public class BankController extends AController {
 		}
 	}
 	
-	// ----------------- 修改发卡行
+	/** 
+	 * @ClassName: AcountModifyControl 
+	 * @Description: 修改发卡行信息控制类，根据传入的tag来调用对应的方法进行处理
+	 * @author JZJ 
+	 * @date 2010-8-27 上午10:11:17 
+	 * @version
+	 */
 	private static class BankModifyControl implements ClickHandler {
 		
 		private int tag = 0;
@@ -221,17 +234,18 @@ public class BankController extends AController {
 			if(!dialog.isValid()) return;
 			dialog.submit.setEnabled(false);
 			if(tag == 1){
-				delRow(dialog.bankid, BankController.RemoteCaller);
+				delRow(dialog.keyid, BankController.RemoteCaller);
 			}else if(tag == 2){
-				modifyName(dialog.bankid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
+				modifyName(dialog.keyid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
 			}else if(tag == 3){
-				modifyValidity(dialog.bankid, dialog.dateBox.getTextBox().getText(), BankController.RemoteCaller);			
+				modifyValidity(dialog.keyid, dialog.dateBox.getTextBox().getText(), BankController.RemoteCaller);			
 			}else if(tag == 4){
-				modifyDesc(dialog.bankid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
+				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
 			}
 		}
 	}
 	
+	// ----------------- 处理对应请求  -----------------------//
 	public static void delRow(String bakID, RequestCallback callback) {
 		String query = "function=deluser&id=" + bakID;
 		Window.alert(query);

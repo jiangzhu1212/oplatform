@@ -9,29 +9,29 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.AcountAddDialog;
-import com.risetek.operation.platform.base.client.dialog.AcountModifyDialog;
-import com.risetek.operation.platform.base.client.model.AcountData;
+import com.risetek.operation.platform.base.client.dialog.AnnoucementAddDialog;
+import com.risetek.operation.platform.base.client.dialog.AnnoucementModifyDialog;
+import com.risetek.operation.platform.base.client.model.AnnoucementData;
 import com.risetek.operation.platform.base.client.view.AcountView;
-import com.risetek.operation.platform.base.client.view.BankView;
+import com.risetek.operation.platform.base.client.view.AnnoucementView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
 /**
- * @ClassName: AcountController 
- * @Description: 银行卡列表模块控制器实体 
+ * @ClassName: AnnoucementController 
+ * @Description: 公告模块控制器实体
  * @author JZJ 
- * @date 2010-8-26 下午02:00:43 
+ * @date 2010-8-27 上午11:02:51 
  * @version 1.0
  */
-public class AcountController extends AController {
+public class AnnoucementController extends AController {
 
-	public static AcountController INSTANCE = new AcountController();
+	public static AnnoucementController INSTANCE = new AnnoucementController();
 	
-	private final AcountData data = new AcountData();
+	private final AnnoucementData data = new AnnoucementData();
 	
-	public final AcountView view = new AcountView();
+	public final AnnoucementView view = new AnnoucementView();
 	
 	private static RequestFactory remoteRequest = new RequestFactory();
 	
@@ -56,6 +56,14 @@ public class AcountController extends AController {
 			view.render(data);
 		}
 	}
+
+	/**
+	 * Description: 构造器
+	 */
+	private AnnoucementController() {
+		// String name = new TableEditAction().getActionName();
+		// System.out.println(name);
+	}
 	
 	/**
 	 * @Description: 加载数据，会实现一个回调函数
@@ -73,7 +81,7 @@ public class AcountController extends AController {
 	 * @return 
 	 * @see com.risetek.operation.platform.launch.client.control.AController#getData()
 	 */
-	public AcountData getData() {
+	public AnnoucementData getData() {
 		return data;
 	}
 	
@@ -121,37 +129,30 @@ public class AcountController extends AController {
 		@Override
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
-			if(obj == AcountView.addButton){
-				INSTANCE.processBank(null);
+			if (obj == AnnoucementView.addButton) {
+				INSTANCE.addBank();
 				return;
-			}else if(obj == AcountView.searchButton){
-				INSTANCE.processBank("search");
-				return;
-			}else{
-				INSTANCE.gridOnclick(event);
 			}
+			INSTANCE.gridOnclick(event);
 		}
 	}
 	
 	/**
-	 * @Description: 执行add/search操作
+	 * @Description: 执行提交操作
 	 * @return void 返回类型
 	 */
-	private void processBank(final String tag){
-		final AcountAddDialog addDialog = new AcountAddDialog(tag);
+	public void addBank(){
+		final AnnoucementAddDialog addDialog = new AnnoucementAddDialog();
 		addDialog.submit.setText("提交");
-		addDialog.show(tag);
+		addDialog.show();
 		addDialog.submit.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if(addDialog.isValid(tag)){
-					addDialog.submit.setEnabled(false);
-					Window.alert(tag);
-				}
+				addDialog.submit.setEnabled(false);
+				Window.alert("add");
 			}
 		});
 	}
-	
 	
 	/**
 	 * @Description: 处理所有grid事件(修改、删除)
@@ -177,44 +178,74 @@ public class AcountController extends AController {
 		String keyid = table.getText(row, 2);
 		String rowid = table.getText(row, 1);
 		
-		AcountModifyControl acout_control = new AcountModifyControl();
+		AnnoucementModifyControl control = new AnnoucementModifyControl();
 		switch (col) {
 		case 1:
 			break;
 		case 2:
-			// 删除银行卡信息。
-			acout_control.init(null, 1);
-			acout_control.dialog.submit.setText("删除");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show_del(rowid, keyid, tisp_value);
+			// 删除公告信息。
+			control.init(null, 1);
+			control.dialog.submit.setText("删除");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show_del(rowid, keyid, tisp_value);
 			break;
 		case 3:
-			// 修改发卡行代码值。
-			acout_control.init(AcountView.columns[1], 2);
-			acout_control.dialog.submit.setText("修改");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show(rowid, keyid, tisp_value);
+			// 修改公告类型。
+			control.init(AnnoucementView.columns[1], 2);
+			control.dialog.submit.setText("修改");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show(rowid, keyid, tisp_value);
 			break;
 		case 4:
-			// 修改有效期。
-			acout_control.init(AcountView.columns[2], 3);
-			acout_control.dialog.submit.setText("修改");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show(rowid, keyid, tisp_value);
+			// 修改公告日期。
+			control.init(AnnoucementView.columns[2], 3);
+			control.dialog.submit.setText("修改");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show(rowid, keyid, tisp_value);
 			break;
 		case 5:
 			// 修改ADDITON。
-			acout_control.init(AcountView.columns[3], 4);
-			acout_control.dialog.submit.setText("修改");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show(rowid, keyid, tisp_value);
+			control.init(AnnoucementView.columns[3], 4);
+			control.dialog.submit.setText("修改");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show(rowid, keyid, tisp_value);
 			break;
 		case 6:
+			break;
+		case 7:
+			// 修改停止时间。
+			control.init(AnnoucementView.columns[5], 5);
+			control.dialog.submit.setText("修改");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show(rowid, keyid, tisp_value);
+			break;
+		case 8:
+			// 修改TARGET_TYPE。
+			control.init(AnnoucementView.columns[6], 6);
+			control.dialog.submit.setText("修改");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show(rowid, keyid, tisp_value);
+			break;
+		case 9:
+			// 修改TARGET_ID。
+			control.init(AnnoucementView.columns[7], 7);
+			control.dialog.submit.setText("修改");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show(rowid, keyid, tisp_value);
+			break;
+		case 10:
+			// 修改有效期。
+			control.init(AnnoucementView.columns[8], 8);
+			control.dialog.submit.setText("修改");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show(rowid, keyid, tisp_value);
+			break;
+		case 11:
 			// 修改备注。
-			acout_control.init(AcountView.columns[4], 5);
-			acout_control.dialog.submit.setText("修改");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show(rowid, keyid, tisp_value);
+			control.init(AnnoucementView.columns[9], 9);
+			control.dialog.submit.setText("修改");
+			control.dialog.submit.addClickHandler(control);
+			control.dialog.show(rowid, keyid, tisp_value);
 			break;
 		default:
 			break;
@@ -228,15 +259,15 @@ public class AcountController extends AController {
 	 * @date 2010-8-27 上午10:11:17 
 	 * @version
 	 */
-	private static class AcountModifyControl implements ClickHandler {
+	private static class AnnoucementModifyControl implements ClickHandler {
 		
 		private int tag = 0;
 	
-		private AcountModifyDialog dialog;
+		private AnnoucementModifyDialog dialog;
 		
 		public void init(String colName, int tag) {
 			this.tag = tag;
-			dialog = new AcountModifyDialog(colName);
+			dialog = new AnnoucementModifyDialog(colName);
 		}
 		
 		@Override
@@ -244,15 +275,23 @@ public class AcountController extends AController {
 			if(!dialog.isValid()) return;
 			dialog.submit.setEnabled(false);
 			if(tag == 1){
-				delRow(dialog.keyid, AcountController.RemoteCaller);
+				delRow(dialog.keyid, AnnoucementController.RemoteCaller);
 			}else if(tag == 2){
-				modifyBankCode(dialog.keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
+				modifyBankCode(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
 			}else if(tag == 3){
-				modifyValidity(dialog.keyid, dialog.dateBox.getTextBox().getText(), AcountController.RemoteCaller);			
+				modifyValidity(dialog.keyid, dialog.dateBox.getTextBox().getText(), AnnoucementController.RemoteCaller);			
 			}else if(tag == 4){
-				modifyAddtion(dialog.keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
+				modifyAddtion(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
 			}else if(tag == 5){
-				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
+				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+			}else if(tag == 6){
+				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+			}else if(tag == 7){
+				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+			}else if(tag == 8){
+				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+			}else if(tag == 9){
+				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
 			}
 		}
 	}

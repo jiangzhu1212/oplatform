@@ -5,46 +5,55 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
-import com.risetek.operation.platform.base.client.AcountSink;
-import com.risetek.operation.platform.base.client.constanst.AcountConstanst;
-import com.risetek.operation.platform.base.client.control.AcountController;
-import com.risetek.operation.platform.base.client.model.AcountData;
+import com.risetek.operation.platform.base.client.AnnoucementSink;
+import com.risetek.operation.platform.base.client.constanst.AnnoucementConstanst;
+import com.risetek.operation.platform.base.client.control.AnnoucementController;
+import com.risetek.operation.platform.base.client.model.AnnoucementData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 /**
- * @ClassName: AcountView 
- * @Description: 银行卡模块的视图，也是模块主要的表现内容
+ * @ClassName: AnnoucementView 
+ * @Description: 公告模块的视图，也是模块主要的表现内容 
  * @author JZJ 
- * @date 2010-8-26 下午02:04:41 
+ * @date 2010-8-27 上午10:36:24 
  * @version 1.0
  */
-public class AcountView extends OPlatformTableView implements IOPlatformView {
-
-	public final static Button addButton = new Button("增加", new AcountController.TableEditAction());
-	public final static Button searchButton = new Button("查询", new AcountController.TableEditAction());
-
-	public final static int[] columnsWidth = {25, 25, 25, 25, 25};
+public class AnnoucementView extends OPlatformTableView implements IOPlatformView {
+	
+	public final static Button addButton = new Button("增加", new AnnoucementController.TableEditAction());
+	public final static Button searchButton = new Button("查询");
+	
+	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	String banner_tips = "";
-	
-	public final static String[] columns = {
-			AcountConstanst.ACCOUNT_NUMBER_ZH, 
-			AcountConstanst.BANK_CODE_ZH,
-			AcountConstanst.ACCOUNT_VALIDITY_ZH,
-			AcountConstanst.ACCOUNT_ADDTION_ZH,
-			AcountConstanst.ACCOUNT_DESCRIPTION_ZH 
+	public final static String[] columns = { 
+			AnnoucementConstanst.ACE_ID_ZH,
+			AnnoucementConstanst.ACE_TYPE_ZH,
+			AnnoucementConstanst.ACE_DATE_ZH, 
+			AnnoucementConstanst.ACE_ADDTION_ZH,
+			AnnoucementConstanst.ACE_CREATE_TIME_ZH,
+			AnnoucementConstanst.ACE_STOP_TIME_ZH,
+			AnnoucementConstanst.ACE_TARGET_TYPE_ZH,
+			AnnoucementConstanst.ACE_TARGET_ID_ZH,
+			AnnoucementConstanst.ACE_VALIDITY_ZH,
+			AnnoucementConstanst.ACE_DESCRIPTION_ZH 
 	};
 	private final static String[] banner_text = {
 		"点击删除本条记录",
 		"点击修改"+columns[1],
 		"点击修改"+columns[2],
 		"点击修改"+columns[3],
-		"点击修改"+columns[4],
+		"",
+		"点击修改"+columns[5],
+		"点击修改"+columns[6],
+		"点击修改"+columns[7],
+		"点击修改"+columns[8],
+		"点击修改"+columns[9],
 	};
 	
-	/**
+	/**	
 	 * @Description: 设置表格内鼠标事件的名称 
 	 * @param tips  参数 
 	 * @return void 返回类型 
@@ -57,15 +66,16 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	/**
 	 * Description: 构造器
 	 */
-	public AcountView(){
+	public AnnoucementView(){
 		Widget action = initPromptGrid();
-		addActionPanel(action, AcountSink.Desc);
-		setLocation(AcountSink.Group + " -> " + AcountSink.Name);
+		addActionPanel(action, AnnoucementSink.Desc);
+		setLocation(AnnoucementSink.Group + " -> " + AnnoucementSink.Name);
+		setStatisticText(100);
+		//setInfo("this is info");
 	}
 	
 	/**
 	 * @Description: 实现工具栏按钮 
-	 * @return  参数 
 	 * @return Widget 返回类型 
 	 */
 	private Widget initPromptGrid(){
@@ -77,12 +87,12 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	
 	/**
 	 * (非 Javadoc) 
-	 * Description: 加载数据方法 
+	 * Description: 加载数据方法
 	 * @see com.google.gwt.user.client.ui.Panel#onLoad()
 	 */
 	@Override
 	public void onLoad(){
-		AcountController.load();
+		AnnoucementController.load();
 	}
 
 	/**
@@ -94,9 +104,9 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void ProcessControlKey(int keyCode, boolean alt) {
-		
-	}
 
+	}
+	
 	/**
 	 * (非 Javadoc) 
 	 * Description: 格式化行，不一定会用的，暂时写起备用
@@ -121,7 +131,7 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 			grid = new GreenMouseEventGrid(banner_text);
 		}
 		super.formatGrid(grid, rowCount, columns, columnsWidth);
-		grid.addClickHandler(new AcountController.TableEditAction());
+		grid.addClickHandler(new AnnoucementController.TableEditAction());
 		return grid;
 	}
 
@@ -130,7 +140,7 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	 * @param data  参数 
 	 * @return void 返回类型 
 	 */
-	public void render(AcountData data){
+	public void render(AnnoucementData data){
 		for(int index=0;index<rowCount;index++){
 			renderLine(data, index);
 		}

@@ -5,19 +5,20 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.risetek.operation.platform.base.client.constanst.BankConstanst;
-import com.risetek.operation.platform.base.client.view.BankView;
+import com.risetek.operation.platform.base.client.constanst.AcountConstanst;
+import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.base.shared.FieldVerifier;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 
 /** 
- * @ClassName: BankDialog 
- * @Description: 管理发卡行信息事件实体类 
+ * @ClassName: AcountModifyDialog 
+ * @Description: 管理银行卡信息事件实体类
  * @author JZJ 
- * @date 2010-8-26 下午04:37:57 
+ * @date 2010-8-27 上午09:56:06 
  * @version  1.0
  */
-public class BankModifyDialog extends CustomDialog {
+public class AcountModifyDialog extends CustomDialog {
+
 	
 	protected Label oldValueLabel = new Label();
 	
@@ -34,32 +35,31 @@ public class BankModifyDialog extends CustomDialog {
 	/**
 	 * Description: 构造器
 	 */
-	public BankModifyDialog(String colName){
+	public AcountModifyDialog(String colName){
 		this.colum = colName;
 		if(null != colName){
-			mainPanel.add(BankModifyClick(colName));
+			mainPanel.add(AcountModifyClick(colName));
 		}else{
-			Label info = new Label("您确定删除该发卡行信息？");
+			Label info = new Label("您确定删除该行卡列表信息？");
 			mainPanel.setWidth("260px");
 			mainPanel.add(info);
 		}
 	}
 	
 	/**
-	 * @Description: 处理修改操作
+	 * @Description: 处理修改操作 
 	 * @param titleMsg
 	 * @return  参数 
 	 * @return Grid 返回类型
 	 */
-	private Grid BankModifyClick(String titleMsg){
+	private Grid AcountModifyClick(String titleMsg){
 		setDescript("请输入新的"+titleMsg);
 		Grid gridFrame = new Grid(2, 2);
 		gridFrame.setStyleName("notice");
 		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
 		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
-		//判断是否是日期文本框
-		if(!titleMsg.equals(BankView.columns[2])){
+		if(!titleMsg.equals(AcountView.columns[2])){
 			gridFrame.setWidget(1, 1, newValueBox);
 			newValueBox.setWidth("240px");
 			newValueBox.setTabIndex(1);
@@ -74,7 +74,7 @@ public class BankModifyDialog extends CustomDialog {
 	}
 	
 	/**
-	 * @Description: 显示窗体 (修改操作)
+	 * @Description: 显示窗体 (修改操作) 
 	 * @param tips_id
 	 * @param tips_value  参数 
 	 * @return void 返回类型
@@ -90,7 +90,7 @@ public class BankModifyDialog extends CustomDialog {
 	}
 	
 	/**
-	 * @Description: 显示窗体 (删除操作)
+	 * @Description: 显示窗体 (删除操作) 
 	 * @param tips_id
 	 * @param tips_keyid
 	 * @param tips_value  参数 
@@ -100,12 +100,12 @@ public class BankModifyDialog extends CustomDialog {
 		rowid = tips_id;
 		keyid = tips_keyid;
 		setText("记录序号：" + tips_id);
-		setDescript("发卡行代码值：" + tips_value);
+		setDescript("卡列表编号：" + tips_value);
 		super.show();
 	}
 	
 	/**
-	 * @Description: 验证
+	 * @Description: 验证 
 	 * @return  参数 
 	 * @return boolean 返回类型
 	 */
@@ -115,17 +115,17 @@ public class BankModifyDialog extends CustomDialog {
 			return true;
 		}
 		
-		String check;
-		if(colum.equals(BankView.columns[1])){
-			check = FieldVerifier.commValidity((newValueBox.getText()).trim(), BankConstanst.BANK_NAME_ZH);
+		String check = null;
+		if(colum.equals(AcountView.columns[1])){
+			check = FieldVerifier.commValidity((newValueBox.getText()).trim(), AcountConstanst.BANK_CODE_ZH);
 			if (null != check) {
 				setMessage(check);
 				newValueBox.setFocus(true);
 				return false;
 			}
 		}
-		if(colum.equals(BankView.columns[2])){
-			check = FieldVerifier.commValidity((dateBox.getTextBox().getText()).trim(), BankConstanst.BANK_VALIDITY_ZH);
+		if(colum.equals(AcountView.columns[2])){
+			check = FieldVerifier.commValidity((dateBox.getTextBox().getText()).trim(), AcountConstanst.ACCOUNT_VALIDITY_ZH);
 			if (null != check) {
 				setMessage(check);
 				dateBox.setFocus(true);

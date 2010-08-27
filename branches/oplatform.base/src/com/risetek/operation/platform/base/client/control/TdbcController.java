@@ -51,14 +51,6 @@ public class TdbcController extends AController {
 			
 		}
 	}
-
-	/**
-	 * Description: 构造器
-	 */
-	private TdbcController() {
-		// String name = new TableEditAction().getActionName();
-		// System.out.println(name);
-	}
 	
 	/**
 	 * @Description: 加载数据，会实现一个回调函数
@@ -79,6 +71,17 @@ public class TdbcController extends AController {
 	@Override
 	public TdbcData getData() {
 		return data;
+	}
+	
+	/**
+	 * (非 Javadoc) 
+	 * Description:  事件接口方法，返回该模块视图
+	 * @return 
+	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
+	 */
+	@Override
+	public Widget getView() {
+		return view;
 	}
 	
 	/**
@@ -114,16 +117,5 @@ public class TdbcController extends AController {
 		public void onClick(ClickEvent event) {
 			
 		}
-	}
-
-	/**
-	 * (非 Javadoc) 
-	 * Description:  事件接口方法，返回该模块视图
-	 * @return 
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
-	 */
-	@Override
-	public Widget getView() {
-		return view;
 	}
 }

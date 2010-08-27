@@ -7,23 +7,25 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.risetek.operation.platform.base.client.constanst.BankConstanst;
+import com.risetek.operation.platform.base.client.constanst.AcountConstanst;
 import com.risetek.operation.platform.base.shared.FieldVerifier;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 
-/**
- * @ClassName: BankAddDialog 
- * @Description: 增加发卡行信息事件实体类 
+/** 
+ * @ClassName: AcountAddDialog 
+ * @Description: 增加银行卡信息事件实体类 
  * @author JZJ 
- * @date 2010-8-27 上午10:16:14 
+ * @date 2010-8-27 上午09:40:05 
  * @version 1.0
  */
-public class BankDialog extends CustomDialog {
+public class AcountAddDialog extends CustomDialog {
 	
+	public final TextBox numberBox = new TextBox();
 	public final TextBox bankCodeBox = new TextBox();
-	public final TextBox bankNameBox = new TextBox();
+	public final TextBox addtionBox = new TextBox();
 	public final DateBox validityBox = new DateBox();
 	public final TextBox descBox = new TextBox();
+		
 	private final DateBox startDateBox = new DateBox();
 	private final DateBox endDateBox = new DateBox();
 	
@@ -34,35 +36,38 @@ public class BankDialog extends CustomDialog {
 	/**
 	 * Description: 构造器
 	 */
-	public BankDialog(String tag){
+	public AcountAddDialog(String tag){
 		gridFrame.setStyleName("notice");
 		if(null != tag){
 			gridFrame.resize(2, 2);
-			mainPanel.add(searchBank());
+			mainPanel.add(searchAccount());
 		}else{
-			gridFrame.resize(4, 2);
-			mainPanel.add(addBank());
+			gridFrame.resize(5, 2);
+			mainPanel.add(addAccount());
 		}
 		initWith();
 	}
+	
 	/**
 	 * @Description: 创建添加组件 
 	 * @return  参数 
 	 * @return Grid 返回类型
 	 */
-	private Grid addBank(){		
-		gridFrame.setWidget(0,0,new Label(BankConstanst.BANK_CODE_ZH + "："));
-		gridFrame.setWidget(1,0,new Label(BankConstanst.BANK_NAME_ZH + "："));
-		gridFrame.setWidget(2,0,new Label(BankConstanst.BANK_VALIDITY_ZH + "："));
-		gridFrame.setWidget(3,0,new Label(BankConstanst.BANK_DESCRIPTION_ZH + "："));
-		
+	private Grid addAccount(){	
 		validityBox.setFormat(new DateBox.DefaultFormat(format));
+
+		gridFrame.setWidget(0,0,new Label(AcountConstanst.ACCOUNT_NUMBER_ZH + "："));
+		gridFrame.setWidget(1,0,new Label(AcountConstanst.BANK_CODE_ZH + "："));
+		gridFrame.setWidget(2,0,new Label(AcountConstanst.ACCOUNT_VALIDITY_ZH + "："));
+		gridFrame.setWidget(3,0,new Label(AcountConstanst.ACCOUNT_ADDTION_ZH + "："));
+		gridFrame.setWidget(4,0,new Label(AcountConstanst.ACCOUNT_DESCRIPTION_ZH + "："));
 		
-		gridFrame.setWidget(0,1,bankCodeBox);
-		gridFrame.setWidget(1,1,bankNameBox);
+		gridFrame.setWidget(0,1,numberBox);
+		gridFrame.setWidget(1,1,bankCodeBox);
 		gridFrame.setWidget(2,1,validityBox);
-		gridFrame.setWidget(3,1,descBox);
-		
+		gridFrame.setWidget(3,1,addtionBox);
+		gridFrame.setWidget(4,1,descBox);
+						
 		return gridFrame;
 	}
 	/**
@@ -70,12 +75,12 @@ public class BankDialog extends CustomDialog {
 	 * @return  参数 
 	 * @return VerticalPanel 返回类型
 	 */
-	private VerticalPanel searchBank(){
-		gridFrame.setWidget(0,0,new Label(BankConstanst.BANK_CODE_ZH + "："));
-		gridFrame.setWidget(1,0,new Label(BankConstanst.BANK_NAME_ZH + "："));
+	private VerticalPanel searchAccount(){
+		gridFrame.setWidget(0,0,new Label(AcountConstanst.ACCOUNT_NUMBER_ZH + "："));
+		gridFrame.setWidget(1,0,new Label(AcountConstanst.BANK_CODE_ZH + "："));
 		
-		gridFrame.setWidget(0,1,bankCodeBox);
-		gridFrame.setWidget(1,1,bankNameBox);
+		gridFrame.setWidget(0,1,numberBox);
+		gridFrame.setWidget(1,1,bankCodeBox);
 		
 		VerticalPanel verticalPanel = new VerticalPanel();
 		
@@ -89,7 +94,7 @@ public class BankDialog extends CustomDialog {
 		validityGrid.setWidget(1, 0, new Label("结束日期："));
 		validityGrid.setWidget(1, 1, endDateBox);
 		
-	    DisclosurePanel advancedDisclosure = new DisclosurePanel(BankConstanst.BANK_VALIDITY_ZH);
+	    DisclosurePanel advancedDisclosure = new DisclosurePanel(AcountConstanst.ACCOUNT_VALIDITY_ZH);
 		advancedDisclosure.setAnimationEnabled(true);
 		advancedDisclosure.setContent(validityGrid);
 				
@@ -105,7 +110,8 @@ public class BankDialog extends CustomDialog {
 	 */
 	private void initWith(){
 		bankCodeBox.setWidth("240px");
-		bankNameBox.setWidth("240px");
+		numberBox.setWidth("240px");
+		addtionBox.setWidth("240px");
 		validityBox.setWidth("240px");
 		descBox.setWidth("240px");
 		startDateBox.setWidth("200px");
@@ -119,14 +125,14 @@ public class BankDialog extends CustomDialog {
 	 */
 	public void show(String tag){
 		if(null != tag){
-			setText("查询发卡行信息");
+			setText("查询银行卡信息");
 			setDescript("请输入查询信息");
 		}else{
-			setText("增加发卡行信息");
-			setDescript("请输入新的发卡行信息");
+			setText("增加银行卡信息");
+			setDescript("请输入新的银行卡信息");
 		}
 		super.show();
-		bankCodeBox.setFocus(true);
+		numberBox.setFocus(true);
 	}
 
 	/**
@@ -156,19 +162,19 @@ public class BankDialog extends CustomDialog {
 			}
 		} else {
 			String check;
-			check = FieldVerifier.commValidity((bankCodeBox.getText()).trim(), BankConstanst.BANK_CODE_ZH);
+			check = FieldVerifier.commValidity((numberBox.getText()).trim(), AcountConstanst.ACCOUNT_NUMBER_ZH);
+			if (null != check) {
+				setMessage(check);
+				numberBox.setFocus(true);
+				return false;
+			}
+			check = FieldVerifier.commValidity((bankCodeBox.getText()).trim(), AcountConstanst.BANK_CODE_ZH);
 			if (null != check) {
 				setMessage(check);
 				bankCodeBox.setFocus(true);
 				return false;
 			}
-			check = FieldVerifier.commValidity((bankNameBox.getText()).trim(), BankConstanst.BANK_NAME_ZH);
-			if (null != check) {
-				setMessage(check);
-				bankNameBox.setFocus(true);
-				return false;
-			}
-			check = FieldVerifier.commValidity((validityBox.getTextBox().getText()).trim(), BankConstanst.BANK_VALIDITY_ZH);
+			check = FieldVerifier.commValidity((validityBox.getTextBox().getText()).trim(), AcountConstanst.ACCOUNT_VALIDITY_ZH);
 			if (null != check) {
 				setMessage(check);
 				validityBox.setFocus(true);
