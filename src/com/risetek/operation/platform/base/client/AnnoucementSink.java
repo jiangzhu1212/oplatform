@@ -1,24 +1,24 @@
 package com.risetek.operation.platform.base.client;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.base.client.control.BankController;
+import com.risetek.operation.platform.base.client.control.AnnoucementController;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 
 /**
- * @ClassName: BankSink
- * @Description: 发卡行模块的框架实例
- * @author JZJ
- * @date 2010-8-26 下午02:03:16
+ * @ClassName: AnnoucementSink 
+ * @Description: 公告的框架实例 
+ * @author JZJ 
+ * @date 2010-8-27 上午10:44:04 
  * @version 1.0
  */
-public class BankSink extends Sink {
+public class AnnoucementSink extends Sink {
 
 	public static final String Group = "基本功能";
-	public static final String Tag = "bank";
-	public static final String Name = "发卡行管理";
-	public static final String Desc = "发卡行的基本信息管理";
+	public static final String Tag = "annoucement";
+	public static final String Name = "公告管理";
+	public static final String Desc = "公告基本信息管理";
 
 	/**
 	 * @Description: 初始化模块
@@ -27,7 +27,7 @@ public class BankSink extends Sink {
 	public static SinkInfo init() {
 		return new SinkInfo(Group, Tag, Name, Desc) {
 			public Sink createInstance() {
-				return new BankSink();
+				return new AnnoucementSink();
 			}
 		};
 	}
@@ -39,7 +39,15 @@ public class BankSink extends Sink {
 	 */
 	@Override
 	public AController getController() {
-		return BankController.INSTANCE;
+		return AnnoucementController.INSTANCE;
+	}
+
+	/**
+	 * @Description: 得到模块事件列表
+	 * @return void 返回类型
+	 */
+	public void getActionList() {
+		// AcountController.INSTANCE.
 	}
 
 	/**
@@ -49,7 +57,7 @@ public class BankSink extends Sink {
 	 */
 	@Override
 	public Widget getWidget() {
-		return BankController.INSTANCE.view;
+		return AnnoucementController.INSTANCE.view;
 	}
 
 	/** 

@@ -2,7 +2,6 @@ package com.risetek.operation.platform.base.client;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.control.AcountController;
-import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
@@ -16,9 +15,9 @@ import com.risetek.operation.platform.launch.client.sink.SinkInfo;
  */
 public class AcountSink extends Sink {
 
-	public static final String Group = "basegroup";
-	public static final String Tag = "base";
-	public static final String Name = "银行卡管理";
+	public static final String Group = "基本功能";
+	public static final String Tag = "acount";
+	public static final String Name = "卡列表管理";
 	public static final String Desc = "银行卡列表基本信息管理";
 
 	/**
@@ -44,21 +43,12 @@ public class AcountSink extends Sink {
 	}
 
 	/**
-	 * @Description: 得到模块事件列表
-	 * @return void 返回类型
-	 */
-	public void getActionList() {
-		// AcountController.INSTANCE.
-	}
-
-	/**
 	 * (非 Javadoc) Description: 得到模块视图对象
 	 * @return
 	 * @see com.risetek.operation.platform.launch.client.sink.Sink#getWidget()
 	 */
 	@Override
 	public Widget getWidget() {
-		AcountView.descript = Desc;
 		return AcountController.INSTANCE.view;
 	}
 

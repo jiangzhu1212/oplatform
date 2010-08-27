@@ -2,10 +2,12 @@ package com.risetek.operation.platform.base.client.view;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.BankSink;
+import com.risetek.operation.platform.base.client.constanst.BankConstanst;
 import com.risetek.operation.platform.base.client.control.BankController;
 import com.risetek.operation.platform.base.client.model.BankData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
@@ -22,13 +24,18 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 public class BankView extends OPlatformTableView implements IOPlatformView {
 	
 	public final static Button addButton = new Button("增加", new BankController.TableEditAction());
-
-	public final static String[] columns = {"发卡行代码值", "发卡行名称", "有效期", "备注"};
-	public final static int[] columnsWidth = {25, 35, 25, 25};
+	public final static Button searchButton = new Button("查询", new BankController.TableEditAction());
+	
+	public final static int[] columnsWidth = {25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
-	public static String descript = "";
-
 	String banner_tips = "";
+	
+	public final static String[] columns = { 
+			BankConstanst.BANK_CODE_ZH,
+			BankConstanst.BANK_NAME_ZH, 
+			BankConstanst.BANK_VALIDITY_ZH,
+			BankConstanst.BANK_DESCRIPTION_ZH 
+	};
 	private final static String[] banner_text = {
 		"点击删除本条记录",
 		"点击修改"+columns[1],
@@ -51,10 +58,21 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	 */
 	public BankView(){
 		Widget action = initPromptGrid();
-		addActionPanel(action, descript);
+		addActionPanel(action, BankSink.Desc);
 		setLocation(BankSink.Group + " -> " + BankSink.Name);
-		setStatisticText(100);
-		setInfo("this is info");
+		//detailGrid();
+	}
+	
+	private void detailGrid(){
+		Grid detailGrid = new Grid();
+		detailGrid.setWidth("100%");
+		detailGrid.resize(4, 5);
+		detailGrid.setText(0, 0, "内容");
+		detailGrid.setStyleName("optable");
+		HTML title = new HTML("这是上面一张表的扩展内容");
+		title.setStyleName("tableordertitle");
+		outer.add(title);
+		outer.add(detailGrid);
 	}
 	
 	/**
@@ -64,6 +82,7 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
+		actionPanel.add(searchButton);
 		return actionPanel;
 	}
 	

@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TdbcSink;
+import com.risetek.operation.platform.base.client.constanst.TdbcConstanst;
 import com.risetek.operation.platform.base.client.control.TdbcController;
 import com.risetek.operation.platform.base.client.model.TdbcData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
@@ -22,16 +23,17 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 public class TdbcView extends OPlatformTableView implements IOPlatformView {
 
 	private final Button addButton = new Button("增加");
+	public final static Button searchButton = new Button("查询");
 
-	public final static String[] columns = {"二维码", "二维码图形"};
-	public final static int[] columnsWidth = {25, 35};
+	public final static String[] columns = {TdbcConstanst.TDBC_ID_ZH, TdbcConstanst.E_GOODS_SN_ZH, TdbcConstanst.TDBC_IMAGE_ZH };
+	public final static int[] columnsWidth = {25, 25, 35};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
-	public static String descript = "";
-
-	String banner_tips = "";
+	
+	public String banner_tips = "";
 	private final static String[] banner_text = {
-		"点击修改"+columns[0],
+		"点删除本条记录",
 		"点击修改"+columns[1],
+		"点击修改"+columns[2],
 	};
 	
 	/**	
@@ -49,10 +51,8 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	 */
 	public TdbcView(){
 		Widget action = initPromptGrid();
-		addActionPanel(action,descript);
+		addActionPanel(action, TdbcSink.Desc);
 		setLocation(TdbcSink.Group + " -> " + TdbcSink.Name);
-		setStatisticText(100);
-		setInfo("this is info");
 	}
 	
 	/**
@@ -62,6 +62,7 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
+		actionPanel.add(searchButton);
 		return actionPanel;
 	}
 	
