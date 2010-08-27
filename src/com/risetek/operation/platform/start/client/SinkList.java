@@ -34,7 +34,6 @@ public class SinkList {
 			BankSink.class,
 			AcountSink.class,
 			TdbcSink.class,
-			RoleConfigSink.class,
 			TransEnableSink.class,
 			AnnoucementSink.class,
 			RoleConfigSink.class
