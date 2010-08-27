@@ -67,7 +67,6 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 //		actionPanel.setBorderWidth(1);
 		actionPanel.add(action1);
 		actionPanel.add(action2);
-		actionPanel.setStyleName("aa");
 		return actionPanel;
 	}
 	
