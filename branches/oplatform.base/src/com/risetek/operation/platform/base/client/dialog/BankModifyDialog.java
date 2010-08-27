@@ -7,8 +7,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.constanst.BankConstanst;
 import com.risetek.operation.platform.base.client.view.BankView;
-import com.risetek.operation.platform.base.shared.FieldVerifier;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 /** 
  * @ClassName: BankDialog 
@@ -117,7 +117,7 @@ public class BankModifyDialog extends CustomDialog {
 		
 		String check;
 		if(colum.equals(BankView.columns[1])){
-			check = FieldVerifier.commValidity((newValueBox.getText()).trim(), BankConstanst.BANK_NAME_ZH);
+			check = Util.commValidity((newValueBox.getText()).trim(), BankConstanst.BANK_NAME_ZH);
 			if (null != check) {
 				setMessage(check);
 				newValueBox.setFocus(true);
@@ -125,7 +125,7 @@ public class BankModifyDialog extends CustomDialog {
 			}
 		}
 		if(colum.equals(BankView.columns[2])){
-			check = FieldVerifier.commValidity((dateBox.getTextBox().getText()).trim(), BankConstanst.BANK_VALIDITY_ZH);
+			check = Util.commValidity((dateBox.getTextBox().getText()).trim(), BankConstanst.BANK_VALIDITY_ZH);
 			if (null != check) {
 				setMessage(check);
 				dateBox.setFocus(true);

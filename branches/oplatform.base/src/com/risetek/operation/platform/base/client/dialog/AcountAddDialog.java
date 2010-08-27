@@ -10,6 +10,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.constanst.AcountConstanst;
 import com.risetek.operation.platform.base.shared.FieldVerifier;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 /** 
  * @ClassName: AcountAddDialog 
@@ -154,7 +155,7 @@ public class AcountAddDialog extends CustomDialog {
 				end = 1;
 			}
 			if (start == 1 && end == 1) {
-				boolean status = FieldVerifier.lessOrEqualThanDate(startdate, enddate);
+				boolean status = Util.lessOrEqualThanDate(startdate, enddate);
 				if (!status) {
 					setMessage("开始日期不能大于结束日期！");
 					return false;
@@ -162,19 +163,19 @@ public class AcountAddDialog extends CustomDialog {
 			}
 		} else {
 			String check;
-			check = FieldVerifier.commValidity((numberBox.getText()).trim(), AcountConstanst.ACCOUNT_NUMBER_ZH);
-			if (null != check) {
-				setMessage(check);
-				numberBox.setFocus(true);
-				return false;
-			}
-			check = FieldVerifier.commValidity((bankCodeBox.getText()).trim(), AcountConstanst.BANK_CODE_ZH);
+//			check = Util.getCheckedRow(gridFrame);
+//			if (null != check) {
+//				setMessage(check);
+//				numberBox.setFocus(true);
+//				return false;
+//			}
+			check = Util.commValidity((bankCodeBox.getText()).trim(), AcountConstanst.BANK_CODE_ZH);
 			if (null != check) {
 				setMessage(check);
 				bankCodeBox.setFocus(true);
 				return false;
 			}
-			check = FieldVerifier.commValidity((validityBox.getTextBox().getText()).trim(), AcountConstanst.ACCOUNT_VALIDITY_ZH);
+			check = Util.commValidity((validityBox.getTextBox().getText()).trim(), AcountConstanst.ACCOUNT_VALIDITY_ZH);
 			if (null != check) {
 				setMessage(check);
 				validityBox.setFocus(true);
