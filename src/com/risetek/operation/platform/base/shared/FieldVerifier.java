@@ -4,61 +4,39 @@ package com.risetek.operation.platform.base.shared;
  * <p>
  * FieldVerifier validates that the name the user enters is valid.
  * </p>
+ * <p>
+ * This class is in the <code>shared</code> packing because we use it in both
+ * the client code and on the server. On the client, we verify that the name is
+ * valid before sending an RPC request so the user doesn't have to wait for a
+ * network round trip to get feedback. On the server, we verify that the name is
+ * correct to ensure that the input is correct regardless of where the RPC
+ * originates.
+ * </p>
+ * <p>
+ * When creating a class that is used on both the client and the server, be sure
+ * that all code is translatable and does not use native JavaScript. Code that
+ * is note translatable (such as code that interacts with a database or the file
+ * system) cannot be compiled into client side JavaScript. Code that uses native
+ * JavaScript (such as Widgets) cannot be run on the server.
+ * </p>
  */
 public class FieldVerifier {
 
-	
+	/**
+	 * Verifies that the specified name is valid for our service.
+	 * 
+	 * In this example, we only require that the name is at least four
+	 * characters. In your application, you can use more complex checks to ensure
+	 * that usernames, passwords, email addresses, URLs, and other fields have the
+	 * proper syntax.
+	 * 
+	 * @param name the name to validate
+	 * @return true if valid, false if invalid
+	 */
 	public static boolean isValidName(String name) {
 		if (name == null) {
 			return false;
 		}
 		return name.length() > 3;
-	}
-	
-	/**
-	 * @Description: 公共验证不能为空的字段
-	 * @param text
-	 * @return  参数 
-	 * @return String 返回类型
-	 */
-	public static String commValidity(String text, String title) {
-		if (null == text || "".equals(text)) {
-			return title + "不能为空！";
-		}
-		return null;
-	}
-	
-	/**
-	 * 日期比较函数 little小于或等于big日期返回true
-	 * @param little 小日期
-	 * @param big 大日期
-	 * @return 小日期小于大日期返回true，否则返回false
-	 */
-	public static boolean lessOrEqualThanDate(String little, String big) {
-		String[] littleArray = little.split("-");
-		String[] bigArray = big.split("-");
-		int yearLittle = Integer.parseInt(littleArray[0]);
-		int monthLittle = Integer.parseInt(littleArray[1]);
-		int dayLittle = Integer.parseInt(littleArray[2]);
-
-		int yearBig = Integer.parseInt(bigArray[0]);
-		int monthBig = Integer.parseInt(bigArray[1]);
-		int dayBig = Integer.parseInt(bigArray[2]);
-		if (yearBig > yearLittle ? true : false) {
-			return true;
-		} else if (yearBig == yearLittle ? true : false) {
-			if (monthBig > monthLittle ? true : false) {
-				return true;
-			} else if (monthBig == monthLittle ? true : false) {
-				if (dayBig > dayLittle ? true : false) {
-					return true;
-				} else if (dayBig == dayLittle ? true : false) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-		return false;
 	}
 }
