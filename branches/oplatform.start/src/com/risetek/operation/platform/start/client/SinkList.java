@@ -7,6 +7,7 @@ import com.risetek.operation.platform.base.client.BaseSink;
 import com.risetek.operation.platform.base.client.CustomerSink;
 import com.risetek.operation.platform.base.client.RoleConfigSink;
 import com.risetek.operation.platform.base.client.TdbcSink;
+import com.risetek.operation.platform.base.client.TransEnableSink;
 import com.risetek.operation.platform.base.client.TransactionSink;
 import com.risetek.operation.platform.process.client.ProcessSink;
 
@@ -33,6 +34,8 @@ public class SinkList {
 			BankSink.class,
 			AcountSink.class,
 			TdbcSink.class,
+			RoleConfigSink.class,
+			TransEnableSink.class,
 			AnnoucementSink.class,
 			RoleConfigSink.class
 		};

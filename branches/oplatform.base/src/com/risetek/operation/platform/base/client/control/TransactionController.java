@@ -1,14 +1,29 @@
 package com.risetek.operation.platform.base.client.control;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.risetek.operation.platform.base.client.control.CustomerController.DialogControl;
+import com.risetek.operation.platform.base.client.control.CustomerController.DialogControl.myRemoteRequestCallback;
+import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerDelDialog;
+import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerEditControl;
+import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerEditDialog;
+import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.UserDelControl;
 import com.risetek.operation.platform.base.client.model.TransactionData;
+import com.risetek.operation.platform.base.client.view.CustomerView;
 import com.risetek.operation.platform.base.client.view.TransactionView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
 public class TransactionController extends AController {
@@ -29,6 +44,25 @@ public class TransactionController extends AController {
 
 		public void onError(Request request, Throwable exception) {
 			
+		}
+	}
+	
+	public static abstract class DialogControl {
+		protected abstract CustomDialog getDialog();
+		
+		RequestCallback myCaller = new myRemoteRequestCallback();
+		class myRemoteRequestCallback implements RequestCallback {
+
+			@Override
+			public void onError(Request request, Throwable exception) {
+				Window.alert("操作失败");
+			}
+
+			@Override
+			public void onResponseReceived(Request request, Response response) {
+				int code = response.getStatusCode();
+				//这里执行一个查询操作
+			}
 		}
 	}
 	private TransactionController(){
@@ -72,6 +106,182 @@ public class TransactionController extends AController {
 		
 		public void onClick(ClickEvent event) {
 			
+			HTMLTable table = (HTMLTable)event.getSource();
+			Cell Mycell = table.getCellForEvent(event);
+			if( Mycell == null ) return;
+			int row = Mycell.getRowIndex();
+			int col = Mycell.getCellIndex();
+            
+			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
+			String rowid = table.getText(row, 2);
+
+			String tisp_value = table.getText(row, col);
+			if(tisp_value.length() == 1){
+				int tvalue = (int)tisp_value.charAt(0);
+				if(tvalue == 160){
+					tisp_value = "";
+				}
+			}
+			TransactionEditControl edit_control = new TransactionEditControl();
+			switch (col) {
+				
+			case 2:
+				// 选择了删除业务。
+				TransactionDelControl del_control = new TransactionDelControl();
+				del_control.dialog.submit.setText("删除");
+				del_control.dialog.submit.addClickHandler(del_control);
+				del_control.dialog.show(rowid, tisp_value);
+				break;
+
+			case 3:
+				edit_control.setColName(TransactionView.columns[1]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			case 4:
+				edit_control.setColName(TransactionView.columns[2]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			case 5:
+				edit_control.setColName(TransactionView.columns[3]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			case 6:
+				edit_control.setColName(TransactionView.columns[4]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			case 7:
+				edit_control.setColName(TransactionView.columns[5]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			case 8:
+				edit_control.setColName(TransactionView.columns[6]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			case 9:
+				edit_control.setColName(TransactionView.columns[7]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			case 10:
+				edit_control.setColName(TransactionView.columns[8]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			case 11:
+				edit_control.setColName(TransactionView.columns[9]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			default:
+				break;
+			}			
+			
+		}
+		
+		public class TransactionDelControl extends DialogControl implements ClickHandler {
+			public TransactionDelDialog dialog = new TransactionDelDialog();
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.alert("你好");
+				
+				//delRow(dialog.rowid, myCaller);
+			}
+			
+			@Override
+			protected CustomDialog getDialog() {
+				return dialog;
+			}
+			
+		}
+		
+		public class TransactionDelDialog extends CustomDialog{
+			
+			Label  info = new Label("您确定删除该业务？");
+			public String rowid = null;
+			public TransactionDelDialog() {
+				mainPanel.add(info);
+			}
+			public void show(String tips_id, String tips_imsi) {
+				rowid = tips_id;
+				setText("业务编号：" + tips_id);
+				super.show();
+			}
+		}
+		
+		public class TransactionEditControl extends DialogControl implements ClickHandler {
+			String colName = null;
+			public TransactionEditDialog dialog = null;
+			public void setColName(String colName) {
+				this.colName = colName;
+				dialog = new TransactionEditDialog(colName);
+			}
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.alert("你好");
+				if( !dialog.isValid() ){
+					return;
+				}					
+				//delRow(dialog.rowid, myCaller);
+			}
+			
+			@Override
+			protected CustomDialog getDialog() {
+				return dialog;
+			}			
+		}
+		
+		public class TransactionEditDialog extends CustomDialog{
+			
+			Label  oldValueLabel = new Label();
+			public TextBox newValueBox = new TextBox();
+			public String rowid;
+			String colName = null ;
+			public TransactionEditDialog(String colName){
+				oldValueLabel.setWidth("220px");
+				newValueBox.setWidth("220px");
+				this.colName = colName;
+				Grid gridFrame = new Grid(2, 2);
+				label.setText("请输入新的"+colName);
+				gridFrame.setWidget(0, 0, new Label("当前"+colName+":"));
+				gridFrame.setWidget(0, 1, oldValueLabel);
+				gridFrame.setWidget(1, 0, new Label("新的"+colName+":"));
+				gridFrame.setWidget(1, 1, newValueBox);
+				newValueBox.setTabIndex(1);
+				
+				mainPanel.add(gridFrame);
+			}
+			
+			public void show(String tips_id, String tips_imsi) {
+				rowid = tips_id;
+				setText("修改" + colName);
+				oldValueLabel.setText(tips_imsi);
+				super.show();
+				newValueBox.setFocus(true);
+			}
+			
+			public boolean isValid()
+			{
+				//这里写入限制的判断
+				
+				return true;
+			}
 		}
 	}
 	

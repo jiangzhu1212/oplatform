@@ -9,8 +9,8 @@ import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 public class TransactionSink extends Sink{
 
 
-	public static final String Group = "basegroup";
-	public static final String Tag = "base";
+	public static final String Group = "基本功能";
+	public static final String Tag = "transactionManage";
 	public static final String Name = "业务管理";
 	public static final String Desc = "这是一个业务管理";
 	

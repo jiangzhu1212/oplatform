@@ -1,5 +1,8 @@
 package com.risetek.operation.platform.base.client.model;
 
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.base.client.entry.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class TransactionData extends OPlatformData {
@@ -58,6 +61,66 @@ public class TransactionData extends OPlatformData {
 		
 	}
 
+	private JSONObject packetData(){
+		JSONObject json = new JSONObject();
+		if(!trans_id.equals("0")){
+			json.put(TransactionConstanst.TRANS_ID, new JSONString(trans_id));
+		}
+		if(alias != null && !alias.equals("")){
+			json.put(TransactionConstanst.ALIAS, new JSONString(alias));
+		}
+		if(name != null && !name.equals("")){
+			json.put(TransactionConstanst.NAME, new JSONString(name));
+		}
+		if(description != null && !description.equals("")){
+			json.put(TransactionConstanst.DESCRIPTION, new JSONString(description));
+		}
+		if(url != null && !url.equals("")){
+			json.put(TransactionConstanst.URL, new JSONString(url));
+		}
+		if(bindable != null && !bindable.equals("")){
+			json.put(TransactionConstanst.BINDABLE, new JSONString(bindable));
+		}
+		if(merchant_number != null && !merchant_number.equals("")){
+			json.put(TransactionConstanst.MERCHANT_NUMBER, new JSONString(merchant_number));
+		}
+		if(pos_number != null && !pos_number.equals("")){
+			json.put(TransactionConstanst.POS_NUMBER, new JSONString(pos_number));
+		}
+		if(type != null && !type.equals("")){
+			json.put(TransactionConstanst.TYPE, new JSONString(type));
+		}
+		if(addition != null && !addition.equals("")){
+			json.put(TransactionConstanst.ADDTION, new JSONString(addition));
+		}
+		return json;
+	}
+	
+	private JSONObject packetData(String colName , String colValue){
+		JSONObject json = new JSONObject();
+		json.put(TransactionConstanst.TRANS_ID, new JSONString(trans_id));
+		if(TransactionConstanst.ALIAS_ZH.equals(colName)){
+			json.put(TransactionConstanst.ALIAS, new JSONString(colValue));
+		}else if(TransactionConstanst.NAME_ZH.equals(colName)){
+			json.put(TransactionConstanst.NAME, new JSONString(colValue));
+		}else if(TransactionConstanst.DESCRIPTION_ZH.equals(colName)){
+			json.put(TransactionConstanst.DESCRIPTION, new JSONString(colValue));
+		}else if(TransactionConstanst.URL_ZH.equals(colName)){
+			json.put(TransactionConstanst.URL, new JSONString(colValue));
+		}else if(TransactionConstanst.BINDABLE_ZH.equals(colName)){
+			json.put(TransactionConstanst.BINDABLE, new JSONString(colValue));
+		}else if(TransactionConstanst.MERCHANT_NUMBER_ZH.equals(colName)){
+			json.put(TransactionConstanst.MERCHANT_NUMBER, new JSONString(colValue));
+		}else if(TransactionConstanst.POS_NUMBER_ZH.equals(colName)){
+			json.put(TransactionConstanst.POS_NUMBER, new JSONString(colValue));
+		}else if(TransactionConstanst.TYPE_ZH.equals(colName)){
+			json.put(TransactionConstanst.TYPE, new JSONString(colValue));
+		}else if(TransactionConstanst.ADDTION_ZH.equals(colName)){
+			json.put(TransactionConstanst.ADDTION, new JSONString(colValue));
+		}
+		return json;
+	}
+	
 	public String getTrans_id() {
 		return trans_id;
 	}

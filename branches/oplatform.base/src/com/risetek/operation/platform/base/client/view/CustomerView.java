@@ -4,9 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
@@ -26,19 +24,19 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	public final static String[] columns = {CustomerConstanst.CUSTOMER_ID_ZH, CustomerConstanst.NAME_ZH, CustomerConstanst.PHONE_ZH, CustomerConstanst.ADDRESS_ZH,CustomerConstanst.ADDRESS_2_ZH,CustomerConstanst.EMAIL_ZH,CustomerConstanst.CARD_ID_ZH,CustomerConstanst.CREATE_TIME_ZH,CustomerConstanst.VALIDITY_ZH,CustomerConstanst.ADDITION_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
-	
+	public static String descript = "";
 	String banner_tips = "";
 	private final static String[] banner_text = {
 		"点击删除客户.",
-		"点击修改客户名.",
-		"点击修改电话号码.",
-		"点击修改地址1.",
-		"点击修改地址2.",
-		"点击修改email.",
-		"点击修改银行卡.",
-		"点击修改创建日期.",
-		"点击修改vslidity.",
-		"点击修改描述."
+		"点击修改" + columns[1],
+		"点击修改" + columns[2],
+		"点击修改" + columns[3],
+		"点击修改" + columns[4],
+		"点击修改" + columns[5],
+		"点击修改" + columns[6],
+		"点击修改" + columns[7],
+		"点击修改" + columns[8],
+		"点击修改" + columns[9]
 	};
 	
 	public void setBannerTips(String tips) {
@@ -48,25 +46,23 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	
 	public CustomerView(){
 		Widget action = initPromptGrid();
-		add(action, DockPanel.SOUTH);
-		setCellHeight(action, "38px");
+		addActionPanel(action, descript);
+//		setCellHeight(action, "38px");
 		setLocation(CustomerSink.Group + " -> " + CustomerSink.Name);
 		setStatisticText(100);
-		setInfo("this is info");
 		grid.addClickHandler(new CustomerController.TableEditAction());
+
 	}
 	
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		actionPanel.setHeight("35px");
-		actionPanel.setWidth("100%");
-		actionPanel.setBorderWidth(1);
-		HorizontalPanel buttonPanel = new HorizontalPanel();		
-		buttonPanel.add(action1);
-		buttonPanel.add(action2);
-		
-		actionPanel.add(buttonPanel);
+//		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+//		actionPanel.setHeight("35px");
+//		actionPanel.setWidth("100%");
+//		actionPanel.setBorderWidth(1);		
+		actionPanel.add(action1);
+		actionPanel.add(action2);
+		actionPanel.setStyleName("aa");
 		
 		action1.addClickHandler(new ClickHandler() {
 			
