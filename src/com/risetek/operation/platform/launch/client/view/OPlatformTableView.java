@@ -273,6 +273,13 @@ public abstract class OPlatformTableView extends DockPanel {
 //				td.getStyle().setCursor(Cursor.POINTER);
 //			}
 		}
-		
+	}
+	
+	public Widget getBlank5Panel(){
+		VerticalPanel vp = new VerticalPanel();
+		HTML blank = new HTML("");
+		blank.setStyleName("blank5");
+		vp.add(blank);
+		return vp;
 	}
 }
