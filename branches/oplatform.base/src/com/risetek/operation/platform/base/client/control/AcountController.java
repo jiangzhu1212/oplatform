@@ -26,6 +26,10 @@ import com.risetek.operation.platform.launch.client.http.RequestFactory;
  */
 public class AcountController extends AController {
 
+	private static int col;    //列序号
+	
+	private static String keyid;//主键
+	
 	public static AcountController INSTANCE = new AcountController();
 	
 	private final AcountData data = new AcountData();
@@ -120,13 +124,13 @@ public class AcountController extends AController {
 		@Override
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
-			if(obj == AcountView.addButton){
-				INSTANCE.processBank(null);
+			if (obj == AcountView.addButton) {
+				INSTANCE.processBank(false); // false 表示增加
 				return;
-			}else if(obj == AcountView.searchButton){
-				INSTANCE.processBank("search");
+			} else if (obj == AcountView.searchButton) {
+				INSTANCE.processBank(true); // true 表示查询
 				return;
-			}else{
+			} else {
 				INSTANCE.gridOnclick(event);
 			}
 		}
@@ -136,16 +140,17 @@ public class AcountController extends AController {
 	 * @Description: 执行add/search操作
 	 * @return void 返回类型
 	 */
-	private void processBank(final String tag){
-		final AcountAddDialog addDialog = new AcountAddDialog(tag);
+	private void processBank(final boolean isSearch) {
+		final AcountAddDialog addDialog = new AcountAddDialog(isSearch);
 		addDialog.submit.setText("提交");
-		addDialog.show(tag);
+		addDialog.show();
+		
 		addDialog.submit.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if(addDialog.isValid(tag)){
+				if (addDialog.isValid()) {
 					addDialog.submit.setEnabled(false);
-					Window.alert(tag);
+					Window.alert("" + isSearch);
 				}
 			}
 		});
@@ -157,12 +162,15 @@ public class AcountController extends AController {
 	 * @param event  参数 
 	 * @return void 返回类型
 	 */
-	public void gridOnclick(ClickEvent event){
+	public void gridOnclick(ClickEvent event) {
 		HTMLTable table = (HTMLTable) event.getSource();
 		Cell Mycell = table.getCellForEvent(event);
 		if (Mycell == null) return;
 		int row = Mycell.getRowIndex();
-		int col = Mycell.getCellIndex();
+		col = Mycell.getCellIndex();//列序号
+		keyid = table.getText(row, 2);// 我们的操作都针对这个号码。
+		String rowid = table.getText(row, 1);//行序号
+		String colName = table.getText(0, col);//列名称
 
 		String tisp_value = table.getText(row, col);
 		if (tisp_value.length() == 1) {
@@ -172,69 +180,55 @@ public class AcountController extends AController {
 			}
 		}
 
-		// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-		String keyid = table.getText(row, 2);
-		String rowid = table.getText(row, 1);
-		
-		AcountModifyControl acout_control = new AcountModifyControl();
 		switch (col) {
-		case 1:
-			break;
 		case 2:
 			// 删除银行卡信息。
-			acout_control.init(null, 1);
-			acout_control.dialog.submit.setText("删除");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show_del(rowid, keyid, tisp_value);
+			caseUtils(null, rowid, tisp_value);
 			break;
 		case 3:
 			// 修改发卡行代码值。
-			acout_control.init(AcountView.columns[1], 2);
-			acout_control.dialog.submit.setText("修改");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 4:
 			// 修改有效期。
-			acout_control.init(AcountView.columns[2], 3);
-			acout_control.dialog.submit.setText("修改");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 5:
 			// 修改ADDITON。
-			acout_control.init(AcountView.columns[3], 4);
-			acout_control.dialog.submit.setText("修改");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 6:
 			// 修改备注。
-			acout_control.init(AcountView.columns[4], 5);
-			acout_control.dialog.submit.setText("修改");
-			acout_control.dialog.submit.addClickHandler(acout_control);
-			acout_control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		default:
 			break;
 		}
 	}
+
+	/**
+	 * @Description: case处理工具
+	 * @param colName 列名称
+	 */
+	private void caseUtils(String colName, String rowid, String tisp_value){
+		AcountModifyControl acout_control = new AcountModifyControl(colName);
+		acout_control.dialog.submit.addClickHandler(acout_control);
+		acout_control.dialog.submit.setText(colName == null ? "删除" : "修改");
+		acout_control.dialog.show(rowid, tisp_value);
+	}
 	
 	/** 
 	 * @ClassName: AcountModifyControl 
-	 * @Description: 修改银行卡信息控制类，根据传入的tag来调用对应的方法进行处理
+	 * @Description: 修改银行卡信息控制类，根据传入的processNum来调用对应的方法进行处理
 	 * @author JZJ 
 	 * @date 2010-8-27 上午10:11:17 
 	 * @version
 	 */
 	private static class AcountModifyControl implements ClickHandler {
 		
-		private int tag = 0;
-	
 		private AcountModifyDialog dialog;
 		
-		public void init(String colName, int tag) {
-			this.tag = tag;
+		public AcountModifyControl(String colName) {
 			dialog = new AcountModifyDialog(colName);
 		}
 		
@@ -242,16 +236,24 @@ public class AcountController extends AController {
 		public void onClick(ClickEvent event) {
 			if(!dialog.isValid()) return;
 			dialog.submit.setEnabled(false);
-			if(tag == 1){
-				delRow(dialog.keyid, AcountController.RemoteCaller);
-			}else if(tag == 2){
-				modifyBankCode(dialog.keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
-			}else if(tag == 3){
-				modifyValidity(dialog.keyid, dialog.dateBox.getTextBox().getText(), AcountController.RemoteCaller);			
-			}else if(tag == 4){
-				modifyAddtion(dialog.keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
-			}else if(tag == 5){
-				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
+			switch (col) {
+			case 2:
+				delRow(keyid, AcountController.RemoteCaller);
+				break;
+			case 3:
+				modifyBankCode(keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
+				break;
+			case 4:
+				modifyValidity(keyid, dialog.validityValue, AcountController.RemoteCaller);			
+				break;
+			case 5:
+				modifyAddtion(keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
+				break;
+			case 6:
+				modifyDesc(keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
+				break;
+			default:
+				break;
 			}
 		}
 	}

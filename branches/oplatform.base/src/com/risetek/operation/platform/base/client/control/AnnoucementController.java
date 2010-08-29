@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.AnnoucementAddDialog;
 import com.risetek.operation.platform.base.client.dialog.AnnoucementModifyDialog;
 import com.risetek.operation.platform.base.client.model.AnnoucementData;
-import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.base.client.view.AnnoucementView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
@@ -27,6 +26,10 @@ import com.risetek.operation.platform.launch.client.http.RequestFactory;
  */
 public class AnnoucementController extends AController {
 
+	private static int col;    //列序号
+	
+	private static String keyid;//主键
+	
 	public static AnnoucementController INSTANCE = new AnnoucementController();
 	
 	private final AnnoucementData data = new AnnoucementData();
@@ -130,10 +133,14 @@ public class AnnoucementController extends AController {
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
 			if (obj == AnnoucementView.addButton) {
-				INSTANCE.addBank();
+				INSTANCE.processBank(false);// false 表示增加
 				return;
+			} else if (obj == AnnoucementView.searchButton) {
+				INSTANCE.processBank(true); // true 表示查询
+				return;
+			} else {
+				INSTANCE.gridOnclick(event);
 			}
-			INSTANCE.gridOnclick(event);
 		}
 	}
 	
@@ -141,15 +148,16 @@ public class AnnoucementController extends AController {
 	 * @Description: 执行提交操作
 	 * @return void 返回类型
 	 */
-	public void addBank(){
-		final AnnoucementAddDialog addDialog = new AnnoucementAddDialog();
+	public void processBank(final boolean isSearch) {
+		final AnnoucementAddDialog addDialog = new AnnoucementAddDialog(isSearch);
 		addDialog.submit.setText("提交");
 		addDialog.show();
+
 		addDialog.submit.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				addDialog.submit.setEnabled(false);
-				Window.alert("add");
+				Window.alert("" + isSearch);
 			}
 		});
 	}
@@ -164,8 +172,11 @@ public class AnnoucementController extends AController {
 		Cell Mycell = table.getCellForEvent(event);
 		if (Mycell == null) return;
 		int row = Mycell.getRowIndex();
-		int col = Mycell.getCellIndex();
-
+		col = Mycell.getCellIndex();
+		keyid = table.getText(row, 2);//我们的操作都针对这个号码。
+		String rowid = table.getText(row, 1);
+		String colName = table.getText(0, col);
+		
 		String tisp_value = table.getText(row, col);
 		if (tisp_value.length() == 1) {
 			int tvalue = (int) tisp_value.charAt(0);
@@ -174,82 +185,59 @@ public class AnnoucementController extends AController {
 			}
 		}
 
-		// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-		String keyid = table.getText(row, 2);
-		String rowid = table.getText(row, 1);
-		
-		AnnoucementModifyControl control = new AnnoucementModifyControl();
 		switch (col) {
-		case 1:
-			break;
 		case 2:
 			// 删除公告信息。
-			control.init(null, 1);
-			control.dialog.submit.setText("删除");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show_del(rowid, keyid, tisp_value);
+			caseUtils(null, rowid, tisp_value);
 			break;
 		case 3:
 			// 修改公告类型。
-			control.init(AnnoucementView.columns[1], 2);
-			control.dialog.submit.setText("修改");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 4:
 			// 修改公告日期。
-			control.init(AnnoucementView.columns[2], 3);
-			control.dialog.submit.setText("修改");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 5:
 			// 修改ADDITON。
-			control.init(AnnoucementView.columns[3], 4);
-			control.dialog.submit.setText("修改");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 6:
 			break;
 		case 7:
 			// 修改停止时间。
-			control.init(AnnoucementView.columns[5], 5);
-			control.dialog.submit.setText("修改");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 8:
 			// 修改TARGET_TYPE。
-			control.init(AnnoucementView.columns[6], 6);
-			control.dialog.submit.setText("修改");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 9:
 			// 修改TARGET_ID。
-			control.init(AnnoucementView.columns[7], 7);
-			control.dialog.submit.setText("修改");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 10:
 			// 修改有效期。
-			control.init(AnnoucementView.columns[8], 8);
-			control.dialog.submit.setText("修改");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 11:
 			// 修改备注。
-			control.init(AnnoucementView.columns[9], 9);
-			control.dialog.submit.setText("修改");
-			control.dialog.submit.addClickHandler(control);
-			control.dialog.show(rowid, keyid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		default:
 			break;
 		}
+	}
+	
+	/**
+	 * @Description: case处理工具
+	 * @param colName 列名称
+	 */
+	private void caseUtils(String colName, String rowid, String tisp_value){
+		AnnoucementModifyControl control = new AnnoucementModifyControl(colName);
+		control.dialog.submit.addClickHandler(control);
+		control.dialog.submit.setText(colName == null ? "删除" : "修改");
+		control.dialog.show(rowid, tisp_value);
 	}
 	
 	/** 
@@ -260,13 +248,10 @@ public class AnnoucementController extends AController {
 	 * @version
 	 */
 	private static class AnnoucementModifyControl implements ClickHandler {
-		
-		private int tag = 0;
-	
+			
 		private AnnoucementModifyDialog dialog;
 		
-		public void init(String colName, int tag) {
-			this.tag = tag;
+		public AnnoucementModifyControl(String colName) {
 			dialog = new AnnoucementModifyDialog(colName);
 		}
 		
@@ -274,24 +259,36 @@ public class AnnoucementController extends AController {
 		public void onClick(ClickEvent event) {
 			if(!dialog.isValid()) return;
 			dialog.submit.setEnabled(false);
-			if(tag == 1){
-				delRow(dialog.keyid, AnnoucementController.RemoteCaller);
-			}else if(tag == 2){
-				modifyBankCode(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-			}else if(tag == 3){
-				modifyValidity(dialog.keyid, dialog.dateBox.getTextBox().getText(), AnnoucementController.RemoteCaller);			
-			}else if(tag == 4){
-				modifyAddtion(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-			}else if(tag == 5){
-				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-			}else if(tag == 6){
-				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-			}else if(tag == 7){
-				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-			}else if(tag == 8){
-				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-			}else if(tag == 9){
-				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+			switch (col) {
+			case 1:
+				delRow(keyid, AnnoucementController.RemoteCaller);
+				break;
+			case 2:
+				modifyBankCode(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				break;
+			case 3:
+				modifyValidity(keyid, dialog.dateBox.getTextBox().getText(), AnnoucementController.RemoteCaller);			
+				break;
+			case 4:
+				modifyAddtion(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				break;
+			case 5:
+				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				break;
+			case 6:
+				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				break;
+			case 7:
+				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				break;
+			case 8:
+				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				break;
+			case 9:
+				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				break;
+			default:
+				break;
 			}
 		}
 	}
