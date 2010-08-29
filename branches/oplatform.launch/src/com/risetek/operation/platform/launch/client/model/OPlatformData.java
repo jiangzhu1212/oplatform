@@ -7,17 +7,13 @@ package com.risetek.operation.platform.launch.client.model;
  */
 public abstract class OPlatformData {
 
-	private int sum;
-
 	/**
 	 * 功能：获取数据总条数
 	 *
 	 * int
 	 * @return
 	 */
-	public int getSum() {
-		return sum;
-	}
+	public abstract int getSum();
 
 	/**
 	 * 功能：设置数据总条数
@@ -25,8 +21,6 @@ public abstract class OPlatformData {
 	 * void
 	 * @param sum
 	 */
-	public void setSum(int sum) {
-		this.sum = sum;
-	}
+	public abstract void setSum(int sum);
 	
 }
