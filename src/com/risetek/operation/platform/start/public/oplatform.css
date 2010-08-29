@@ -284,9 +284,14 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	border: 1px outset #ccc;
 }
 
-.tableordertitle {
+.childtabletitle {
 	font-size: 13px;
 	font-weight: bold;
 	padding: 15px 0px 5px 10px;
 	color: #006acd;
+}
+
+.childtableAction {
+	padding-right: 20px;
+	text-align: right;
 }
