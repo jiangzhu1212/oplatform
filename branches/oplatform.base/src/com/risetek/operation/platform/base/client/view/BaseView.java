@@ -121,6 +121,11 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	 * @param data
 	 */
 	public void render(BaseData data){
+		if(data.getSum()<rowCount){
+			grid.resizeRows(rowCount+1);
+		} else {
+			grid.resizeRows(data.getSum()+1);
+		}
 		for(int index=0;index<rowCount;index++){
 			renderLine(data, index);
 		}

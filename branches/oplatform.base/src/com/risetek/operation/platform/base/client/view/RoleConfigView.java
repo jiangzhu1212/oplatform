@@ -1,11 +1,14 @@
 package com.risetek.operation.platform.base.client.view;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.RoleConfigSink;
+import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -13,7 +16,8 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 
 	public final static String[] columns = {"ID", "角色名称", ""};
 	public final static int[] columnsWidth = {10, 30, 60};
-	public final static int rowCount = 2;//UIConfig.TABLE_ROW_NORMAL;
+	public final static int mainRowCount = UIConfig.MAIN_TABLE_ROW_NORMAL;
+	public final static int childRowCount = UIConfig.CHILD_TABLE_ROW_NORMAL;
 	public static String descript = "";
 	public Grid grid1 = new Grid();
 	
@@ -33,9 +37,20 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		grid1.resize(4, 5);
 		grid1.setText(0, 0, "内容");
 		grid1.setStyleName("optable");
+		Grid childTableTitle = new Grid(1, 2);
+		childTableTitle.setWidth("100%");
 		HTML title = new HTML("这是上面一张表的扩展内容");
-		title.setStyleName("tableordertitle");
-		outer.add(title);
+		title.setStyleName("childtabletitle");
+		childTableTitle.setWidget(0, 0, title);
+		HorizontalPanel childTableActionPanel = new HorizontalPanel();
+		childTableActionPanel.setStyleName("childtableAction");
+		Button ac = new Button();
+		ac.setText("删除");
+		childTableActionPanel.add(ac);
+		childTableTitle.setWidget(0, 1, childTableActionPanel);
+		childTableTitle.getColumnFormatter().setWidth(1, "50%");
+		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+		outer.add(childTableTitle);
 		outer.add(grid1);
 	}
 	
@@ -61,7 +76,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		if(grid == null){
 			grid = new GreenMouseEventGrid(banner_text);
 		}
-		formatGrid(grid, rowCount, columns, columnsWidth);
+		formatGrid(grid, mainRowCount, columns, columnsWidth);
 		return grid;
 	}
 
