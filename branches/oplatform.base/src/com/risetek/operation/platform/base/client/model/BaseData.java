@@ -9,6 +9,8 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
  */
 public class BaseData extends OPlatformData {
 
+	private int sum;
+	
 	/**
 	 * 功能：格式化数据，并注入到模块的数据对象中（代码还未写完）
 	 *
@@ -16,6 +18,16 @@ public class BaseData extends OPlatformData {
 	 * @param text
 	 */
 	public void parseData(String text){
+	}
+
+	@Override
+	public int getSum() {
+		return sum;
+	}
+
+	@Override
+	public void setSum(int sum) {
+		this.sum = sum;
 	}
 	
 }

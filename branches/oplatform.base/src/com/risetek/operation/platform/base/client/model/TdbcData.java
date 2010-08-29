@@ -11,6 +11,8 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
  */
 public class TdbcData extends OPlatformData {
 
+	private int sum;
+	
 	/**
 	 * @Description: 格式化数据，并注入到模块的数据对象中 
 	 * @param text  参数 
@@ -19,5 +21,15 @@ public class TdbcData extends OPlatformData {
 	public void parseData(String text){
 		System.out.println("the text is :" + text);
 		setSum(100);
+	}
+
+	@Override
+	public int getSum() {
+		return sum;
+	}
+
+	@Override
+	public void setSum(int sum) {
+		this.sum = sum;	
 	}
 }

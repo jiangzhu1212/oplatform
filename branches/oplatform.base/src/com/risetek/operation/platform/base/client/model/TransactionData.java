@@ -7,6 +7,8 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class TransactionData extends OPlatformData {
 	
+	private int sum;
+	
 	/**
 	 * 业务号
 	 */
@@ -200,6 +202,14 @@ public class TransactionData extends OPlatformData {
 	public void setAddition(String addition) {
 		this.addition = addition;
 	}
-	
-	
+
+	@Override
+	public int getSum() {
+		return sum;
+	}
+
+	@Override
+	public void setSum(int sum) {
+		this.sum = sum;
+	}
 }
