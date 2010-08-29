@@ -24,14 +24,13 @@ public class AnnoucementModifyDialog extends CustomDialog {
 	
 	public DateBox dateBox = new DateBox();
 	
-	public String rowid;
-	
-	public String keyid;
+	private String colName;
 	
 	/**
 	 * Description: 构造器
 	 */
 	public AnnoucementModifyDialog(String colName){
+		this.colName = colName;
 		if(null != colName){
 			mainPanel.add(AcountModifyClick(colName));
 		}else{
@@ -74,29 +73,17 @@ public class AnnoucementModifyDialog extends CustomDialog {
 	 * @param tips_value  参数 
 	 * @return void 返回类型
 	 */
-	public void show(String tips_id, String tips_keyid, String tips_value) {
-		rowid = tips_id;
-		keyid = tips_keyid;
+	public void show(String tips_id, String tips_value) {
 		setText("记录序号：" + tips_id);
-		oldValueLabel.setText(tips_value);
-		newValueBox.setText(tips_value);
-		super.show();
-		newValueBox.setFocus(true);
-	}
-	
-	/**
-	 * @Description: 显示窗体 (删除操作) 
-	 * @param tips_id
-	 * @param tips_keyid
-	 * @param tips_value  参数 
-	 * @return void 返回类型
-	 */
-	public void show_del(String tips_id, String tips_keyid, String tips_value) {
-		rowid = tips_id;
-		keyid = tips_keyid;
-		setText("记录序号：" + tips_id);
-		setDescript("公告编号：" + tips_value);
-		super.show();
+		if(null != colName){
+			oldValueLabel.setText(tips_value);
+			newValueBox.setText(tips_value);
+			super.show();
+			newValueBox.setFocus(true);
+		}else{
+			setDescript("公告编号：" + tips_value);
+			super.show();
+		}
 	}
 	
 	/**

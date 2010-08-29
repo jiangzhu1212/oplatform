@@ -23,7 +23,7 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 public class AnnoucementView extends OPlatformTableView implements IOPlatformView {
 	
 	public final static Button addButton = new Button("增加", new AnnoucementController.TableEditAction());
-	public final static Button searchButton = new Button("查询");
+	public final static Button searchButton = new Button("查询", new AnnoucementController.TableEditAction());
 	
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;

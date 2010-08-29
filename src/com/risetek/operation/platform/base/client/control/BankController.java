@@ -9,7 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.BankDialog;
+import com.risetek.operation.platform.base.client.dialog.BankAddDialog;
 import com.risetek.operation.platform.base.client.dialog.BankModifyDialog;
 import com.risetek.operation.platform.base.client.model.BankData;
 import com.risetek.operation.platform.base.client.view.BankView;
@@ -25,7 +25,11 @@ import com.risetek.operation.platform.launch.client.http.RequestFactory;
  * @version 1.0
  */
 public class BankController extends AController {
-
+	
+	private static int col;    //列序号
+	
+	private static String keyid; //主键
+	
 	public static BankController INSTANCE = new BankController();
 	
 	private final BankData data = new BankData();
@@ -109,23 +113,23 @@ public class BankController extends AController {
 	}
 	
 	public static class TableEditAction implements ClickActionHandler {
-		
+
 		private String actionName = "编辑表格";
 
-		public String getActionName(){
+		public String getActionName() {
 			return actionName;
 		}
-		
+
 		@Override
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
-			if(obj == BankView.addButton){
-				INSTANCE.processBank(null);
+			if (obj == BankView.addButton) {
+				INSTANCE.processBank(false);// false 表示增加
 				return;
-			}else if(obj == BankView.searchButton){
-				INSTANCE.processBank("search");
+			} else if (obj == BankView.searchButton) {
+				INSTANCE.processBank(true); // true 表示查询
 				return;
-			}else{
+			} else {
 				INSTANCE.gridOnclick(event);
 			}
 		}
@@ -135,16 +139,17 @@ public class BankController extends AController {
 	 * @Description: 执行add/search操作
 	 * @return void 返回类型
 	 */
-	private void processBank(final String tag){
-		final BankDialog addDialog = new BankDialog(tag);
+	private void processBank(final boolean isSearch) {
+		final BankAddDialog addDialog = new BankAddDialog(isSearch);
 		addDialog.submit.setText("提交");
-		addDialog.show(tag);
+		addDialog.show();
+
 		addDialog.submit.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if(addDialog.isValid(tag)){
+				if (addDialog.isValid()) {
 					addDialog.submit.setEnabled(false);
-					Window.alert(tag);
+					Window.alert("" + isSearch);
 				}
 			}
 		});
@@ -155,12 +160,15 @@ public class BankController extends AController {
 	 * @param event  参数 
 	 * @return void 返回类型
 	 */
-	public void gridOnclick(ClickEvent event){
+	public void gridOnclick(ClickEvent event) {
 		HTMLTable table = (HTMLTable) event.getSource();
 		Cell Mycell = table.getCellForEvent(event);
 		if (Mycell == null) return;
 		int row = Mycell.getRowIndex();
-		int col = Mycell.getCellIndex();
+		col = Mycell.getCellIndex();
+		keyid = table.getText(row, 2);// 我们的操作都针对这个号码。
+		String rowid = table.getText(row, 1);
+		String colName = table.getText(0, col);
 
 		String tisp_value = table.getText(row, col);
 		if (tisp_value.length() == 1) {
@@ -170,45 +178,37 @@ public class BankController extends AController {
 			}
 		}
 
-		// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-		String bankid = table.getText(row, 2);
-		String rowid = table.getText(row, 1);
-		
-		BankModifyControl bank_control = new BankModifyControl();
 		switch (col) {
-		case 1:
-			break;
 		case 2:
-			// 删除发卡行信息。第一个参数必须为 null 
-			bank_control.init(null, 1);
-			bank_control.dialog.submit.setText("删除");
-			bank_control.dialog.submit.addClickHandler(bank_control);
-			bank_control.dialog.show_del(rowid, bankid, tisp_value);
+			// 删除发卡行信息。第一个参数必须为 null
+			caseUtils(null, rowid, tisp_value);
 			break;
 		case 3:
 			// 修改发卡行名称。
-			bank_control.init(BankView.columns[1], 2);
-			bank_control.dialog.submit.setText("修改");
-			bank_control.dialog.submit.addClickHandler(bank_control);
-			bank_control.dialog.show(rowid, bankid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 4:
 			// 修改有效期。
-			bank_control.init(BankView.columns[2], 3);
-			bank_control.dialog.submit.setText("修改");
-			bank_control.dialog.submit.addClickHandler(bank_control);
-			bank_control.dialog.show(rowid, bankid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 5:
 			// 修改备注。
-			bank_control.init(BankView.columns[3], 4);
-			bank_control.dialog.submit.setText("修改");
-			bank_control.dialog.submit.addClickHandler(bank_control);
-			bank_control.dialog.show(rowid, bankid, tisp_value);
+			caseUtils(colName, rowid, tisp_value);
 			break;
 		default:
 			break;
 		}
+	}
+	
+	/**
+	 * @Description: case处理工具
+	 * @param colName 列名称
+	 */
+	private void caseUtils(String colName, String rowid, String tisp_value){
+		BankModifyControl bank_control = new BankModifyControl(colName);
+		bank_control.dialog.submit.addClickHandler(bank_control);
+		bank_control.dialog.submit.setText(colName == null ? "删除" : "修改");
+		bank_control.dialog.show(rowid, tisp_value);
 	}
 	
 	/** 
@@ -219,13 +219,10 @@ public class BankController extends AController {
 	 * @version
 	 */
 	private static class BankModifyControl implements ClickHandler {
-		
-		private int tag = 0;
-	
+			
 		private BankModifyDialog dialog;
 		
-		public void init(String colName, int tag) {
-			this.tag = tag;
+		public BankModifyControl(String colName) {
 			dialog = new BankModifyDialog(colName);
 		}
 		
@@ -233,14 +230,21 @@ public class BankController extends AController {
 		public void onClick(ClickEvent event) {
 			if(!dialog.isValid()) return;
 			dialog.submit.setEnabled(false);
-			if(tag == 1){
-				delRow(dialog.keyid, BankController.RemoteCaller);
-			}else if(tag == 2){
-				modifyName(dialog.keyid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
-			}else if(tag == 3){
-				modifyValidity(dialog.keyid, dialog.dateBox.getTextBox().getText(), BankController.RemoteCaller);			
-			}else if(tag == 4){
-				modifyDesc(dialog.keyid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
+			switch (col) {
+			case 2:
+				delRow(keyid, BankController.RemoteCaller);
+				break;
+			case 3:
+				modifyName(keyid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
+				break;
+			case 4:
+				modifyValidity(keyid, dialog.validityValue, BankController.RemoteCaller);			
+				break;
+			case 5:
+				modifyDesc(keyid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
+				break;
+			default:
+				break;
 			}
 		}
 	}
