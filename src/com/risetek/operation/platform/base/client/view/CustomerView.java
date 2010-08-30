@@ -1,8 +1,5 @@
 package com.risetek.operation.platform.base.client.view;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -13,14 +10,14 @@ import com.risetek.operation.platform.base.client.control.CustomerController;
 import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
 import com.risetek.operation.platform.base.client.model.CustomerData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
-import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 public class CustomerView extends OPlatformTableView implements IOPlatformView {
 
-	private final Button action1 = new Button("查询客户");
-	private final Button action2 = new Button("绑定客户");
+	public final static Button queryCustomer = new Button("查询客户",new CustomerController.TableShowAction());
+	public final static Button bindCustomer = new Button("绑定客户",new CustomerController.TableShowAction());
+	public final static Button addCustomer = new Button("添加客户",new CustomerController.TableShowAction());
 	public final static String[] columns = {CustomerConstanst.CUSTOMER_ID_ZH, CustomerConstanst.NAME_ZH, CustomerConstanst.PHONE_ZH, CustomerConstanst.ADDRESS_ZH,CustomerConstanst.ADDRESS_2_ZH,CustomerConstanst.EMAIL_ZH,CustomerConstanst.CARD_ID_ZH,CustomerConstanst.CREATE_TIME_ZH,CustomerConstanst.VALIDITY_ZH,CustomerConstanst.ADDITION_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
@@ -55,35 +52,11 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	private Widget initPromptGrid(){
-		HorizontalPanel actionPanel = new HorizontalPanel();
-//		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//		actionPanel.setHeight("35px");
-//		actionPanel.setWidth("100%");
-//		actionPanel.setBorderWidth(1);		
-		actionPanel.add(action1);
-		actionPanel.add(action2);
-		actionPanel.setStyleName("aa");
-		
-		action1.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		action2.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				int row = Util.getCheckedRow(grid);
-				if(row != 0){
-					Window.alert(""+row);
-				}
-			}
-		});
+		HorizontalPanel actionPanel = new HorizontalPanel();	
+		actionPanel.add(queryCustomer);
+		actionPanel.add(bindCustomer);
+		actionPanel.add(addCustomer);
+		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;
 	}
@@ -110,11 +83,7 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 			grid = new GreenMouseEventGrid(banner_text);
 		}
 		formatGrid(grid, rowCount, columns,columnsWidth);
-//		grid.resize(2, 2);
-//		grid.setText(0, 0, "00");
-//		grid.setText(0, 1, "01");
-//		grid.setText(1, 0, "10");
-//		grid.setText(1, 1, "11");
+
 		return grid;
 	}
 

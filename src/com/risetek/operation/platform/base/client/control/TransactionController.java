@@ -8,18 +8,13 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.control.CustomerController.DialogControl;
-import com.risetek.operation.platform.base.client.control.CustomerController.DialogControl.myRemoteRequestCallback;
-import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerDelDialog;
-import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerEditControl;
-import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerEditDialog;
-import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.UserDelControl;
+import com.risetek.operation.platform.base.client.dialog.TransactionButtonDialog;
+import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.TransactionData;
-import com.risetek.operation.platform.base.client.view.CustomerView;
 import com.risetek.operation.platform.base.client.view.TransactionView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
@@ -32,8 +27,11 @@ public class TransactionController extends AController {
 	final TransactionData data = new TransactionData();
 	
 	public final TransactionView view = new TransactionView();
+	public final TransactionButtonDialog transactionDialog = new TransactionButtonDialog();
+	
 	private static RequestFactory remoteRequest = new RequestFactory();
 	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
@@ -124,7 +122,10 @@ public class TransactionController extends AController {
 			}
 			TransactionEditControl edit_control = new TransactionEditControl();
 			switch (col) {
-				
+			case 1:
+				ViewDetailDialog dialog = new ViewDetailDialog(INSTANCE.view.grid , row);
+				dialog.show();
+				break;
 			case 2:
 				// 选择了删除业务。
 				TransactionDelControl del_control = new TransactionDelControl();
@@ -134,55 +135,15 @@ public class TransactionController extends AController {
 				break;
 
 			case 3:
-				edit_control.setColName(TransactionView.columns[1]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 4:
-				edit_control.setColName(TransactionView.columns[2]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 5:
-				edit_control.setColName(TransactionView.columns[3]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 6:
-				edit_control.setColName(TransactionView.columns[4]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 7:
-				edit_control.setColName(TransactionView.columns[5]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 8:
-				edit_control.setColName(TransactionView.columns[6]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 9:
-				edit_control.setColName(TransactionView.columns[7]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 10:
-				edit_control.setColName(TransactionView.columns[8]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
-			case 11:
-				edit_control.setColName(TransactionView.columns[9]);	
+			case 11:				
+				edit_control.setColName(TransactionView.columns[col-2]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
@@ -294,7 +255,14 @@ public class TransactionController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			
+			Object obj = event.getSource();			
+			if(obj == TransactionView.addTrans){
+				INSTANCE.transactionDialog.addMainPanel();
+				INSTANCE.transactionDialog.show();
+			}else if(obj == TransactionView.queryTrans){
+				INSTANCE.transactionDialog.queryMainPanel();
+				INSTANCE.transactionDialog.show();
+			}
 		}
 	}
 

@@ -1,29 +1,25 @@
 package com.risetek.operation.platform.base.client.control;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.model.TransEnableData;
-import com.risetek.operation.platform.base.client.view.TransEnableView;
+import com.risetek.operation.platform.base.client.model.TransBindData;
+import com.risetek.operation.platform.base.client.view.TransBindView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
-public class TransEnableController extends AController {
+public class TransBindController extends AController {
 
-	public static TransEnableController INSTANCE = new TransEnableController();
-	final TransEnableData data = new TransEnableData();
+	public static TransBindController INSTANCE = new TransBindController();
+	final TransBindData data = new TransBindData();
 	
-	public final TransEnableView view = new TransEnableView();
+	public final TransBindView view = new TransBindView();
+	
 	private static RequestFactory remoteRequest = new RequestFactory();
 	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	class RemoteRequestCallback implements RequestCallback {
@@ -57,7 +53,7 @@ public class TransEnableController extends AController {
 			}
 		}
 	}
-	private TransEnableController(){
+	private TransBindController(){
 //		String name = new TableEditAction().getActionName();
 //		System.out.println(name);
 	}
@@ -79,7 +75,7 @@ public class TransEnableController extends AController {
 	 * BaseData
 	 * @return
 	 */
-	public TransEnableData getData() {
+	public TransBindData getData() {
 		return data;
 	}
 	
@@ -98,73 +94,9 @@ public class TransEnableController extends AController {
 		
 		public void onClick(ClickEvent event) {
 			
-			HTMLTable table = (HTMLTable)event.getSource();
-			Cell Mycell = table.getCellForEvent(event);
-			if( Mycell == null ) return;
-			int row = Mycell.getRowIndex();
-			int col = Mycell.getCellIndex();
-            
-			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-			String rowid = table.getText(row, 2);
-
-			String tisp_value = table.getText(row, col);
-			if(tisp_value.length() == 1){
-				int tvalue = (int)tisp_value.charAt(0);
-				if(tvalue == 160){
-					tisp_value = "";
-				}
-			}
-
-			switch (col) {
-			case 1:	
-			case 2:
-			case 3:	
-			case 4:
-			case 5:	
-			case 6:
-			case 7:	
-				((RadioButton)INSTANCE.view.grid.getWidget(row, 0)).setValue(true);
-				break;
-			
-			default:
-				break;
-			}			
-			
-		}
-		
-		public class TransactionDelControl extends DialogControl implements ClickHandler {
-			public TransactionDelDialog dialog = new TransactionDelDialog();
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert("你好");
-				
-				//delRow(dialog.rowid, myCaller);
-			}
-			
-			@Override
-			protected CustomDialog getDialog() {
-				return dialog;
-			}
-			
-		}
-		
-		public class TransactionDelDialog extends CustomDialog{
-			
-			Label  info = new Label("您确定删除该业务？");
-			public String rowid = null;
-			public TransactionDelDialog() {
-				mainPanel.add(info);
-			}
-			public void show(String tips_id, String tips_imsi) {
-				rowid = tips_id;
-				setText("业务编号：" + tips_id);
-				super.show();
-			}
 		}
 
 	}
-
 	
 	public static class TableShowAction implements ClickActionHandler {
 		
@@ -175,7 +107,7 @@ public class TransEnableController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			
+		
 		}
 	}
 

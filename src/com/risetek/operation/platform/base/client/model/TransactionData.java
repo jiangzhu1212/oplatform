@@ -93,7 +93,7 @@ public class TransactionData extends OPlatformData {
 			json.put(TransactionConstanst.TYPE, new JSONString(type));
 		}
 		if(addition != null && !addition.equals("")){
-			json.put(TransactionConstanst.ADDTION, new JSONString(addition));
+			json.put(TransactionConstanst.ADDITION, new JSONString(addition));
 		}
 		return json;
 	}
@@ -117,8 +117,8 @@ public class TransactionData extends OPlatformData {
 			json.put(TransactionConstanst.POS_NUMBER, new JSONString(colValue));
 		}else if(TransactionConstanst.TYPE_ZH.equals(colName)){
 			json.put(TransactionConstanst.TYPE, new JSONString(colValue));
-		}else if(TransactionConstanst.ADDTION_ZH.equals(colName)){
-			json.put(TransactionConstanst.ADDTION, new JSONString(colValue));
+		}else if(TransactionConstanst.ADDITION_ZH.equals(colName)){
+			json.put(TransactionConstanst.ADDITION, new JSONString(colValue));
 		}
 		return json;
 	}
