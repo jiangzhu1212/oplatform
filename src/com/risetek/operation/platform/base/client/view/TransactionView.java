@@ -21,7 +21,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public static String descript = "";
-	
+	   
 	String banner_tips = "";
 	private final static String[] banner_text = {
 		"点击删除业务.",
