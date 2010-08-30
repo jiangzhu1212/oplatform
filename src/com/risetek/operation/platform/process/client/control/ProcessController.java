@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.process.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -57,5 +59,11 @@ public class ProcessController extends AController {
 	@Override
 	public Widget getView() {
 		return view;
+	}
+
+	@Override
+	public ArrayList<String> getActionNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
