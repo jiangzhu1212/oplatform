@@ -2,6 +2,7 @@ package com.risetek.operation.platform.launch.client.view;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -9,7 +10,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
@@ -118,7 +118,8 @@ public abstract class OPlatformTableView extends DockPanel {
 				double percent = temp/total;
 				percent *= 100;
 				String p = Double.toString(percent);
-				p = p.substring(0, 2);
+				int index = p.indexOf(".");
+				p = p.substring(0, index);
 				grid.getCellFormatter().setWidth(0, i, p + "%");
 			}
 		}
@@ -179,7 +180,7 @@ public abstract class OPlatformTableView extends DockPanel {
 //    		} else {
     			for(int i=0;i<grid.getColumnCount();i++){
     				if(i==0){
-    					grid.setWidget(index+1, i, new RadioButton("aa"));
+    					grid.setWidget(index+1, i, new CheckBox());
     				} else if (i==1){
     					grid.setText(index+1, i, Integer.toString(index+1));
     					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
@@ -236,22 +237,35 @@ public abstract class OPlatformTableView extends DockPanel {
 	public class GreenMouseEventGrid extends MouseEventGrid {
 
 		String[] bannerText;
+		boolean isChild;
 		
 		public GreenMouseEventGrid(String[] bannerText){
 			this.bannerText = bannerText;
+			this.isChild = false;
+		}
+		
+		public GreenMouseEventGrid(String[] bannerText, boolean isChild){
+			this.bannerText = bannerText;
+			this.isChild = isChild;
 		}
 		
 		@Override
 		public void onMouseOver(Element td, int column) {
-			DOM.removeElementAttribute(td, "title");			
+			DOM.removeElementAttribute(td, "title");
+			String text = "";
 			if(column<2){
 				if(column==1){
-					setInfo("点击删除本条记录");
+					text = "点击删除本条记录";
 				}
 			} else {
-				setInfo(bannerText[column-2]);
+				text = bannerText[column-2];
 			}
-
+			if(!isChild){
+				setInfo(text);
+			} else {
+				Grid child = (Grid)outer.getWidget(2);
+				child.setText(0, 1, text);
+			}
             Element tr = DOM.getParent(td);
             Element body = DOM.getParent(tr);
             int row = DOM.getChildIndex(body, tr);
