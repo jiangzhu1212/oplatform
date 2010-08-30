@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 import com.risetek.operation.platform.process.client.ProcessSink;
@@ -81,9 +82,15 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 
 	public void render(ProcessData data){
 		for(int index=0;index<rowCount;index++){
-			renderLine(data, index);
+			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
+	}
+
+	@Override
+	public void render(OPlatformData data) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 //	class GreenMouseEventGrid extends MouseEventGrid {
