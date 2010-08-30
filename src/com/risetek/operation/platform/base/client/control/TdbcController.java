@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
@@ -117,5 +119,11 @@ public class TdbcController extends AController {
 		public void onClick(ClickEvent event) {
 			
 		}
+	}
+
+	@Override
+	public ArrayList<String> getActionNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

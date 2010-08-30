@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
@@ -52,7 +54,7 @@ public class BaseController extends AController {
 	 * void
 	 */
 	public static void load(){
-		INSTANCE.data.setSum(10);
+		INSTANCE.data.setSum(30);
 		INSTANCE.view.render(INSTANCE.data);
 //		remoteRequest.get("", "", RemoteCaller);
 	}
@@ -106,5 +108,11 @@ public class BaseController extends AController {
 	@Override
 	public Widget getView() {
 		return view;
+	}
+
+	@Override
+	public ArrayList<String> getActionNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

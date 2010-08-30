@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
@@ -268,5 +270,11 @@ public class BankController extends AController {
 	private static void modifyDesc(String bakID, String desc, RequestCallback callback) {
 		String query = "function=moduser&id=" + bakID + "&desc=" + desc;
 		Window.alert(query);
+	}
+
+	@Override
+	public ArrayList<String> getActionNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

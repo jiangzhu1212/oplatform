@@ -10,6 +10,7 @@ import com.risetek.operation.platform.base.client.constanst.AnnoucementConstanst
 import com.risetek.operation.platform.base.client.control.AnnoucementController;
 import com.risetek.operation.platform.base.client.model.AnnoucementData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -142,8 +143,14 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	 */
 	public void render(AnnoucementData data){
 		for(int index=0;index<rowCount;index++){
-			renderLine(data, index);
+			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
+	}
+
+	@Override
+	public void render(OPlatformData data) {
+		// TODO Auto-generated method stub
+		
 	}
 }

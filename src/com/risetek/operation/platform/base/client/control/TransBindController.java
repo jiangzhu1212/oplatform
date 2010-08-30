@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
@@ -119,5 +121,11 @@ public class TransBindController extends AController {
 	@Override
 	public Widget getView() {
 		return view;
+	}
+
+	@Override
+	public ArrayList<String> getActionNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

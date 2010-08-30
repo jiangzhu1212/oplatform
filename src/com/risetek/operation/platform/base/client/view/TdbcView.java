@@ -10,6 +10,7 @@ import com.risetek.operation.platform.base.client.constanst.TdbcConstanst;
 import com.risetek.operation.platform.base.client.control.TdbcController;
 import com.risetek.operation.platform.base.client.model.TdbcData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -122,8 +123,14 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	 */
 	public void render(TdbcData data){
 		for(int index=0;index<rowCount;index++){
-			renderLine(data, index);
+			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
+	}
+
+	@Override
+	public void render(OPlatformData data) {
+		// TODO Auto-generated method stub
+		
 	}
 }
