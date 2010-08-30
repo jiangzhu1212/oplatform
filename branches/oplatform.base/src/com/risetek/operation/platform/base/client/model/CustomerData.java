@@ -59,6 +59,8 @@ public class CustomerData extends OPlatformData  {
 	 * 预留
 	 */
 	private String addition = null;
+	
+	private String action_name = "";
 
 	public void parseData(String text){
 		
@@ -204,6 +206,14 @@ public class CustomerData extends OPlatformData  {
 
 	public void setAddition(String addition) {
 		this.addition = addition;
+	}
+
+	public String getAction_name() {
+		return action_name;
+	}
+
+	public void setAction_name(String action_name) {
+		this.action_name = action_name;
 	}
 
 	@Override

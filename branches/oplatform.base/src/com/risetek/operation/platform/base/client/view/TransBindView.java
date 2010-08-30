@@ -1,39 +1,29 @@
 package com.risetek.operation.platform.base.client.view;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
-import com.risetek.operation.platform.base.client.TransactionSink;
-import com.risetek.operation.platform.base.client.control.TransactionController;
-import com.risetek.operation.platform.base.client.entry.TransactionConstanst;
-import com.risetek.operation.platform.base.client.model.TransactionData;
+import com.risetek.operation.platform.base.client.TransBindSink;
+import com.risetek.operation.platform.base.client.constanst.TransBindConstanst;
+import com.risetek.operation.platform.base.client.control.TransBindController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
-public class TransactionView  extends OPlatformTableView implements IOPlatformView {
+public class TransBindView extends OPlatformTableView implements IOPlatformView {
 
-	public final static Button addTrans = new Button("添加商户",new TransactionController.TableShowAction());
-	public final static Button queryTrans = new Button("查询商户",new TransactionController.TableShowAction());
-	public final static String[] columns = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.DESCRIPTION_ZH,TransactionConstanst.URL_ZH,TransactionConstanst.BINDABLE_ZH,TransactionConstanst.MERCHANT_NUMBER_ZH,TransactionConstanst.POS_NUMBER_ZH,TransactionConstanst.TYPE_ZH,TransactionConstanst.ADDITION_ZH};
-	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
+	public final static String[] columns = {TransBindConstanst.TRANS_BIND_ID_ZH, TransBindConstanst.TRANS_ID_ZH, TransBindConstanst.CUSTOMER_ID_ZH};
+	public final static int[] columnsWidth = {25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public static String descript = "";
 	
 	String banner_tips = "";
 	private final static String[] banner_text = {
-		"点击删除业务.",
+		"点击删除业务绑定.",
 		"点击修改列" + columns[1],
-		"点击修改列" + columns[2],
-		"点击修改列" + columns[3],
-		"点击修改列" + columns[4],
-		"点击修改列" + columns[5],
-		"点击修改列" + columns[6],
-		"点击修改列" + columns[7],
-		"点击修改列" + columns[8],
-		"点击修改列" + columns[9]
+		"点击修改列" + columns[2]
 	};
 	
 	/**
@@ -47,12 +37,12 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 		setInfo(banner_tips);
 	}
 	
-	public TransactionView(){
+	public TransBindView(){
 		Widget action = initPromptGrid();
 		addActionPanel(action,descript);
-		setLocation(TransactionSink.Group + " -> " + TransactionSink.Name);
+		setLocation(TransBindSink.Group + " -> " + TransBindSink.Name);
 		setStatisticText(100);
-		grid.addClickHandler(new TransactionController.TableEditAction());
+		grid.addClickHandler(new TransBindController.TableEditAction());
 	}
 	
 	/**
@@ -63,12 +53,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 */
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-//		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//		actionPanel.setHeight("32px");
-//		actionPanel.setWidth("100%");
-//		actionPanel.setBorderWidth(1);
-		actionPanel.add(addTrans);
-		actionPanel.add(queryTrans);
+		
 		return actionPanel;
 	}
 	
@@ -78,7 +63,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 * @see com.google.gwt.user.client.ui.Panel#onLoad()
 	 */
 	public void onLoad(){
-		TransactionController.load();
+		TransBindController.load();
 	}
 
 	/** 
@@ -122,7 +107,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 * void
 	 * @param data
 	 */
-	public void render(TransactionData data){
+	public void render(OPlatformData data){
 		for(int index=0;index<rowCount;index++){
 			renderLine(data, index);
 		}

@@ -24,7 +24,7 @@ public interface TransactionConstanst extends Constanst {
 	
 	final String BINDABLE = "BINDABLE" ;
 	
-	final String BINDABLE_ZH = "业务编号" ;
+	final String BINDABLE_ZH = "是否绑定" ;
 	
 	final String MERCHANT_NUMBER = "MERCHANT_NUMBER" ;
 	
@@ -38,9 +38,9 @@ public interface TransactionConstanst extends Constanst {
 	
 	final String TYPE_ZH = "业务编号" ;
 	
-	final String ADDTION = "ADDTION" ;
+	final String ADDITION = "ADDTION" ;
 	
-	final String ADDTION_ZH = "业务编号" ;
+	final String ADDITION_ZH = "业务编号" ;
 	
 	final String ENABLE = "ENABLE" ;
 	
