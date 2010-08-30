@@ -1,11 +1,12 @@
 package com.risetek.operation.platform.base.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
@@ -13,17 +14,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
-import com.risetek.operation.platform.base.client.dialog.CustomerButtonDialog;
-import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
-import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
 import com.risetek.operation.platform.base.client.model.CustomerData;
 import com.risetek.operation.platform.base.client.view.CustomerView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
-import com.risetek.operation.platform.launch.client.util.Util;
 
 public class CustomerController extends AController {
 
@@ -31,7 +27,6 @@ public class CustomerController extends AController {
 	final CustomerData data = new CustomerData();
 	
 	public final CustomerView view = new CustomerView();
-	public final CustomerButtonDialog customerDialog = new CustomerButtonDialog();
 
 	private static RequestFactory remoteRequest = new RequestFactory();
 	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
@@ -110,28 +105,65 @@ public class CustomerController extends AController {
 			}
 			CustomerEditControl edit_control = new CustomerEditControl();
 			switch (col) {
-			case 1:
-				ViewDetailDialog dialog = new ViewDetailDialog(INSTANCE.view.grid , row);
-				dialog.show();
-				break;	
+				
 			case 2:
 				// 选择了删除用户。
-				CustomerDelControl del_control = new CustomerDelControl();
+				UserDelControl del_control = new UserDelControl();
 				del_control.dialog.submit.setText("删除");
 				del_control.dialog.submit.addClickHandler(del_control);
 				del_control.dialog.show(rowid, tisp_value);
 				break;
 
 			case 3:
+				edit_control.setColName(CustomerView.columns[1]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
 			case 4:
+				edit_control.setColName(CustomerView.columns[2]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
 			case 5:
+				edit_control.setColName(CustomerView.columns[3]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
 			case 6:
+				edit_control.setColName(CustomerView.columns[4]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
 			case 7:
+				edit_control.setColName(CustomerView.columns[5]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
 			case 8:
+				edit_control.setColName(CustomerView.columns[6]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
 			case 9:
+				edit_control.setColName(CustomerView.columns[7]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
 			case 10:
+				edit_control.setColName(CustomerView.columns[8]);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
 			case 11:
-				edit_control.setColName(CustomerView.columns[col-2]);	
+				edit_control.setColName(CustomerView.columns[9]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
@@ -142,7 +174,7 @@ public class CustomerController extends AController {
 			
 		}
 		
-		public class CustomerDelControl extends DialogControl implements ClickHandler {
+		public class UserDelControl extends DialogControl implements ClickHandler {
 			public CustomerDelDialog dialog = new CustomerDelDialog();
 
 			@Override
@@ -187,6 +219,7 @@ public class CustomerController extends AController {
 				if( !dialog.isValid() ){
 					return;
 				}					
+				//delRow(dialog.rowid, myCaller);
 			}
 			
 			@Override
@@ -210,15 +243,7 @@ public class CustomerController extends AController {
 				gridFrame.setWidget(0, 0, new Label("当前"+colName+":"));
 				gridFrame.setWidget(0, 1, oldValueLabel);
 				gridFrame.setWidget(1, 0, new Label("新的"+colName+":"));
-				if(CustomerConstanst.CREATE_TIME_ZH.equals(colName)){
-					DateBox CREATE_TIME = new DateBox();
-					DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
-					CREATE_TIME.setFormat(new DateBox.DefaultFormat(format));
-					gridFrame.setWidget(1, 1, CREATE_TIME);
-				}else{
-					gridFrame.setWidget(1, 1, newValueBox);
-				}
-				
+				gridFrame.setWidget(1, 1, newValueBox);
 				newValueBox.setTabIndex(1);
 				
 				mainPanel.add(gridFrame);
@@ -253,28 +278,17 @@ public class CustomerController extends AController {
 		
 		public void onClick(ClickEvent event) {
 			
-			Object obj = event.getSource();
-			if(obj == CustomerView.addCustomer){
-				INSTANCE.customerDialog.addMainPanel();
-				INSTANCE.customerDialog.show();
-			}else if(obj == CustomerView.queryCustomer){
-				INSTANCE.customerDialog.queryMainPanel();
-				INSTANCE.customerDialog.show();
-			}else if(obj == CustomerView.bindCustomer){
-				int row = Util.getCheckedRow(INSTANCE.view.grid);
-				if(row<1){
-					Window.alert("请选择一行数据");
-				}else {
-					Window.alert(""+row);
-				}
-				
-			}
 		}
-		
 	}
 
 	@Override
 	public Widget getView() {
 		return view;
+	}
+
+	@Override
+	public ArrayList<String> getActionNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

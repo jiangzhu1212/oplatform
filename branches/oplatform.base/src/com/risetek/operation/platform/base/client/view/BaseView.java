@@ -9,6 +9,7 @@ import com.risetek.operation.platform.base.client.BaseSink;
 import com.risetek.operation.platform.base.client.control.BaseController;
 import com.risetek.operation.platform.base.client.model.BaseData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -121,14 +122,20 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	 * @param data
 	 */
 	public void render(BaseData data){
-		if(data.getSum()<rowCount){
+//		if(data.getSum()<rowCount){
 			grid.resizeRows(rowCount+1);
-		} else {
-			grid.resizeRows(data.getSum()+1);
-		}
+//		} else {
+//			grid.resizeRows(data.getSum()+1);
+//		}
 		for(int index=0;index<rowCount;index++){
-			renderLine(data, index);
+			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
+	}
+
+	@Override
+	public void render(OPlatformData data) {
+		// TODO Auto-generated method stub
+		
 	}
 }

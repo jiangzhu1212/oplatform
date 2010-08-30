@@ -162,7 +162,7 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	 */
 	public void render(OPlatformData data){
 		for(int index=0;index<rowCount;index++){
-			renderLine(data, index);
+			renderLine(grid1, data, index);
 		}
 		renderStatistic(data);
 	}
