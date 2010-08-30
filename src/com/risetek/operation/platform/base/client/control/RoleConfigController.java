@@ -14,7 +14,7 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class RoleConfigController extends AController {
 
-	private ArrayList<String> actionNames;
+	private ArrayList<String> actionNames = new ArrayList<String>();
 	
 	@Override
 	public ArrayList<String> getActionNames() {
