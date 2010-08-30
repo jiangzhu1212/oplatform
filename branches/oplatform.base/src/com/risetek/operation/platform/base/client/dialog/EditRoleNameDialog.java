@@ -16,8 +16,8 @@ public class EditRoleNameDialog extends CustomDialog {
 		grid.setText(0, 1, value);
 		grid.setText(1, 0, "新名称：");
 		grid.setWidget(1, 1, newValue);
-		grid.getColumnFormatter().setWidth(0, "80px");
-		grid.getColumnFormatter().setWidth(1, "220px");
+		grid.getColumnFormatter().setWidth(0, "60px");
+		grid.getColumnFormatter().setWidth(1, "240px");
 		grid.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		grid.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		grid.getCellFormatter().setStyleName(0, 1, "oldvalue");
