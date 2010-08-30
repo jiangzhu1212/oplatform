@@ -17,22 +17,28 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 public class RoleConfigView extends OPlatformTableView implements IOPlatformView {
 
 	public final static String[] columns = {"ID", "角色名称"};
-	public final static int[] columnsWidth = {30, 70};
+	public final static int[] columnsWidth = {5, 95};
 	public final static int mainRowCount = UIConfig.MAIN_TABLE_ROW_NORMAL;
 	public final static int childRowCount = UIConfig.CHILD_TABLE_ROW_NORMAL;
-	public final static String[] childColumns = {"ID", "角色名称", "操作模块", "操作内容"};
-	public final static int[] childColumnsWidth = {10, 25, 30, 35};
+	public final static String[] childColumns = {"ID", "角色名称", "操作模块", "操作名称"};
+	public final static int[] childColumnsWidth = {5, 20, 30, 45};
 	public static String descript = "";
 	public Grid childGrid = getChildGrid();
+	public Grid childTableTitle = new Grid(1, 3);
 	private HTML childTitle = new HTML();
 	
 	public Button addRole = new Button("添加角色");
 	
 	private final static String[] banner_text = {
-		"点击查看本条记录",
-		"点击查看本条记录",
-		"点击查看本条记录",
-		"点击查看本条记录"
+		"点击查看用户角色内容",
+		"点击修改用户角色名称"
+	};
+	
+	private final static String[] childBanner_text = {
+		"点击选中本条记录",
+		"点击选中本条记录",
+		"点击选中本条记录",
+		"点击选中本条记录"
 	};
 	
 	public RoleConfigView(){
@@ -40,20 +46,24 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		addActionPanel(initPromptGrid(), RoleConfigSink.Desc);
 		setLocation(RoleConfigSink.Group + "->" + RoleConfigSink.Name);
 		childGrid.setStyleName("optable");
-		Grid childTableTitle = new Grid(1, 2);
+		
 		childTableTitle.setWidth("100%");
 		setChildGridTitle("未选择角色");
 		childTitle.setStyleName("childtabletitle");
 		childTableTitle.setWidget(0, 0, childTitle);
 		HorizontalPanel childTableActionPanel = new HorizontalPanel();
 		childTableActionPanel.setStyleName("childtableAction");
+		Button aa = new Button();
+		aa.setText("添加模块和操作");
 		Button ac = new Button();
-		ac.setText("删除多项");
-		ac.setWidth("90px");
+		ac.setText("删除多项操作");
+		childTableActionPanel.add(aa);
 		childTableActionPanel.add(ac);
-		childTableTitle.setWidget(0, 1, childTableActionPanel);
+		childTableTitle.setWidget(0, 2, childTableActionPanel);
 		childTableTitle.getColumnFormatter().setWidth(1, "50%");
-		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+		childTableTitle.getCellFormatter().setStyleName(0, 1, "childtabledescript");
+		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
+		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		outer.add(childTableTitle);
 		outer.add(childGrid);
 	}
@@ -87,12 +97,13 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 			grid = new GreenMouseEventGrid(banner_text);
 		}
 		formatGrid(grid, mainRowCount, columns, columnsWidth);
+		grid.addClickHandler(new RoleConfigController.TableAction());
 		return grid;
 	}
 	
 	public Grid getChildGrid() {
 		if(childGrid == null){
-			childGrid = new GreenMouseEventGrid(banner_text);
+			childGrid = new GreenMouseEventGrid(childBanner_text, true);
 		}
 		formatGrid(childGrid, childRowCount, childColumns, childColumnsWidth);
 		return childGrid;
