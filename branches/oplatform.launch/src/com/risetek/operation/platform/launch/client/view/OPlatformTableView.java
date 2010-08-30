@@ -154,6 +154,8 @@ public abstract class OPlatformTableView extends DockPanel {
     	locationLabel.setText(text);
     }
     
+    public abstract void render(OPlatformData data);
+    
     /**
      * 功能：按行读取并填写数据
      *
@@ -161,7 +163,7 @@ public abstract class OPlatformTableView extends DockPanel {
      * @param data
      * @param index
      */
-    public void renderLine(OPlatformData data, int index){
+    public void renderLine(Grid grid, OPlatformData data, int index){
     	if(index<data.getSum()){
 //    		if(index==grid.getRowCount()-1) {
 //    			for(int i=0;i<grid.getColumnCount();i++){
@@ -182,25 +184,25 @@ public abstract class OPlatformTableView extends DockPanel {
     					grid.setText(index+1, i, Integer.toString(index+1));
     					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
     				} else {
-    					grid.setText(index+1, i, "12345");
+    					grid.setText(index+1, i, "界面测试数据-界面测试数据-界面测试数据-界面测试数据-界面测试数据-界面测试数据-界面测试数据-界面测试数据");
     				}
-	    			setTableLineStyle(index, i);
+	    			setTableLineStyle(grid, index, i);
 	    		}
 //    		}
     	} else {
     		if(index==grid.getRowCount()-1) {
     			for(int i=0;i<grid.getColumnCount();i++){
-    				setTableBottomStyle(index, i);
+    				setTableBottomStyle(grid, index, i);
 	    		}
     		} else {
     			for(int i=0;i<grid.getColumnCount();i++){
-    				setTableLineStyle(index, i);
+    				setTableLineStyle(grid, index, i);
 	    		}
     		}
     	}
     }
     
-    private void setTableLineStyle(int index, int i){
+    private void setTableLineStyle(Grid grid, int index, int i){
     	if(i==grid.getColumnCount()-1){
 			grid.getCellFormatter().setStyleName(index+1, i, "optable-line-end");
 		} else {
@@ -208,7 +210,7 @@ public abstract class OPlatformTableView extends DockPanel {
 		}
     }
     
-    private void setTableBottomStyle(int index, int i){
+    private void setTableBottomStyle(Grid grid, int index, int i){
     	if(i==grid.getColumnCount()-1){
 			grid.getCellFormatter().setStyleName(index+1, i, "optable-bottom-end");
 		} else {
@@ -244,9 +246,7 @@ public abstract class OPlatformTableView extends DockPanel {
 			DOM.removeElementAttribute(td, "title");			
 			if(column<2){
 				if(column==1){
-					setInfo("点击查看本条记录");
-				} else {
-					setInfo("选择本条记录");
+					setInfo("点击删除本条记录");
 				}
 			} else {
 				setInfo(bannerText[column-2]);

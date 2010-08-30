@@ -38,6 +38,7 @@ import com.risetek.operation.platform.launch.client.sink.SinkInfo;
  * @author Amber
  *
  */
+@SuppressWarnings("rawtypes")
 public abstract class OplatformLaunch implements EntryPoint {
 	/** 
 	 * 功能： 项目起始点
@@ -49,6 +50,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 	final VerticalPanel body = new VerticalPanel();
 	Tree userMenu = new Tree();
 	private SinkInfo curInfo;
+	public static Class[] sinkClassList;
 	
 	public void onModuleLoad() {
 		displayNowTime();
