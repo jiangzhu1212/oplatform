@@ -10,21 +10,15 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.control.CustomerController.DialogControl;
-import com.risetek.operation.platform.base.client.control.CustomerController.DialogControl.myRemoteRequestCallback;
-import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerDelDialog;
-import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerEditControl;
-import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.CustomerEditDialog;
-import com.risetek.operation.platform.base.client.control.CustomerController.TableEditAction.UserDelControl;
 import com.risetek.operation.platform.base.client.model.TransactionData;
-import com.risetek.operation.platform.base.client.view.CustomerView;
 import com.risetek.operation.platform.base.client.view.TransactionView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.control.DialogControl;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
@@ -49,24 +43,6 @@ public class TransactionController extends AController {
 		}
 	}
 	
-	public static abstract class DialogControl {
-		protected abstract CustomDialog getDialog();
-		
-		RequestCallback myCaller = new myRemoteRequestCallback();
-		class myRemoteRequestCallback implements RequestCallback {
-
-			@Override
-			public void onError(Request request, Throwable exception) {
-				Window.alert("操作失败");
-			}
-
-			@Override
-			public void onResponseReceived(Request request, Response response) {
-				int code = response.getStatusCode();
-				//这里执行一个查询操作
-			}
-		}
-	}
 	private TransactionController(){
 //		String name = new TableEditAction().getActionName();
 //		System.out.println(name);
