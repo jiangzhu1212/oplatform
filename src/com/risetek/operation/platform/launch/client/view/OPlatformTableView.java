@@ -283,7 +283,12 @@ public abstract class OPlatformTableView extends DockPanel {
 			
 //			if(mayColor == true) {
 //				td.getStyle().setColor("red");
+			if(!isChild){
 				setInfo("");
+			} else {
+				Grid child = (Grid)outer.getWidget(2);
+				child.setText(0, 1, "");
+			}
 //				td.getStyle().setCursor(Cursor.POINTER);
 //			}
 		}
