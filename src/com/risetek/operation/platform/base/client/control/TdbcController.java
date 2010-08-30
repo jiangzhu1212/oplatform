@@ -3,11 +3,13 @@ package com.risetek.operation.platform.base.client.control;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
+import com.risetek.operation.platform.base.client.dialog.TdbcDialog;
 import com.risetek.operation.platform.base.client.model.TdbcData;
 import com.risetek.operation.platform.base.client.view.TdbcView;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -93,6 +95,20 @@ public class TdbcController extends AController {
 	 * @date 2010-8-26 下午02:36:17 
 	 * @version 1.0
 	 */
+	public static class TableShowAction implements ClickActionHandler {
+
+		private String actionName = "查看表格行";
+
+		public String getActionName() {
+			return actionName;
+		}
+
+		@Override
+		public void onClick(ClickEvent event) {
+
+		}
+	}
+
 	public static class TableEditAction implements ClickActionHandler {
 		
 		private String actionName = "编辑表格";
@@ -103,22 +119,39 @@ public class TdbcController extends AController {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Window.alert("add");
+			Object obj = event.getSource();
+			if (obj == TdbcView.searchButton) {
+				INSTANCE.processFuc(true); // true 表示查询
+				return;
+			}
 		}		
 	}
 	
-	public static class TableShowAction implements ClickActionHandler {
-		
-		private String actionName = "查看表格行";
-		
-		public String getActionName(){
-			return actionName;
-		}
-		
-		@Override
-		public void onClick(ClickEvent event) {
-			
-		}
+	/**
+	 * @Description: 执行search操作
+	 * @param isSearch  参数 
+	 * @return void 返回类型
+	 */
+	private void processFuc(final boolean isSearch){
+		final TdbcDialog dialog = new TdbcDialog(isSearch);
+		dialog.submit.setText("提交");
+		dialog.show();
+
+		dialog.submit.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (dialog.isValid()) {
+					dialog.submit.setEnabled(false);
+					searchTdbc((dialog.E_GOODS_SN_Box.getText()).trim(), TdbcController.RemoteCaller);
+				}
+			}
+		});
+	}
+	
+	//-------------------------执行提交事件---------------------------//
+	private void searchTdbc(String E_GOODS_SN, RequestCallback callback) {
+		String query = "function=searchTdbc&E_GOODS_SN=" + E_GOODS_SN;
+		Window.alert(query);
 	}
 
 	@Override

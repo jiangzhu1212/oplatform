@@ -23,8 +23,7 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
  */
 public class TdbcView extends OPlatformTableView implements IOPlatformView {
 
-	private final Button addButton = new Button("增加");
-	public final static Button searchButton = new Button("查询");
+	public final static Button searchButton = new Button("查询", new TdbcController.TableEditAction());
 
 	public final static String[] columns = {TdbcConstanst.TDBC_ID_ZH, TdbcConstanst.E_GOODS_SN_ZH, TdbcConstanst.TDBC_IMAGE_ZH };
 	public final static int[] columnsWidth = {25, 25, 35};
@@ -62,7 +61,6 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	 */
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-		actionPanel.add(addButton);
 		actionPanel.add(searchButton);
 		return actionPanel;
 	}
