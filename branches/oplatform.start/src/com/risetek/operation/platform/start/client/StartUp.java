@@ -40,6 +40,7 @@ public class StartUp extends OplatformLaunch {
 //		TreeItem groupItem = searchGroupItem()
 //		userMenu.addItem(addTreeItem(userMenu, BaseSink.init()));
 //		userMenu.addItem(addTreeItem(userMenu, ProcessSink.init()));
+		sinkClassList = SinkList.getSinkList();
 		return userMenu;
 	}
 	
@@ -84,7 +85,7 @@ public class StartUp extends OplatformLaunch {
 		TreeItem childItem = new TreeItem();
 		childItem.setText(info.getName());
 		childItem.setTitle(info.getDescription());
-		childItem.setUserObject(info.getInstance().getWidget());
+		childItem.setUserObject(info);
 		return childItem;
 	}
 }
