@@ -37,24 +37,6 @@ public class TransBindController extends AController {
 		}
 	}
 	
-	public static abstract class DialogControl {
-		protected abstract CustomDialog getDialog();
-		
-		RequestCallback myCaller = new myRemoteRequestCallback();
-		class myRemoteRequestCallback implements RequestCallback {
-
-			@Override
-			public void onError(Request request, Throwable exception) {
-				Window.alert("操作失败");
-			}
-
-			@Override
-			public void onResponseReceived(Request request, Response response) {
-				int code = response.getStatusCode();
-				//这里执行一个查询操作
-			}
-		}
-	}
 	private TransBindController(){
 //		String name = new TableEditAction().getActionName();
 //		System.out.println(name);
