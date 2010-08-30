@@ -287,9 +287,9 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 .dialogButton {
 	margin: 0;
 	width: 80px;
-	padding: 3px 5px;
+	padding: 3px 3px;
 	text-decoration: none;
-	font-size: 14px;
+	font-size: 13px;
 	cursor: pointer;
 	cursor: hand;
 	background: url("images/hborder.png") repeat-x 0px -27px;
