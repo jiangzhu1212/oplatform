@@ -126,10 +126,10 @@ public class BankController extends AController {
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
 			if (obj == BankView.addButton) {
-				INSTANCE.processBank(false);// false 表示增加
+				INSTANCE.processFuc(false);// false 表示增加
 				return;
 			} else if (obj == BankView.searchButton) {
-				INSTANCE.processBank(true); // true 表示查询
+				INSTANCE.processFuc(true); // true 表示查询
 				return;
 			} else {
 				INSTANCE.gridOnclick(event);
@@ -141,7 +141,7 @@ public class BankController extends AController {
 	 * @Description: 执行add/search操作
 	 * @return void 返回类型
 	 */
-	private void processBank(final boolean isSearch) {
+	private void processFuc(final boolean isSearch) {
 		final BankAddDialog addDialog = new BankAddDialog(isSearch);
 		addDialog.submit.setText("提交");
 		addDialog.show();

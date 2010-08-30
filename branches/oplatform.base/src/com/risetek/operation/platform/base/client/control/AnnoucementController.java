@@ -135,10 +135,10 @@ public class AnnoucementController extends AController {
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
 			if (obj == AnnoucementView.addButton) {
-				INSTANCE.processBank(false);// false 表示增加
+				INSTANCE.processFuc(false);// false 表示增加
 				return;
 			} else if (obj == AnnoucementView.searchButton) {
-				INSTANCE.processBank(true); // true 表示查询
+				INSTANCE.processFuc(true); // true 表示查询
 				return;
 			} else {
 				INSTANCE.gridOnclick(event);
@@ -150,7 +150,7 @@ public class AnnoucementController extends AController {
 	 * @Description: 执行提交操作
 	 * @return void 返回类型
 	 */
-	public void processBank(final boolean isSearch) {
+	public void processFuc(final boolean isSearch) {
 		final AnnoucementAddDialog addDialog = new AnnoucementAddDialog(isSearch);
 		addDialog.submit.setText("提交");
 		addDialog.show();
@@ -158,8 +158,10 @@ public class AnnoucementController extends AController {
 		addDialog.submit.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				addDialog.submit.setEnabled(false);
-				Window.alert("" + isSearch);
+				if (addDialog.isValid()) {
+					addDialog.submit.setEnabled(false);
+					Window.alert("" + isSearch);
+				}
 			}
 		});
 	}
@@ -262,31 +264,34 @@ public class AnnoucementController extends AController {
 			if(!dialog.isValid()) return;
 			dialog.submit.setEnabled(false);
 			switch (col) {
-			case 1:
+			case 2:
 				delRow(keyid, AnnoucementController.RemoteCaller);
 				break;
-			case 2:
-				modifyBankCode(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-				break;
 			case 3:
-				modifyValidity(keyid, dialog.dateBox.getTextBox().getText(), AnnoucementController.RemoteCaller);			
+				modifyType(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
 				break;
 			case 4:
-				modifyAddtion(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				modifyDate(keyid, dialog.newDateBox.getTextBox().getText(), AnnoucementController.RemoteCaller);			
 				break;
 			case 5:
-				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				modifyAddtion(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
 				break;
 			case 6:
-				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				//创建时间
 				break;
 			case 7:
-				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				modifyStopTime(keyid, dialog.newDateBox.getTextBox().getText(), AnnoucementController.RemoteCaller);			
 				break;
 			case 8:
-				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				modify_TARGET_TYPE(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
 				break;
 			case 9:
+				modify_TARGET_ID(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				break;
+			case 10:
+				modifyValidity(keyid, dialog.validityValue, AnnoucementController.RemoteCaller);			
+				break;
+			case 11:
 				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
 				break;
 			default:
@@ -297,22 +302,42 @@ public class AnnoucementController extends AController {
 	
 	// ----------------- 处理对应请求  -----------------------//
 	public static void delRow(String keyID, RequestCallback callback) {
-		String query = "function=deluser&id=" + keyID;
+		String query = "function=del&id=" + keyID;
 		Window.alert(query);
 	}
 	
-	private static void modifyBankCode(String keyID, String bankCode, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&bankCode=" + bankCode;
+	private static void modifyType(String keyID, String type, RequestCallback callback) {
+		String query = "function=moduser&id=" + keyID + "&type=" + type;
 		Window.alert(query);
 	}
 	
-	private static void modifyValidity(String keyID, String validity, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&validity=" + validity;
+	private static void modifyDate(String keyID, String date, RequestCallback callback) {
+		String query = "function=moduser&id=" + keyID + "&date=" + date;
 		Window.alert(query);
 	}
 	
 	private static void modifyAddtion(String keyID, String addtion, RequestCallback callback) {
 		String query = "function=moduser&id=" + keyID + "&addtion=" + addtion;
+		Window.alert(query);
+	}
+	
+	private static void modifyStopTime(String keyID, String stopTime, RequestCallback callback) {
+		String query = "function=moduser&id=" + keyID + "&stopTime=" + stopTime;
+		Window.alert(query);
+	}
+	
+	private static void modify_TARGET_TYPE(String keyID, String TARGET_TYPE, RequestCallback callback) {
+		String query = "function=moduser&id=" + keyID + "&TARGET_TYPE=" + TARGET_TYPE;
+		Window.alert(query);
+	}
+	
+	private static void modify_TARGET_ID(String keyID, String TARGET_ID, RequestCallback callback) {
+		String query = "function=moduser&id=" + keyID + "&TARGET_ID=" + TARGET_ID;
+		Window.alert(query);
+	}
+	
+	private static void modifyValidity(String keyID, String Validity, RequestCallback callback) {
+		String query = "function=moduser&id=" + keyID + "&Validity=" + Validity;
 		Window.alert(query);
 	}
 	

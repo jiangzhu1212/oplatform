@@ -3,10 +3,9 @@ package com.risetek.operation.platform.base.client.dialog;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.view.AnnoucementView;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
  * @ClassName: AnnoucementModifyDialog 
@@ -15,22 +14,16 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
  * @date 2010-8-27 上午11:01:36 
  * @version 1.0
  */
-public class AnnoucementModifyDialog extends CustomDialog {
-
+public class AnnoucementModifyDialog extends BaseDialog {   
 	
-	protected Label oldValueLabel = new Label();
-	
-	public TextBox newValueBox = new TextBox();
-	
-	public DateBox dateBox = new DateBox();
-	
-	private String colName;
+	public DateBox newDateBox = new DateBox();
 	
 	/**
 	 * Description: 构造器
 	 */
 	public AnnoucementModifyDialog(String colName){
-		this.colName = colName;
+		super(false);
+		super.colName = colName;
 		if(null != colName){
 			mainPanel.add(AcountModifyClick(colName));
 		}else{
@@ -53,16 +46,17 @@ public class AnnoucementModifyDialog extends CustomDialog {
 		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
 		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
-		if(!titleMsg.equals(AnnoucementView.columns[2]) || !titleMsg.equals(AnnoucementView.columns[5]) || !titleMsg.equals(AnnoucementView.columns[8])){
-			gridFrame.setWidget(1, 1, newValueBox);
-			newValueBox.setWidth("240px");
-			newValueBox.setTabIndex(1);
-		}else{
+		if(titleMsg.equals(AnnoucementView.columns[2]) || titleMsg.equals(AnnoucementView.columns[5])){
 			DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
-			dateBox.setFormat(new DateBox.DefaultFormat(format));
-			dateBox.setWidth("240px");
-			dateBox.setTabIndex(1);
-			gridFrame.setWidget(1, 1, dateBox);
+			newDateBox.setFormat(new DateBox.DefaultFormat(format));
+			newDateBox.setWidth("200px");
+			gridFrame.setWidget(1, 1, newDateBox);
+		}else if(titleMsg.equals(AnnoucementView.columns[8])){
+			gridFrame.setWidget(1,1,listBox);
+			listBox.setWidth("100px");
+		}else{
+			gridFrame.setWidget(1, 1, newValueBox);
+			newValueBox.setWidth("200px");
 		}
 		return gridFrame;
 	}
@@ -92,14 +86,17 @@ public class AnnoucementModifyDialog extends CustomDialog {
 	 * @return boolean 返回类型
 	 */
 	public boolean isValid() {
-//		String check = FieldVerifier.validUserName(newNameBox.getText());
-//		if( null != check ){
-//			newNameBox.setFocus(true);
-//			setMessage(check);
-//			return false;
-//		}
+		//colum为null,表示执行的是删除操作
+		if (null == colName) {
+			return true;
+		}
+		
+		String check = Util.commValidity((newValueBox.getText()).trim(), "");
+		if (null != check) {
+			setMessage(check);
+			newValueBox.setFocus(true);
+			return false;
+		}
 		return true;
 	}
-
-
 }

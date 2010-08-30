@@ -1,14 +1,9 @@
 package com.risetek.operation.platform.base.client.dialog;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.constanst.AcountConstanst;
 import com.risetek.operation.platform.base.client.view.AcountView;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /** 
@@ -18,25 +13,14 @@ import com.risetek.operation.platform.launch.client.util.Util;
  * @date 2010-8-27 上午09:56:06 
  * @version  1.0
  */
-public class AcountModifyDialog extends CustomDialog implements ChangeHandler {
-	
-	protected Label oldValueLabel = new Label();
-	
-	public TextBox newValueBox = new TextBox();
-	
-	public ListBox validityBox = new ListBox();
-	
-	private String[] listBoxValue = {"有效", "无效", "已注销", "已挂失"};
-	
-	public String validityValue = listBoxValue[0];
-	
-	private String colName;
+public class AcountModifyDialog extends BaseDialog {  
 		
 	/**
 	 * Description: 构造器
 	 */
 	public AcountModifyDialog(String colName) {
-		this.colName = colName;		
+		super(true);
+		super.colName = colName;		
 		if (null != colName) {
 			mainPanel.add(AcountModifyClick(colName));
 		} else {
@@ -44,17 +28,6 @@ public class AcountModifyDialog extends CustomDialog implements ChangeHandler {
 			mainPanel.setWidth("260px");
 			mainPanel.add(info);
 		}
-		
-		validityBox.addChangeHandler(this);
-		for (int i = 0; i < listBoxValue.length; i++) {
-			validityBox.addItem(listBoxValue[i]);
-		}
-	}
-	
-	@Override
-	public void onChange(ChangeEvent event) {
-		int index = validityBox.getSelectedIndex();
-		validityValue = listBoxValue[index];
 	}
 	
 	/**
@@ -65,18 +38,17 @@ public class AcountModifyDialog extends CustomDialog implements ChangeHandler {
 	 */
 	private Grid AcountModifyClick(String titleMsg){
 		setDescript("请输入新的"+titleMsg);
-		Grid gridFrame = new Grid(2, 2);
+		gridFrame.resize(2, 2);
 		gridFrame.setStyleName("notice");
 		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
 		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
-		if(!titleMsg.equals(AcountView.columns[2])){
+		if(titleMsg.equals(AcountView.columns[2])){
+			gridFrame.setWidget(1, 1, listBox);
+			listBox.setWidth("100px");
+		}else{
 			gridFrame.setWidget(1, 1, newValueBox);
 			newValueBox.setWidth("200px");
-			newValueBox.setTabIndex(1);
-		}else{
-			validityBox.setWidth("100px");
-			gridFrame.setWidget(1, 1, validityBox);
 		}
 		return gridFrame;
 	}
@@ -110,12 +82,13 @@ public class AcountModifyDialog extends CustomDialog implements ChangeHandler {
 		if (null == colName) {
 			return true;
 		}
-		
-		String check = Util.commValidity((newValueBox.getText()).trim(), AcountConstanst.BANK_CODE_ZH);
-		if (null != check) {
-			setMessage(check);
-			newValueBox.setFocus(true);
-			return false;
+		if(colName.equals(AcountConstanst.BANK_CODE_ZH)){
+			String check = Util.commValidity((newValueBox.getText()).trim(), AcountConstanst.BANK_CODE_ZH);
+			if (null != check) {
+				setMessage(check);
+				newValueBox.setFocus(true);
+				return false;
+			}
 		}
 		return true;
 	}

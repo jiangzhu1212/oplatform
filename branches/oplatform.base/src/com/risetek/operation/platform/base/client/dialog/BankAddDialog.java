@@ -1,13 +1,8 @@
 package com.risetek.operation.platform.base.client.dialog;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.constanst.BankConstanst;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
@@ -17,46 +12,41 @@ import com.risetek.operation.platform.launch.client.util.Util;
  * @date 2010-8-27 上午10:16:14 
  * @version 1.0
  */
-public class BankAddDialog extends CustomDialog implements ChangeHandler {  
+public class BankAddDialog extends BaseDialog {   
 	
 	public final TextBox bankCodeBox = new TextBox();
 	public final TextBox bankNameBox = new TextBox();
-	public final ListBox validityBox = new ListBox();
 	public final TextBox descBox = new TextBox();
 	
-	private Grid gridFrame = new Grid();
+	private String[] columns1 = { 
+		BankConstanst.BANK_CODE_ZH,
+		BankConstanst.BANK_NAME_ZH, 
+		BankConstanst.BANK_DESCRIPTION_ZH,
+		BankConstanst.BANK_VALIDITY_ZH
+	};
 	
-	private boolean isSearch; // true 表示查询，false 表示增加
-	
-	private String[] listBoxValue = {"有效", "无效", "已注销", "已挂失"};
-	
-	public String validityValue = listBoxValue[0];
+	private String[] columns2 = { 
+		BankConstanst.BANK_CODE_ZH,
+		BankConstanst.BANK_NAME_ZH, 
+		BankConstanst.BANK_VALIDITY_ZH
+	};
 	
 	/**
 	 * Description: 构造器
 	 */
 	public BankAddDialog(boolean isSearch) {
-		this.isSearch = isSearch;
+		super(true);
+		super.isSearch = isSearch;
+		gridFrame.setStyleName("notice");
+
 		if (isSearch) {
-			gridFrame.resize(3, 2);
 			mainPanel.add(searchBank());
 		} else {
-			gridFrame.resize(4, 2);
 			mainPanel.add(addBank());
 		}
 	
-		gridFrame.setStyleName("notice");
-		validityBox.addChangeHandler(this);
-		for (int i = 0; i < listBoxValue.length; i++) {
-			validityBox.addItem(listBoxValue[i]);
-		}
+//		message.setStyleName("tableMessagePanel-content-action");
 		initWith();
-	}
-
-	@Override
-	public void onChange(ChangeEvent event) {
-		int index = validityBox.getSelectedIndex();
-		validityValue = listBoxValue[index];
 	}
 
 	/**
@@ -64,17 +54,13 @@ public class BankAddDialog extends CustomDialog implements ChangeHandler {
 	 * @return  参数 
 	 * @return Grid 返回类型
 	 */
-	private Grid addBank(){		
-		gridFrame.setWidget(0,0,new Label(BankConstanst.BANK_CODE_ZH + "："));
-		gridFrame.setWidget(1,0,new Label(BankConstanst.BANK_NAME_ZH + "："));
-		gridFrame.setWidget(2,0,new Label(BankConstanst.BANK_DESCRIPTION_ZH + "："));
-		gridFrame.setWidget(3,0,new Label(BankConstanst.BANK_VALIDITY_ZH + "："));
-				
+	private Grid addBank(){	
+		gridFrame.resize(4, 2);
+		formatGrid(gridFrame, columns1);
 		gridFrame.setWidget(0,1,bankCodeBox);
 		gridFrame.setWidget(1,1,bankNameBox);
 		gridFrame.setWidget(2,1,descBox);
-		gridFrame.setWidget(3,1,validityBox);
-		
+		gridFrame.setWidget(3,1,listBox);
 		return gridFrame;
 	}
 	/**
@@ -83,14 +69,11 @@ public class BankAddDialog extends CustomDialog implements ChangeHandler {
 	 * @return VerticalPanel 返回类型
 	 */
 	private Grid searchBank(){
-		gridFrame.setWidget(0,0,new Label(BankConstanst.BANK_CODE_ZH + "："));
-		gridFrame.setWidget(1,0,new Label(BankConstanst.BANK_NAME_ZH + "："));
-		gridFrame.setWidget(2,0,new Label(BankConstanst.BANK_VALIDITY_ZH + "："));
-		
+		gridFrame.resize(3, 2);
+		formatGrid(gridFrame, columns2);
 		gridFrame.setWidget(0,1,bankCodeBox);
 		gridFrame.setWidget(1,1,bankNameBox);
-		gridFrame.setWidget(2,1,validityBox);
-		
+		gridFrame.setWidget(2,1,listBox);
 		return gridFrame;
 	}
 	
@@ -102,7 +85,7 @@ public class BankAddDialog extends CustomDialog implements ChangeHandler {
 		bankCodeBox.setWidth("200px");
 		bankNameBox.setWidth("200px");
 		descBox.setWidth("200px");
-		validityBox.setWidth("100px");
+		listBox.setWidth("100px");
 	}
 	
 	/**
@@ -136,7 +119,7 @@ public class BankAddDialog extends CustomDialog implements ChangeHandler {
 				bankCodeBox.setFocus(true);
 				return false;
 			}
-			check = Util.commValidity((bankNameBox.getText()).trim(), BankConstanst.BANK_CODE_ZH);
+			check = Util.commValidity((bankNameBox.getText()).trim(), BankConstanst.BANK_NAME_ZH);
 			if (null != check) {
 				setMessage(check);
 				bankNameBox.setFocus(true);
