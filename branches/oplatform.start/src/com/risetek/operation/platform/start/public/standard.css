@@ -909,7 +909,9 @@ a, a:visited, a:hover {
 }
 
 .gwt-TextBox {
-  padding: 2px;
+	border: 1px solid #B3B3B3;
+	height: 18px;
+	width: 100%;
 }
 .gwt-TextBox-readonly {
   color: #888;

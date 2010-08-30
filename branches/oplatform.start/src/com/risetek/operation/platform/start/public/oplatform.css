@@ -240,6 +240,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 .dialog {
 	border: 3px solid #c5e4ff;
 	background-color: #FFFFFF;
+	table-layout:fixed;
 }
 
 .dialog .Caption {
@@ -260,16 +261,27 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 
 .dialog .description {
 	padding: 5px 10px 5px 10px;
-	font-size: 14px;
+	font-size: 13px;
 	background-color: #edf8fe;
-	color: #006acd;
+	color: #000000;
+	font-weight: bold;
 	border-bottom: 1px solid #c5e4ff;
 }
 
 .dialog .main {
 	padding: 5px 5px 0px 5px;
 	font-size: 13px;
-	color: #404040;
+	color: #006acd;
+}
+
+.dialog .table {
+	font-size: 13px;
+	color: #006acd;
+	table-layout: fixed;	
+}
+
+.dialog .oldvalue {
+	white-space: normal;
 }
 
 .dialogButton {
@@ -291,7 +303,17 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	color: #006acd;
 }
 
+.childtabledescript {
+	font-size: 13px;
+	padding: 15px 0px 5px 10px;
+	color: #FF6600;
+}
+
 .childtableAction {
 	padding-right: 20px;
 	text-align: right;
+}
+
+.childtableAction td {
+	padding: 0px 5px 0px 5px;
 }
