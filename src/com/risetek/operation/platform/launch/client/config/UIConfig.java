@@ -9,9 +9,9 @@ public interface UIConfig {
 
 	public final int TABLE_ROW_NORMAL = 50;
 	
-	public final int MAIN_TABLE_ROW_NORMAL = 20;
+	public final int MAIN_TABLE_ROW_NORMAL = 13;
 	
-	public final int CHILD_TABLE_ROW_NORMAL = 10;
+	public final int CHILD_TABLE_ROW_NORMAL = 8;
 	
 	public final int TABLE_ROW_MIN = 10;
 	

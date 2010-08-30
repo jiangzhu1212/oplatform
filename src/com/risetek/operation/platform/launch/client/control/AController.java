@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.launch.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
@@ -17,4 +19,5 @@ public abstract class AController {
 	 */
 	public abstract Widget getView();
 	public abstract OPlatformData getData();
+	public abstract ArrayList<String> getActionNames();
 }
