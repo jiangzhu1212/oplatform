@@ -8,8 +8,8 @@ public class DeleteRoleDialog extends CustomDialog {
 	public String id;
 	
 	public DeleteRoleDialog(String value){
-		Label info = new Label("确定删除该角色\"" + value + "\"？");
-		info.setWidth("200px");
+		Label info = new Label("确定删除该角色\"" + value + "\"及其全部操作内容？");
+		info.setWidth("300px");
 		mainPanel.add(info);
 		setText("删除角色");
 		setDescript("删除选中的用户角色");
