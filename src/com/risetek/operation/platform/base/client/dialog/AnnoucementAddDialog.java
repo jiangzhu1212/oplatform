@@ -36,9 +36,9 @@ public class AnnoucementAddDialog extends BaseDialog {
 	private final DateBox stop_startTime_box = new DateBox();
 	private final DateBox stop_endTime_box = new DateBox();
 			
-	private String[] columns2 = {AnnoucementConstanst.ACE_TYPE_ZH, AnnoucementConstanst.ACE_VALIDITY_ZH };
+	private String[] searchColumns = {AnnoucementConstanst.ACE_TYPE_ZH, AnnoucementConstanst.ACE_VALIDITY_ZH };
 
-	private String[] columns1 = { 
+	private String[] addColumns = { 
 		AnnoucementConstanst.ACE_TYPE_ZH,
 		AnnoucementConstanst.ACE_DATE_ZH,
 		AnnoucementConstanst.ACE_ADDTION_ZH,
@@ -53,7 +53,6 @@ public class AnnoucementAddDialog extends BaseDialog {
 	 * Description: 构造器
 	 */
 	public AnnoucementAddDialog(boolean isSearch){
-		super(false);
 		super.isSearch = isSearch;
 		if(isSearch){
 			mainPanel.add(searchAnnoucement());
@@ -69,10 +68,8 @@ public class AnnoucementAddDialog extends BaseDialog {
 	 * @return Grid 返回类型
 	 */
 	private Widget addAnnoucement(){	
-		Grid gridFrame = new Grid(8, 2);
-		gridFrame.setStyleName("notice");
-		formatGrid(gridFrame, columns1);
-		
+		gridFrame.resize(8, 2);
+		formatGrid(gridFrame, addColumns);
 		gridFrame.setWidget(0,1,typeBox);
 		gridFrame.setWidget(1,1,dateBox);
 		gridFrame.setWidget(2,1,addtionBox);
@@ -80,7 +77,9 @@ public class AnnoucementAddDialog extends BaseDialog {
 		gridFrame.setWidget(4,1,TARGET_TYPE_Box);
 		gridFrame.setWidget(5,1,TARGET_ID_Box);
 		gridFrame.setWidget(6,1,descBox);
-		gridFrame.setWidget(7,1,listBox);
+		gridFrame.setWidget(7,1,createListBox(AnnouceListBoxValue));
+		setText("增加公告信息");
+		setDescript("请输入新的公告信息");
 		return gridFrame;
 	}
 	
@@ -89,18 +88,17 @@ public class AnnoucementAddDialog extends BaseDialog {
 	 * @return VerticalPanel 返回类型
 	 */
 	private Widget searchAnnoucement(){
-		Grid gridFrame = new Grid(2, 2);
-		gridFrame.setStyleName("notice");
-		formatGrid(gridFrame, columns2);
+		gridFrame.resize(2, 2);
+		formatGrid(gridFrame, searchColumns);
 		gridFrame.setWidget(0,1,typeBox);
-		gridFrame.setWidget(1,1,listBox);
-		
+		gridFrame.setWidget(1,1,createListBox(AnnouceListBoxValue));
 		VerticalPanel datePanel = new VerticalPanel();
 		datePanel.add(gridFrame);
 		datePanel.add(createDatePanel());
 		datePanel.add(createStartPanel());
 		datePanel.add(createStopPanel());
-		
+		setText("查询公告信息");
+		setDescript("请输入查询信息");
 		return datePanel;
 	}
 	
@@ -110,7 +108,7 @@ public class AnnoucementAddDialog extends BaseDialog {
 	 */
 	private Widget createDatePanel() {
 	    Grid dateGrid = new Grid(2, 2);
-		dateGrid.setStyleName("notice");
+		dateGrid.setStyleName(styleName);
 		dateGrid.setWidget(0, 0, new Label("开始日期："));
 		dateGrid.setWidget(1, 0, new Label("结束日期："));
 		dateGrid.setWidget(0, 1, startDateBox);
@@ -128,7 +126,7 @@ public class AnnoucementAddDialog extends BaseDialog {
 	 */
 	private Widget createStartPanel() {
 		Grid startGrid = new Grid(2, 2);
-		startGrid.setStyleName("notice");
+		startGrid.setStyleName(styleName);
 		startGrid.setWidget(0, 0, new Label("开始日期："));
 		startGrid.setWidget(1, 0, new Label("结束日期："));
 		startGrid.setWidget(0, 1, create_startTime_box);
@@ -146,7 +144,7 @@ public class AnnoucementAddDialog extends BaseDialog {
 	 */
 	private Widget createStopPanel() {
 		Grid stopGrid = new Grid(2, 2);
-		stopGrid.setStyleName("notice");
+		stopGrid.setStyleName(styleName);
 		stopGrid.setWidget(0, 0, new Label("开始日期："));
 		stopGrid.setWidget(1, 0, new Label("结束日期："));
 		stopGrid.setWidget(0, 1, stop_startTime_box);
@@ -179,7 +177,6 @@ public class AnnoucementAddDialog extends BaseDialog {
 		TARGET_TYPE_Box.setWidth("200px");
 		TARGET_ID_Box.setWidth("200px");
 		descBox.setWidth("200px");
-		listBox.setWidth("100px");
 	}
 	
 	/**
@@ -188,13 +185,6 @@ public class AnnoucementAddDialog extends BaseDialog {
 	 * @see com.risetek.operation.platform.launch.client.dialog.CustomDialog#show()
 	 */
 	public void show(){
-		if(isSearch){
-			setText("查询公告信息");
-			setDescript("请输入查询信息");
-		}else{
-			setText("增加公告信息");
-			setDescript("请输入新的公告信息");
-		}
 		super.show();
 		typeBox.setFocus(true);
 	}

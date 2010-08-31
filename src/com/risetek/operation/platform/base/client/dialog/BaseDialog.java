@@ -17,67 +17,52 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
  * @date 2010-8-30 下午03:49:57 
  * @version 1.0 
  */
-public class BaseDialog extends CustomDialog implements ChangeHandler { 
+public class BaseDialog extends CustomDialog { 
 	
+	protected static DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd");
+
 	protected Label oldValueLabel = new Label();
 
 	public TextBox newValueBox = new TextBox();
 
-	protected ListBox listBox = new ListBox();
-
 	protected Grid gridFrame = new Grid();
-
-	protected static String[] bankListBoxValue = {"有效", "无效", "已注销", "已挂失"};
 	
-	protected static String[] AnnouceListBoxValue = {"有效", "无效"};
+	protected boolean isSearch;// true 表示查询，false 表示增加
+	
+	protected String colName; //列名
 
-	protected static DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd");
+	protected static final String[] bankListBoxValue = {"有效", "无效", "已注销", "已挂失"};
+	
+	protected static final String[] AnnouceListBoxValue = {"有效", "无效"};
+
+	protected static final String styleName = "notice";//CSS
 	
 	public String validityValue = "有效";	
 			
-	protected String colName;
 	
-	protected boolean isSearch;// true 表示查询，false 表示增加
-
-	private boolean flag;//true 表示查询，false 表示增加
-	
-	public BaseDialog(){
-		
+	public BaseDialog() {
+		gridFrame.setStyleName(styleName);	
 	}
 	
 	/**
-	 * Description: 根据传入的标志初始化下拉框
-	 * @param flag
+	 * @Description: 创建ListBox 
+	 * @param flag  (true 表示银行相关的ListBox, false表示公告相关ListBox )
+	 * @return ListBox 返回类型
 	 */
-	public BaseDialog(boolean flag){
-		this.flag = flag;
-		listBox.addChangeHandler(this);
-		
-		if(flag){
-			for (int i = 0; i < bankListBoxValue.length; i++) {
-				listBox.addItem(bankListBoxValue[i]);
-			}
-		}else{
-			for (int i = 0; i < AnnouceListBoxValue.length; i++) {
-				listBox.addItem(AnnouceListBoxValue[i]);
-			}
+	protected ListBox createListBox(final String[] boxValue) {
+		final ListBox listBox = new ListBox();
+		for (int i = 0; i < boxValue.length; i++) {
+			listBox.addItem(boxValue[i]);
 		}
-	}
-	
-	/** 
-	 * (非 Javadoc) 
-	 * Description: 获取下拉框时值
-	 * @param event 
-	 * @see com.google.gwt.event.dom.client.ChangeHandler#onChange(com.google.gwt.event.dom.client.ChangeEvent) 
-	 */ 
-	@Override
-	public void onChange(ChangeEvent event) {
-		int index = listBox.getSelectedIndex();
-		if(flag){
-			validityValue = bankListBoxValue[index];
-		}else{
-			validityValue = AnnouceListBoxValue[index];
-		}
+
+		listBox.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				int index = listBox.getSelectedIndex();
+				validityValue = boxValue[index];
+			}
+		});
+		return listBox;
 	}
 	
 	/**
@@ -88,7 +73,7 @@ public class BaseDialog extends CustomDialog implements ChangeHandler {
 	 */
 	protected static void formatGrid(Grid gridFrame, String[] columns){
 		for (int i = 0; i < gridFrame.getRowCount(); i++) {
-			gridFrame.setText(i,0,columns[i] + "：");
+			gridFrame.setText(i, 0, columns[i] + "：");
 			gridFrame.getCellFormatter().setHorizontalAlignment(i, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		}
 	}

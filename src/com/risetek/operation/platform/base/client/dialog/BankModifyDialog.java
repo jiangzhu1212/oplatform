@@ -2,6 +2,7 @@ package com.risetek.operation.platform.base.client.dialog;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.risetek.operation.platform.base.client.constanst.BankConstanst;
 import com.risetek.operation.platform.base.client.view.BankView;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -13,19 +14,17 @@ import com.risetek.operation.platform.launch.client.util.Util;
  * @date 2010-8-26 下午04:37:57 
  * @version  1.0
  */
-public class BankModifyDialog extends BaseDialog {    
+public class BankModifyDialog extends BaseDialog {   
+	
 	/**
 	 * Description: 构造器
 	 */
 	public BankModifyDialog(String colName) {
-		super(true);
 		super.colName = colName;
 		if (null != colName) {
-			mainPanel.add(BankModifyClick(colName));
+			mainPanel.add(BankModifyView(colName));
 		} else {
-			Label info = new Label("您确定删除该发卡行信息？");
-			mainPanel.setWidth("260px");
-			mainPanel.add(info);
+			createDelView();
 		}
 	}
 	
@@ -35,16 +34,16 @@ public class BankModifyDialog extends BaseDialog {
 	 * @return  参数 
 	 * @return Grid 返回类型
 	 */
-	private Grid BankModifyClick(String titleMsg){
+	private Grid BankModifyView(String titleMsg){
 		setDescript("请输入新的"+titleMsg);
 		gridFrame.resize(2, 2);
-		gridFrame.setStyleName("notice");
 		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
 		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
 		
 		//判断是否是日期文本框
 		if(titleMsg.equals(BankView.columns[2])){
+			ListBox listBox = createListBox(bankListBoxValue);
 			gridFrame.setWidget(1, 1, listBox);
 			listBox.setWidth("100px");
 		}else{
@@ -52,6 +51,16 @@ public class BankModifyDialog extends BaseDialog {
 			newValueBox.setWidth("200px");
 		}
 		return gridFrame;
+	}
+	
+	/**
+	 * @Description: 删除操作 
+	 * @return void 返回类型
+	 */
+	private void createDelView(){
+		Label info = new Label("您确定删除该发卡行信息？");
+		mainPanel.setWidth("260px");
+		mainPanel.add(info);
 	}
 	
 	/**

@@ -2,6 +2,7 @@ package com.risetek.operation.platform.base.client.dialog;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.risetek.operation.platform.base.client.constanst.AcountConstanst;
 import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -14,19 +15,16 @@ import com.risetek.operation.platform.launch.client.util.Util;
  * @version  1.0
  */
 public class AcountModifyDialog extends BaseDialog {  
-		
+	
 	/**
 	 * Description: 构造器
 	 */
 	public AcountModifyDialog(String colName) {
-		super(true);
 		super.colName = colName;		
 		if (null != colName) {
 			mainPanel.add(AcountModifyClick(colName));
 		} else {
-			Label info = new Label("您确定删除该行卡列表信息？");
-			mainPanel.setWidth("260px");
-			mainPanel.add(info);
+			createDelView();
 		}
 	}
 	
@@ -39,11 +37,11 @@ public class AcountModifyDialog extends BaseDialog {
 	private Grid AcountModifyClick(String titleMsg){
 		setDescript("请输入新的"+titleMsg);
 		gridFrame.resize(2, 2);
-		gridFrame.setStyleName("notice");
 		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
 		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
 		if(titleMsg.equals(AcountView.columns[2])){
+			ListBox listBox = createListBox(bankListBoxValue);
 			gridFrame.setWidget(1, 1, listBox);
 			listBox.setWidth("100px");
 		}else{
@@ -54,8 +52,18 @@ public class AcountModifyDialog extends BaseDialog {
 	}
 	
 	/**
+	 * @Description: 删除操作 
+	 * @return void 返回类型
+	 */
+	private void createDelView(){
+		Label info = new Label("您确定删除该行卡列表信息？");
+		mainPanel.setWidth("260px");
+		mainPanel.add(info);
+	}
+	
+	/**
 	 * @Description: 显示窗体
-	 * @param tips_id
+	 * @param tips_id     参数
 	 * @param tips_value  参数 
 	 * @return void 返回类型
 	 */
