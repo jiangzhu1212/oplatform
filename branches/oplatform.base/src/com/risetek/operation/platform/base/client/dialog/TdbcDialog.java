@@ -1,8 +1,8 @@
 package com.risetek.operation.platform.base.client.dialog;
 
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.constanst.TdbcConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
@@ -21,17 +21,20 @@ public class TdbcDialog extends BaseDialog {
 	 * Description: 构造器
 	 */
 	public TdbcDialog(boolean isSearch){
-		super();
 		if(isSearch){
-			Grid gridFrame = new Grid(1,2);
-			gridFrame.setStyleName("notice");
-			gridFrame.setWidget(0,0,new Label(TdbcConstanst.E_GOODS_SN_ZH + "："));
-			gridFrame.setWidget(0,1,E_GOODS_SN_Box);
-			E_GOODS_SN_Box.setWidth("200px");
-			mainPanel.add(gridFrame);
+			mainPanel.add(createSearchView());
 		}
 	}
 	
+	private Widget createSearchView(){
+		gridFrame.resize(1, 2);
+		gridFrame.setWidget(0, 0, new Label(TdbcConstanst.E_GOODS_SN_ZH + "："));
+		gridFrame.setWidget(0, 1, E_GOODS_SN_Box);
+		E_GOODS_SN_Box.setWidth("200px");
+		setText("查询二维码信息");
+		setDescript("请输入二维码");
+		return gridFrame;
+	}
 
 	/**
 	 * (非 Javadoc) 
@@ -39,8 +42,6 @@ public class TdbcDialog extends BaseDialog {
 	 * @see com.risetek.operation.platform.launch.client.dialog.CustomDialog#show()
 	 */
 	public void show(){
-		setText("查询二维码信息");
-		setDescript("请输入二维码");
 		super.show();
 		E_GOODS_SN_Box.setFocus(true);
 	}

@@ -3,6 +3,7 @@ package com.risetek.operation.platform.base.client.dialog;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.view.AnnoucementView;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -17,19 +18,16 @@ import com.risetek.operation.platform.launch.client.util.Util;
 public class AnnoucementModifyDialog extends BaseDialog {   
 	
 	public DateBox newDateBox = new DateBox();
-	
+
 	/**
 	 * Description: 构造器
 	 */
 	public AnnoucementModifyDialog(String colName){
-		super(false);
 		super.colName = colName;
 		if(null != colName){
 			mainPanel.add(AcountModifyClick(colName));
 		}else{
-			Label info = new Label("您确定删除该公告信息？");
-			mainPanel.setWidth("260px");
-			mainPanel.add(info);
+			createDelView();
 		}
 	}
 	
@@ -41,8 +39,7 @@ public class AnnoucementModifyDialog extends BaseDialog {
 	 */
 	private Grid AcountModifyClick(String titleMsg){
 		setDescript("请输入新的"+titleMsg);
-		Grid gridFrame = new Grid(2, 2);
-		gridFrame.setStyleName("notice");
+		gridFrame.resize(2, 2);
 		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
 		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
@@ -52,6 +49,7 @@ public class AnnoucementModifyDialog extends BaseDialog {
 			newDateBox.setWidth("200px");
 			gridFrame.setWidget(1, 1, newDateBox);
 		}else if(titleMsg.equals(AnnoucementView.columns[8])){
+			ListBox listBox = createListBox(AnnouceListBoxValue);
 			gridFrame.setWidget(1,1,listBox);
 			listBox.setWidth("100px");
 		}else{
@@ -60,6 +58,17 @@ public class AnnoucementModifyDialog extends BaseDialog {
 		}
 		return gridFrame;
 	}
+	
+	/**
+	 * @Description: 删除操作 
+	 * @return void 返回类型
+	 */
+	private void createDelView(){
+		Label info = new Label("您确定删除该公告信息？");
+		mainPanel.setWidth("260px");
+		mainPanel.add(info);
+	}
+	
 	
 	/**
 	 * @Description: 显示窗体 (修改操作) 

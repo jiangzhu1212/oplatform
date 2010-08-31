@@ -17,15 +17,15 @@ public class BankAddDialog extends BaseDialog {
 	public final TextBox bankCodeBox = new TextBox();
 	public final TextBox bankNameBox = new TextBox();
 	public final TextBox descBox = new TextBox();
-	
-	private String[] columns1 = { 
+
+	private String[] addColumns = { 
 		BankConstanst.BANK_CODE_ZH,
 		BankConstanst.BANK_NAME_ZH, 
 		BankConstanst.BANK_DESCRIPTION_ZH,
 		BankConstanst.BANK_VALIDITY_ZH
 	};
 	
-	private String[] columns2 = { 
+	private String[] searchColumns = { 
 		BankConstanst.BANK_CODE_ZH,
 		BankConstanst.BANK_NAME_ZH, 
 		BankConstanst.BANK_VALIDITY_ZH
@@ -35,17 +35,13 @@ public class BankAddDialog extends BaseDialog {
 	 * Description: 构造器
 	 */
 	public BankAddDialog(boolean isSearch) {
-		super(true);
 		super.isSearch = isSearch;
-		gridFrame.setStyleName("notice");
-
 		if (isSearch) {
 			mainPanel.add(searchBank());
 		} else {
 			mainPanel.add(addBank());
 		}
-	
-//		message.setStyleName("tableMessagePanel-content-action");
+		
 		initWith();
 	}
 
@@ -56,11 +52,13 @@ public class BankAddDialog extends BaseDialog {
 	 */
 	private Grid addBank(){	
 		gridFrame.resize(4, 2);
-		formatGrid(gridFrame, columns1);
+		formatGrid(gridFrame, addColumns);
 		gridFrame.setWidget(0,1,bankCodeBox);
 		gridFrame.setWidget(1,1,bankNameBox);
 		gridFrame.setWidget(2,1,descBox);
-		gridFrame.setWidget(3,1,listBox);
+		gridFrame.setWidget(3,1,createListBox(bankListBoxValue));
+		setText("增加发卡行信息");
+		setDescript("请输入新的发卡行信息");
 		return gridFrame;
 	}
 	/**
@@ -70,10 +68,12 @@ public class BankAddDialog extends BaseDialog {
 	 */
 	private Grid searchBank(){
 		gridFrame.resize(3, 2);
-		formatGrid(gridFrame, columns2);
+		formatGrid(gridFrame, searchColumns);
 		gridFrame.setWidget(0,1,bankCodeBox);
 		gridFrame.setWidget(1,1,bankNameBox);
-		gridFrame.setWidget(2,1,listBox);
+		gridFrame.setWidget(2,1,createListBox(bankListBoxValue));
+		setText("查询发卡行信息");
+		setDescript("请输入查询信息");
 		return gridFrame;
 	}
 	
@@ -85,7 +85,6 @@ public class BankAddDialog extends BaseDialog {
 		bankCodeBox.setWidth("200px");
 		bankNameBox.setWidth("200px");
 		descBox.setWidth("200px");
-		listBox.setWidth("100px");
 	}
 	
 	/**
@@ -94,13 +93,6 @@ public class BankAddDialog extends BaseDialog {
 	 * @see com.risetek.operation.platform.launch.client.dialog.CustomDialog#show()
 	 */
 	public void show(){
-		if(isSearch){
-			setText("查询发卡行信息");
-			setDescript("请输入查询信息");
-		}else{
-			setText("增加发卡行信息");
-			setDescript("请输入新的发卡行信息");
-		}
 		super.show();
 		bankCodeBox.setFocus(true);
 	}
