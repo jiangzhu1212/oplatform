@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 
 public class Util {
 
+	//把分转化为元
 	public static String formatMoney(String a){
 		StringBuffer amount = new StringBuffer();
 		if(!a.startsWith("-")){
