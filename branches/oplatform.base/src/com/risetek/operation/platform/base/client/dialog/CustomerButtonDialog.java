@@ -1,13 +1,17 @@
 package com.risetek.operation.platform.base.client.dialog;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
 import com.risetek.operation.platform.base.client.model.CustomerData;
@@ -41,18 +45,41 @@ public class CustomerButtonDialog  extends CustomDialog {
 	private final TextBox VALIDITY = new MyTextBox();
 	private final TextBox ADDITION = new MyTextBox();
 	
+	ListBox list = new ListBox();
+	
 	private String action_name = "";
 	private String customer_id = null;
 	DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
 	
 	public CustomerButtonDialog(){
+		
+		list.addItem("");
+		list.addItem("你好"+1);
+		list.addItem("你好"+2);
+		list.addItem("你好"+3);
 		CREATE_TIME.setFormat(new DateBox.DefaultFormat(format));
 		SubmitButtonClickHandler handler = new SubmitButtonClickHandler();
 		submit.addClickHandler(handler);
 	}
 	
+	private void clearPanel(){
+		NAME.setValue(null);
+		PHONE.setValue(null);
+		ADDRESS.setValue(null);
+		ADDRESS_2.setValue(null);
+		EMAIL.setValue(null);
+		CARD_ID.setValue(null);
+		CREATE_TIME.setValue(null);
+		VALIDITY.setValue(null);
+		ADDITION.setValue(null);
+	}
+	
+	/**
+	 * 添加用户中mainPanel的具体显示
+	 */
 	public void addMainPanel(){
 		mainPanel.clear();
+		clearPanel();
 		setText("添加用户");
 		Grid gridFrame = new Grid(9, 2);
 		gridFrame.setWidget(0, 0, NAME_ZH);
@@ -70,15 +97,19 @@ public class CustomerButtonDialog  extends CustomDialog {
 		gridFrame.setWidget(6, 0, CREATE_TIME_ZH);
 		gridFrame.setWidget(6, 1, CREATE_TIME);
 		gridFrame.setWidget(7, 0, VALIDITY_ZH);
-		gridFrame.setWidget(7, 1, VALIDITY);
+		gridFrame.setWidget(7, 1, list);
 		gridFrame.setWidget(8, 0, ADDITION_ZH);
 		gridFrame.setWidget(8, 1, ADDITION);	
 		mainPanel.add(gridFrame);
 		submit.setText("添加");
 	}
 	
+	/**
+	 * 查询用户中mainPanel的具体显示
+	 */
 	public void queryMainPanel(){
 		mainPanel.clear();
+		clearPanel();
 		setText("查询用户");
 		Grid gridFrame = new Grid(9, 2);
 		gridFrame.setWidget(0, 0, NAME_ZH);
@@ -131,10 +162,15 @@ public class CustomerButtonDialog  extends CustomDialog {
 			String email = EMAIL.getText();
 			String cardId = CARD_ID.getText();
 			Date createTime = CREATE_TIME.getValue();
-			String createDate = format.format(createTime);
+			String createDate = "";
+			if(createTime != null){
+				createDate = format.format(createTime);
+			}
+			
 			String validity = VALIDITY.getText();
 			String addition = ADDITION.getText();
-			
+			int selectIndex = list.getSelectedIndex();
+			String validaty0 =list.getValue(selectIndex);
 			CustomerData customer = new CustomerData();
 			customer.setName(name);
 			customer.setPhone(phone);
@@ -143,7 +179,7 @@ public class CustomerButtonDialog  extends CustomDialog {
 			customer.setEmail(email);
 			customer.setCard_id(cardId);
 			customer.setCreate_time(createDate);
-			customer.setValidity(validity);
+//			customer.setValidity(validity);
 			customer.setAddition(addition);
 			
 		}

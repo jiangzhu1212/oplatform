@@ -11,25 +11,22 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.base.client.control.CustomerController.RemoteRequestCallback;
-import com.risetek.operation.platform.base.client.dialog.EditDialog;
-import com.risetek.operation.platform.base.client.dialog.TransactionButtonDialog;
+import com.risetek.operation.platform.base.client.dialog.CardTerminalButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
-import com.risetek.operation.platform.base.client.model.TransactionData;
+import com.risetek.operation.platform.base.client.model.CardTerminalData;
+import com.risetek.operation.platform.base.client.view.CardTerminalView;
 import com.risetek.operation.platform.base.client.view.TransactionView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
-public class TransactionController extends AController {
+public class CardTerminalController extends AController {
 
-	public static TransactionController INSTANCE = new TransactionController();
-	final TransactionData data = new TransactionData();
+	public static CardTerminalController INSTANCE = new CardTerminalController();
+	final CardTerminalData data = new CardTerminalData();
 	
-	public final TransactionView view = new TransactionView();
-	public final TransactionButtonDialog transactionDialog = new TransactionButtonDialog();
-	
+	public final CardTerminalView view = new CardTerminalView();
+	public final CardTerminalButtonDialog cardTerminalButtonDialog = new CardTerminalButtonDialog();
 	private static RequestFactory remoteRequest = new RequestFactory();
 	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -59,7 +56,7 @@ public class TransactionController extends AController {
 			
 		}
 	}
-	private TransactionController(){
+	private CardTerminalController(){
 //		String name = new TableEditAction().getActionName();
 //		System.out.println(name);
 	}
@@ -81,7 +78,7 @@ public class TransactionController extends AController {
 	 * BaseData
 	 * @return
 	 */
-	public TransactionData getData() {
+	public CardTerminalData getData() {
 		return data;
 	}
 	
@@ -93,7 +90,7 @@ public class TransactionController extends AController {
 	public static class TableEditAction implements ClickActionHandler {
 		
 		private String actionName = "编辑表格";
-		private TransactionEditControl edit_control = new TransactionEditControl();
+		public CardTerminalEditControl edit_control = new CardTerminalEditControl();
 		public TableEditAction() {
 			edit_control.setColName(null);	
 			edit_control.dialog.submit.addClickHandler(edit_control);
@@ -120,7 +117,6 @@ public class TransactionController extends AController {
 					tisp_value = "";
 				}
 			}
-			
 			switch (col) {
 			case 1:
 				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
@@ -138,13 +134,8 @@ public class TransactionController extends AController {
 			case 3:
 			case 4:
 			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-			case 10:
-			case 11:				
-				edit_control.setColName(TransactionView.columns[col-2]);	
+			case 6:				
+				edit_control.setColName(CardTerminalView.columns[col-2]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
@@ -154,24 +145,21 @@ public class TransactionController extends AController {
 			}			
 			
 		}
-	
 		
-		public class TransactionEditControl extends EditController implements ClickHandler {
-			
+		public class CardTerminalEditControl extends EditController implements ClickHandler {
+
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.alert("你好");
 				if( !dialog.isValid() ){
 					return;
-				}									
-			}
-			
-			@Override
-			protected CustomDialog getDialog() {
-				return dialog;
-			}			
+				}					
+				//delRow(dialog.rowid, myCaller);
+			}		
 		}
+
 	}
+
 	
 	public static class TableShowAction implements ClickActionHandler {
 		
@@ -182,13 +170,13 @@ public class TransactionController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			Object obj = event.getSource();			
-			if(obj == TransactionView.addButton){
-				INSTANCE.transactionDialog.addMainPanel();
-				INSTANCE.transactionDialog.show();
-			}else if(obj == TransactionView.queryButton){
-				INSTANCE.transactionDialog.queryMainPanel();
-				INSTANCE.transactionDialog.show();
+			Object obj = event.getSource();
+			if(obj == CardTerminalView.addButton){
+				INSTANCE.cardTerminalButtonDialog.addMainPanel();
+				INSTANCE.cardTerminalButtonDialog.show();
+			}else if(obj == CardTerminalView.queryButton){
+				INSTANCE.cardTerminalButtonDialog.queryMainPanel();
+				INSTANCE.cardTerminalButtonDialog.show();
 			}
 		}
 	}

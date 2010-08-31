@@ -55,7 +55,7 @@ public class CustomDialog extends DialogBox {
 	}
 	
 	@UiHandler("cancel")
-	void onClickCancel(ClickEvent e){
+	void onClickCancel(ClickEvent e){		
 		hide();
 	}
 	

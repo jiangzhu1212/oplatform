@@ -20,8 +20,11 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 public class CustomerView extends OPlatformTableView implements IOPlatformView {
 
-	private final Button action1 = new Button("查询客户");
-	private final Button action2 = new Button("绑定客户");
+
+	public final static Button queryButton = new Button("查询客户",new CustomerController.TableShowAction());
+	public final static Button bindCustomer = new Button("绑定客户",new CustomerController.TableShowAction());
+	public final static Button addButton = new Button("添加客户",new CustomerController.TableShowAction());
+
 	public final static String[] columns = {CustomerConstanst.CUSTOMER_ID_ZH, CustomerConstanst.NAME_ZH, CustomerConstanst.PHONE_ZH, CustomerConstanst.ADDRESS_ZH,CustomerConstanst.ADDRESS_2_ZH,CustomerConstanst.EMAIL_ZH,CustomerConstanst.CARD_ID_ZH,CustomerConstanst.CREATE_TIME_ZH,CustomerConstanst.VALIDITY_ZH,CustomerConstanst.ADDITION_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
@@ -57,34 +60,11 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-//		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//		actionPanel.setHeight("35px");
-//		actionPanel.setWidth("100%");
-//		actionPanel.setBorderWidth(1);		
-		actionPanel.add(action1);
-		actionPanel.add(action2);
-		actionPanel.setStyleName("aa");
+		actionPanel.add(addButton);
+		actionPanel.add(queryButton);
+		actionPanel.add(bindCustomer);
 		
-		action1.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		action2.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				int row = Util.getCheckedRow(grid);
-				if(row != 0){
-					Window.alert(""+row);
-				}
-			}
-		});
+		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;
 	}

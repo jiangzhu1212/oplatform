@@ -18,13 +18,13 @@ public interface ChannelConstanst extends Constanst {
 	
 	final String FEE_TYPE_ZH = "渠道编号";
 	
-	final String FEE_ADDTION = "FEE_ADDTION";
+	final String FEE_ADDITION = "FEE_ADDITION";
 	
-	final String FEE_ADDTION_ZH = "渠道编号";
+	final String FEE_ADDITION_ZH = "渠道编号";
 	
-	final String ADDTION = "ADDTION";
+	final String ADDITION = "ADDITION";
 	
-	final String ADDTION_ZH = "预留";
+	final String ADDITION_ZH = "预留";
 	
 	final String LOC_CODE = "LOC_CODE";
 	
