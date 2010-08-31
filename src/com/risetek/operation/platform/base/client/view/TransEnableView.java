@@ -20,7 +20,7 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 public class TransEnableView  extends OPlatformTableView implements IOPlatformView {
 
 	private final Button action1 = new Button("action1");
-	public final static String[] columns = {ChannelConstanst.DESCRIPTION_ZH, ChannelConstanst.FEE_ZH, ChannelConstanst.FEE_TYPE_ZH, ChannelConstanst.FEE_ADDTION_ZH, ChannelConstanst.ADDTION_ZH, ChannelConstanst.LOC_CODE_ZH};
+	public final static String[] columns = {ChannelConstanst.DESCRIPTION_ZH, ChannelConstanst.FEE_ZH, ChannelConstanst.FEE_TYPE_ZH, ChannelConstanst.FEE_ADDITION_ZH, ChannelConstanst.ADDITION_ZH, ChannelConstanst.LOC_CODE_ZH};
 	public final static String[] columns1 = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.BINDABLE_ZH, TransactionConstanst.TYPE_ZH};
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25};
 	public final static int[] columnsWidth1 = {25, 25, 25, 25, 25};

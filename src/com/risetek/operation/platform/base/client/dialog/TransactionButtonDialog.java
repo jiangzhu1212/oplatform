@@ -54,8 +54,21 @@ public class TransactionButtonDialog extends CustomDialog {
 		submit.addClickHandler(handler);
 	}
 	
+	private void clearPanel(){
+		ALIAS.setValue(null);
+		NAME.setValue(null);
+		DESCRIPTION.setValue(null);
+		URL.setValue(null);
+		MERCHANT_NUMBER.setValue(null);
+		POS_NUMBER.setValue(null);
+		TYPE.setValue(null);
+		ADDITION.setValue(null);
+		bindRadio1.setValue(true);
+	}
+	
 	public void addMainPanel(){
 		mainPanel.clear();
+		clearPanel();
 		setText("添加商户");
 		Grid gridFrame = new Grid(9, 2);
 		gridFrame.setWidget(0, 0, ALIAS_ZH);
@@ -82,6 +95,7 @@ public class TransactionButtonDialog extends CustomDialog {
 	
 	public void queryMainPanel(){
 		mainPanel.clear();
+		clearPanel();
 		setText("查询商户");
 		Grid gridFrame = new Grid(9, 2);
 		gridFrame.setWidget(0, 0, ALIAS_ZH);
@@ -145,13 +159,11 @@ public class TransactionButtonDialog extends CustomDialog {
 				transaction.setBindable("true");
 			}else{
 				transaction.setBindable("false");
-			}
-			
+			}			
 			transaction.setMerchant_number(merchant_number);
 			transaction.setPos_number(pos_number);
 			transaction.setType(type);
-			transaction.setAddition(addition);
-			
+			transaction.setAddition(addition);			
 		}
 	}
 	

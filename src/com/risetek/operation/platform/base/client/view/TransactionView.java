@@ -16,8 +16,8 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 public class TransactionView  extends OPlatformTableView implements IOPlatformView {
 
-	public final static Button addTrans = new Button("添加商户",new TransactionController.TableShowAction());
-	public final static Button queryTrans = new Button("查询商户",new TransactionController.TableShowAction());
+	public final static Button addButton = new Button("添加商户",new TransactionController.TableShowAction());
+	public final static Button queryButton = new Button("查询商户",new TransactionController.TableShowAction());
 	public final static String[] columns = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.DESCRIPTION_ZH,TransactionConstanst.URL_ZH,TransactionConstanst.BINDABLE_ZH,TransactionConstanst.MERCHANT_NUMBER_ZH,TransactionConstanst.POS_NUMBER_ZH,TransactionConstanst.TYPE_ZH,TransactionConstanst.ADDITION_ZH};
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -68,8 +68,8 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 //		actionPanel.setHeight("32px");
 //		actionPanel.setWidth("100%");
 //		actionPanel.setBorderWidth(1);
-		actionPanel.add(addTrans);
-		actionPanel.add(queryTrans);
+		actionPanel.add(addButton);
+		actionPanel.add(queryButton);
 		return actionPanel;
 	}
 	

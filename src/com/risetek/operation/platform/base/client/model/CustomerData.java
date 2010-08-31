@@ -107,23 +107,23 @@ public class CustomerData extends OPlatformData  {
 		JSONObject json = new JSONObject();
 		json.put(CustomerConstanst.CUSTOMER_ID, new JSONString(customer_id));
 		if(CustomerConstanst.NAME_ZH.equals(colName)){
-			json.put(CustomerConstanst.NAME, new JSONString(colName));
+			json.put(CustomerConstanst.NAME, new JSONString(colValue));
 		}else if(CustomerConstanst.PHONE_ZH.equals(colName)){
-			json.put(CustomerConstanst.PHONE, new JSONString(phone));
+			json.put(CustomerConstanst.PHONE, new JSONString(colValue));
 		}else if(CustomerConstanst.ADDRESS_ZH.equals(colName)){
-			json.put(CustomerConstanst.ADDRESS, new JSONString(colName));
+			json.put(CustomerConstanst.ADDRESS, new JSONString(colValue));
 		}else if(CustomerConstanst.ADDRESS_2_ZH.equals(colName)){
-			json.put(CustomerConstanst.ADDRESS_2, new JSONString(colName));
+			json.put(CustomerConstanst.ADDRESS_2, new JSONString(colValue));
 		}else if(CustomerConstanst.EMAIL_ZH.equals(colName)){
-			json.put(CustomerConstanst.EMAIL, new JSONString(colName));
+			json.put(CustomerConstanst.EMAIL, new JSONString(colValue));
 		}else if(CustomerConstanst.CARD_ID_ZH.equals(colName)){
-			json.put(CustomerConstanst.CARD_ID, new JSONString(colName));
+			json.put(CustomerConstanst.CARD_ID, new JSONString(colValue));
 		}else if(CustomerConstanst.CREATE_TIME_ZH.equals(colName)){
-			json.put(CustomerConstanst.CREATE_TIME, new JSONString(colName));
+			json.put(CustomerConstanst.CREATE_TIME, new JSONString(colValue));
 		}else if(CustomerConstanst.VALIDITY_ZH.equals(colName)){
-			json.put(CustomerConstanst.VALIDITY, new JSONString(colName));
+			json.put(CustomerConstanst.VALIDITY, new JSONString(colValue));
 		}else if(CustomerConstanst.ADDITION_ZH.equals(colName)){
-			json.put(CustomerConstanst.ADDITION, new JSONString(colName));
+			json.put(CustomerConstanst.ADDITION, new JSONString(colValue));
 		}
 		return json;
 	}

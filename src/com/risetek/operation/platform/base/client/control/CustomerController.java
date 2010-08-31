@@ -8,19 +8,17 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.risetek.operation.platform.base.client.dialog.CustomerButtonDialog;
+import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.CustomerData;
 import com.risetek.operation.platform.base.client.view.CustomerView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
-import com.risetek.operation.platform.launch.client.control.DialogControl;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 public class CustomerController extends AController {
 
@@ -28,10 +26,26 @@ public class CustomerController extends AController {
 	final CustomerData data = new CustomerData();
 	
 	public final CustomerView view = new CustomerView();
+	public final CustomerButtonDialog customerDialog = new CustomerButtonDialog();
 
 	private static RequestFactory remoteRequest = new RequestFactory();
 	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
+		public void onResponseReceived(Request request, Response response) {
+			int code = response.getStatusCode();
+			System.out.println(code);
+			data.parseData(response.getText());
+			view.render(data);
+		}
+
+		public void onError(Request request, Throwable exception) {
+			
+		}
+	}
+	//查询的回调
+	private static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
@@ -62,7 +76,11 @@ public class CustomerController extends AController {
 	public static class TableEditAction implements ClickActionHandler {
 		
 		private String actionName = "编辑表格";
-
+		private CustomerEditControl edit_control = new CustomerEditControl();
+		public TableEditAction() {
+			edit_control.setColName(null);	
+			edit_control.dialog.submit.addClickHandler(edit_control);
+		}
 		public String getActionName(){
 			return actionName;
 		}
@@ -85,67 +103,30 @@ public class CustomerController extends AController {
 					tisp_value = "";
 				}
 			}
-			CustomerEditControl edit_control = new CustomerEditControl();
 			switch (col) {
-				
+			case 1:
+				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+				dialog.makeMainPanel(INSTANCE.view.grid , row);
+				dialog.show();
+				break;	
 			case 2:
 				// 选择了删除用户。
-				UserDelControl del_control = new UserDelControl();
-				del_control.dialog.submit.setText("删除");
-				del_control.dialog.submit.addClickHandler(del_control);
-				del_control.dialog.show(rowid, tisp_value);
+				edit_control.setColName(null);
+				edit_control.dialog.submit.setText("删除");
+				edit_control.dialog.submit.addClickHandler(edit_control);
+				edit_control.dialog.show(rowid, tisp_value);
 				break;
-
+				
 			case 3:
-				edit_control.setColName(CustomerView.columns[1]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 4:
-				edit_control.setColName(CustomerView.columns[2]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 5:
-				edit_control.setColName(CustomerView.columns[3]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 6:
-				edit_control.setColName(CustomerView.columns[4]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 7:
-				edit_control.setColName(CustomerView.columns[5]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 8:
-				edit_control.setColName(CustomerView.columns[6]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 9:
-				edit_control.setColName(CustomerView.columns[7]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 10:
-				edit_control.setColName(CustomerView.columns[8]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 			case 11:
-				edit_control.setColName(CustomerView.columns[9]);	
+				edit_control.setColName(CustomerView.columns[col-2]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
@@ -156,95 +137,16 @@ public class CustomerController extends AController {
 			
 		}
 		
-		public class UserDelControl extends DialogControl implements ClickHandler {
-			public CustomerDelDialog dialog = new CustomerDelDialog();
-
+		public class CustomerEditControl extends EditController implements ClickHandler {
+			
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("你好");
+				Window.alert("你好");	
 				
-				//delRow(dialog.rowid, myCaller);
-			}
-			
-			@Override
-			protected CustomDialog getDialog() {
-				return dialog;
-			}
-			
-		}
-		
-		public class CustomerDelDialog extends CustomDialog{
-			
-			Label  info = new Label("您确定删除该客户？");
-			public String rowid = null;
-			public CustomerDelDialog() {
-				mainPanel.add(info);
-			}
-			public void show(String tips_id, String tips_imsi) {
-				rowid = tips_id;
-				setText("客户编号：" + tips_id);
-				super.show();
-			}
-		}
-		
-		public class CustomerEditControl extends DialogControl implements ClickHandler {
-			String colName = null;
-			public CustomerEditDialog dialog = null;
-			public void setColName(String colName) {
-				this.colName = colName;
-				dialog = new CustomerEditDialog(colName);
-			}
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert("你好");
 				if( !dialog.isValid() ){
 					return;
 				}					
-				//delRow(dialog.rowid, myCaller);
-			}
-			
-			@Override
-			protected CustomDialog getDialog() {
-				return dialog;
-			}			
-		}
-		
-		public class CustomerEditDialog extends CustomDialog{
-			
-			Label  oldValueLabel = new Label();
-			public TextBox newValueBox = new TextBox();
-			public String rowid;
-			String colName = null ;
-			public CustomerEditDialog(String colName){
-				oldValueLabel.setWidth("220px");
-				newValueBox.setWidth("220px");
-				this.colName = colName;
-				Grid gridFrame = new Grid(2, 2);
-				label.setText("请输入新的"+colName);
-				gridFrame.setWidget(0, 0, new Label("当前"+colName+":"));
-				gridFrame.setWidget(0, 1, oldValueLabel);
-				gridFrame.setWidget(1, 0, new Label("新的"+colName+":"));
-				gridFrame.setWidget(1, 1, newValueBox);
-				newValueBox.setTabIndex(1);
-				
-				mainPanel.add(gridFrame);
-			}
-			
-			public void show(String tips_id, String tips_imsi) {
-				rowid = tips_id;
-				setText("修改" + colName);
-				oldValueLabel.setText(tips_imsi);
-				super.show();
-				newValueBox.setFocus(true);
-			}
-			
-			public boolean isValid()
-			{
-				//这里写入限制的判断
-				
-				return true;
-			}
+			}		
 		}
 		
 	}
@@ -260,7 +162,24 @@ public class CustomerController extends AController {
 		
 		public void onClick(ClickEvent event) {
 			
+			Object obj = event.getSource();
+			if(obj == CustomerView.addButton){
+				INSTANCE.customerDialog.addMainPanel();
+				INSTANCE.customerDialog.show();
+			}else if(obj == CustomerView.queryButton){
+				INSTANCE.customerDialog.queryMainPanel();
+				INSTANCE.customerDialog.show();
+			}else if(obj == CustomerView.bindCustomer){
+				int row = Util.getCheckedRow(INSTANCE.view.grid);
+				if(row<1){
+					Window.alert("请选择一行数据");
+				}else {
+					Window.alert(""+row);
+				}
+				
+			}
 		}
+		
 	}
 
 	@Override

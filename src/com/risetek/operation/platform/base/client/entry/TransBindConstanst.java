@@ -1,6 +1,5 @@
-package com.risetek.operation.platform.base.client.constanst;
+package com.risetek.operation.platform.base.client.entry;
 
-import com.risetek.operation.platform.base.client.entry.Constanst;
 
 public interface TransBindConstanst extends Constanst {
 	
