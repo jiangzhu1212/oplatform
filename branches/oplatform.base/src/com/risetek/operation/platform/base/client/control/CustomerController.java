@@ -1,6 +1,7 @@
 package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -170,11 +171,11 @@ public class CustomerController extends AController {
 				INSTANCE.customerDialog.queryMainPanel();
 				INSTANCE.customerDialog.show();
 			}else if(obj == CustomerView.bindCustomer){
-				int row = Util.getCheckedRow(INSTANCE.view.grid);
-				if(row<1){
+				List<Integer> list = Util.getCheckedRow(INSTANCE.view.grid);
+				if(list.size() != 1){
 					Window.alert("请选择一行数据");
 				}else {
-					Window.alert(""+row);
+					Window.alert(""+list.get(0));
 				}
 				
 			}

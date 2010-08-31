@@ -8,7 +8,6 @@ import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.CardTerminalSink;
 import com.risetek.operation.platform.base.client.control.CardTerminalController;
 import com.risetek.operation.platform.base.client.entry.CardTerminalConstanst;
-import com.risetek.operation.platform.base.client.model.CardTerminalData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -86,4 +85,5 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 		}
 		renderStatistic(data);
 	}
+
 }

@@ -1,10 +1,12 @@
 package com.risetek.operation.platform.launch.client.util;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.RadioButton;
 
 public class Util {
 
@@ -61,16 +63,17 @@ public class Util {
 		return log;
 	}
 	//取得被选行号
-	public static int getCheckedRow(Grid grid){
+	public static List<Integer> getCheckedRow(Grid grid){
 		
+		List<Integer> list = new ArrayList<Integer>();
 		int rowCount = grid.getRowCount();
 		for (int i = 1; i < rowCount; i++) {
-			RadioButton cBox = (RadioButton)grid.getWidget(i, 0);
+			CheckBox cBox = (CheckBox)grid.getWidget(i, 0);
 			if(cBox.getValue()){
-				return i;
+				list.add(i);
 			}
 		}
-		return 0;
+		return list;
 	}
 	//取得列名为colName的列号
 	public static int getColumNum(Grid grid , String colName){
