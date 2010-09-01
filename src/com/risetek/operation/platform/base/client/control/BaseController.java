@@ -11,7 +11,6 @@ import com.risetek.operation.platform.base.client.model.BaseData;
 import com.risetek.operation.platform.base.client.view.BaseView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
-import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
 /**
  * @author Amber
@@ -29,8 +28,8 @@ public class BaseController extends AController {
 	final BaseData data = new BaseData();
 	
 	public final BaseView view = new BaseView();
-	private static RequestFactory remoteRequest = new RequestFactory();
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+//	private static RequestFactory remoteRequest = new RequestFactory();
+//	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();

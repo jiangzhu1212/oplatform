@@ -7,4 +7,6 @@ public interface RoleServiceAsync {
 
 	void getAllRole(AsyncCallback<Role[]> callback);
 
+	void addRole(String roleName, AsyncCallback<Void> callback);
+
 }

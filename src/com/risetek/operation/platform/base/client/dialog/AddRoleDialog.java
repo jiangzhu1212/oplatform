@@ -32,4 +32,8 @@ public class AddRoleDialog extends CustomDialog {
 		}
 		return true;
 	}
+	
+	public String getNewValue(){
+		return newValue.getText();
+	}
 }

@@ -30,7 +30,7 @@ public class RoleConfigController extends AController {
 	
 	public static RoleConfigController INSTANCE = new RoleConfigController();
 	final RoleConfigData data = new RoleConfigData();
-	
+	final RoleConfigData childData = new RoleConfigData();
 	public final RoleConfigView view = new RoleConfigView();
 	
 	@Override
@@ -76,7 +76,7 @@ public class RoleConfigController extends AController {
 			}
 		});
 		INSTANCE.view.render(INSTANCE.data);
-		INSTANCE.view.renderChild(INSTANCE.data);
+		INSTANCE.view.renderChild(INSTANCE.childData);
 	}
 	
 	public static class TableAction implements ClickHandler {
@@ -173,6 +173,15 @@ public class RoleConfigController extends AController {
 			@Override
 			public void onClick(ClickEvent event) {
 				if(dialog.isValid()){
+					String roleName = dialog.getNewValue();
+					rs.addRole(roleName, new AsyncCallback<Void>() {
+						public void onSuccess(Void result) {
+							RoleConfigController.load();
+						}
+						public void onFailure(Throwable caught) {
+							System.out.println("");
+						}
+					});
 					dialog.hide();
 				}
 			}
