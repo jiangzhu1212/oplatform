@@ -39,6 +39,7 @@ public class CustomDialog extends DialogBox {
 		setStyleName("dialog");
 		label.setStyleName("description");
 		mainPanel.setStyleName("main");
+		message.setStyleName("errmsg");
 	}
 	
 	protected void setDescript(String desc) {
@@ -55,7 +56,7 @@ public class CustomDialog extends DialogBox {
 	}
 	
 	@UiHandler("cancel")
-	void onClickCancel(ClickEvent e){		
+	void onClickCancel(ClickEvent e){
 		hide();
 	}
 	
