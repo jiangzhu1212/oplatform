@@ -9,4 +9,6 @@ public interface RoleService extends RemoteService {
 
 	public Role[] getAllRole();
 	
+	public void addRole(String roleName);
+	
 }
