@@ -171,7 +171,7 @@ public class CustomerController extends AController {
 				INSTANCE.customerDialog.queryMainPanel();
 				INSTANCE.customerDialog.show();
 			}else if(obj == CustomerView.bindCustomer){
-				List<Integer> list = Util.getCheckedRow(INSTANCE.view.grid);
+				List<Integer> list = null;//Util.getCheckedRow(INSTANCE.view.grid);
 				if(list.size() != 1){
 					Window.alert("请选择一行数据");
 				}else {
