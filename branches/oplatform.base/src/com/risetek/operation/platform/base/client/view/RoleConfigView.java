@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
@@ -27,7 +28,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	public Grid childTableTitle = new Grid(1, 3);
 	private HTML childTitle = new HTML();
 	
-	public Button addRole = new Button("添加角色");
+	public Button addRole = new Button("添加角色", new RoleConfigController.AddRoleAction());
 	
 	private final static String[] banner_text = {
 		"点击查看用户角色内容",
@@ -48,6 +49,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		childGrid.setStyleName("optable");
 		
 		childTableTitle.setWidth("100%");
+		childTableTitle.setHeight("20px");
 		setChildGridTitle("未选择角色");
 		childTitle.setStyleName("childtabletitle");
 		childTableTitle.setWidget(0, 0, childTitle);
@@ -60,11 +62,15 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		childTableActionPanel.add(aa);
 		childTableActionPanel.add(ac);
 		childTableTitle.setWidget(0, 2, childTableActionPanel);
-		childTableTitle.getColumnFormatter().setWidth(1, "50%");
+		childTableTitle.getColumnFormatter().setWidth(0, "25%");
+		childTableTitle.getColumnFormatter().setWidth(1, "25%");
+		childTableTitle.getColumnFormatter().setWidth(2, "50%");
 		childTableTitle.getCellFormatter().setStyleName(0, 1, "childtabledescript");
 		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
 		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		outer.add(childTableTitle);
+		outer.setCellVerticalAlignment(childTableTitle, HasVerticalAlignment.ALIGN_BOTTOM);
+		outer.setCellHeight(childTableTitle, "20px");
 		outer.add(childGrid);
 	}
 	

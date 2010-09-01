@@ -31,4 +31,13 @@ public class EditRoleNameDialog extends CustomDialog {
 		submit.setText("修改");
 		super.show();
 	}
+	
+	public boolean isValid(){
+		String value = newValue.getText();
+		if(null == value || "".equals(value)){
+			setMessage("用户角色不能为空");
+			return false;
+		}
+		return true;
+	}
 }
