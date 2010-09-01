@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.dialog.AddRoleDialog;
 import com.risetek.operation.platform.base.client.dialog.DeleteRoleDialog;
 import com.risetek.operation.platform.base.client.dialog.EditRoleNameDialog;
+import com.risetek.operation.platform.base.client.entry.Role;
 import com.risetek.operation.platform.base.client.model.RoleConfigData;
 import com.risetek.operation.platform.base.client.service.RoleService;
 import com.risetek.operation.platform.base.client.service.RoleServiceAsync;
@@ -19,7 +20,6 @@ import com.risetek.operation.platform.base.client.view.RoleConfigView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.DialogControl;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
-import com.risetek.operation.platform.launch.client.entry.Role;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class RoleConfigController extends AController {

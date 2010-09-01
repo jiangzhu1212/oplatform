@@ -1,7 +1,7 @@
 package com.risetek.operation.platform.base.client.service;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.risetek.operation.platform.launch.client.entry.Role;
+import com.risetek.operation.platform.base.client.entry.Role;
 
 public interface RoleServiceAsync {
 
