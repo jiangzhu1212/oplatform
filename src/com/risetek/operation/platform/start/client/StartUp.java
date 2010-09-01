@@ -1,7 +1,6 @@
 package com.risetek.operation.platform.start.client;
 
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.risetek.operation.platform.launch.client.OplatformLaunch;
@@ -13,7 +12,6 @@ import com.risetek.operation.platform.launch.client.sink.SinkInfo;
  * 功能：整个项目的入口
  * 2010-8-23 下午11:56:43
  */
-@SuppressWarnings("rawtypes")
 public class StartUp extends OplatformLaunch {
 	
 	/** 
@@ -24,9 +22,8 @@ public class StartUp extends OplatformLaunch {
 	@Override
 	public Tree registerTreeMenu(Tree userMenu) {
 		SinkInfo info = null;
-		for(int i=0;i<SinkList.getSinkList().length;i++){
-			Class cls = SinkList.getSinkList()[i];
-			Sink sink = GWT.create(cls);
+		for(int i=0;i<SinkList.getSinkList().size();i++){
+			Sink sink = SinkList.getSinkList().get(i);
 			info = sink.getSinkInfo();
 			TreeItem item = searchGroupItem(userMenu, info.getGroup());
 			if(item!=null){
@@ -40,7 +37,7 @@ public class StartUp extends OplatformLaunch {
 //		TreeItem groupItem = searchGroupItem()
 //		userMenu.addItem(addTreeItem(userMenu, BaseSink.init()));
 //		userMenu.addItem(addTreeItem(userMenu, ProcessSink.init()));
-		sinkClassList = SinkList.getSinkList();
+//		sinkClassList = SinkList.getSinkList();
 		return userMenu;
 	}
 	
