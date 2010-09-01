@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.BankAddDialog;
 import com.risetek.operation.platform.base.client.dialog.BankModifyDialog;
+import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.BankData;
 import com.risetek.operation.platform.base.client.view.BankView;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -181,19 +182,21 @@ public class BankController extends AController {
 		}
 
 		switch (col) {
-		case 2:
+		case 1:
 			// 删除发卡行信息。第一个参数必须为 null
-			caseUtils(null, rowid, tisp_value);
+			caseUtils(null, rowid, table.getText(row, 2));
+			break;
+		case 2:
+			//查看详细
+			ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+			dialog.makeMainPanel(INSTANCE.view.grid, row);
+			dialog.show();
 			break;
 		case 3:
-			// 修改发卡行名称。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 4:
-			// 修改有效期。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 5:
+			// 修改发卡行名称。
+			// 修改有效性。
 			// 修改备注。
 			caseUtils(colName, rowid, tisp_value);
 			break;

@@ -2,14 +2,12 @@ package com.risetek.operation.platform.base.client.view;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.BankSink;
 import com.risetek.operation.platform.base.client.constanst.BankConstanst;
 import com.risetek.operation.platform.base.client.control.BankController;
-import com.risetek.operation.platform.base.client.model.BankData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -38,7 +36,7 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 			BankConstanst.BANK_DESCRIPTION_ZH 
 	};
 	private final static String[] banner_text = {
-		"点击删除本条记录",
+		"点击查看本条记录",
 		"点击修改"+columns[1],
 		"点击修改"+columns[2],
 		"点击修改"+columns[3],
@@ -61,19 +59,6 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 		Widget action = initPromptGrid();
 		addActionPanel(action, BankSink.Desc);
 		setLocation(BankSink.Group + " -> " + BankSink.Name);
-		//detailGrid();
-	}
-	
-	private void detailGrid(){
-		Grid detailGrid = new Grid();
-		detailGrid.setWidth("100%");
-		detailGrid.resize(4, 5);
-		detailGrid.setText(0, 0, "内容");
-		detailGrid.setStyleName("optable");
-		HTML title = new HTML("这是上面一张表的扩展内容");
-		title.setStyleName("tableordertitle");
-		outer.add(title);
-		outer.add(detailGrid);
 	}
 	
 	/**
@@ -138,20 +123,16 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	}
 
 	/**
-	 * @Description: 向数据表中注入数据 
-	 * @param data  参数 
-	 * @return void 返回类型 
+	 * (非 Javadoc) 
+	 * Description:  向数据表中注入数据 
+	 * @param data 
+	 * @see com.risetek.operation.platform.launch.client.view.OPlatformTableView#render(com.risetek.operation.platform.launch.client.model.OPlatformData)
 	 */
-	public void render(BankData data){
+	@Override
+	public void render(OPlatformData data) {
 		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
-	}
-
-	@Override
-	public void render(OPlatformData data) {
-		// TODO Auto-generated method stub
-		
 	}
 }

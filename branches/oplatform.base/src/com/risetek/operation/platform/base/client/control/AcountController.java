@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.AcountAddDialog;
 import com.risetek.operation.platform.base.client.dialog.AcountModifyDialog;
+import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.AcountData;
 import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -183,23 +184,23 @@ public class AcountController extends AController {
 		}
 
 		switch (col) {
-		case 2:
+		case 1:
 			// 删除银行卡信息。
-			caseUtils(null, rowid, tisp_value);
+			caseUtils(null, rowid, table.getText(row, 2));
+			break;
+		case 2:
+			//查看详细
+			ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+			dialog.makeMainPanel(INSTANCE.view.grid, row);
+			dialog.show();
 			break;
 		case 3:
-			// 修改发卡行代码值。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 4:
-			// 修改有效期。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 5:
-			// 修改ADDITON。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 6:
+			// 修改发卡行代码值。
+			// 修改有效性。
+			// 修改ADDITON。
 			// 修改备注。
 			caseUtils(colName, rowid, tisp_value);
 			break;

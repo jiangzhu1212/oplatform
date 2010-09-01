@@ -23,6 +23,8 @@ public class BaseDialog extends CustomDialog {
 
 	protected Label oldValueLabel = new Label();
 
+	protected Label delInfo = new Label();
+
 	public TextBox newValueBox = new TextBox();
 
 	protected Grid gridFrame = new Grid();
@@ -42,6 +44,8 @@ public class BaseDialog extends CustomDialog {
 	
 	public BaseDialog() {
 		gridFrame.setStyleName(styleName);	
+		oldValueLabel.setWidth("200px");
+		newValueBox.setWidth("200px");
 	}
 	
 	/**
@@ -51,6 +55,7 @@ public class BaseDialog extends CustomDialog {
 	 */
 	protected ListBox createListBox(final String[] boxValue) {
 		final ListBox listBox = new ListBox();
+		listBox.setWidth("150px");
 		for (int i = 0; i < boxValue.length; i++) {
 			listBox.addItem(boxValue[i]);
 		}
