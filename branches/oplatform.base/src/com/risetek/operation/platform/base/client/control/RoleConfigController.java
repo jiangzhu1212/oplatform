@@ -66,6 +66,8 @@ public class RoleConfigController extends AController {
 			@Override
 			public void onSuccess(Role[] result) {
 				INSTANCE.data.setSum(result.length);
+				INSTANCE.data.parseResult(result);
+				INSTANCE.view.render(INSTANCE.data);
 			}
 			
 			@Override
