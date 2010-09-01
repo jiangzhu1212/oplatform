@@ -31,7 +31,7 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	
 	public String banner_tips = "";
 	private final static String[] banner_text = {
-		"点删除本条记录",
+		"点击查看本条记录",
 		"点击修改"+columns[1],
 		"点击修改"+columns[2],
 	};

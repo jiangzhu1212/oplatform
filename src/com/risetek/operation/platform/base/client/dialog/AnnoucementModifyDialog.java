@@ -51,10 +51,8 @@ public class AnnoucementModifyDialog extends BaseDialog {
 		}else if(titleMsg.equals(AnnoucementView.columns[8])){
 			ListBox listBox = createListBox(AnnouceListBoxValue);
 			gridFrame.setWidget(1,1,listBox);
-			listBox.setWidth("100px");
 		}else{
 			gridFrame.setWidget(1, 1, newValueBox);
-			newValueBox.setWidth("200px");
 		}
 		return gridFrame;
 	}
@@ -64,9 +62,10 @@ public class AnnoucementModifyDialog extends BaseDialog {
 	 * @return void 返回类型
 	 */
 	private void createDelView(){
-		Label info = new Label("您确定删除该公告信息？");
+		setDescript("删除选中的公告信息");
+		label.setWidth("270px");
 		mainPanel.setWidth("260px");
-		mainPanel.add(info);
+		mainPanel.add(delInfo);
 	}
 	
 	
@@ -84,7 +83,7 @@ public class AnnoucementModifyDialog extends BaseDialog {
 			super.show();
 			newValueBox.setFocus(true);
 		}else{
-			setDescript("公告编号：" + tips_value);
+			delInfo.setText("您确定删除该公告\"" + tips_value + "\"全部内容？");
 			super.show();
 		}
 	}

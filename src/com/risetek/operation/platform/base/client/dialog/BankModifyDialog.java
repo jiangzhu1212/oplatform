@@ -45,10 +45,8 @@ public class BankModifyDialog extends BaseDialog {
 		if(titleMsg.equals(BankView.columns[2])){
 			ListBox listBox = createListBox(bankListBoxValue);
 			gridFrame.setWidget(1, 1, listBox);
-			listBox.setWidth("100px");
 		}else{
 			gridFrame.setWidget(1, 1, newValueBox);
-			newValueBox.setWidth("200px");
 		}
 		return gridFrame;
 	}
@@ -58,9 +56,10 @@ public class BankModifyDialog extends BaseDialog {
 	 * @return void 返回类型
 	 */
 	private void createDelView(){
-		Label info = new Label("您确定删除该发卡行信息？");
+		setDescript("删除选中的发卡行信息");
+		label.setWidth("270px");
 		mainPanel.setWidth("260px");
-		mainPanel.add(info);
+		mainPanel.add(delInfo);
 	}
 	
 	/**
@@ -77,7 +76,7 @@ public class BankModifyDialog extends BaseDialog {
 			super.show();
 			newValueBox.setFocus(true);
 		} else {
-			setDescript("发卡行代码值：" + tips_value);
+			delInfo.setText("您确定删除该发卡行\"" + tips_value + "\"全部内容？");
 			super.show();
 		}
 	}

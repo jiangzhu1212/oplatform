@@ -8,7 +8,6 @@ import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.AnnoucementSink;
 import com.risetek.operation.platform.base.client.constanst.AnnoucementConstanst;
 import com.risetek.operation.platform.base.client.control.AnnoucementController;
-import com.risetek.operation.platform.base.client.model.AnnoucementData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -42,7 +41,7 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 			AnnoucementConstanst.ACE_DESCRIPTION_ZH 
 	};
 	private final static String[] banner_text = {
-		"点击删除本条记录",
+		"点击查看本条记录",
 		"点击修改"+columns[1],
 		"点击修改"+columns[2],
 		"点击修改"+columns[3],
@@ -137,20 +136,16 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	}
 
 	/**
-	 * @Description: 向数据表中注入数据 
-	 * @param data  参数 
-	 * @return void 返回类型 
+	 * (非 Javadoc) 
+	 * Description:  向数据表中注入数据 
+	 * @param data 
+	 * @see com.risetek.operation.platform.launch.client.view.OPlatformTableView#render(com.risetek.operation.platform.launch.client.model.OPlatformData)
 	 */
-	public void render(AnnoucementData data){
+	@Override
+	public void render(OPlatformData data) {
 		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
-	}
-
-	@Override
-	public void render(OPlatformData data) {
-		// TODO Auto-generated method stub
-		
 	}
 }

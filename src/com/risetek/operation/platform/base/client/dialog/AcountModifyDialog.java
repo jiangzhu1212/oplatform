@@ -43,10 +43,8 @@ public class AcountModifyDialog extends BaseDialog {
 		if(titleMsg.equals(AcountView.columns[2])){
 			ListBox listBox = createListBox(bankListBoxValue);
 			gridFrame.setWidget(1, 1, listBox);
-			listBox.setWidth("100px");
 		}else{
 			gridFrame.setWidget(1, 1, newValueBox);
-			newValueBox.setWidth("200px");
 		}
 		return gridFrame;
 	}
@@ -55,10 +53,11 @@ public class AcountModifyDialog extends BaseDialog {
 	 * @Description: 删除操作 
 	 * @return void 返回类型
 	 */
-	private void createDelView(){
-		Label info = new Label("您确定删除该行卡列表信息？");
+	private void createDelView(){	
+		setDescript("删除选中的卡列表信息");
+		label.setWidth("270px");
 		mainPanel.setWidth("260px");
-		mainPanel.add(info);
+		mainPanel.add(delInfo);
 	}
 	
 	/**
@@ -75,7 +74,7 @@ public class AcountModifyDialog extends BaseDialog {
 			super.show();
 			newValueBox.setFocus(true);
 		}else{
-			setDescript("卡列表编号：" + tips_value);
+			delInfo.setText("您确定删除该卡列表\"" + tips_value + "\"全部内容？");
 			super.show();
 		}
 	}

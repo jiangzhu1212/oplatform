@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.AnnoucementAddDialog;
 import com.risetek.operation.platform.base.client.dialog.AnnoucementModifyDialog;
+import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.AnnoucementData;
 import com.risetek.operation.platform.base.client.view.AnnoucementView;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -190,41 +191,35 @@ public class AnnoucementController extends AController {
 		}
 
 		switch (col) {
-		case 2:
+		case 1:
 			// 删除公告信息。
-			caseUtils(null, rowid, tisp_value);
+			caseUtils(null, rowid, table.getText(row, 2));
+			break;
+		case 2:
+			//查看详细
+			ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+			dialog.makeMainPanel(INSTANCE.view.grid, row);
+			dialog.show();
 			break;
 		case 3:
-			// 修改公告类型。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 4:
-			// 修改公告日期。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 5:
+			// 修改公告类型。
+			// 修改公告日期。
 			// 修改ADDITON。
 			caseUtils(colName, rowid, tisp_value);
 			break;
 		case 6:
 			break;
 		case 7:
-			// 修改停止时间。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 8:
-			// 修改TARGET_TYPE。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 9:
-			// 修改TARGET_ID。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 10:
-			// 修改有效期。
-			caseUtils(colName, rowid, tisp_value);
-			break;
 		case 11:
+			// 修改停止时间。
+			// 修改TARGET_TYPE。
+			// 修改TARGET_ID。
+			// 修改有效期。
 			// 修改备注。
 			caseUtils(colName, rowid, tisp_value);
 			break;
