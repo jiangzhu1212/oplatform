@@ -2,33 +2,41 @@ package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Widget;
+import com.risetek.operation.platform.base.client.dialog.AddRoleDialog;
 import com.risetek.operation.platform.base.client.dialog.DeleteRoleDialog;
 import com.risetek.operation.platform.base.client.dialog.EditRoleNameDialog;
 import com.risetek.operation.platform.base.client.model.RoleConfigData;
+import com.risetek.operation.platform.base.client.service.RoleService;
+import com.risetek.operation.platform.base.client.service.RoleServiceAsync;
 import com.risetek.operation.platform.base.client.view.RoleConfigView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.DialogControl;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.entry.Role;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class RoleConfigController extends AController {
 
 	private ArrayList<String> actionNames = new ArrayList<String>();
 	
-	@Override
-	public ArrayList<String> getActionNames() {
-		return actionNames;
-	}
-
+	private final static RoleServiceAsync rs = GWT.create(RoleService.class);
+	
 	public static RoleConfigController INSTANCE = new RoleConfigController();
 	final RoleConfigData data = new RoleConfigData();
 	
 	public final RoleConfigView view = new RoleConfigView();
+	
+	@Override
+	public ArrayList<String> getActionNames() {
+		return actionNames;
+	}
 	
 	public RoleConfigController(){
 		actionNames.add("添加用户角色");
@@ -36,6 +44,7 @@ public class RoleConfigController extends AController {
 		actionNames.add("修改用户角色名称");
 		actionNames.add("添加用户角色操作");
 		actionNames.add("删除用户角色操作");
+		actionNames.add("删除多条用户角色操作");
 		actionNames.add("修改用户角色操作");
 	}
 	
@@ -52,7 +61,18 @@ public class RoleConfigController extends AController {
 	}
 
 	public static void load(){
-		INSTANCE.data.setSum(10);
+		rs.getAllRole(new AsyncCallback<Role[]>() {
+			
+			@Override
+			public void onSuccess(Role[] result) {
+				INSTANCE.data.setSum(result.length);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				System.out.println("faild");
+			}
+		});
 		INSTANCE.view.render(INSTANCE.data);
 		INSTANCE.view.renderChild(INSTANCE.data);
 	}
@@ -107,7 +127,6 @@ public class RoleConfigController extends AController {
 			
 			@Override
 			protected CustomDialog getDialog() {
-				// TODO Auto-generated method stub
 				return dialog;
 			}
 		}
@@ -128,7 +147,6 @@ public class RoleConfigController extends AController {
 			protected CustomDialog getDialog() {
 				return dialog;
 			}
-			
 		}
 	}
 	
@@ -136,9 +154,32 @@ public class RoleConfigController extends AController {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
 			
 		}
+	}
+	
+	public static class AddRoleAction implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			AddRoleControl addRoleCont = new AddRoleControl();
+			addRoleCont.dialog.submit.addClickHandler(addRoleCont);
+			addRoleCont.dialog.show();
+		}
 		
+		public class AddRoleControl extends DialogControl implements ClickHandler {
+			AddRoleDialog dialog = new AddRoleDialog();
+			@Override
+			public void onClick(ClickEvent event) {
+				if(dialog.isValid()){
+					dialog.hide();
+				}
+			}
+
+			@Override
+			protected CustomDialog getDialog() {
+				return dialog;
+			}
+			
+		}
 	}
 }
