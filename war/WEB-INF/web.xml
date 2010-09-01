@@ -4,6 +4,15 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+	<servlet>
+		<servlet-name>role</servlet-name>
+		<servlet-class>com.risetek.operation.platform.base.server.RoleServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>role</servlet-name>
+		<url-pattern>/oplatform/role</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>oplatform/index.html</welcome-file>
 	</welcome-file-list>
