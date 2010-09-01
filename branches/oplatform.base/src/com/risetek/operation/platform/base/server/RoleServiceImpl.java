@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.risetek.operation.platform.base.client.entry.Role;
 import com.risetek.operation.platform.base.client.service.RoleService;
-import com.risetek.operation.platform.launch.client.entry.Role;
 import com.risetek.operation.platform.launch.server.core.ConnectDataBase;
 
 public class RoleServiceImpl extends RemoteServiceServlet implements RoleService {
