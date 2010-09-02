@@ -2,7 +2,18 @@ package com.risetek.operation.platform.base.client.entry;
 
 public interface Constanst {
 
+	final String TRANS_ID = "TRANS_ID";
+	
+	final String CUSTOMER_ID = "CUSTOMER_ID";
+	
+	final String ACTION_NAME_SELECT_CARD_007 = "SELECT_CARD_INFORMATION";
+	
+	final String ACTION_NAME_SELECT_BILL_INFORMATION = "SELECT_BILL_INFORMATION";
 
+	public static final String BILLS_WEB_CLIENT="BILLS_REQUEST";
+	
+	public static final String CTI_PACKET="CTI_PACKET";
+	
 	/******************************************* JSON信息结构 *****************************************************************************/
 	final String ACTION_NAME = "ACTION_NAME";
 

@@ -34,7 +34,8 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 	public DateBox dateBox = new DateBox();
 	private final static ListBox listBox = new ListBox();
 	public static int statusValue = 2;
-	public final static Button chargeButton = new Button("充值");
+	
+	public final static Button chargeButton = new Button("充值", new Card007Controller.TableEditAction());
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	String banner_tips = "";
@@ -89,10 +90,11 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 		return actionPanel;
 	}
 	
+	@SuppressWarnings("static-access")
 	private Widget createSearchBar(){
 		HorizontalPanel searchPanel = new HorizontalPanel();
 		searchPanel.setStyleName("tableMessagePanel-content");
-		dateBox.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("yyyyMMdd")));
+		dateBox.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("yyyy-MM-dd")));
 		dateBox.setWidth("80px");
 		dateBox.setValue(new Date());
 
@@ -105,6 +107,7 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 			public void onChange(ChangeEvent event) {
 				int index = listBox.getSelectedIndex();
 				statusValue = Integer.parseInt(statusBoxValue[index][1]);
+				Card007Controller.INSTANCE.load();
 			}
 		});
 		

@@ -1,21 +1,21 @@
 package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.constanst.BILL_INFOMATION;
-import com.risetek.operation.platform.base.client.dialog.BankAddDialog;
+import com.risetek.operation.platform.base.client.constanst.Card007Constanst;
+import com.risetek.operation.platform.base.client.dialog.Card007Dialog;
+import com.risetek.operation.platform.base.client.entry.BillCard007;
+import com.risetek.operation.platform.base.client.entry.Constanst;
 import com.risetek.operation.platform.base.client.model.Card007Data;
+import com.risetek.operation.platform.base.client.model.PacketParser;
+import com.risetek.operation.platform.base.client.util.ServiceUtil;
 import com.risetek.operation.platform.base.client.view.Card007View;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
@@ -29,18 +29,14 @@ import com.risetek.operation.platform.launch.client.http.RequestFactory;
  * @version 1.0
  */
 public class Card007Controller extends AController {
-	
-	private static int col;    //列序号
-	
-	private static String keyid; //主键
-	
+			
 	public static Card007Controller INSTANCE = new Card007Controller();
 	
 	private final Card007Data data = new Card007Data();
 	
 	public final Card007View view = new Card007View();
 
-	private static RequestFactory remoteRequest = new RequestFactory();
+	public static RequestFactory remoteRequest = new RequestFactory();
 
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	/**
@@ -59,8 +55,13 @@ public class Card007Controller extends AController {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			//data.parseData(response.getText());
-			view.render(data);
+			String ret = response.getText();
+			if (code == Response.SC_OK) {
+				PacketParser parser = new PacketParser();
+				BillCard007[] array = (BillCard007[]) parser.packetParser(ret, Constanst.ACTION_NAME_SELECT_CARD_007);			
+				INSTANCE.data.parseResult(array);
+				INSTANCE.view.render(INSTANCE.data);
+			}
 		}
 	}
 	
@@ -68,26 +69,10 @@ public class Card007Controller extends AController {
 	 * @Description: 加载数据，会实现一个回调函数 
 	 * @return void 返回类型 
 	 */
-	public static void load(){
+	public static void load() {
+		new PacketParser().initializedata(Constanst.ACTION_NAME_SELECT_CARD_007);
 		INSTANCE.view.render(INSTANCE.data);
 	}
-	
-	public void aa(){
-		BILL_INFOMATION info = new BILL_INFOMATION();
-		if(view.dateBox != null){
-			String dateTimeMIN = view.dateBox.getTextBox().getText()+"000000";
-			String dateTimeMAX = view.dateBox.getTextBox().getText()+"235959";
-			info.setPAY_DATETIME_MIN(dateTimeMIN);
-			info.setPAY_DATETIME_MAX(dateTimeMAX);
-		}
-		
-		info.setCHARGE_STATUS(""+view.statusValue);
-		//PacketParser parser = new PacketParser();
-		//String packet = parser.toHttpPacket(info,Constanst.ACTION_NAME_SELECT_CARD_007);	
-		
-		//request.get(packet, parent);
-	}
-	
 
 	/**
 	 * (非 Javadoc) 
@@ -109,6 +94,12 @@ public class Card007Controller extends AController {
 	@Override
 	public Widget getView() {
 		return view;
+	}
+	
+	@Override
+	public ArrayList<String> getActionNames() {
+		
+		return null;
 	}
 	
 	/**
@@ -145,9 +136,7 @@ public class Card007Controller extends AController {
 			if (obj == Card007View.chargeButton) {
 				INSTANCE.processFuc(null);
 				return;
-			} else {
-				INSTANCE.gridOnclick(event);
-			}
+			} 
 		}
 	}
 	
@@ -156,64 +145,52 @@ public class Card007Controller extends AController {
 	 * @return void 返回类型
 	 */
 	private void processFuc(final String processTag) {
-		final BankAddDialog addDialog = new BankAddDialog(processTag);
-		addDialog.submit.setText("提交");
-		addDialog.show();
+		final Card007Dialog dialog = new Card007Dialog(processTag, INSTANCE.view.grid, 1);
+		dialog.submit.setText("确认充值");
+		dialog.show();
 
-		addDialog.submit.addClickHandler(new ClickHandler() {
+		dialog.submit.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (addDialog.isValid()) {
-					addDialog.submit.setEnabled(false);
-					Window.alert(processTag);
+				if (dialog.isValid()) {
+					dialog.submit.setEnabled(false);
+					final PacketParser parser = new PacketParser();
+					String packet = parser.chargePacket(INSTANCE.view.grid, Card007Constanst.BILL_RESULT);
+					remoteRequest.send007(ServiceUtil.string2unicode(packet), new RequestCallback() {
+						@Override
+						public void onError(Request request, Throwable exception) {
+							Window.alert(request.toString() + ServiceUtil.REQUEST_ERROR);
+							if (request != null && request.isPending()) {
+								request.cancel();
+							}
+						}
+						
+						@Override
+						public void onResponseReceived(Request request, Response response) {
+							processResponseText(parser, response);
+						}
+					});
 				}
 			}
 		});
 	}
 	
-	/**
-	 * @Description: 处理所有grid事件(修改、删除)
-	 * @param event  参数 
-	 * @return void 返回类型
-	 */
-	public void gridOnclick(ClickEvent event) {
-		HTMLTable table = (HTMLTable) event.getSource();
-		Cell Mycell = table.getCellForEvent(event);
-		if (Mycell == null) return;
-		int row = Mycell.getRowIndex();
-		col = Mycell.getCellIndex();
-		keyid = table.getText(row, 2);// 我们的操作都针对这个号码。
-		String rowid = table.getText(row, 1);
-		String colName = table.getText(0, col);
-
-		String tisp_value = table.getText(row, col);
-		if (tisp_value.length() == 1) {
-			int tvalue = (int) tisp_value.charAt(0);
-			if (tvalue == 160) {
-				tisp_value = "";
+	private void processResponseText(PacketParser parser, Response response){
+		int code = response.getStatusCode();
+		System.out.println("Windos RESPONSE CODE=" + code);
+		String ret = response.getText();
+		System.out.println("Window Ret:  "+ ret);
+		if (code == Response.SC_OK) {
+			if (ret != null && !"".equals(ret)) {
+				int result = parser.dealResponsePacket(ret);
+				if (result == 0) {
+					load();
+				} else {
+					Window.alert("请求异常" + result);
+				}
 			}
+		}else{
+			Window.alert("请求异常");
 		}
-
-		switch (col) {
-		case 1:
-			
-			break;
-		case 2:
-			
-			break;
-		case 3:
-		case 4:
-		case 5:
-			
-			break;
-		default:
-			break;
-		}
-	}
-	
-	@Override
-	public ArrayList<String> getActionNames() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
