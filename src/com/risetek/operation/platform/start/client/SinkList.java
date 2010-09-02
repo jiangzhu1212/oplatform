@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.risetek.operation.platform.base.client.AcountSink;
 import com.risetek.operation.platform.base.client.AnnoucementSink;
+import com.risetek.operation.platform.base.client.BankSink;
 import com.risetek.operation.platform.base.client.BaseSink;
+import com.risetek.operation.platform.base.client.Card007Sink;
 import com.risetek.operation.platform.base.client.CustomerSink;
 import com.risetek.operation.platform.base.client.RoleConfigSink;
 import com.risetek.operation.platform.base.client.TdbcSink;
@@ -33,10 +35,12 @@ public class SinkList {
 		sinkList.add(new ProcessSink());
 		sinkList.add(new CustomerSink());
 		sinkList.add(new TransactionSink());
+		sinkList.add(new BankSink());
 		sinkList.add(new AcountSink());
 		sinkList.add(new TdbcSink());
-		sinkList.add(new TransEnableSink());
 		sinkList.add(new AnnoucementSink());
+		sinkList.add(new Card007Sink());
+		sinkList.add(new TransEnableSink());
 		sinkList.add(new RoleConfigSink());
 		sinkList.add(new TransBindSink());
 		return sinkList;
