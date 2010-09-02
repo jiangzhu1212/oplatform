@@ -9,25 +9,26 @@
 	<g:HTMLPanel>
 		<table border="0" cellpadding="0" cellspacing="0">
 			<tr>
-				<td width="100%" align="left" colspan="2">
+				<td width="100%" align="left" colspan="3">
 					<g:Label ui:field="label"></g:Label>
 				</td>
 			</tr>
 			<tr>
-				<td height="40px" align="center" id="element" colspan="2">
+				<td height="40px" align="center" id="element" colspan="3">
 					<g:VerticalPanel ui:field="mainPanel"></g:VerticalPanel>
 				</td>
 			</tr>
 			<tr>
-				<td align="center" colspan="2">
+				<td align="center" colspan="3">
 					<g:Label ui:field="message">&nbsp;</g:Label>
 				</td>
 			</tr>
-			<tr align="center" height="40px">
-				<td width="50%">
+			<tr height="40px">
+				<td width="45%" align="right">
 					<g:Button ui:field="submit"></g:Button>
 				</td>
-				<td>
+				<td width="10%">&nbsp;</td>
+				<td width="45%" align="left">
 					<g:Button ui:field="cancel">取消</g:Button>
 				</td>
 			</tr>

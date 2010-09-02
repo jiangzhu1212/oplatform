@@ -1,5 +1,6 @@
 package com.risetek.operation.platform.launch.client;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -23,6 +24,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.launch.client.dialog.NoticeDialog;
+import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 
 /**
@@ -38,7 +40,6 @@ import com.risetek.operation.platform.launch.client.sink.SinkInfo;
  * @author Amber
  *
  */
-@SuppressWarnings("rawtypes")
 public abstract class OplatformLaunch implements EntryPoint {
 	/** 
 	 * 功能： 项目起始点
@@ -50,7 +51,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 	final VerticalPanel body = new VerticalPanel();
 	Tree userMenu = new Tree();
 	private SinkInfo curInfo;
-	public static Class[] sinkClassList;
+	public static ArrayList<Sink> sinkList = null;
 	
 	public void onModuleLoad() {
 		displayNowTime();

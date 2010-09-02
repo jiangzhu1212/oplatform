@@ -38,6 +38,7 @@ public abstract class OPlatformTableView extends DockPanel {
 		outer.setWidth("100%");
 		outer.setStyleName("tableouter");
 		outer.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+//		outer.setBorderWidth(1);
 		
 		messagePanel.setWidth("100%");
 		messagePanel.setHeight("20px");
@@ -166,37 +167,24 @@ public abstract class OPlatformTableView extends DockPanel {
      */
     public void renderLine(Grid grid, OPlatformData data, int index){
     	if(index<data.getSum()){
-//    		if(index==grid.getRowCount()-1) {
-//    			for(int i=0;i<grid.getColumnCount();i++){
-//    				if(i==0){
-//    					grid.setWidget(index+1, i, new RadioButton("aa"));
-//    				} else if (i==1){
-//    					grid.setText(index+1, i, Integer.toString(i));
-//    				} else {
-//    					grid.setText(index+1, i, "123456789012345678901234567890123456789012345678901234567890");
-//    				}
-//	    			setTableBottomStyle(index, i);
-//	    		}
-//    		} else {
-    			for(int i=0;i<grid.getColumnCount();i++){
-    				if(i==0){
-    					grid.setWidget(index+1, i, new CheckBox());
-    				} else if (i==1){
-    					grid.setText(index+1, i, Integer.toString(index+1));
-    					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
-    				} else {
-    					String text = "";
-    					if(data.getData()!=null){
-    						text = data.getData()[index][i-2];
-    					}
-    					grid.setText(index+1, i, text);
-    				}
-    				if(i==2){
-    					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
-    				}
-	    			setTableLineStyle(grid, index, i);
-	    		}
-//    		}
+			for(int i=0;i<grid.getColumnCount();i++){
+				if(i==0){
+					grid.setWidget(index+1, i, new CheckBox());
+				} else if (i==1){
+					grid.setText(index+1, i, Integer.toString(index+1));
+					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
+				} else {
+					String text = "";
+					if(data.getData()!=null){
+						text = data.getData()[index][i-2];
+					}
+					grid.setText(index+1, i, text);
+				}
+				if(i==2){
+					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
+				}
+    			setTableLineStyle(grid, index, i);
+    		}
     	} else {
     		if(index==grid.getRowCount()-1) {
     			for(int i=0;i<grid.getColumnCount();i++){
@@ -270,14 +258,14 @@ public abstract class OPlatformTableView extends DockPanel {
 			if(!isChild){
 				setInfo(text);
 			} else {
-				Grid child = (Grid)outer.getWidget(2);
-				child.setText(0, 1, text);
+				VerticalPanel child = (VerticalPanel)outer.getWidget(2);
+				Grid childTitle = (Grid)child.getWidget(0);
+				childTitle.setText(0, 1, text);
 			}
             Element tr = DOM.getParent(td);
             Element body = DOM.getParent(tr);
             int row = DOM.getChildIndex(body, tr);
             if(row == 0) return;
-//            renderLine(AController.this.getData(), row-1);
 		}
 
 		@Override
@@ -288,16 +276,13 @@ public abstract class OPlatformTableView extends DockPanel {
 //				DOM.setElementAttribute(td, "title", td.getInnerText());			
 			}
 			
-//			if(mayColor == true) {
-//				td.getStyle().setColor("red");
 			if(!isChild){
 				setInfo("");
 			} else {
-				Grid child = (Grid)outer.getWidget(2);
-				child.setText(0, 1, "");
+				VerticalPanel child = (VerticalPanel)outer.getWidget(2);
+				Grid childTitle = (Grid)child.getWidget(0);
+				childTitle.setText(0, 1, "");
 			}
-//				td.getStyle().setCursor(Cursor.POINTER);
-//			}
 		}
 	}
 	
