@@ -13,6 +13,7 @@ import com.risetek.operation.platform.base.client.TdbcSink;
 import com.risetek.operation.platform.base.client.TransBindSink;
 import com.risetek.operation.platform.base.client.TransEnableSink;
 import com.risetek.operation.platform.base.client.TransactionSink;
+import com.risetek.operation.platform.base.client.UserConfigSink;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.process.client.ProcessSink;
 
@@ -43,6 +44,7 @@ public class SinkList {
 		sinkList.add(new TransEnableSink());
 		sinkList.add(new RoleConfigSink());
 		sinkList.add(new TransBindSink());
+		sinkList.add(new UserConfigSink());
 		return sinkList;
 	}
 	
