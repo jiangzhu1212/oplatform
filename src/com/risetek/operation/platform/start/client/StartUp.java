@@ -37,7 +37,7 @@ public class StartUp extends OplatformLaunch {
 //		TreeItem groupItem = searchGroupItem()
 //		userMenu.addItem(addTreeItem(userMenu, BaseSink.init()));
 //		userMenu.addItem(addTreeItem(userMenu, ProcessSink.init()));
-//		sinkClassList = SinkList.getSinkList();
+		sinkList = SinkList.getSinkList();
 		return userMenu;
 	}
 	
