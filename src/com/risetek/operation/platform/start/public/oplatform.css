@@ -132,7 +132,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 }
 
 .tableouter {
-	padding: 5px 8px 8px 8px;
+	padding: 5px 5px 5px 5px;
 	overflow: hidden;
 	border: 1px solid #c5e4ff;
 	background: url(img/box_2Bg.gif) repeat-x top left;
