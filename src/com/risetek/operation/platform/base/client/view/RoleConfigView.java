@@ -4,8 +4,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.RoleConfigSink;
@@ -27,8 +27,14 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	public Grid childGrid = getChildGrid();
 	public Grid childTableTitle = new Grid(1, 3);
 	private HTML childTitle = new HTML();
+	private String childGridTitle = "";
+	private String selectRoleId = "";
 	
 	public Button addRole = new Button("添加角色", new RoleConfigController.AddRoleAction());
+	public Button delManyRole = new Button("删除多个角色", new RoleConfigController.DeleteManyRoleAction(grid));
+	public Button addRoleOperation = new Button("添加角色操作", new RoleConfigController.AddRoleOperationAction());
+	public Button delManyRoleOperation = new Button("删除多个操作", new RoleConfigController.DeleteManyRoleOperationAction(childGrid));
+	public Button showRole = new Button("查看角色操作内容", new RoleConfigController.ShowRoleContentAction(grid));
 	
 	private final static String[] banner_text = {
 		"点击查看用户角色内容",
@@ -49,18 +55,16 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		childGrid.setStyleName("optable");
 		
 		childTableTitle.setWidth("100%");
-		childTableTitle.setHeight("20px");
-		setChildGridTitle("未选择角色");
+		childTableTitle.setHeight("15px");
+		String title = "角色\"未选择角色\"详细操作内容";
+		childTitle.setText(title);
 		childTitle.setStyleName("childtabletitle");
 		childTableTitle.setWidget(0, 0, childTitle);
+		VerticalPanel childPanel = new VerticalPanel();
 		HorizontalPanel childTableActionPanel = new HorizontalPanel();
 		childTableActionPanel.setStyleName("childtableAction");
-		Button aa = new Button();
-		aa.setText("添加模块和操作");
-		Button ac = new Button();
-		ac.setText("删除多项操作");
-		childTableActionPanel.add(aa);
-		childTableActionPanel.add(ac);
+		childTableActionPanel.add(addRoleOperation);
+		childTableActionPanel.add(delManyRoleOperation);
 		childTableTitle.setWidget(0, 2, childTableActionPanel);
 		childTableTitle.getColumnFormatter().setWidth(0, "25%");
 		childTableTitle.getColumnFormatter().setWidth(1, "25%");
@@ -68,15 +72,16 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		childTableTitle.getCellFormatter().setStyleName(0, 1, "childtabledescript");
 		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
 		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
-		outer.add(childTableTitle);
-		outer.setCellVerticalAlignment(childTableTitle, HasVerticalAlignment.ALIGN_BOTTOM);
-		outer.setCellHeight(childTableTitle, "20px");
-		outer.add(childGrid);
+		childPanel.add(childTableTitle);
+		childPanel.add(childGrid);
+		outer.add(childPanel);
 	}
 	
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addRole);
+		actionPanel.add(delManyRole);
+		actionPanel.add(showRole);
 		return actionPanel;
 	}
 	
@@ -112,6 +117,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 			childGrid = new GreenMouseEventGrid(childBanner_text, true);
 		}
 		formatGrid(childGrid, childRowCount, childColumns, childColumnsWidth);
+		childGrid.addClickHandler(new RoleConfigController.ChildTableAction());
 		return childGrid;
 	}
 
@@ -122,13 +128,26 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		} else {
 			grid.resizeRows(data.getSum()+1);
 		}
+		clearGrid(grid, mainRowCount);
+		clearGrid(childGrid, childRowCount);
+		String title = "角色\"未选择\"详细操作内容";
+		childTitle.setText(title);
 		for(int index=0;index<mainRowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
 	}
 	
+	private void clearGrid(Grid grid, int mainRowCount) {
+		for(int i=1;i<mainRowCount;i++){
+			for(int a=0;a<grid.getColumnCount();a++){
+				grid.clearCell(i, a);
+			}
+		}
+	}
+
 	public void renderChild(OPlatformData data) {
+		clearGrid(childGrid, childRowCount);
 		childGrid.resizeRows(childRowCount+1);
 		for(int index=0;index<childRowCount;index++){
 			renderLine(childGrid, data, index);
@@ -138,5 +157,18 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	public void setChildGridTitle(String childGridTitle){
 		String title = "角色\"" + childGridTitle + "\"详细操作内容";
 		childTitle.setText(title);
+		this.childGridTitle = childGridTitle;
+	}
+	
+	public String getChildGridTitle(){
+		return childGridTitle;
+	}
+
+	public String getSelectRoleId() {
+		return selectRoleId;
+	}
+
+	public void setSelectRoleId(String selectRoleId) {
+		this.selectRoleId = selectRoleId;
 	}
 }
