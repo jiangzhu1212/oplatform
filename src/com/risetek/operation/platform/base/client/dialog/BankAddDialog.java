@@ -34,12 +34,12 @@ public class BankAddDialog extends BaseDialog {
 	/**
 	 * Description: 构造器
 	 */
-	public BankAddDialog(boolean isSearch) {
-		super.isSearch = isSearch;
-		if (isSearch) {
-			mainPanel.add(searchBank());
-		} else {
+	public BankAddDialog(String processTag) {
+		super.processTag = processTag;
+		if (null == processTag) {
 			mainPanel.add(addBank());
+		} else {
+			mainPanel.add(searchBank());
 		}
 		
 		initWith();
@@ -104,7 +104,7 @@ public class BankAddDialog extends BaseDialog {
 	 */
 	public boolean isValid() {
 		String check;
-		if (!isSearch) {//如果isSearch为true表示查询操作
+		if (null == processTag) {
 			check = Util.commValidity((bankCodeBox.getText()).trim(), BankConstanst.BANK_CODE_ZH);
 			if (null != check) {
 				setMessage(check);

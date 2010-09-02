@@ -128,10 +128,10 @@ public class AcountController extends AController {
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
 			if (obj == AcountView.addButton) {
-				INSTANCE.processFuc(false); // false 表示增加
+				INSTANCE.processFuc(null); // null 表示增加
 				return;
 			} else if (obj == AcountView.searchButton) {
-				INSTANCE.processFuc(true); // true 表示查询
+				INSTANCE.processFuc("search"); // search 表示查询
 				return;
 			} else {
 				INSTANCE.gridOnclick(event);
@@ -143,8 +143,8 @@ public class AcountController extends AController {
 	 * @Description: 执行add/search操作
 	 * @return void 返回类型
 	 */
-	private void processFuc(final boolean isSearch) {
-		final AcountAddDialog addDialog = new AcountAddDialog(isSearch);
+	private void processFuc(final String processTag) {
+		final AcountAddDialog addDialog = new AcountAddDialog(processTag);
 		addDialog.submit.setText("提交");
 		addDialog.show();
 		
@@ -153,7 +153,7 @@ public class AcountController extends AController {
 			public void onClick(ClickEvent event) {
 				if (addDialog.isValid()) {
 					addDialog.submit.setEnabled(false);
-					Window.alert("" + isSearch);
+					Window.alert(processTag);
 				}
 			}
 		});
@@ -189,7 +189,7 @@ public class AcountController extends AController {
 			caseUtils(null, rowid, table.getText(row, 2));
 			break;
 		case 2:
-			//查看详细
+			// 查看详细
 			ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
 			dialog.makeMainPanel(INSTANCE.view.grid, row);
 			dialog.show();

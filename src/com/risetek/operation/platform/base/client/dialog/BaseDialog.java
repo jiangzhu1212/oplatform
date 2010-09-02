@@ -29,7 +29,7 @@ public class BaseDialog extends CustomDialog {
 
 	protected Grid gridFrame = new Grid();
 	
-	protected boolean isSearch;// true 表示查询，false 表示增加
+	protected String processTag;// search 表示查询，null 表示增加
 	
 	protected String colName; //列名
 

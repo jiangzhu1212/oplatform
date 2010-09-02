@@ -136,10 +136,10 @@ public class AnnoucementController extends AController {
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
 			if (obj == AnnoucementView.addButton) {
-				INSTANCE.processFuc(false);// false 表示增加
+				INSTANCE.processFuc(null);// null 表示增加
 				return;
 			} else if (obj == AnnoucementView.searchButton) {
-				INSTANCE.processFuc(true); // true 表示查询
+				INSTANCE.processFuc("search"); // search 表示查询
 				return;
 			} else {
 				INSTANCE.gridOnclick(event);
@@ -151,8 +151,8 @@ public class AnnoucementController extends AController {
 	 * @Description: 执行提交操作
 	 * @return void 返回类型
 	 */
-	public void processFuc(final boolean isSearch) {
-		final AnnoucementAddDialog addDialog = new AnnoucementAddDialog(isSearch);
+	public void processFuc(final String processTag) {
+		final AnnoucementAddDialog addDialog = new AnnoucementAddDialog(processTag);
 		addDialog.submit.setText("提交");
 		addDialog.show();
 
@@ -161,7 +161,7 @@ public class AnnoucementController extends AController {
 			public void onClick(ClickEvent event) {
 				if (addDialog.isValid()) {
 					addDialog.submit.setEnabled(false);
-					Window.alert("" + isSearch);
+					Window.alert(processTag);
 				}
 			}
 		});

@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.risetek.operation.platform.base.client.view.AnnoucementView;
+import com.risetek.operation.platform.base.client.constanst.AnnoucementConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
@@ -37,18 +37,18 @@ public class AnnoucementModifyDialog extends BaseDialog {
 	 * @return  参数 
 	 * @return Grid 返回类型
 	 */
-	private Grid AcountModifyClick(String titleMsg){
-		setDescript("请输入新的"+titleMsg);
+	private Grid AcountModifyClick(String colName){
+		setDescript("请输入新的"+colName);
 		gridFrame.resize(2, 2);
-		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
+		gridFrame.setWidget(0, 0, new Label("当前"+colName+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
-		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
-		if(titleMsg.equals(AnnoucementView.columns[2]) || titleMsg.equals(AnnoucementView.columns[5])){
+		gridFrame.setWidget(1, 0, new Label("新的"+colName+"："));
+		if(colName.equals(AnnoucementConstanst.ACE_DATE_ZH) || colName.equals(AnnoucementConstanst.ACE_STOP_TIME_ZH)){
 			DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
 			newDateBox.setFormat(new DateBox.DefaultFormat(format));
 			newDateBox.setWidth("200px");
 			gridFrame.setWidget(1, 1, newDateBox);
-		}else if(titleMsg.equals(AnnoucementView.columns[8])){
+		}else if(colName.equals(AnnoucementConstanst.ACE_VALIDITY_ZH)){
 			ListBox listBox = createListBox(AnnouceListBoxValue);
 			gridFrame.setWidget(1,1,listBox);
 		}else{
