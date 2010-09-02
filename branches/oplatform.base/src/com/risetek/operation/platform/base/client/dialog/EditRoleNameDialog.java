@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.dialog;
 
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.TextBox;
@@ -7,7 +9,7 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 
 public class EditRoleNameDialog extends CustomDialog {
 
-	public TextBox newValue = new TextBox();
+	private TextBox newValue = new TextBox();
 	
 	public EditRoleNameDialog(String value){
 		Grid grid = new Grid(2, 2);
@@ -25,6 +27,15 @@ public class EditRoleNameDialog extends CustomDialog {
 		mainPanel.add(grid);
 		setText("修改角色");
 		setDescript("修改角色名称");
+		newValue.setFocus(true);
+		newValue.addKeyPressHandler(new KeyPressHandler() {
+			public void onKeyPress(KeyPressEvent event) {
+				if(!submit.isEnabled()){
+					submit.setEnabled(true);
+					setMessage("");
+				}
+			}
+		});
 	}
 	
 	public void show(){
@@ -39,5 +50,9 @@ public class EditRoleNameDialog extends CustomDialog {
 			return false;
 		}
 		return true;
+	}
+	
+	public String getNewValue(){
+		return newValue.getText();
 	}
 }

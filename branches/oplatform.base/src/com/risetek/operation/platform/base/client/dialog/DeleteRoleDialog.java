@@ -15,6 +15,14 @@ public class DeleteRoleDialog extends CustomDialog {
 		setDescript("删除选中的用户角色");
 	}
 	
+	public DeleteRoleDialog(String value, int count){
+		Label info = new Label("确定删除选中的\"" + count + "\"条角色及其全部操作内容？");
+		info.setWidth("300px");
+		mainPanel.add(info);
+		setText("删除角色");
+		setDescript("删除选中的用户角色");
+	}
+	
 	public void show(){
 		submit.setText("删除");
 		super.show();
