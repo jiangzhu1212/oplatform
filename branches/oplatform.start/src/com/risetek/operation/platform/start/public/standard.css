@@ -44,8 +44,9 @@ a, a:visited, a:hover {
 
 .gwt-Button {
   margin: 0;
-  padding: 3px 3px;
+  padding: 3px 0px 0px 0px;
   text-decoration: none;
+  vertical-align: bottom;
   font-size: 13px;
   cursor: pointer;
   cursor: hand;
