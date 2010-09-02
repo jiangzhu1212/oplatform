@@ -23,9 +23,9 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 
 .userinfo {
 	border: 1px solid #5cb4e6;
-	background: url(img/searchBg.gif) repeat-x right top;
-	height: 36px;
-	line-height: 36px;
+	background: url(img/searchBg.gif) repeat-x right -15px;
+	height: 25px;
+	line-height: 25px;
 	padding-right: 20px;
 	text-align: right;
 }
@@ -33,13 +33,13 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 .userinfo-name {
 	font-weight: bold;
 	color: #FFFFFF;
-	font-size: 14px;
+	font-size: 13px;
 	padding-left: 25px;
 }
 
 .userinfo-content {
 	color: #FFFFFF;
-	font-size: 14px;
+	font-size: 13px;
 	padding-left: 5px;
 }
 
@@ -58,7 +58,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 
 .stackPanelItem {
 	width: 100%;
-	line-height: 30px;
+	line-height: 25px;
 	font-size: 13px;
 	background: url(img/h3title.gif) repeat-x left top;
 	font-weight: bold;
@@ -93,7 +93,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	background: url("img/salesTitBg.gif") repeat-x;
 	padding-left: 20px;
 	padding-right: 20px;
-	line-height: 33px;
+	line-height: 25px;
 	border: 1px solid #c5e4ff;
 }
 
@@ -105,6 +105,13 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 .blank5 {
 	height: 5px;
 	line-height: 5px; /* _margin:-3px 0;*/
+	clear: both;
+	visibility: hidden;
+}
+
+.blank3 {
+	height: 3px;
+	line-height: 3px; /* _margin:-3px 0;*/
 	clear: both;
 	visibility: hidden;
 }
@@ -149,14 +156,14 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 .optable-title {
 	font-weight: bold;
 	text-align: center;
-	line-height: 30px;
+	line-height: 25px;
 	font-size: 15px;
 }
 
 .optable-line {
 	border-top: 1px solid #c5e4ff;
 	border-left: 1px solid #c5e4ff;
-	line-height: 25px;
+	line-height: 20px;
 	font-size: 13px;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -168,7 +175,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	border-top: 1px solid #c5e4ff;
 	border-left: 1px solid #c5e4ff;
 	border-bottom: 1px solid #c5e4ff;
-	line-height: 25px;
+	line-height: 20px;
 	font-size: 13px;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -180,7 +187,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	border-top: 1px solid #c5e4ff;
 	border-left: 1px solid #c5e4ff;
 	border-right: 1px solid #c5e4ff;
-	line-height: 25px;
+	line-height: 20px;
 	font-size: 13px;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -190,7 +197,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 
 .optable-bottom-end {
 	border: 1px solid #c5e4ff;
-	line-height: 25px;
+	line-height: 20px;
 	font-size: 13px;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -202,7 +209,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	background: #f1f1f1;
 	padding-bottom: 2px;
 	overflow: hidden;
-	line-height: 55px;
+	line-height: 35px;
 }
 
 .contact {

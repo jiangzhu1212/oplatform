@@ -28,6 +28,7 @@ public abstract class OPlatformTableView extends DockPanel {
 	private final Label locationLabel = new Label("");
 	private final Label infoLabel = new Label("");
 	private final Label statisticLabel = new Label("");
+	public VerticalPanel main = new VerticalPanel();
 	
 	public abstract String[] parseRow(Node node);
 	public abstract Grid getGrid();
@@ -41,7 +42,8 @@ public abstract class OPlatformTableView extends DockPanel {
 //		outer.setBorderWidth(1);
 		
 		messagePanel.setWidth("100%");
-		messagePanel.setHeight("20px");
+		messagePanel.setHeight("25px");
+//		messagePanel.setBorderWidth(1);
 		messagePanel.setStyleName("tableMessagePanel");
 		Grid location = new Grid(1, 1);
 		location.setWidget(0, 0, locationLabel);
@@ -61,21 +63,23 @@ public abstract class OPlatformTableView extends DockPanel {
 		messagePanel.add(info, DockPanel.EAST);
 		messagePanel.setCellWidth(info, "40%");
 		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_RIGHT);
-		outer.add(messagePanel);
-		
+		main.add(messagePanel);
+		main.add(grid);
+		outer.add(main);
 		grid.setStyleName("optable");
-	    outer.add(grid);
-	    
+	    HTML empty = new HTML("");
+		empty.setStyleName("blank3");
 	    add(outer, DockPanel.SOUTH);
+	    add(empty, DockPanel.SOUTH);
 	}
 	
 	public void addActionPanel(Widget widget, String descript){
-		HorizontalPanel blank = new HorizontalPanel();
-		blank.setHeight("5px");
-		add(blank, DockPanel.SOUTH);
+//		HorizontalPanel blank = new HorizontalPanel();
+//		blank.setHeight("5px");
+//		add(blank, DockPanel.SOUTH);
 		HorizontalPanel border = new HorizontalPanel();
 		border.setWidth("100%");
-		border.setHeight("32px");
+		border.setHeight("30px");
 		border.add(widget);
 		border.setStyleName("actionPanel");
 		border.setCellVerticalAlignment(widget, HasVerticalAlignment.ALIGN_MIDDLE);

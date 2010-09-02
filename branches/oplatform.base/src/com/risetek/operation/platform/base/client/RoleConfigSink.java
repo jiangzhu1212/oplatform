@@ -35,7 +35,6 @@ public class RoleConfigSink extends Sink {
 
 	@Override
 	public SinkInfo getSinkInfo() {
-		// TODO Auto-generated method stub
 		return init();
 	}
 
