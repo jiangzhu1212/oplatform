@@ -56,6 +56,5 @@ public interface Card007Constanst extends Constanst {
 	final String PAY_DATETIME_MAX = "PAY_DATETIME_MAX";
 
 	final String PAY_DATETIME_MIN = "PAY_DATETIME_MIN";
-	
-	final String ACTION_NAME_SELECT_CARD_007 = "SELECT_CARD_INFORMATION";
+
 }

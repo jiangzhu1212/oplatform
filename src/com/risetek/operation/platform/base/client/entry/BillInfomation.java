@@ -1,13 +1,13 @@
-package com.risetek.operation.platform.base.client.constanst;
+package com.risetek.operation.platform.base.client.entry;
+
+import com.risetek.operation.platform.launch.client.config.UIConfig;
 
 
 /**
  * 账单数据表
- * Bill 2.0
- * @author 马俊
  *
  */
-public class BILL_INFOMATION {
+public class BillInfomation {
 
 	private static final long serialVersionUID = 3202562727936637098L;
 	
@@ -286,5 +286,45 @@ public class BILL_INFOMATION {
 		DESCRIPTION = description;
 	}
 	
+	//==================================================
+	
+	/**
+	 * 起始查询数据
+	 */
+	private int START_POS = 0;
+
+	/**
+	 * 一页最大记录
+	 */
+	private int MAX_COUNT = UIConfig.TABLE_ROW_NORMAL;
+
+	/**
+	 * 总记录条数
+	 */
+	private int QUERY_TOTAL = 0;
+
+	public int getSTART_POS() {
+		return START_POS;
+	}
+
+	public void setSTART_POS(int start_pos) {
+		START_POS = start_pos;
+	}
+
+	public int getMAX_COUNT() {
+		return MAX_COUNT;
+	}
+
+	public void setMAX_COUNT(int max_count) {
+		MAX_COUNT = max_count;
+	}
+
+	public int getQUERY_TOTAL() {
+		return QUERY_TOTAL;
+	}
+
+	public void setQUERY_TOTAL(int query_total) {
+		QUERY_TOTAL = query_total;
+	}
 	
 }
