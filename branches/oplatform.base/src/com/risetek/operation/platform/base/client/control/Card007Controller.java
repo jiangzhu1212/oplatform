@@ -1,28 +1,25 @@
 package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
+import java.util.Date;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.risetek.operation.platform.base.client.constanst.BILL_INFOMATION;
 import com.risetek.operation.platform.base.client.dialog.BankAddDialog;
-import com.risetek.operation.platform.base.client.dialog.BankModifyDialog;
-import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
-import com.risetek.operation.platform.base.client.entry.Bank;
-import com.risetek.operation.platform.base.client.model.BankData;
-import com.risetek.operation.platform.base.client.service.BankService;
-import com.risetek.operation.platform.base.client.service.BankServiceAsync;
-import com.risetek.operation.platform.base.client.view.BankView;
+import com.risetek.operation.platform.base.client.model.Card007Data;
+import com.risetek.operation.platform.base.client.view.Card007View;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
 /**
  * @ClassName: BankController 
@@ -31,19 +28,19 @@ import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
  * @date 2010-8-26 下午02:02:30 
  * @version 1.0
  */
-public class BankController extends AController {
+public class Card007Controller extends AController {
 	
 	private static int col;    //列序号
 	
 	private static String keyid; //主键
 	
-	public static BankController INSTANCE = new BankController();
+	public static Card007Controller INSTANCE = new Card007Controller();
 	
-	private final BankData data = new BankData();
+	private final Card007Data data = new Card007Data();
 	
-	public final BankView view = new BankView();
-	
-	private final static BankServiceAsync service = GWT.create(BankService.class);
+	public final Card007View view = new Card007View();
+
+	private static RequestFactory remoteRequest = new RequestFactory();
 
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	/**
@@ -72,21 +69,26 @@ public class BankController extends AController {
 	 * @return void 返回类型 
 	 */
 	public static void load(){
-		service.getAllBank(new AsyncCallback<Bank[]>(){
-			@Override
-			public void onFailure(Throwable caught) {
-				
-			}
-
-			@Override
-			public void onSuccess(Bank[] result) {
-				INSTANCE.data.setSum(result.length);
-				INSTANCE.data.parseResult(result);
-				INSTANCE.view.render(INSTANCE.data);
-			}
-		});
+		INSTANCE.view.render(INSTANCE.data);
 	}
 	
+	public void aa(){
+		BILL_INFOMATION info = new BILL_INFOMATION();
+		if(view.dateBox != null){
+			String dateTimeMIN = view.dateBox.getTextBox().getText()+"000000";
+			String dateTimeMAX = view.dateBox.getTextBox().getText()+"235959";
+			info.setPAY_DATETIME_MIN(dateTimeMIN);
+			info.setPAY_DATETIME_MAX(dateTimeMAX);
+		}
+		
+		info.setCHARGE_STATUS(""+view.statusValue);
+		//PacketParser parser = new PacketParser();
+		//String packet = parser.toHttpPacket(info,Constanst.ACTION_NAME_SELECT_CARD_007);	
+		
+		//request.get(packet, parent);
+	}
+	
+
 	/**
 	 * (非 Javadoc) 
 	 * Description: 得到模块数据资源
@@ -94,7 +96,7 @@ public class BankController extends AController {
 	 * @see com.risetek.operation.platform.launch.client.control.AController#getData()
 	 */
 	@Override
-	public BankData getData() {
+	public Card007Data getData() {
 		return data;
 	}
 	
@@ -140,11 +142,8 @@ public class BankController extends AController {
 		@Override
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
-			if (obj == BankView.addButton) {
-				INSTANCE.processFuc(null);// null 表示增加
-				return;
-			} else if (obj == BankView.searchButton) {
-				INSTANCE.processFuc("search"); // search 表示查询
+			if (obj == Card007View.chargeButton) {
+				INSTANCE.processFuc(null);
 				return;
 			} else {
 				INSTANCE.gridOnclick(event);
@@ -197,98 +196,21 @@ public class BankController extends AController {
 
 		switch (col) {
 		case 1:
-			// 删除发卡行信息。第一个参数必须为 null
-			caseUtils(null, rowid, table.getText(row, 2));
+			
 			break;
 		case 2:
-			//查看详细
-			ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
-			dialog.makeMainPanel(INSTANCE.view.grid, row);
-			dialog.show();
+			
 			break;
 		case 3:
 		case 4:
 		case 5:
-			// 修改发卡行名称。
-			// 修改有效性。
-			// 修改备注。
-			caseUtils(colName, rowid, tisp_value);
+			
 			break;
 		default:
 			break;
 		}
 	}
 	
-	/**
-	 * @Description: case处理工具
-	 * @param colName 列名称
-	 */
-	private void caseUtils(String colName, String rowid, String tisp_value){
-		BankModifyControl bank_control = new BankModifyControl(colName);
-		bank_control.dialog.submit.addClickHandler(bank_control);
-		bank_control.dialog.submit.setText(colName == null ? "删除" : "修改");
-		bank_control.dialog.show(rowid, tisp_value);
-	}
-	
-	/** 
-	 * @ClassName: AcountModifyControl 
-	 * @Description: 修改发卡行信息控制类，根据传入的tag来调用对应的方法进行处理
-	 * @author JZJ 
-	 * @date 2010-8-27 上午10:11:17 
-	 * @version
-	 */
-	private static class BankModifyControl implements ClickHandler {
-			
-		private BankModifyDialog dialog;
-		
-		public BankModifyControl(String colName) {
-			dialog = new BankModifyDialog(colName);
-		}
-		
-		@Override
-		public void onClick(ClickEvent event) {
-			if(!dialog.isValid()) return;
-			dialog.submit.setEnabled(false);
-			switch (col) {
-			case 2:
-				delRow(keyid, BankController.RemoteCaller);
-				break;
-			case 3:
-				modifyName(keyid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
-				break;
-			case 4:
-				modifyValidity(keyid, dialog.validityValue, BankController.RemoteCaller);			
-				break;
-			case 5:
-				modifyDesc(keyid, dialog.newValueBox.getText(), BankController.RemoteCaller);			
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	
-	// ----------------- 处理对应请求  -----------------------//
-	public static void delRow(String bakID, RequestCallback callback) {
-		String query = "function=deluser&id=" + bakID;
-		Window.alert(query);
-	}
-	
-	private static void modifyName(String bakID, String name, RequestCallback callback) {
-		String query = "function=moduser&id=" + bakID + "&username=" + name;
-		Window.alert(query);
-	}
-	
-	private static void modifyValidity(String bakID, String validity, RequestCallback callback) {
-		String query = "function=moduser&id=" + bakID + "&validity=" + validity;
-		Window.alert(query);
-	}
-	
-	private static void modifyDesc(String bakID, String desc, RequestCallback callback) {
-		String query = "function=moduser&id=" + bakID + "&desc=" + desc;
-		Window.alert(query);
-	}
-
 	@Override
 	public ArrayList<String> getActionNames() {
 		// TODO Auto-generated method stub

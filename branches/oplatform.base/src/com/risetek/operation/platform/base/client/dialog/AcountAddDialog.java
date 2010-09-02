@@ -36,12 +36,12 @@ public class AcountAddDialog extends BaseDialog {
 	/**
 	 * Description: 构造器
 	 */
-	public AcountAddDialog(boolean isSearch) {
-		super.isSearch = isSearch;
-		if (isSearch) {
-			mainPanel.add(searchAccount());
-		} else {
+	public AcountAddDialog(String processTag) {
+		super.processTag = processTag;
+		if (null == processTag) {
 			mainPanel.add(addAccount());
+		} else {
+			mainPanel.add(searchAccount());
 		}
 		initWith();
 	}
@@ -108,7 +108,7 @@ public class AcountAddDialog extends BaseDialog {
 	 */
 	public boolean isValid() {
 		String check;
-		if (!isSearch) {//如果isSearch为true表示查询操作
+		if (null == processTag) {//如果processTag为null表示增加操作
 			check = Util.commValidity((numberBox.getText()).trim(), AcountConstanst.ACCOUNT_NUMBER_ZH);
 			if (null != check) {
 				setMessage(check);

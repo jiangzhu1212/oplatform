@@ -20,8 +20,8 @@ public class TdbcDialog extends BaseDialog {
 	/**
 	 * Description: 构造器
 	 */
-	public TdbcDialog(boolean isSearch){
-		if(isSearch){
+	public TdbcDialog(String tag){
+		if(null == tag){
 			mainPanel.add(createSearchView());
 		}
 	}

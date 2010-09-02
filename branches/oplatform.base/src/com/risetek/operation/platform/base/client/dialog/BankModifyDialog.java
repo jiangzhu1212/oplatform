@@ -4,7 +4,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.risetek.operation.platform.base.client.constanst.BankConstanst;
-import com.risetek.operation.platform.base.client.view.BankView;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /** 
@@ -34,15 +33,15 @@ public class BankModifyDialog extends BaseDialog {
 	 * @return  参数 
 	 * @return Grid 返回类型
 	 */
-	private Grid BankModifyView(String titleMsg){
-		setDescript("请输入新的"+titleMsg);
+	private Grid BankModifyView(String colName){
+		setDescript("请输入新的"+colName);
 		gridFrame.resize(2, 2);
-		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
+		gridFrame.setWidget(0, 0, new Label("当前"+colName+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
-		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
+		gridFrame.setWidget(1, 0, new Label("新的"+colName+"："));
 		
 		//判断是否是日期文本框
-		if(titleMsg.equals(BankView.columns[2])){
+		if(colName.equals(BankConstanst.BANK_VALIDITY_ZH)){
 			ListBox listBox = createListBox(bankListBoxValue);
 			gridFrame.setWidget(1, 1, listBox);
 		}else{

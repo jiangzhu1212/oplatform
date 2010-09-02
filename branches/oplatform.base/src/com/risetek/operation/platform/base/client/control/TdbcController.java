@@ -121,7 +121,7 @@ public class TdbcController extends AController {
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();
 			if (obj == TdbcView.searchButton) {
-				INSTANCE.processFuc(true); // true 表示查询
+				INSTANCE.processFuc(null); // null 表示查询
 				return;
 			}
 		}		
@@ -132,8 +132,8 @@ public class TdbcController extends AController {
 	 * @param isSearch  参数 
 	 * @return void 返回类型
 	 */
-	private void processFuc(final boolean isSearch){
-		final TdbcDialog dialog = new TdbcDialog(isSearch);
+	private void processFuc(final String tag){
+		final TdbcDialog dialog = new TdbcDialog(tag);
 		dialog.submit.setText("提交");
 		dialog.show();
 

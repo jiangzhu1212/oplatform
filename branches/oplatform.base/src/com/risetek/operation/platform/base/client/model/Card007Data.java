@@ -10,7 +10,7 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
  * @date 2010-8-26 下午02:04:13 
  * @version 1.0
  */
-public class BankData extends OPlatformData {
+public class Card007Data extends OPlatformData {
 
 	private int sum;
 	

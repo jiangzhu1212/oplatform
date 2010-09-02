@@ -52,12 +52,12 @@ public class AnnoucementAddDialog extends BaseDialog {
 	/**
 	 * Description: 构造器
 	 */
-	public AnnoucementAddDialog(boolean isSearch){
-		super.isSearch = isSearch;
-		if(isSearch){
-			mainPanel.add(searchAnnoucement());
-		}else{
+	public AnnoucementAddDialog(String processTag){
+		super.processTag = processTag;
+		if (null == processTag) {
 			mainPanel.add(addAnnoucement());
+		} else {
+			mainPanel.add(searchAnnoucement());
 		}
 		init();
 	}
@@ -194,7 +194,7 @@ public class AnnoucementAddDialog extends BaseDialog {
 	 * @return boolean 返回类型
 	 */
 	public boolean isValid() {
-		if (isSearch) {
+		if (null != processTag) {
 			String startdate = (startDateBox.getTextBox().getText()).trim();
 			String enddate = (endDateBox.getTextBox().getText()).trim();
 

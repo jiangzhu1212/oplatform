@@ -4,7 +4,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.risetek.operation.platform.base.client.constanst.AcountConstanst;
-import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /** 
@@ -34,13 +33,13 @@ public class AcountModifyDialog extends BaseDialog {
 	 * @return  参数 
 	 * @return Grid 返回类型
 	 */
-	private Grid AcountModifyClick(String titleMsg){
-		setDescript("请输入新的"+titleMsg);
+	private Grid AcountModifyClick(String colName){
+		setDescript("请输入新的"+colName);
 		gridFrame.resize(2, 2);
-		gridFrame.setWidget(0, 0, new Label("当前"+titleMsg+"："));
+		gridFrame.setWidget(0, 0, new Label("当前"+colName+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
-		gridFrame.setWidget(1, 0, new Label("新的"+titleMsg+"："));
-		if(titleMsg.equals(AcountView.columns[2])){
+		gridFrame.setWidget(1, 0, new Label("新的"+colName+"："));
+		if(colName.equals(AcountConstanst.ACCOUNT_VALIDITY_ZH)){
 			ListBox listBox = createListBox(bankListBoxValue);
 			gridFrame.setWidget(1, 1, listBox);
 		}else{
