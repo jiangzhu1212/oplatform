@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.ListBox;
 
 public class Util {
 
@@ -130,5 +131,20 @@ public class Util {
 			}
 		}
 		return false;
+	}
+	/**
+	 * 取得骏网一卡通状态的listBox
+	 * @return
+	 */
+	public static ListBox getJCardStatus(){
+		ListBox list_status = new ListBox();
+		list_status.addItem( "" , "" );
+		list_status.addItem( "可用" , "free" );
+		list_status.addItem( "锁定" , "lock" );
+		list_status.addItem( "销售" , "sold" );
+		list_status.addItem( "失败" , "fail" );
+		list_status.addItem( "注销" , "cancel" );
+		list_status.addItem( "无效" , "invalid" );
+		return list_status;
 	}
 }
