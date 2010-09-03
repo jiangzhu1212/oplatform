@@ -6,8 +6,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 
 public class RequestFactory {
@@ -15,6 +14,8 @@ public class RequestFactory {
 	private final String baseUrl;
 	private Request request;
 	public static final String CTI_PACKET="CTI_PACKET";
+	
+	private final String commandJCard = "JCardServer/jcardServer!process.do";
 	
 	private String SIGNATURE = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 	
@@ -46,64 +47,56 @@ public class RequestFactory {
 		
 	}
 	
-	public void get(String path, String query, RequestCallback handler){
+	public void get( String path, String query, RequestCallback handler )
+	{
 		if(request != null && request.isPending()){
 			request.cancel();
 		}
-		String url = baseUrl + path;
-		if(query != null){
-			url += "?BILLS_REQUEST=" + query;
-		}
-		JSONObject root = new JSONObject();
-		JSONString actionName = new JSONString("SELECT_CUSTOMER");
-		root.put("ACTION_NAME", actionName);
-		JSONObject info = new JSONObject();
-		JSONString value = new JSONString("200");
-		info.put("CUSTOMER_ID", value);
-		root.put("ACTION_INFO", info);
-		url += root.toString() + SIGNATURE;
-		System.out.println(url);
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
-		builder.setTimeoutMillis(30000);
-		builder.setHeader("Content-Type", "text/plain; charset=UTF-8");
+		RequestBuilder builder;
+		
+		if( query != null )
+			builder = new RequestBuilder(RequestBuilder.GET, baseUrl+"/"+path+"?"+query);
+		else
+			builder = new RequestBuilder(RequestBuilder.GET, baseUrl+"/"+path);
+
+		builder.setTimeoutMillis(3000);
+		builder.setHeader("Content-Type", "text/plain; charset=GB2312" );
+		
 		try{
-			request = builder.sendRequest(null, new hookRequestCallback(handler));
+			request = builder.sendRequest( null, handler );
 		} catch (RequestException e){ 
 			GWT.log( "error", e); 
 		}
 	}
 	
-	public void get0(String path, String query, RequestCallback handler) {
+	public void post(String path, String query, RequestCallback callback) {
 		if (request != null && request.isPending()) {
 			request.cancel();
 		}
-		RequestBuilder builder;
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST,
+				baseUrl + "/" + path);
 
-		String url = baseUrl + path;
-		if(query != null){
-			url += "?BILLS_REQUEST=" + query;
+		if (query != null) {
+			builder.setHeader("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
 		}
-		JSONObject root = new JSONObject();
-		JSONString actionName = new JSONString("SELECT_CUSTOMER");
-		root.put("ACTION_NAME", actionName);
-		JSONObject info = new JSONObject();
-		JSONString value = new JSONString("200");
-		info.put("CUSTOMER_ID", value);
-		root.put("ACTION_INFO", info);
-		url += root.toString() + SIGNATURE;
-		System.out.println(url);
-		builder = new RequestBuilder(RequestBuilder.GET, url);
-
-		builder.setTimeoutMillis(3000);
-		builder.setHeader("Content-Type", "text/plain;");
-
 		try {
-			request = builder.sendRequest(null, handler);
+			request = builder.sendRequest(query, callback);
 		} catch (RequestException e) {
 			GWT.log("error", e);
 		}
 	}
-
+	
+	/**
+	 * 骏网请求
+	 */
+	public void getJCard(String text, RequestCallback callback) {
+		get(commandJCard, Util.string2unicode(text), callback);
+	}
+	
+	public void postJCard(String text, RequestCallback callback) {
+		post(commandJCard, Util.string2unicode(text), callback);
+	}
 	//*********************************************************//
 	public void get007(String query, RequestCallback handler) {
 		if (request != null && request.isPending()) {

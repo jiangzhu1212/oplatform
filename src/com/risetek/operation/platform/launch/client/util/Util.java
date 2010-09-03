@@ -46,6 +46,31 @@ public class Util {
 		return amount.toString();
 	}
 	
+	/**
+	 * 转化字符串
+	 * @param text
+	 * @return
+	 */
+	public static String string2unicode(String s) {
+
+		if (s == null)
+			return null;
+
+		StringBuffer result = new StringBuffer();
+		int i;
+		for (i = 0; i < s.length(); i++) {
+			if (s.charAt(i) >= 0x2018) {
+				result.append('\\');
+				result.append('u');	
+				String hex = Integer.toHexString(s.charAt(i));
+				result.append(hex);
+			} else {
+				result.append(s.charAt(i));
+			}
+		}
+		return result.toString();
+	}
+	
 	public static String formatDate(String text){
 		if(text==null || text.length()!=14){
 			return text;
@@ -146,26 +171,6 @@ public class Util {
 		list_status.addItem( "注销" , "cancel" );
 		list_status.addItem( "无效" , "invalid" );
 		return list_status;
-	}
-	
-	public static String string2unicode(String s) {
-		if (s == null) {
-			return null;
-		}
-
-		StringBuffer result = new StringBuffer();
-		int i;
-		for (i = 0; i < s.length(); i++) {
-			if (s.charAt(i) >= 0x2018) {
-				result.append('\\');
-				result.append('u');
-				String hex = Integer.toHexString(s.charAt(i));
-				result.append(hex);
-			} else {
-				result.append(s.charAt(i));
-			}
-		}
-		return result.toString();
 	}
 
 	/*
