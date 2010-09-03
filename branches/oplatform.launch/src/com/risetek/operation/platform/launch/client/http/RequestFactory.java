@@ -28,25 +28,6 @@ public class RequestFactory {
 		this.base007Url = "http://125.69.69.135:8089/007ka/kaServer!process.do";
 	}
 	
-	private class hookRequestCallback implements RequestCallback {
-
-		private RequestCallback hooker;
-		
-		public hookRequestCallback(RequestCallback handler){
-			hooker = handler;
-		}
-		
-		@Override
-		public void onResponseReceived(Request request, Response response) {
-			hooker.onResponseReceived(request, response);
-		}
-
-		@Override
-		public void onError(Request request, Throwable exception) {
-			hooker.onError(request, exception);
-		}
-		
-	}
 	
 	public void get( String path, String query, RequestCallback handler )
 	{
