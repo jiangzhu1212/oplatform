@@ -14,6 +14,8 @@ public class RequestFactory {
 
 	private final String baseUrl;
 	private Request request;
+	public static final String CTI_PACKET="CTI_PACKET";
+	
 	private String SIGNATURE = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 	
 	private final String base007Url;
