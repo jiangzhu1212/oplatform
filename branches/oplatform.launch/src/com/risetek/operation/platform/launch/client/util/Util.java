@@ -147,4 +147,79 @@ public class Util {
 		list_status.addItem( "无效" , "invalid" );
 		return list_status;
 	}
+	
+	public static String string2unicode(String s) {
+		if (s == null) {
+			return null;
+		}
+
+		StringBuffer result = new StringBuffer();
+		int i;
+		for (i = 0; i < s.length(); i++) {
+			if (s.charAt(i) >= 0x2018) {
+				result.append('\\');
+				result.append('u');
+				String hex = Integer.toHexString(s.charAt(i));
+				result.append(hex);
+			} else {
+				result.append(s.charAt(i));
+			}
+		}
+		return result.toString();
+	}
+
+	/*
+	 * 将TimeField控件中的Hm类型字符串的时钟值转换为JSON包发送的hhmmss
+	 */
+	public static String formatHmStringTime(String time) {
+		time = time.replaceAll(":", "");
+		time = time + "00";
+		if (time.length() == 5) {
+			time = "0" + time;
+		}
+
+		return time;
+	}
+
+	/* change yyyy-MM-dd hh:mm:ss To yyyyMMddhhmmss*/
+	public static String changeDateStringFormat(String text) {
+		DateTimeFormat newFormat = DateTimeFormat.getFormat("yyyyMMddhhmmss");
+		DateTimeFormat oldFormat = DateTimeFormat
+				.getFormat("yyyy-MM-dd hh:mm:ss");
+		Date date = oldFormat.parse(text);
+		return newFormat.format(date);
+	}
+
+	/* 将日期类型转换为JSON发送的yyyyMMdd 类型的字符串 */
+	public static String formatDateToJsonString(Date date) {
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
+		return dateFormat.format(date);
+	}
+
+	/* 将Hm时钟类型转换为字符串 */
+	public static String formatTimeToString(Date date) {
+		DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("H:m");
+		String timeText = dateTimeFormat.format(date);
+		return timeText;
+	}
+
+	/* 将日期类型转换为yyyy-MM-dd 的字符串 */
+	public static String formatDateToShowString(Date date) {
+		DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
+		String dateText = dateTimeFormat.format(date);
+		return dateText;
+
+	}
+	
+	/* change yyyy-MM-dd  To yyyyMMdd000000*/
+	public static String formatMINDateToJsonString(Date date) {
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd000000");
+		return dateFormat.format(date);
+	}
+	
+	/* change yyyy-MM-dd To yyyyMMdd235959*/
+	static public String formatMAXDateToJsonString(Date date) {
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd235959");
+		return dateFormat.format(date);
+	}
 }

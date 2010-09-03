@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.dialog.Card007Dialog;
 import com.risetek.operation.platform.base.client.model.Card007Data;
 import com.risetek.operation.platform.base.client.model.PacketParser;
-import com.risetek.operation.platform.base.client.util.ServiceUtil;
 import com.risetek.operation.platform.base.client.view.Card007View;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
@@ -20,6 +19,7 @@ import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.BillCard007;
 import com.risetek.operation.platform.launch.client.json.constanst.Card007Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
  * @ClassName: BankController 
@@ -156,10 +156,10 @@ public class Card007Controller extends AController {
 					dialog.submit.setEnabled(false);
 					final PacketParser parser = new PacketParser();
 					String packet = parser.chargePacket(INSTANCE.view.grid, Card007Constanst.BILL_RESULT);
-					remoteRequest.send007(ServiceUtil.string2unicode(packet), new RequestCallback() {
+					remoteRequest.send007(Util.string2unicode(packet), new RequestCallback() {
 						@Override
 						public void onError(Request request, Throwable exception) {
-							Window.alert(request.toString() + ServiceUtil.REQUEST_ERROR);
+							Window.alert(request.toString() + "");
 							if (request != null && request.isPending()) {
 								request.cancel();
 							}

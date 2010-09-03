@@ -12,8 +12,6 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.Grid;
 import com.risetek.operation.platform.base.client.control.Card007Controller;
 import com.risetek.operation.platform.base.client.dialog.Card007Dialog;
-import com.risetek.operation.platform.base.client.util.DateTimeFormatUtil;
-import com.risetek.operation.platform.base.client.util.ServiceUtil;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.BillCard007;
@@ -21,6 +19,7 @@ import com.risetek.operation.platform.launch.client.json.constanst.BillConstanst
 import com.risetek.operation.platform.launch.client.json.constanst.BillInfomation;
 import com.risetek.operation.platform.launch.client.json.constanst.Card007Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 
 public class PacketParser {
@@ -56,7 +55,7 @@ public class PacketParser {
 			info.setSTART_POS(0);
 			info.setMAX_COUNT(UIConfig.TABLE_ROW_NORMAL);
 			String packet = toHttpPacket(info,Card007Constanst.ACTION_NAME_SELECT_CARD_007);	
-			request.get007(ServiceUtil.string2unicode(packet), RemoteCaller);
+			request.get007(Util.string2unicode(packet), RemoteCaller);
 		}	
 	}
 	
@@ -87,8 +86,8 @@ public class PacketParser {
 					actionInfo.put(Card007Constanst.PAY_DATETIME_MAX,  new JSONString(card.getPAY_DATETIME_MAX()));
 				}else{
 					Date date = new Date();
-					String dateTimeMIN = DateTimeFormatUtil.formatMINDateToJsonString(date);
-					String dateTimeMAX = DateTimeFormatUtil.formatMAXDateToJsonString(date);
+					String dateTimeMIN = Util.formatMINDateToJsonString(date);
+					String dateTimeMAX = Util.formatMAXDateToJsonString(date);
 					actionInfo.put(Card007Constanst.PAY_DATETIME_MIN, new JSONString(dateTimeMIN));
 					actionInfo.put(Card007Constanst.PAY_DATETIME_MAX,  new JSONString(dateTimeMAX));
 				}
