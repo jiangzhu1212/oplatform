@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.risetek.operation.platform.base.client.constanst.AnnoucementConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.AnnoucementConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /**

@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.dialog;
 
+import java.util.Date;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -8,9 +10,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.risetek.operation.platform.base.client.entry.JCardConstanst;
+import com.risetek.operation.platform.base.client.model.JCardData;
 import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
  * 
@@ -35,7 +39,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	private final TextBox BILL_EXTEND_ID = new MyTextBox();
 	private final DateBox CREATE_DATE = new DateBox();
 	
-	public final ListBox list_status = new ListBox();
+	public final ListBox list_status = Util.getJCardStatus();
 	
 	private String action_name = "";
 	private String trans_id = "";
@@ -50,13 +54,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	}
 	
 	private void createListStatus(){
-		list_status.addItem( "" , "" );
-		list_status.addItem( "可用" , "free" );
-		list_status.addItem( "锁定" , "lock" );
-		list_status.addItem( "销售" , "sold" );
-		list_status.addItem( "失败" , "fail" );
-		list_status.addItem( "注销" , "cancel" );
-		list_status.addItem( "无效" , "invalid" );
+
 	}
 	
 	private void clearPanel(){
@@ -129,7 +127,24 @@ public class JCardQueryButtonDialog extends CustomDialog {
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
-						
+			String sn = SN.getText();	
+			String number = NUMBER.getText();
+			String pwd = PWD.getText();
+			String par_value = PAR_VALUE.getText();
+			String bill_extend_id = BILL_EXTEND_ID.getText();
+			Date creatTime = CREATE_DATE.getValue();
+			String create_date = format.format(creatTime);
+			int statusIndex = list_status.getSelectedIndex();
+			String status = list_status.getValue(statusIndex);
+			
+			JCardData jCardData = new JCardData();
+			jCardData.setSN(sn);
+			jCardData.setNUMBER(number);
+			jCardData.setPWD(pwd);
+			jCardData.setPAR_VALUE(par_value);
+			jCardData.setBILL_EXTEND_ID(bill_extend_id);
+			jCardData.setCREATE_DATE(create_date);
+			jCardData.setSTATUS(status);
 		}
 	}
 	

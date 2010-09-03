@@ -9,10 +9,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.base.client.constanst.Card007Constanst;
 import com.risetek.operation.platform.base.client.dialog.Card007Dialog;
-import com.risetek.operation.platform.base.client.entry.BillCard007;
-import com.risetek.operation.platform.base.client.entry.Constanst;
 import com.risetek.operation.platform.base.client.model.Card007Data;
 import com.risetek.operation.platform.base.client.model.PacketParser;
 import com.risetek.operation.platform.base.client.util.ServiceUtil;
@@ -20,6 +17,9 @@ import com.risetek.operation.platform.base.client.view.Card007View;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.BillCard007;
+import com.risetek.operation.platform.launch.client.json.constanst.Card007Constanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 
 /**
  * @ClassName: BankController 

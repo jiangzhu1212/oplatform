@@ -1,6 +1,6 @@
 package com.risetek.operation.platform.base.client.model;
 
-import com.risetek.operation.platform.base.client.entry.Bank;
+import com.risetek.operation.platform.launch.client.json.constanst.Bank;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 /**

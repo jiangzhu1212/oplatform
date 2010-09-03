@@ -5,10 +5,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.risetek.operation.platform.base.client.entry.ChannelConstanst;
 import com.risetek.operation.platform.base.client.model.ChannelData;
 import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.json.constanst.ChannelConstanst;
 
 /**
  * 

@@ -1,7 +1,7 @@
 package com.risetek.operation.platform.base.client.model;
 
-import com.risetek.operation.platform.base.client.entry.Role;
-import com.risetek.operation.platform.base.client.entry.RoleOperation;
+import com.risetek.operation.platform.launch.client.json.constanst.Role;
+import com.risetek.operation.platform.launch.client.json.constanst.RoleOperation;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class RoleConfigData extends OPlatformData {

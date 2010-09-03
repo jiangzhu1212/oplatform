@@ -6,9 +6,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
-import com.risetek.operation.platform.base.client.entry.JCardConstanst;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
  * 
@@ -23,6 +24,7 @@ public class EditDialog extends CustomDialog {
 	public TextBox newValueBox = new TextBox();
 	public String rowid;
 	String colName = null;
+	public final ListBox list_status = Util.getJCardStatus();
 	public static EditDialog INSTANCE = new EditDialog();
 	
 	private EditDialog(){
@@ -34,6 +36,7 @@ public class EditDialog extends CustomDialog {
 	public void clearPanel(){
 		CREATE_TIME.setValue(null);
 		newValueBox.setValue("");
+		list_status.setSelectedIndex(0);
 	}
 	
 	public void makeMainPanel(String colName){
@@ -64,7 +67,7 @@ public class EditDialog extends CustomDialog {
 			CREATE_TIME.setFormat(new DateBox.DefaultFormat(format));
 			gridFrame.setWidget(1, 1, CREATE_TIME);
 		}else if(JCardConstanst.STATUS_ZH.equals(colName)){
-			gridFrame.setWidget(1, 1, CREATE_TIME);
+			gridFrame.setWidget(1, 1, list_status);
 		}else{
 			gridFrame.setWidget(1, 1, newValueBox);
 		}
@@ -92,15 +95,4 @@ public class EditDialog extends CustomDialog {
 		return true;
 	}
 	
-	public ListBox getJCardStatus(){
-		ListBox list_status = new ListBox();
-		list_status.addItem( "" , "" );
-		list_status.addItem( "可用" , "free" );
-		list_status.addItem( "锁定" , "lock" );
-		list_status.addItem( "销售" , "sold" );
-		list_status.addItem( "失败" , "fail" );
-		list_status.addItem( "注销" , "cancel" );
-		list_status.addItem( "无效" , "invalid" );
-		return list_status;
-	}
 }

@@ -3,7 +3,7 @@ package com.risetek.operation.platform.base.client.model;
 
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
-import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CustomerData extends OPlatformData  {

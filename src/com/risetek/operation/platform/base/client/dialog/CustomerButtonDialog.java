@@ -10,10 +10,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
 import com.risetek.operation.platform.base.client.model.CustomerData;
 import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 
 /**
  * 

@@ -2,7 +2,7 @@ package com.risetek.operation.platform.base.client.service;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.risetek.operation.platform.base.client.entry.Bank;
+import com.risetek.operation.platform.launch.client.json.constanst.Bank;
 
 /** 
  * @ClassName: BankService 

@@ -7,10 +7,10 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
-import com.risetek.operation.platform.base.client.entry.TransactionConstanst;
 import com.risetek.operation.platform.base.client.model.TransactionData;
 import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 
 /**
  * 
