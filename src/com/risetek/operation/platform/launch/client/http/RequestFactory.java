@@ -17,13 +17,14 @@ public class RequestFactory {
 	
 	private final String commandJCard = "JCardServer/jcardServer!process.do";
 	
+	private final String command = "billServer/billCenter!request.do";
+	
 	private String SIGNATURE = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 	
 	private final String base007Url;
 	
 	public RequestFactory(){
-//		this.baseUrl = "http://192.168.6.9:8089/billServer/billCenter!request.do";
-		this.baseUrl = "http://125.69.69.135:8089/billServer/billCenter!request.do";
+		this.baseUrl = "http://192.168.6.9:8089";
 		this.base007Url = "http://125.69.69.135:8089/007ka/kaServer!process.do";
 	}
 	
