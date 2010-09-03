@@ -123,16 +123,11 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 * void
 	 * @param data
 	 */
-	public void render(TransactionData data){
+	public void render(OPlatformData data){
 		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
 	}
 
-	@Override
-	public void render(OPlatformData data) {
-		// TODO Auto-generated method stub
-		
-	}
 }

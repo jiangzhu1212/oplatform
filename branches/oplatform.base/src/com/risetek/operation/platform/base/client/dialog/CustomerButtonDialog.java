@@ -1,8 +1,6 @@
 package com.risetek.operation.platform.base.client.dialog;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -11,7 +9,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
 import com.risetek.operation.platform.base.client.model.CustomerData;

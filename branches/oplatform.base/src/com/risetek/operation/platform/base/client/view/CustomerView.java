@@ -1,8 +1,5 @@
 package com.risetek.operation.platform.base.client.view;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -14,7 +11,6 @@ import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
 import com.risetek.operation.platform.base.client.model.CustomerData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
-import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 

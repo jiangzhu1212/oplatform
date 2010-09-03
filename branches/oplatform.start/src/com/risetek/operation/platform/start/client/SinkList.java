@@ -6,8 +6,12 @@ import com.risetek.operation.platform.base.client.AcountSink;
 import com.risetek.operation.platform.base.client.AnnoucementSink;
 import com.risetek.operation.platform.base.client.BankSink;
 import com.risetek.operation.platform.base.client.BaseSink;
+import com.risetek.operation.platform.base.client.CardBatchSink;
+import com.risetek.operation.platform.base.client.CardTerminalSink;
+import com.risetek.operation.platform.base.client.ChannelSink;
 import com.risetek.operation.platform.base.client.Card007Sink;
 import com.risetek.operation.platform.base.client.CustomerSink;
+import com.risetek.operation.platform.base.client.JCardQuerySink;
 import com.risetek.operation.platform.base.client.RoleConfigSink;
 import com.risetek.operation.platform.base.client.TdbcSink;
 import com.risetek.operation.platform.base.client.TransBindSink;
@@ -44,6 +48,10 @@ public class SinkList {
 		sinkList.add(new TransEnableSink());
 		sinkList.add(new RoleConfigSink());
 		sinkList.add(new TransBindSink());
+		sinkList.add(new CardBatchSink());
+		sinkList.add(new CardTerminalSink());
+		sinkList.add(new ChannelSink());
+		sinkList.add(new JCardQuerySink());
 		sinkList.add(new UserConfigSink());
 		return sinkList;
 	}

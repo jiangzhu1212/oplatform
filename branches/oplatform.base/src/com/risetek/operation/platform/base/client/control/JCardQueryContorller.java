@@ -9,26 +9,25 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.base.client.control.CustomerController.RemoteRequestCallback;
-import com.risetek.operation.platform.base.client.dialog.EditDialog;
-import com.risetek.operation.platform.base.client.dialog.TransactionButtonDialog;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.risetek.operation.platform.base.client.dialog.JCardQueryButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
-import com.risetek.operation.platform.base.client.model.TransactionData;
-import com.risetek.operation.platform.base.client.view.TransactionView;
+import com.risetek.operation.platform.base.client.model.JCardData;
+import com.risetek.operation.platform.base.client.view.JCardQueryView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 
-public class TransactionController extends AController {
+public class JCardQueryContorller extends AController {
 
-	public static TransactionController INSTANCE = new TransactionController();
-	final TransactionData data = new TransactionData();
+	public static JCardQueryContorller INSTANCE = new JCardQueryContorller();
+	final JCardData data = new JCardData();
 	
-	public final TransactionView view = new TransactionView();
-	public final TransactionButtonDialog transactionDialog = new TransactionButtonDialog();
+	public final JCardQueryView view = new JCardQueryView();
+	public final JCardQueryButtonDialog jCardQueryDialog = new JCardQueryButtonDialog();
 	
 	private static RequestFactory remoteRequest = new RequestFactory();
 	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
@@ -59,9 +58,8 @@ public class TransactionController extends AController {
 			
 		}
 	}
-	private TransactionController(){
-//		String name = new TableEditAction().getActionName();
-//		System.out.println(name);
+	private JCardQueryContorller(){
+		
 	}
 	
 	/**
@@ -81,7 +79,7 @@ public class TransactionController extends AController {
 	 * BaseData
 	 * @return
 	 */
-	public TransactionData getData() {
+	public JCardData getData() {
 		return data;
 	}
 	
@@ -127,24 +125,13 @@ public class TransactionController extends AController {
 				dialog.makeMainPanel(INSTANCE.view.grid , row);
 				dialog.show();
 				break;
-			case 2:
-				// 选择了删除业务。
-				edit_control.setColName(null);	
-				edit_control.dialog.submit.setText("删除");
-				edit_control.dialog.submit.addClickHandler(edit_control);
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
 
-			case 3:
 			case 4:
 			case 5:
 			case 6:
 			case 7:
-			case 8:
-			case 9:
-			case 10:
-			case 11:				
-				edit_control.setColName(TransactionView.columns[col-2]);	
+			case 8:				
+				edit_control.setColName(JCardQueryView.columns[col-2]);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
@@ -186,12 +173,9 @@ public class TransactionController extends AController {
 		
 		public void onClick(ClickEvent event) {
 			Object obj = event.getSource();			
-			if(obj == TransactionView.addButton){
-				INSTANCE.transactionDialog.addMainPanel();
-				INSTANCE.transactionDialog.show();
-			}else if(obj == TransactionView.queryButton){
-				INSTANCE.transactionDialog.queryMainPanel();
-				INSTANCE.transactionDialog.show();
+			 if(obj == JCardQueryView.queryButton){
+				INSTANCE.jCardQueryDialog.queryMainPanel();
+				INSTANCE.jCardQueryDialog.show();
 			}
 		}
 	}

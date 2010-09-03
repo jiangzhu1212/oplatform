@@ -3,9 +3,11 @@ package com.risetek.operation.platform.base.client.dialog;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.entry.CustomerConstanst;
+import com.risetek.operation.platform.base.client.entry.JCardConstanst;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 
 /**
@@ -44,21 +46,27 @@ public class EditDialog extends CustomDialog {
 			gridFrame.setWidget(0, 0, new Label("当前"+colName+":"));
 			gridFrame.setWidget(0, 1, oldValueLabel);
 			gridFrame.setWidget(1, 0, new Label("新的"+colName+":"));
-			if(CustomerConstanst.CREATE_TIME_ZH.equals(colName)){
-				/**
-				 * 如果是日期格式执行下面的方法
-				 */
-				CREATE_TIME.setFormat(new DateBox.DefaultFormat(format));
-				gridFrame.setWidget(1, 1, CREATE_TIME);
-			}else{
-				gridFrame.setWidget(1, 1, newValueBox);
-			}			
+			makeNewBox(gridFrame);			
 			newValueBox.setTabIndex(1);			
 			mainPanel.add(gridFrame);
 		}else {
 			label.setText("");
 			Label  info = new Label("您确定删除或作废该条信息？");
 			mainPanel.add(info);
+		}
+	}
+	
+	private void makeNewBox(Grid gridFrame){
+		if(CustomerConstanst.CREATE_TIME_ZH.equals(colName)){
+			/**
+			 * 如果是日期格式执行下面的方法
+			 */
+			CREATE_TIME.setFormat(new DateBox.DefaultFormat(format));
+			gridFrame.setWidget(1, 1, CREATE_TIME);
+		}else if(JCardConstanst.STATUS_ZH.equals(colName)){
+			gridFrame.setWidget(1, 1, CREATE_TIME);
+		}else{
+			gridFrame.setWidget(1, 1, newValueBox);
 		}
 	}
 	
@@ -73,8 +81,8 @@ public class EditDialog extends CustomDialog {
 			setText("修改" + colName);
 			oldValueLabel.setText(tips_imsi);	
 			newValueBox.setFocus(true);
-		}		
-		super.show();		
+		}
+		super.show();
 	}
 	
 	public boolean isValid()
@@ -84,5 +92,15 @@ public class EditDialog extends CustomDialog {
 		return true;
 	}
 	
-	
+	public ListBox getJCardStatus(){
+		ListBox list_status = new ListBox();
+		list_status.addItem( "" , "" );
+		list_status.addItem( "可用" , "free" );
+		list_status.addItem( "锁定" , "lock" );
+		list_status.addItem( "销售" , "sold" );
+		list_status.addItem( "失败" , "fail" );
+		list_status.addItem( "注销" , "cancel" );
+		list_status.addItem( "无效" , "invalid" );
+		return list_status;
+	}
 }

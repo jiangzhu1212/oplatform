@@ -5,31 +5,43 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
-import com.risetek.operation.platform.base.client.ChannelSink;
-import com.risetek.operation.platform.base.client.control.ChannelController;
-import com.risetek.operation.platform.base.client.entry.ChannelConstanst;
+import com.risetek.operation.platform.base.client.JCardQuerySink;
+import com.risetek.operation.platform.base.client.control.JCardQueryContorller;
+import com.risetek.operation.platform.base.client.entry.JCardConstanst;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
-public class ChannelView  extends OPlatformTableView implements IOPlatformView {
+public class JCardQueryView  extends OPlatformTableView implements IOPlatformView {
 
-	public final static Button addButton = new Button("添加渠道",new ChannelController.TableShowAction());
-	public final static Button queryButton = new Button("查询渠道",new ChannelController.TableShowAction());
-	public final static String[] columns = {ChannelConstanst.CHANNEL_ID_ZH,ChannelConstanst.DESCRIPTION_ZH,ChannelConstanst.FEE_ZH,ChannelConstanst.FEE_TYPE_ZH,ChannelConstanst.FEE_ADDITION_ZH,ChannelConstanst.ADDITION_ZH,ChannelConstanst.LOC_CODE_ZH};
+
+	public final static Button queryButton = new Button("查询客户",new JCardQueryContorller.TableShowAction());
+
+	public final static String[] columns = {
+		JCardConstanst.JCARDID_ZH, 
+		JCardConstanst.BILL_EXTEND_ID_ZH,
+		JCardConstanst.SN_ZH,
+		JCardConstanst.NUMBER_ZH,
+		JCardConstanst.PWD_ZH,
+		JCardConstanst.STATUS_ZH,
+		JCardConstanst.PAR_VALUE_ZH,
+		JCardConstanst.CREATE_DATE_ZH,
+		JCardConstanst.STATUS_TIMEOUT_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
-	public final static int[] columnsWidth = {25, 25, 25, 25, 25,25,25};
+	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public static String descript = "";
 	String banner_tips = "";
 	private final static String[] banner_text = {
-		"点击删除此渠道.",
-		"点击修改" + columns[1],
-		"点击修改" + columns[2],
+		"",
+		"",
+		"",
 		"点击修改" + columns[3],
 		"点击修改" + columns[4],
 		"点击修改" + columns[5],
-		"点击修改" + columns[6]
+		"点击修改" + columns[6],
+		"",
+		"",
 	};
 	
 	public void setBannerTips(String tips) {
@@ -37,26 +49,27 @@ public class ChannelView  extends OPlatformTableView implements IOPlatformView {
 		setInfo(banner_tips);
 	}
 	
-	public ChannelView(){
+	public JCardQueryView(){
 		Widget action = initPromptGrid();
 		addActionPanel(action, descript);
-		setLocation(ChannelSink.Group + " -> " + ChannelSink.Name);
+//		setCellHeight(action, "38px");
+		setLocation(JCardQuerySink.Group + " -> " + JCardQuerySink.Name);
 		setStatisticText(100);
-		grid.addClickHandler(new ChannelController.TableEditAction());
+		grid.addClickHandler(new JCardQueryContorller.TableEditAction());
 
 	}
 	
 	private Widget initPromptGrid(){
-		HorizontalPanel actionPanel = new HorizontalPanel();	
-		actionPanel.add(addButton);
+		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(queryButton);
+		
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;
 	}
 	
 	public void onLoad(){
-		ChannelController.load();
+		JCardQueryContorller.load();
 	}
 
 	@Override
@@ -77,14 +90,14 @@ public class ChannelView  extends OPlatformTableView implements IOPlatformView {
 			grid = new GreenMouseEventGrid(banner_text);
 		}
 		formatGrid(grid, rowCount, columns,columnsWidth);
-
 		return grid;
 	}
 
 	public void render(OPlatformData data){
 		for(int index=0;index<rowCount;index++){
-			renderLine(grid ,data, index);
+			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
 	}
+
 }
