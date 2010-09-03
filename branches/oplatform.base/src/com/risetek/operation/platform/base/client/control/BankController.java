@@ -16,13 +16,13 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.BankAddDialog;
 import com.risetek.operation.platform.base.client.dialog.BankModifyDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
-import com.risetek.operation.platform.base.client.entry.Bank;
 import com.risetek.operation.platform.base.client.model.BankData;
 import com.risetek.operation.platform.base.client.service.BankService;
 import com.risetek.operation.platform.base.client.service.BankServiceAsync;
 import com.risetek.operation.platform.base.client.view.BankView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.json.constanst.Bank;
 
 /**
  * @ClassName: BankController 

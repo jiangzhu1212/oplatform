@@ -2,7 +2,7 @@ package com.risetek.operation.platform.base.client.dialog;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextBox;
-import com.risetek.operation.platform.base.client.constanst.AcountConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.AcountConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /** 

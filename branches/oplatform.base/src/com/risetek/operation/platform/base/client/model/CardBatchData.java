@@ -2,7 +2,7 @@ package com.risetek.operation.platform.base.client.model;
 
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
-import com.risetek.operation.platform.base.client.entry.CardBatchConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.CardBatchConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CardBatchData  extends OPlatformData {

@@ -1,6 +1,6 @@
 package com.risetek.operation.platform.base.client.model;
 
-import com.risetek.operation.platform.base.client.entry.BillCard007;
+import com.risetek.operation.platform.launch.client.json.constanst.BillCard007;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 /**
