@@ -8,18 +8,21 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.dialog.Card007Dialog;
 import com.risetek.operation.platform.base.client.model.Card007Data;
-import com.risetek.operation.platform.base.client.model.PacketParser;
+import com.risetek.operation.platform.base.client.model.Card007Data.PacketParser;
 import com.risetek.operation.platform.base.client.view.Card007View;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.control.DialogControl;
+import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.BillCard007;
 import com.risetek.operation.platform.launch.client.json.constanst.Card007Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
  * @ClassName: BankController 
@@ -49,18 +52,18 @@ public class Card007Controller extends AController {
 	class RemoteRequestCallback implements RequestCallback {
 		@Override
 		public void onError(Request request, Throwable exception) {
-
+			Window.alert("请求发送失败！");
 		}
 		@Override
 		public void onResponseReceived(Request request, Response response) {
-			int code = response.getStatusCode();
-			System.out.println(code);
 			String ret = response.getText();
-			if (code == Response.SC_OK) {
-				PacketParser parser = new PacketParser();
+			System.out.println("search Ret:  "+ ret);
+			System.out.println("search code:  "+ response.getStatusCode());
+			if (response.getStatusCode() == Response.SC_OK) {
+				PacketParser parser = Card007Data.INSTANCE.new PacketParser();
 				BillCard007[] array = (BillCard007[]) parser.packetParser(ret, Constanst.ACTION_NAME_SELECT_CARD_007);			
 				INSTANCE.data.parseResult(array);
-				INSTANCE.view.render(INSTANCE.data);
+				//INSTANCE.view.render(INSTANCE.data);
 			}
 		}
 	}
@@ -70,7 +73,8 @@ public class Card007Controller extends AController {
 	 * @return void 返回类型 
 	 */
 	public static void load() {
-		new PacketParser().initializedata(Constanst.ACTION_NAME_SELECT_CARD_007);
+		Card007Data.INSTANCE.new PacketParser().initializedata(remoteRequest, RemoteCaller, Constanst.ACTION_NAME_SELECT_CARD_007);
+		INSTANCE.data.setSum(10);
 		INSTANCE.view.render(INSTANCE.data);
 	}
 
@@ -132,65 +136,101 @@ public class Card007Controller extends AController {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Object obj = event.getSource();
-			if (obj == Card007View.chargeButton) {
-				INSTANCE.processFuc(null);
-				return;
-			} 
+			
 		}
 	}
 	
-	/**
-	 * @Description: 执行add/search操作
-	 * @return void 返回类型
-	 */
-	private void processFuc(final String processTag) {
-		final Card007Dialog dialog = new Card007Dialog(processTag, INSTANCE.view.grid, 1);
-		dialog.submit.setText("确认充值");
-		dialog.show();
-
-		dialog.submit.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (dialog.isValid()) {
-					dialog.submit.setEnabled(false);
-					final PacketParser parser = new PacketParser();
-					String packet = parser.chargePacket(INSTANCE.view.grid, Card007Constanst.BILL_RESULT);
-					remoteRequest.send007(Util.string2unicode(packet), new RequestCallback() {
-						@Override
-						public void onError(Request request, Throwable exception) {
-							Window.alert(request.toString() + "");
-							if (request != null && request.isPending()) {
-								request.cancel();
-							}
-						}
-						
-						@Override
-						public void onResponseReceived(Request request, Response response) {
-							processResponseText(parser, response);
-						}
-					});
+	public static class chargeAction implements ClickHandler {
+		Grid grid;
+		public chargeAction(Grid grid){
+			this.grid = grid;
+		}
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			int i = 0, j = 1, row = 0;
+			for (; j < grid.getRowCount(); j++) {
+				CheckBox box = (CheckBox) grid.getWidget(j, 0);
+				if (box == null) continue;
+				if (box.getValue()) {
+					i++;
+					row = Integer.parseInt(grid.getText(j, 1));
 				}
 			}
-		});
+			if(i==0){
+				Window.alert("请选择一个007卡执行操作！");
+				return;
+			} else if (i>1){
+				Window.alert("只能选择一条007卡执行操作！");
+				return;
+			} 
+			
+			//String payState = grid.getText(row, 8);
+			//if(payState.equals("已支付")){
+				charge007CardControl control = new charge007CardControl(grid, row);
+				control.dialog.submit.addClickHandler(control);
+				control.dialog.submit.setText("确认充值");
+				control.dialog.show();
+//			}else{
+//				Window.alert("该笔账单：" + grid.getText(row, 3) + "未支付");
+//			}
+		}
 	}
 	
-	private void processResponseText(PacketParser parser, Response response){
-		int code = response.getStatusCode();
-		System.out.println("Windos RESPONSE CODE=" + code);
+	public static class charge007CardControl extends DialogControl implements ClickHandler {
+		Card007Dialog dialog;
+		BillCard007 card;
+		public charge007CardControl(Grid grid, int row) {
+			this.dialog = new Card007Dialog(grid, row);
+			card = dialog.getData(grid, row);
+		}
+
+		@Override
+		protected CustomDialog getDialog() {
+			return dialog;
+		}
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			if (dialog.isValid()) {
+				dialog.submit.setEnabled(false);
+				final PacketParser parser = Card007Data.INSTANCE.new PacketParser();
+				String packet = parser.chargePacket(card, Card007Constanst.BILL_RESULT);
+				System.out.println("add packet:  "+ packet);
+				remoteRequest.send007(packet, new RequestCallback() {
+					@Override
+					public void onError(Request request, Throwable exception) {
+						Window.alert(request.toString() + "请求发送失败！");
+						if (request != null && request.isPending()) {
+							request.cancel();
+						}
+					}
+					
+					@Override
+					public void onResponseReceived(Request request, Response response) {
+						processResponseText(parser, response);
+						dialog.hide();
+					}
+				});
+			}
+		}
+	}
+	
+	private static void processResponseText(PacketParser parser, Response response){
 		String ret = response.getText();
-		System.out.println("Window Ret:  "+ ret);
-		if (code == Response.SC_OK) {
-			if (ret != null && !"".equals(ret)) {
-				int result = parser.dealResponsePacket(ret);
-				if (result == 0) {
-					load();
-				} else {
-					Window.alert("请求异常" + result);
-				}
+		System.out.println("add Ret:  "+ ret);
+		System.out.println("add code:  "+ response.getStatusCode());
+		if (response.getStatusCode() == Response.SC_OK) {
+			int result = parser.dealResponsePacket(ret);
+			if (result == 0) {
+				load();
+				Card007Dialog.timeValue=null;
+				Window.alert("充值成功！" );
+			} else {
+				Window.alert("请求异常Code:" + result);
 			}
 		}else{
-			Window.alert("请求异常");
+			Window.alert("请求异常,code:" + response.getStatusCode());
 		}
 	}
 }

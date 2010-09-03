@@ -30,12 +30,12 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
  */
 public class Card007View extends OPlatformTableView implements IOPlatformView {
 	
-	protected static final String[][] statusBoxValue = { {"已充值", "0"}, {"未充值","1"}, {"充值失败","2"}, {"已委托","3"}, {"未委托","4"}};
-	public DateBox dateBox = new DateBox();
+	protected final static String[][] statusBoxValue = { {"已充值", "0"}, {"未充值","1"}, {"充值失败","2"}, {"已委托","3"}, {"未委托","4"}};
+	public final static DateBox dateBox = new DateBox();
 	private final static ListBox listBox = new ListBox();
 	public static int statusValue = 2;
 	
-	public final static Button chargeButton = new Button("充值", new Card007Controller.TableEditAction());
+	public final Button chargeButton = new Button("充值", new Card007Controller.chargeAction(grid));
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	String banner_tips = "";
@@ -50,13 +50,13 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 		Card007Constanst.PAYSTATE_ZH
 	};
 	private final static String[] banner_text = {
-		"点击查看本条记录",
-		"点击修改"+columns[1],
-		"点击修改"+columns[2],
-		"点击修改"+columns[3],
-		"点击修改"+columns[4],
-		"点击修改"+columns[5],
-		"点击修改"+columns[6]
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		""
 	};
 	
 	/**
@@ -90,7 +90,6 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 		return actionPanel;
 	}
 	
-	@SuppressWarnings("static-access")
 	private Widget createSearchBar(){
 		HorizontalPanel searchPanel = new HorizontalPanel();
 		searchPanel.setStyleName("tableMessagePanel-content");
@@ -107,10 +106,10 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 			public void onChange(ChangeEvent event) {
 				int index = listBox.getSelectedIndex();
 				statusValue = Integer.parseInt(statusBoxValue[index][1]);
-				Card007Controller.INSTANCE.load();
+				onLoad();
 			}
 		});
-		
+
 		searchPanel.add(new Label(Card007Constanst.PAY_DATETIME_ZH+":"));
 		searchPanel.add(dateBox);
 		searchPanel.add(new Label(Card007Constanst.STATUS_ZH+":"));
@@ -165,7 +164,6 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 			grid = new GreenMouseEventGrid(banner_text);
 		}
 		super.formatGrid(grid, rowCount, columns, columnsWidth);
-		grid.addClickHandler(new Card007Controller.TableEditAction());
 		return grid;
 	}
 
