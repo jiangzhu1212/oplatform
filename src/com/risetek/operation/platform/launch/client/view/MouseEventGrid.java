@@ -1,5 +1,6 @@
 package com.risetek.operation.platform.launch.client.view;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
@@ -65,12 +66,14 @@ public abstract class MouseEventGrid extends Grid {
 		switch (DOM.eventGetType(event)) {
 		case Event.ONMOUSEOVER:
 			getRowFormatter().getElement(row).getStyle().setBackgroundColor("#C5E9FC");
+			getRowFormatter().getElement(row).getStyle().setCursor(Style.Cursor.POINTER);
 			onMouseOver(td, column);
 			break;
 		case Event.ONMOUSEOUT:
 			// 处理这个事件是为了让弹出菜单下面的颜色恢复正常。
 		case Event.ONCLICK:
 			getRowFormatter().getElement(row).getStyle().clearBackgroundColor();
+			getRowFormatter().getElement(row).getStyle().clearCursor();
 			onMouseOut(td, column);
 			break;
 		}

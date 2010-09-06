@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.launch.client.view;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -29,6 +31,7 @@ public abstract class OPlatformTableView extends DockPanel {
 	private final Label infoLabel = new Label("");
 	private final Label statisticLabel = new Label("");
 	public VerticalPanel main = new VerticalPanel();
+	public HorizontalPanel page = new HorizontalPanel();
 	
 	public abstract String[] parseRow(Node node);
 	public abstract Grid getGrid();
@@ -65,6 +68,9 @@ public abstract class OPlatformTableView extends DockPanel {
 		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_RIGHT);
 		main.add(messagePanel);
 		main.add(grid);
+		Widget pagePanel = createChildPagePanel();
+		main.add(pagePanel);
+		main.setCellHorizontalAlignment(pagePanel, HasHorizontalAlignment.ALIGN_CENTER);
 		outer.add(main);
 		grid.setStyleName("optable");
 	    HTML empty = new HTML("");
@@ -89,6 +95,30 @@ public abstract class OPlatformTableView extends DockPanel {
 		border.setCellWidth(desc, "25%");
 		border.setCellHorizontalAlignment(desc, HasHorizontalAlignment.ALIGN_RIGHT);
 		add(border, DockPanel.SOUTH);
+	}
+	
+	private Widget createChildPagePanel() {
+		PageLabel first = new PageLabel("|<");
+		PageLabel before = new PageLabel("<<");
+		PageLabel page1 = new PageLabel("1");
+		page1.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				onLoad();
+			}
+		});
+		PageLabel after = new PageLabel(">>");
+		PageLabel last = new PageLabel(">|");
+		first.setEnable(false);
+		before.setEnable(false);
+		after.setEnable(false);
+		last.setEnable(false);
+		page.add(first);
+		page.add(before);
+		page.add(page1);
+		page.add(after);
+		page.add(last);
+		return page;
 	}
 	
 	/**
@@ -178,12 +208,12 @@ public abstract class OPlatformTableView extends DockPanel {
 					grid.setText(index+1, i, Integer.toString(index+1));
 					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
 				} else {
-					String text = "";
 					if(data.getData()!=null){
-						text = data.getData()[index][i-2];
+						String text = data.getData()[index][i-2];
+						grid.setText(index+1, i, text);
+					} else {
+						grid.clearCell(index+1, i);
 					}
-					grid.setText(index+1, i, text);
-//					grid.setText(index+1, i, "123");
 				}
 				if(i==2){
 					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
@@ -263,7 +293,7 @@ public abstract class OPlatformTableView extends DockPanel {
 			if(!isChild){
 				setInfo(text);
 			} else {
-				VerticalPanel child = (VerticalPanel)outer.getWidget(2);
+				VerticalPanel child = (VerticalPanel)outer.getWidget(1);
 				Grid childTitle = (Grid)child.getWidget(0);
 				childTitle.setText(0, 1, text);
 			}
@@ -284,7 +314,7 @@ public abstract class OPlatformTableView extends DockPanel {
 			if(!isChild){
 				setInfo("");
 			} else {
-				VerticalPanel child = (VerticalPanel)outer.getWidget(2);
+				VerticalPanel child = (VerticalPanel)outer.getWidget(1);
 				Grid childTitle = (Grid)child.getWidget(0);
 				childTitle.setText(0, 1, "");
 			}
