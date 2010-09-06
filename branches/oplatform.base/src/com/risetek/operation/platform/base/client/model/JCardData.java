@@ -1,5 +1,8 @@
 package com.risetek.operation.platform.base.client.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONNumber;
@@ -65,15 +68,21 @@ public class JCardData  extends OPlatformData  {
 	
 	/**
 	 * 需要上传的数据
-	 * @param text
 	 */
 	private String uploadData = null;
-	
+	/**
+	 * 需要对账的数据
+	 */
+	private String balanceData = null;
 	/**
 	 * 操作名
 	 * @param text
 	 */
 	private String ACTION_NAME = null;
+	
+	private List<String> JCard = new ArrayList<String>();
+	private List<String> checkCard = new ArrayList<String>();
+	
 	public void parseData(String text){
 		if("".equals(text)){
 			Window.alert("无返回值");
@@ -191,6 +200,43 @@ public class JCardData  extends OPlatformData  {
 			buffer.append("=");
 			buffer.append(packet.toString());
 			return buffer.toString();
+	}
+	
+	public void toHttpPacketBl(){
+		JCard = new ArrayList<String>();
+		checkCard = new ArrayList<String>();
+		JSONObject packet = new JSONObject();
+		packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));
+		String[] lines = balanceData.split("\r\n");
+		JSONObject actionInfo = new JSONObject();
+		for(int i = 0 ; i <lines.length ; i++){
+			if(lines[i].trim().length()==0){
+				continue ;
+			}
+			actionInfo = new JSONObject();
+			checkCard.add(lines[i]);
+			String[] attributes = lines[i].split(",");			
+			if(attributes.length != JCardConstanst.JK_ATTRIBUTE_NUM){
+				Window.alert("第"+(i+1)+"行数据不完整或格式不正确");
+				return ;
+			}
+			for(int j = 0 ; j < attributes.length ; j++){
+				if(attributes[j].trim().length() == 0){
+					Window.alert("第"+(i+1)+"行,第"+(j+1)+"组数据不完整或格式不正确");
+					return ;
+				}
+			}
+			actionInfo.put("SN", new JSONString(attributes[0]));
+			actionInfo.put("NUMBER", new JSONString(attributes[1]));
+			actionInfo.put("PWD", new JSONString(attributes[2]));
+			actionInfo.put("PAR_VALUE", new JSONString(attributes[3]));
+			packet.put(Constanst.ACTION_INFO,actionInfo);
+			StringBuffer buffer = new StringBuffer();
+			buffer.append(RequestFactory.CTI_PACKET);
+			buffer.append("=");
+			buffer.append(packet.toString());
+			JCard.add(buffer.toString());
+		}
 	}
 	
 	private JSONObject packetData(){
@@ -393,6 +439,22 @@ public class JCardData  extends OPlatformData  {
 
 	public void setACTION_NAME(String aCTION_NAME) {
 		ACTION_NAME = aCTION_NAME;
+	}
+
+	public String getBalanceData() {
+		return balanceData;
+	}
+
+	public void setBalanceData(String balanceData) {
+		this.balanceData = balanceData;
+	}
+
+	public List<String> getJCard() {
+		return JCard;
+	}
+
+	public List<String> getCheckCard() {
+		return checkCard;
 	}
 
 	@Override

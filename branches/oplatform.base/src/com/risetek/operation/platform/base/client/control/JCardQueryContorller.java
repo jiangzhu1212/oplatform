@@ -58,6 +58,7 @@ public class JCardQueryContorller extends AController {
 			
 		}
 	}
+	
 	//查询的回调
 	public static final RequestCallback QueryCaller = INSTANCE.new QueryRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
@@ -73,6 +74,9 @@ public class JCardQueryContorller extends AController {
 			
 		}
 	}
+	
+	
+	
 	private JCardQueryContorller(){
 		
 	}
@@ -218,6 +222,8 @@ public class JCardQueryContorller extends AController {
 				INSTANCE.jCardQueryDialog.show();
 			}else if(obj == JCardQueryView.balanceButton){
 				INSTANCE.jCardQueryDialog.setAction_name(Constanst.ACTION_NAME_BALANCE);
+				INSTANCE.jCardQueryDialog.balancePanel();
+				INSTANCE.jCardQueryDialog.show();
 			}
 		}
 	}

@@ -1,11 +1,15 @@
 package com.risetek.operation.platform.base.client.dialog;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -16,6 +20,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.JCardQueryContorller;
 import com.risetek.operation.platform.base.client.model.JCardData;
 import com.risetek.operation.platform.base.client.view.MyTextBox;
+import com.risetek.operation.platform.launch.client.control.OpRetInfo;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -47,7 +52,21 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	
 	private final TextArea updateText = new TextArea();
 	
+	private final TextArea BALANCE_TEXT = new TextArea();
+	
+	public final TextArea BALANCE_RIGTH_TEXT = new TextArea();
+	
+	public final TextArea BALANCE_WRONG_TEXT = new TextArea();
+	
 	public final ListBox list_status = Util.getJCardStatus();
+	
+	public StringBuilder sbSuccess = new StringBuilder();
+	
+	public StringBuilder sbFail = new StringBuilder();
+	
+	public List<String> jwCard = new ArrayList<String>();
+	
+	public List<String> jwCheckKard = new ArrayList<String>();
 	
 	private String action_name = "";
 	private String trans_id = "";
@@ -55,18 +74,70 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	 * 查询请求包
 	 */
 	public String packet = null;
+	
+	JCardData data = new JCardData();
 		
 	DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
 	
+	public RequestFactory request;
+	
+	public  RequestCallback balanceCaller ;
+	//对账操作的回调
+	class BalanceRequestCallback implements RequestCallback {
+		public void onResponseReceived(Request request0, Response response) {
+			
+			int code = response.getStatusCode();
+			System.out.println(code);
+			String ret = response.getText();
+			OpRetInfo opRetinfo = (OpRetInfo)data.retInfo(ret)[0];
+			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
+				String returnMessage = opRetinfo.getReturnMessage();
+				
+				sbFail.append(jwCheckKard.get(0));
+				String status = getElecTicketStatusCn(returnMessage);
+				sbFail.append("\r\n账单中心状态：" );
+				if(status != null){
+					sbFail.append(status);
+				}				
+				jwCheckKard.remove(0);
+				sbFail.append("\r\n");
+				jwCard.remove(0);
+				BALANCE_WRONG_TEXT.setValue(sbFail.toString());
+				if(jwCard.size() != 0){					
+					request.getJCard(jwCard.get(0), balanceCaller);
+				}else{					
+					BALANCE_RIGTH_TEXT.setValue(sbSuccess.toString());
+					Window.alert("对账完成");				
+				}
+			}else{
+				sbSuccess.append(jwCheckKard.get(0));
+				jwCheckKard.remove(0);
+				sbSuccess.append("\r\n");
+				jwCard.remove(0);
+				BALANCE_RIGTH_TEXT.setValue(sbSuccess.toString());
+				if(jwCard.size() != 0){
+					request.getJCard(jwCard.get(0), balanceCaller);
+				}else{
+					BALANCE_WRONG_TEXT.setValue(sbFail.toString());
+					Window.alert("对账完成");
+				}
+			}
+		}
+
+		public void onError(Request request, Throwable exception) {
+			
+		}
+	}
+	
 	public JCardQueryButtonDialog() {
+		balanceCaller = new BalanceRequestCallback();
 		CREATE_DATE.setFormat(new DateBox.DefaultFormat(format));
-		updateText.setSize("400px", "300px");
 		ClickHandler handler = new SubmitButtonClickHandler();
 		submit.addClickHandler(handler);
 	}
 	
 	public void addMainPanel(){
-
+		updateText.setSize("350px", "300px");
 		setText("添加俊卡");
 		label.setText("上传的骏卡信息");
 		Grid gridFrame = new Grid(1, 1);
@@ -76,8 +147,19 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	}
 	
 	public void balancePanel(){
+		BALANCE_TEXT.setSize("350px", "150px");
+		BALANCE_RIGTH_TEXT.setSize("350px", "120px");
+		BALANCE_WRONG_TEXT.setSize("350px", "180px");
 		setText("俊卡对账");
-		
+		Grid gridFrame = new Grid(6, 1);
+		gridFrame.setWidget(0, 0, new Label("需要对账数据"));
+		gridFrame.setWidget(1, 0, BALANCE_TEXT);
+		gridFrame.setWidget(2, 0, new Label("对账成功数据"));
+		gridFrame.setWidget(3, 0, BALANCE_RIGTH_TEXT);
+		gridFrame.setWidget(4, 0, new Label("对账失败数据"));		
+		gridFrame.setWidget(5, 0, BALANCE_WRONG_TEXT);
+		mainPanel.add(gridFrame);
+		submit.setText("对账");
 	}
 	
 	public void queryMainPanel(){
@@ -121,14 +203,14 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	public class SubmitButtonClickHandler implements ClickHandler{
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub	
-			RequestFactory requset = JCardQueryContorller.remoteRequest ;
+			// TODO Auto-generated method stub
+			request = JCardQueryContorller.remoteRequest ;
 			if(Constanst.ACTION_NAME_IMPORT_DATA.equals(action_name)){
 				String uploadData = updateText.getText();
 				if(uploadData == null || "".equals(uploadData)){
 					Window.alert("不能传空数据");
 					return ;
-				}				
+				}			
 				JCardData jCardData = new JCardData();
 				jCardData.setUploadData(uploadData);
 				jCardData.setACTION_NAME(action_name);
@@ -137,9 +219,26 @@ public class JCardQueryButtonDialog extends CustomDialog {
 					return ;
 				}
 				
-				requset.postJCard(packet, JCardQueryContorller.RemoteCaller);							
+				request.postJCard(packet, JCardQueryContorller.RemoteCaller);							
 				
 				hide();		
+			}else if(Constanst.ACTION_NAME_BALANCE.equals(action_name)){
+				String balanceText = BALANCE_TEXT.getText();
+				if(balanceText == null || "".equals(balanceText)){
+					Window.alert("不能传空数据");
+					return ;
+				}
+				sbSuccess = new StringBuilder();					
+				sbFail = new StringBuilder();
+				JCardData jCardData = new JCardData();
+				jCardData.setBalanceData(balanceText);
+				jCardData.setACTION_NAME(action_name);
+				jCardData.toHttpPacketBl();
+				jwCard = jCardData.getJCard();
+				jwCheckKard = jCardData.getCheckCard();
+				if(jwCard.size()>0){
+					request.getJCard(jwCard.get(0), balanceCaller);
+				}	
 			}else{
 				String sn = SN.getText();	
 				String number = NUMBER.getText();
@@ -170,11 +269,26 @@ public class JCardQueryButtonDialog extends CustomDialog {
 						return ;
 					}
 				}
-				requset.getJCard(packet, JCardQueryContorller.QueryCaller);
+				request.getJCard(packet, JCardQueryContorller.QueryCaller);
 				
 				hide();
 			}			
 		}
 	}
-		
+	
+	public static String getElecTicketStatusCn(String status) {
+		if("free".equals(status)){
+			return "可用";
+		}else if("lock".equals(status)){
+			return "锁定";
+		}else if("fail".equals(status)){
+			return "失败";
+		}else if("cancel".equals(status)){
+			return "注销";
+		}else if("invalid".equals(status)){
+			return "无效";
+		}
+
+		return status;
+	}	
 }

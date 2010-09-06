@@ -28,7 +28,7 @@ public interface CustomerConstanst extends Constanst {
 	
 	final String CARD_ID = "CARD_ID";
 	
-	final String CARD_ID_ZH = "银行卡号";
+	final String CARD_ID_ZH = "省份证编号";
 	
 	final String CREATE_TIME = "CREATE_TIME";
 	
@@ -36,9 +36,9 @@ public interface CustomerConstanst extends Constanst {
 	
 	final String VALIDITY = "VALIDITY";
 	
-	final String VALIDITY_ZH = "有效期";
+	final String VALIDITY_ZH = "是否有效期";
 	
 	final String ADDITION = "ADDITION";
 	
-	final String ADDITION_ZH = "预留";	
+	final String ADDITION_ZH = "用户附加信息";	
 }

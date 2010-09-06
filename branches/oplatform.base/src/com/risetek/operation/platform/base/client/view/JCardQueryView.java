@@ -18,7 +18,7 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 
 	public final static Button queryButton = new Button("查询骏卡",new JCardQueryContorller.TableShowAction());
 	public final static Button addButton = new Button("添加骏卡",new JCardQueryContorller.TableShowAction());
-	public final static Button balanceButton = new Button("添加骏卡",new JCardQueryContorller.TableShowAction());
+	public final static Button balanceButton = new Button("骏卡对账",new JCardQueryContorller.TableShowAction());
 	
 	public final static String[] columns = {
 		JCardConstanst.JCARDID_ZH, 
