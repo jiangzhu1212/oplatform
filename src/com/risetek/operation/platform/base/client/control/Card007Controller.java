@@ -25,8 +25,8 @@ import com.risetek.operation.platform.launch.client.json.constanst.Card007Consta
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 
 /**
- * @ClassName: BankController 
- * @Description: 发卡行模块控制器实体 
+ * @ClassName: Card007Controller 
+ * @Description: 全国充值模块控制器实体 
  * @author JZJ 
  * @date 2010-8-26 下午02:02:30 
  * @version 1.0
@@ -63,7 +63,7 @@ public class Card007Controller extends AController {
 				PacketParser parser = Card007Data.INSTANCE.new PacketParser();
 				BillCard007[] array = (BillCard007[]) parser.packetParser(ret, Constanst.ACTION_NAME_SELECT_CARD_007);			
 				INSTANCE.data.parseResult(array);
-				//INSTANCE.view.render(INSTANCE.data);
+				INSTANCE.view.render(INSTANCE.data);
 			}
 		}
 	}
@@ -74,8 +74,8 @@ public class Card007Controller extends AController {
 	 */
 	public static void load() {
 		Card007Data.INSTANCE.new PacketParser().initializedata(remoteRequest, RemoteCaller, Constanst.ACTION_NAME_SELECT_CARD_007);
-		INSTANCE.data.setSum(10);
-		INSTANCE.view.render(INSTANCE.data);
+		//INSTANCE.data.setSum(10);
+		//INSTANCE.view.render(INSTANCE.data);
 	}
 
 	/**
@@ -140,6 +140,13 @@ public class Card007Controller extends AController {
 		}
 	}
 	
+	/**
+	 * @ClassName: chargeAction 
+	 * @Description:  响应充值按扭的事件实体
+	 * @author JZJ 
+	 * @date 2010-9-6 上午09:13:01 
+	 * @version 1.0
+	 */
 	public static class chargeAction implements ClickHandler {
 		Grid grid;
 		public chargeAction(Grid grid){
@@ -165,18 +172,25 @@ public class Card007Controller extends AController {
 				return;
 			} 
 			
-			//String payState = grid.getText(row, 8);
-			//if(payState.equals("已支付")){
+			String payState = grid.getText(row, 8);
+			if(payState.equals("已支付")){
 				charge007CardControl control = new charge007CardControl(grid, row);
 				control.dialog.submit.addClickHandler(control);
 				control.dialog.submit.setText("确认充值");
 				control.dialog.show();
-//			}else{
-//				Window.alert("该笔账单：" + grid.getText(row, 3) + "未支付");
-//			}
+			}else{
+				Window.alert("该笔账单：" + grid.getText(row, 3) + "未支付");
+			}
 		}
 	}
 	
+	/**
+	 * @ClassName: charge007CardControl 
+	 * @Description: 获取007card窗体和数据并发送充值数据 
+	 * @author JZJ 
+	 * @date 2010-9-6 上午09:13:09 
+	 * @version 1.0
+	 */
 	public static class charge007CardControl extends DialogControl implements ClickHandler {
 		Card007Dialog dialog;
 		BillCard007 card;
@@ -194,9 +208,10 @@ public class Card007Controller extends AController {
 		public void onClick(ClickEvent event) {
 			if (dialog.isValid()) {
 				dialog.submit.setEnabled(false);
+				card.setChargeDateTime(dialog.getChargeDateTime());
 				final PacketParser parser = Card007Data.INSTANCE.new PacketParser();
 				String packet = parser.chargePacket(card, Card007Constanst.BILL_RESULT);
-				System.out.println("add packet:  "+ packet);
+				//System.out.println("add packet:  "+ packet);
 				remoteRequest.send007(packet, new RequestCallback() {
 					@Override
 					public void onError(Request request, Throwable exception) {
@@ -208,7 +223,7 @@ public class Card007Controller extends AController {
 					
 					@Override
 					public void onResponseReceived(Request request, Response response) {
-						processResponseText(parser, response);
+						INSTANCE.processResponseText(parser, response);
 						dialog.hide();
 					}
 				});
@@ -216,18 +231,25 @@ public class Card007Controller extends AController {
 		}
 	}
 	
-	private static void processResponseText(PacketParser parser, Response response){
+	/**
+	 * @Description: 发送充值数据成功后解析返回的JSON数据
+	 * @param parser
+	 * @param response  参数 
+	 * @return void 返回类型
+	 */
+	private void processResponseText(PacketParser parser, Response response){
 		String ret = response.getText();
-		System.out.println("add Ret:  "+ ret);
-		System.out.println("add code:  "+ response.getStatusCode());
 		if (response.getStatusCode() == Response.SC_OK) {
-			int result = parser.dealResponsePacket(ret);
-			if (result == 0) {
-				load();
-				Card007Dialog.timeValue=null;
-				Window.alert("充值成功！" );
-			} else {
-				Window.alert("请求异常Code:" + result);
+			if (ret != null && !"".equals(ret)) {
+				int result = parser.dealResponsePacket(ret);
+				if (result == 0) {
+					load();
+					Window.alert("充值成功！" );
+				} else {
+					Window.alert("请求异常Code:" + result);
+				}
+			}else {
+				Window.alert("请求没有返回任何数据！");
 			}
 		}else{
 			Window.alert("请求异常,code:" + response.getStatusCode());

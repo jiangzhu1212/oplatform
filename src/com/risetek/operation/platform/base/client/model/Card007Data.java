@@ -9,7 +9,6 @@ import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
-import com.risetek.operation.platform.base.client.dialog.Card007Dialog;
 import com.risetek.operation.platform.base.client.view.Card007View;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
@@ -23,7 +22,7 @@ import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
  * @ClassName: BankData 
- * @Description: 发卡行格式化数据并返回模块数据
+ * @Description: 全国充值 （007）格式化数据并返回模块数据
  * @author JZJ 
  * @date 2010-8-26 下午02:04:13 
  * @version 1.0
@@ -40,7 +39,7 @@ public class Card007Data extends OPlatformData {
 	 * @return void 返回类型 
 	 */
 	public void parseResult(BillCard007[] re) {
-		setSum(re.length);
+		setSum(re.length);//设置总数据
 		String[][] data = new String[re.length][7];
 		for (int i = 0; i < re.length; i++) {
 			data[i][0] = re[i].getCHARGE_PHONE_NUMBER();
@@ -58,7 +57,12 @@ public class Card007Data extends OPlatformData {
 		setData(data);
 	}
 	
-	
+	/**
+	 * @Description: 格式化返回数据 
+	 * @param ret
+	 * @return  参数 
+	 * @return String 返回类型
+	 */
 	private String getStatus(int ret){
 		String status = "";
 		if (ret == 0) {
@@ -85,11 +89,26 @@ public class Card007Data extends OPlatformData {
 		this.sum = sum;
 	}	
 	
+	
 	/**********************************************************/
+	/**
+	 * @ClassName: PacketParser 
+	 * @Description: 统一处理007的JSON数据
+	 * @author JZJ 
+	 * @date 2010-9-6 上午09:07:36 
+	 * @version 1.0
+	 */
 	public class PacketParser {
 
 		private static final String SIGNATURE = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 		
+		/**
+		 * @Description: 请求发送成功后的控制方法，通过此方法来解析数据并构造对象数组
+		 * @param retInfo
+		 * @param ACTION_NAME
+		 * @return  参数 
+		 * @return Object[] 返回类型
+		 */
 		public Object[] packetParser(String retInfo, String ACTION_NAME) {
 			Object[] obj = null;
 			String rs = retInfo;
@@ -102,6 +121,13 @@ public class Card007Data extends OPlatformData {
 			return obj;
 		}
 		
+		/**
+		 * @Description: TODO(这里用一句话描述这个方法的作用) 
+		 * @param remoteRequest
+		 * @param RemoteCaller
+		 * @param actionName  参数 
+		 * @return void 返回类型
+		 */
 		public void initializedata(RequestFactory remoteRequest, RequestCallback RemoteCaller, String actionName) {
 			if (actionName.equals(Constanst.ACTION_NAME_SELECT_CARD_007)) {
 				BillInfomation info = new BillInfomation();
@@ -121,6 +147,13 @@ public class Card007Data extends OPlatformData {
 			}	
 		}
 		
+		/**
+		 * @Description: 发送请求时构造帐单JSON数据
+		 * @param o
+		 * @param ACTION_NAME
+		 * @return  参数 
+		 * @return String 返回类型
+		 */
 		public String toHttpPacket(Object o, String ACTION_NAME) {
 			JSONObject packet = new JSONObject();
 			JSONObject actionInfo = null;
@@ -174,6 +207,12 @@ public class Card007Data extends OPlatformData {
 			return buffer.toString();
 		}
 
+		/**
+		 * @Description: 构造帐单JSON数据
+		 * @param o
+		 * @return  参数 
+		 * @return JSONObject 返回类型
+		 */
 		private JSONObject buildBillObj(Object o) {
 			JSONObject actionInfo = new JSONObject();
 			BillInfomation bi = (BillInfomation) o;
@@ -222,6 +261,12 @@ public class Card007Data extends OPlatformData {
 			return actionInfo;
 		}
 		
+		/**
+		 * @Description: 解析JSON数据，并放入对象数组里
+		 * @param retInfo
+		 * @return  参数 
+		 * @return BillCard007[] 返回类型
+		 */
 		private BillCard007[] build007Card(String retInfo) {
 			JSONObject jo = JSONParser.parse(retInfo).isObject();
 			JSONString actionName = (JSONString) jo.get(Constanst.ACTION_NAME);
@@ -254,7 +299,13 @@ public class Card007Data extends OPlatformData {
 			return cardInfo;		
 		}
 		
-		
+		/**
+		 * @Description:  构建发送JSON数据包
+		 * @param card
+		 * @param ACTION_NAME
+		 * @return  参数 
+		 * @return String 返回类型
+		 */
 		public String chargePacket(BillCard007 card, String ACTION_NAME){			
 			StringBuffer packet = new StringBuffer();
 			JSONObject packetObject = new JSONObject();
@@ -262,23 +313,25 @@ public class Card007Data extends OPlatformData {
 			JSONObject billInfo = new JSONObject();
 			
 			try{
+				packetObject.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));
+				
+				actionInfo.put(Card007Constanst.PAY_RET, new JSONNumber(0));
+				actionInfo.put(Card007Constanst.BILL_EXTERN_ID, new JSONString(card.getBILL_EXTERN_ID()));
+
 				billInfo.put(Card007Constanst.CHARGE_PHONE_NUMBER, new JSONString(card.getCHARGE_PHONE_NUMBER()));
 				billInfo.put(Card007Constanst.AMOUNT, new JSONString(card.getAmount()));
 				billInfo.put(Card007Constanst.RETINFO, new JSONString(card.getRetInfo()));
 				billInfo.put(Card007Constanst.STATUS, new JSONString("2"));
 				billInfo.put(Card007Constanst.DATETIME, new JSONString(card.getDatetime()));
 				
-				Date date = Card007Dialog.dateBox.getValue();
-				String time = Card007Dialog.timeValue;
-				String dateTime = Util.formatDateToJsonString(date) + Util.formatHmStringTime(time);
+//				Date date = Card007Dialog.dateBox.getValue();
+//				String time = Card007Dialog.timeValue;
+//				String dateTime = Util.formatDateToJsonString(date) + Util.formatHmStringTime(time);
 				
-				actionInfo.put(Card007Constanst.DATETIME, new JSONString(dateTime));
-				actionInfo.put(Card007Constanst.PAY_RET, new JSONNumber(0));
-				actionInfo.put(Card007Constanst.BILL_EXTERN_ID, new JSONString(card.getBILL_EXTERN_ID()));
-				actionInfo.put(Constanst.BILL_INFO,billInfo );
+				actionInfo.put(Constanst.BILL_INFO, billInfo);
+				actionInfo.put(Card007Constanst.DATETIME, new JSONString(card.getChargeDateTime()));
 				
 				packetObject.put(Constanst.ACTION_INFO, actionInfo);
-				packetObject.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));
 
 				packet.append(Constanst.CTI_PACKET);
 				packet.append("=");
@@ -290,7 +343,12 @@ public class Card007Data extends OPlatformData {
 			return packet.toString();
 		}
 		
-		
+		/**
+		 * @Description: 解析充值返回的JSON数据包
+		 * @param retInfo
+		 * @return  参数 
+		 * @return int 返回类型
+		 */
 		public int dealResponsePacket(String retInfo) {
 			if (retInfo.endsWith(SIGNATURE)) {
 				retInfo = retInfo.substring(0, retInfo.length() - SIGNATURE.length());
@@ -298,7 +356,7 @@ public class Card007Data extends OPlatformData {
 			System.out.println("ResponsePacket = " + retInfo);
 			JSONObject jo = JSONParser.parse(retInfo).isObject();
 			try {
-				JSONObject actionInfo = (JSONObject)jo.get(Constanst.ACTION_INFO);
+				JSONObject actionInfo = (JSONObject) jo.get(Constanst.ACTION_INFO);
 				String pay_ret = actionInfo.get(Card007Constanst.PAY_RET).isNumber().toString();
 				if (pay_ret != null) {
 					return Integer.parseInt(pay_ret);
