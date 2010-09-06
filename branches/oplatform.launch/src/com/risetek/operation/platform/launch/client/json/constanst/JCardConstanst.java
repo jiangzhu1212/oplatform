@@ -37,4 +37,16 @@ public interface JCardConstanst extends Constanst{
 	final String STATUS_TIMEOUT = "STATUS_TIMEOUT";
 	
 	final String STATUS_TIMEOUT_ZH = "失效日期";
+	
+	final String JCARDS_DATA = "JCARDS_DATA";
+	
+	final String UPDATE_TEXT_ZH = "需要上传的数据";
+	
+	public final static int JK_ATTRIBUTE_NUM = 4;
+	
+	public static final int SN_SIZE = 5;
+	
+	public static final int NUMBER_SIZE = 16;
+	
+	public static final int PWD_SIZE = 16;
 }

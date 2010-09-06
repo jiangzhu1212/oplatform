@@ -8,8 +8,8 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.JCardQueryButtonDialog;
@@ -18,8 +18,11 @@ import com.risetek.operation.platform.base.client.model.JCardData;
 import com.risetek.operation.platform.base.client.view.JCardQueryView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.control.OpRetInfo;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
+import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 
 public class JCardQueryContorller extends AController {
 
@@ -27,17 +30,28 @@ public class JCardQueryContorller extends AController {
 	final JCardData data = new JCardData();
 	
 	public final JCardQueryView view = new JCardQueryView();
-	public final JCardQueryButtonDialog jCardQueryDialog = new JCardQueryButtonDialog();
 	
-	private static RequestFactory remoteRequest = new RequestFactory();
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	public JCardQueryButtonDialog jCardQueryDialog = new JCardQueryButtonDialog();
+	
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			data.parseData(response.getText());
-			view.render(data);
+			String ret = response.getText();
+			OpRetInfo opRetinfo = (OpRetInfo)data.retInfo(ret)[0];
+			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
+				Window.alert(opRetinfo.getReturnMessage());
+			}else{
+				if(jCardQueryDialog.packet != null){
+					remoteRequest.getJCard(jCardQueryDialog.packet, QueryCaller);
+				}else{
+					String packet = data.toHttpPacket();
+					remoteRequest.getBill(packet, QueryCaller);
+				}
+			}
 		}
 
 		public void onError(Request request, Throwable exception) {
@@ -45,12 +59,13 @@ public class JCardQueryContorller extends AController {
 		}
 	}
 	//查询的回调
-	private static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	public static final RequestCallback QueryCaller = INSTANCE.new QueryRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			data.parseData(response.getText());
+			String ret = response.getText();
+			data.parseData(ret);
 			view.render(data);
 		}
 
@@ -108,8 +123,8 @@ public class JCardQueryContorller extends AController {
 			int row = Mycell.getRowIndex();
 			int col = Mycell.getCellIndex();
             
-			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-			String rowid = table.getText(row, 2);
+			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。(这里是行号)
+			String rowid = table.getText(row, 1);
 
 			String tisp_value = table.getText(row, col);
 			if(tisp_value.length() == 1){
@@ -125,15 +140,9 @@ public class JCardQueryContorller extends AController {
 				dialog.makeMainPanel(INSTANCE.view.grid , row);
 				dialog.show();
 				break;
-
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:				
+			case 7:			
 				edit_control.setColName(JCardQueryView.columns[col-2]);	
 				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			default:
@@ -147,13 +156,38 @@ public class JCardQueryContorller extends AController {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("你好");
-				if(colName.equals("")){
-					
+				int statusIndex = dialog.list_status.getSelectedIndex();
+				String newStatusName = dialog.list_status.getItemText(statusIndex);
+				String oldStatusName = dialog.oldValueLabel.getText();
+				if(newStatusName.equals(oldStatusName)){
+					Window.alert("状态未改变");
+					return ;
 				}
-				if( !dialog.isValid() ){
-					return;
-				}									
+				String newStatus = dialog.list_status.getValue(statusIndex);
+				if(newStatus.trim().equals("")){
+					Window.alert("状态不能为空");
+					return ;
+				}
+				JCardData jCardData = new JCardData();
+				int rowId = Integer.parseInt(dialog.rowid);
+				Grid grid = INSTANCE.view.grid;
+				for(int i = 2 ; i < grid.getColumnCount() ; i ++){
+					if(grid.getText(0, i).equals(JCardConstanst.SN_ZH)){
+						jCardData.setSN(grid.getText(rowId, i));
+					}else if(grid.getText(0, i).equals(JCardConstanst.NUMBER_ZH)){
+						jCardData.setNUMBER(grid.getText(rowId, i));
+					}else if(grid.getText(0, i).equals(JCardConstanst.PWD_ZH)){
+						jCardData.setPWD(grid.getText(rowId, i));
+					}else if(grid.getText(0, i).equals(JCardConstanst.PAR_VALUE_ZH)){
+						jCardData.setPAR_VALUE(grid.getText(rowId, i));
+					}
+				}
+				
+				jCardData.setSTATUS(newStatus);
+				jCardData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_STATUS);
+				String packet = jCardData.toHttpPacket();
+				remoteRequest.getJCard(packet, RemoteCaller);
+				dialog.hide();
 			}
 			
 			@Override
@@ -172,10 +206,18 @@ public class JCardQueryContorller extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
+			INSTANCE.jCardQueryDialog = new JCardQueryButtonDialog();
 			Object obj = event.getSource();			
 			 if(obj == JCardQueryView.queryButton){
+				INSTANCE.jCardQueryDialog.setAction_name(Constanst.ACTION_NAME_SELECT_JCARD);
 				INSTANCE.jCardQueryDialog.queryMainPanel();
 				INSTANCE.jCardQueryDialog.show();
+			}else if(obj == JCardQueryView.addButton){
+				INSTANCE.jCardQueryDialog.setAction_name(Constanst.ACTION_NAME_IMPORT_DATA);
+				INSTANCE.jCardQueryDialog.addMainPanel();
+				INSTANCE.jCardQueryDialog.show();
+			}else if(obj == JCardQueryView.balanceButton){
+				INSTANCE.jCardQueryDialog.setAction_name(Constanst.ACTION_NAME_BALANCE);
 			}
 		}
 	}

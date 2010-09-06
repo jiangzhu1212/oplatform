@@ -1,5 +1,15 @@
 package com.risetek.operation.platform.launch.client.model;
 
+import org.mortbay.util.ajax.JSON;
+
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.launch.client.control.OpRetInfo;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
+
+
 /**
  * @author Amber
  * 功能：此类用于数据格式化框架，暂时摆起。不一定会用到
@@ -31,6 +41,23 @@ public abstract class OPlatformData {
 	
 	public String[][] getData() {
 		return data;
+	}
+	
+	protected OpRetInfo[] retInfo(String retInfo) {
+		OpRetInfo opRetInfo[] = new OpRetInfo[1];
+		opRetInfo[0] = new OpRetInfo();
+		JSONObject jo = JSONParser.parse(retInfo).isObject();
+		JSONObject actionInfo = (JSONObject) jo.get(Constanst.ACTION_INFO);
+		opRetInfo[0].setActionInfo(actionInfo.toString());
+		try {
+			JSONNumber num = (JSONNumber)actionInfo.get(Constanst.RETURN_CODE);
+			opRetInfo[0].setReturnCode(Integer.parseInt(num.toString()));
+			opRetInfo[0].setReturnMessage(((JSONString)actionInfo.get(Constanst.RETURN_MESSAGE)).stringValue());
+		} catch (Exception e) {
+			opRetInfo[0].setReturnCode(-1);
+		}
+		
+		return opRetInfo;
 	}
 	
 }
