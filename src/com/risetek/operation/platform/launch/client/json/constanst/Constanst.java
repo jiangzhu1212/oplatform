@@ -13,6 +13,10 @@ public interface Constanst {
 	final String ACTION_NAME_SELECT_BILL_INFORMATION = "SELECT_BILL_INFORMATION";
 	
 	final String ACTION_NAME_MODIFY_STATUS = "MODIFY_STATUS";
+	
+	final String ACTION_NAME_IMPORT_DATA = "IMPORT_DATA";
+	
+	final String ACTION_NAME_BALANCE = "BALANCE";
 
 	public static final String BILLS_WEB_CLIENT="BILLS_REQUEST";
 	
@@ -50,5 +54,7 @@ public interface Constanst {
 	final String PAGE_SIZE = "PAGE_SIZE";
 
 	final String TOTAL = "TOTAL";
+
+	final String JCARDS_INFO = "JCARDS_INFO";
 
 }

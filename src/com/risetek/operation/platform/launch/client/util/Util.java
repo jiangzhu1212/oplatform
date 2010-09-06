@@ -172,6 +172,16 @@ public class Util {
 		list_status.addItem( "无效" , "invalid" );
 		return list_status;
 	}
+	
+	/**
+	 * 判断字符串是否可以转为纯数字
+	 */
+	public static boolean isNum(String string){
+		if (string.matches("[0-9]*")){
+			return true;
+		}
+		return false;
+	}
 
 	/*
 	 * 将TimeField控件中的Hm类型字符串的时钟值转换为JSON包发送的hhmmss

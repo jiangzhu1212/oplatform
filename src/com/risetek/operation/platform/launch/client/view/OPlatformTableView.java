@@ -182,8 +182,8 @@ public abstract class OPlatformTableView extends DockPanel {
 					if(data.getData()!=null){
 						text = data.getData()[index][i-2];
 					}
-//					grid.setText(index+1, i, text);
-					grid.setText(index+1, i, "123");
+					grid.setText(index+1, i, text);
+//					grid.setText(index+1, i, "123");
 				}
 				if(i==2){
 					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
