@@ -28,9 +28,7 @@ import com.risetek.operation.platform.launch.client.util.Util;
  * @version 1.0
  */
 public class Card007Data extends OPlatformData {
-	
-	public static Card007Data INSTANCE = new Card007Data();
-	
+		
 	private int sum;
 	
 	/**

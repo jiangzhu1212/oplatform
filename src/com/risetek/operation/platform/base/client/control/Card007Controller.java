@@ -57,10 +57,9 @@ public class Card007Controller extends AController {
 		@Override
 		public void onResponseReceived(Request request, Response response) {
 			String ret = response.getText();
-			System.out.println("search Ret:  "+ ret);
-			System.out.println("search code:  "+ response.getStatusCode());
+			System.out.println("return code:  "+ response.getStatusCode());
 			if (response.getStatusCode() == Response.SC_OK) {
-				PacketParser parser = Card007Data.INSTANCE.new PacketParser();
+				PacketParser parser = data.new PacketParser();
 				BillCard007[] array = (BillCard007[]) parser.packetParser(ret, Constanst.ACTION_NAME_SELECT_CARD_007);			
 				INSTANCE.data.parseResult(array);
 				INSTANCE.view.render(INSTANCE.data);
@@ -73,7 +72,7 @@ public class Card007Controller extends AController {
 	 * @return void 返回类型 
 	 */
 	public static void load() {
-		Card007Data.INSTANCE.new PacketParser().initializedata(remoteRequest, RemoteCaller, Constanst.ACTION_NAME_SELECT_CARD_007);
+		INSTANCE.data.new PacketParser().initializedata(remoteRequest, RemoteCaller, Constanst.ACTION_NAME_SELECT_CARD_007);
 		//INSTANCE.data.setSum(10);
 		//INSTANCE.view.render(INSTANCE.data);
 	}
@@ -209,7 +208,7 @@ public class Card007Controller extends AController {
 			if (dialog.isValid()) {
 				dialog.submit.setEnabled(false);
 				card.setChargeDateTime(dialog.getChargeDateTime());
-				final PacketParser parser = Card007Data.INSTANCE.new PacketParser();
+				final PacketParser parser = INSTANCE.data.new PacketParser();
 				String packet = parser.chargePacket(card, Card007Constanst.BILL_RESULT);
 				//System.out.println("add packet:  "+ packet);
 				remoteRequest.send007(packet, new RequestCallback() {
