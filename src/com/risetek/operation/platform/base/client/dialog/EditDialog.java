@@ -18,7 +18,7 @@ import com.risetek.operation.platform.launch.client.util.Util;
  */
 public class EditDialog extends CustomDialog {
 	
-	Label  oldValueLabel = new Label();
+	public Label  oldValueLabel = new Label();
 	public DateBox CREATE_TIME = new DateBox();
 	DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd");
 	public TextBox newValueBox = new TextBox();
@@ -36,7 +36,6 @@ public class EditDialog extends CustomDialog {
 	public void clearPanel(){
 		CREATE_TIME.setValue(null);
 		newValueBox.setValue("");
-		list_status.setSelectedIndex(0);
 	}
 	
 	public void makeMainPanel(String colName){
@@ -67,6 +66,7 @@ public class EditDialog extends CustomDialog {
 			CREATE_TIME.setFormat(new DateBox.DefaultFormat(format));
 			gridFrame.setWidget(1, 1, CREATE_TIME);
 		}else if(JCardConstanst.STATUS_ZH.equals(colName)){
+			list_status.setSelectedIndex(0);
 			gridFrame.setWidget(1, 1, list_status);
 		}else{
 			gridFrame.setWidget(1, 1, newValueBox);

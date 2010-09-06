@@ -13,13 +13,12 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
-public class JCardQueryView  extends OPlatformTableView implements IOPlatformView {
+public class BalanceJCardView  extends OPlatformTableView implements IOPlatformView {
 
 
 	public final static Button queryButton = new Button("查询骏卡",new JCardQueryContorller.TableShowAction());
 	public final static Button addButton = new Button("添加骏卡",new JCardQueryContorller.TableShowAction());
-	public final static Button balanceButton = new Button("添加骏卡",new JCardQueryContorller.TableShowAction());
-	
+
 	public final static String[] columns = {
 		JCardConstanst.JCARDID_ZH, 
 		JCardConstanst.BILL_EXTEND_ID_ZH,
@@ -51,7 +50,7 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		setInfo(banner_tips);
 	}
 	
-	public JCardQueryView(){
+	public BalanceJCardView(){
 		Widget action = initPromptGrid();
 		addActionPanel(action, descript);
 //		setCellHeight(action, "38px");
@@ -65,7 +64,6 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
-		actionPanel.add(balanceButton);
 		
 		actionPanel.setStyleName("aa");		
 		
