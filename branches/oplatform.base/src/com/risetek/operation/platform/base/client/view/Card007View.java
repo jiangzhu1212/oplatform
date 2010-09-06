@@ -90,6 +90,11 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 		return actionPanel;
 	}
 	
+	/**
+	 * @Description:  实现日期和状态搜索框，并显示在工具栏
+	 * @return  参数 
+	 * @return Widget 返回类型
+	 */
 	private Widget createSearchBar(){
 		HorizontalPanel searchPanel = new HorizontalPanel();
 		searchPanel.setStyleName("tableMessagePanel-content");
