@@ -39,12 +39,7 @@ public class RoleConfigController extends AController {
 	final RoleConfigData childData = new RoleConfigData();
 	public final RoleConfigView view = new RoleConfigView();
 	
-	@Override
-	public ArrayList<String> getActionNames() {
-		return actionNames;
-	}
-	
-	public RoleConfigController(){
+	private RoleConfigController(){
 		actionNames.add("添加用户角色");
 		actionNames.add("删除用户角色");
 		actionNames.add("修改用户角色名称");
@@ -57,31 +52,42 @@ public class RoleConfigController extends AController {
 	@Override
 	public Widget getView() {
 		// TODO Auto-generated method stub
-		return null;
+		return view;
 	}
 
 	@Override
 	public OPlatformData getData() {
 		// TODO Auto-generated method stub
-		return null;
+		return data;
 	}
 
+	@Override
+	public ArrayList<String> getActionNames() {
+		return actionNames;
+	}
+	
 	public static void load(){
 		rs.getAllRole(new AsyncCallback<Role[]>() {
-			
-			@Override
 			public void onSuccess(Role[] result) {
 				INSTANCE.data.parseResult(result);
 				INSTANCE.view.render(INSTANCE.data);
 			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				System.out.println("faild");
-			}
+			public void onFailure(Throwable caught) {}
 		});
 		INSTANCE.view.render(INSTANCE.data);
 		INSTANCE.view.renderChild(INSTANCE.childData);
+	}
+	
+	public static void loadChild(String id, final String value){
+		INSTANCE.view.setChildGridTitle(value);
+		INSTANCE.view.setSelectRoleId(id);
+		rs.getRoleOperationById(id, new AsyncCallback<RoleOperation[]>() {
+			public void onSuccess(RoleOperation[] result) {
+				INSTANCE.childData.parseChildResult(value, result);
+				INSTANCE.view.renderChild(INSTANCE.childData);
+			}
+			public void onFailure(Throwable caught) {}
+		});
 	}
 	
 	public static class TableAction implements ClickHandler {
@@ -113,15 +119,7 @@ public class RoleConfigController extends AController {
 				delrole.dialog.show();
 				break;
 			case 2:
-				INSTANCE.view.setChildGridTitle(tisp_value);
-				INSTANCE.view.setSelectRoleId(id);
-				rs.getRoleOperationById(id, new AsyncCallback<RoleOperation[]>() {
-					public void onSuccess(RoleOperation[] result) {
-						INSTANCE.childData.parseChildResult(tisp_value, result);
-						INSTANCE.view.renderChild(INSTANCE.childData);
-					}
-					public void onFailure(Throwable caught) {}
-				});
+				loadChild(id, tisp_value);
 				break;
 			case 3:
 				EditRoleNameControl editName = new EditRoleNameControl(tisp_value);

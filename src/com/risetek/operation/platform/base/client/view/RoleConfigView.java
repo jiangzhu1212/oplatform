@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.view;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -14,6 +16,7 @@ import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
+import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class RoleConfigView extends OPlatformTableView implements IOPlatformView {
 
@@ -29,6 +32,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	private HTML childTitle = new HTML();
 	private String childGridTitle = "";
 	private String selectRoleId = "";
+	private HorizontalPanel childPage = new HorizontalPanel();
 	
 	public Button addRole = new Button("添加角色", new RoleConfigController.AddRoleAction());
 	public Button delManyRole = new Button("删除多个角色", new RoleConfigController.DeleteManyRoleAction(grid));
@@ -72,11 +76,43 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		childTableTitle.getCellFormatter().setStyleName(0, 1, "childtabledescript");
 		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
 		childTableTitle.getCellFormatter().setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		Widget childPagePanel = createChildPagePanel();
 		childPanel.add(childTableTitle);
 		childPanel.add(childGrid);
+		childPanel.add(childPagePanel);
+		childPanel.setCellHorizontalAlignment(childPagePanel, HasHorizontalAlignment.ALIGN_CENTER);
 		outer.add(childPanel);
 	}
 	
+	private Widget createChildPagePanel() {
+		PageLabel first = new PageLabel("|<");
+		PageLabel before = new PageLabel("<<");
+		PageLabel page1 = new PageLabel("1");
+		page1.addClickHandler(new ClickHandler() {
+			String tisp_value;
+			String id;
+			@Override
+			public void onClick(ClickEvent event) {
+				tisp_value = getChildGridTitle();
+				id = getSelectRoleId();
+				RoleConfigController.loadChild(id, tisp_value);
+			}
+		});
+		PageLabel after = new PageLabel(">>");
+		PageLabel last = new PageLabel(">|");
+		first.setEnable(false);
+		before.setEnable(false);
+		page1.setEnable(false);
+		after.setEnable(false);
+		last.setEnable(false);
+		childPage.add(first);
+		childPage.add(before);
+		childPage.add(page1);
+		childPage.add(after);
+		childPage.add(last);
+		return childPage;
+	}
+
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addRole);
@@ -132,6 +168,10 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		clearGrid(childGrid, childRowCount);
 		String title = "角色\"未选择\"详细操作内容";
 		childTitle.setText(title);
+		if(childPage.getWidgetCount()>3){
+			PageLabel label = (PageLabel)childPage.getWidget(2);
+			label.setEnable(false);
+		}
 		for(int index=0;index<mainRowCount;index++){
 			renderLine(grid, data, index);
 		}
@@ -157,6 +197,8 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	public void setChildGridTitle(String childGridTitle){
 		String title = "角色\"" + childGridTitle + "\"详细操作内容";
 		childTitle.setText(title);
+		PageLabel label = (PageLabel)childPage.getWidget(2);
+		label.setEnable(true);
 		this.childGridTitle = childGridTitle;
 	}
 	
