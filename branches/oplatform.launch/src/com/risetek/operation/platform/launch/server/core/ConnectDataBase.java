@@ -16,7 +16,7 @@ public class ConnectDataBase {
 	
 	public ConnectDataBase(){
 		className = "oracle.jdbc.OracleDriver";
-		url = "jdbc:oracle:thin:@125.69.69.135:1521:orcl";
+		url = "jdbc:oracle:thin:@192.168.6.2:1521:orcl";
 		username = "bwc";
 		password = "risetekpassok";
 	}
