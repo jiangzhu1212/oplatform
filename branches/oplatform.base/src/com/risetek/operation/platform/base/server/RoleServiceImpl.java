@@ -13,6 +13,13 @@ import com.risetek.operation.platform.launch.client.json.constanst.Role;
 import com.risetek.operation.platform.launch.client.json.constanst.RoleOperation;
 import com.risetek.operation.platform.launch.server.core.ConnectDataBase;
 
+/**
+ * @ClassName: RoleServiceImpl.java
+ * @Description: 权限管理服务器端数据请求方法
+ * @Author Amber
+ * @Data 2010-9-3
+ * 
+ */
 public class RoleServiceImpl extends RemoteServiceServlet implements RoleService {
 
 	/**

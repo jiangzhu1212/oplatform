@@ -9,12 +9,18 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class UserConfigController extends AController {
 
+	private ArrayList<String> actionNames = new ArrayList<String>();
+	
 	public static UserConfigController INSTANCE = new UserConfigController();
 	public final UserConfigView view = new UserConfigView();
+	
+	public UserConfigController(){
+	}
+	
 	@Override
 	public Widget getView() {
 		// TODO Auto-generated method stub
-		return null;
+		return view;
 	}
 
 	@Override
@@ -25,8 +31,11 @@ public class UserConfigController extends AController {
 
 	@Override
 	public ArrayList<String> getActionNames() {
-		// TODO Auto-generated method stub
-		return null;
+		if(actionNames.isEmpty()){
+			return null;
+		} else {
+			return actionNames;
+		}
 	}
 
 }

@@ -10,6 +10,11 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 
 	public static String descript = "";
 	
+	private final static String[] banner_text = {
+		"点击查看用户角色内容",
+		"点击修改用户角色名称"
+	};
+	
 	@Override
 	public void ProcessControlKey(int keyCode, boolean alt) {
 		// TODO Auto-generated method stub
@@ -24,8 +29,10 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 
 	@Override
 	public Grid getGrid() {
-		// TODO Auto-generated method stub
-		return null;
+		if(grid == null){
+			grid = new GreenMouseEventGrid(banner_text);
+		}
+		return grid;
 	}
 
 	@Override
