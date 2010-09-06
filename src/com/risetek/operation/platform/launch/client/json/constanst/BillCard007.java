@@ -28,8 +28,20 @@ public class BillCard007 {
 	
 	private String payState;
 	
+	private String chargeDateTime;
 	
-	
+	/**
+	 * @return chargeDateTime
+	 */
+	public String getChargeDateTime() {
+		return chargeDateTime;
+	}
+	/**
+	 * @param chargeDateTime
+	 */
+	public void setChargeDateTime(String chargeDateTime) {
+		this.chargeDateTime = chargeDateTime;
+	}
 	public String getPayState() {
 		return payState;
 	}
