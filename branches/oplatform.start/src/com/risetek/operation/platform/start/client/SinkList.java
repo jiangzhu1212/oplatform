@@ -12,6 +12,7 @@ import com.risetek.operation.platform.base.client.ChannelSink;
 import com.risetek.operation.platform.base.client.Card007Sink;
 import com.risetek.operation.platform.base.client.CustomerSink;
 import com.risetek.operation.platform.base.client.JCardQuerySink;
+import com.risetek.operation.platform.base.client.PBabySink;
 import com.risetek.operation.platform.base.client.RoleConfigSink;
 import com.risetek.operation.platform.base.client.TdbcSink;
 import com.risetek.operation.platform.base.client.TransBindSink;
@@ -53,6 +54,7 @@ public class SinkList {
 		sinkList.add(new ChannelSink());
 		sinkList.add(new JCardQuerySink());
 		sinkList.add(new UserConfigSink());
+		sinkList.add(new PBabySink());
 		return sinkList;
 	}
 	

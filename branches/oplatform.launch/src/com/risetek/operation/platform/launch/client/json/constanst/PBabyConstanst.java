@@ -27,4 +27,24 @@ public interface PBabyConstanst extends Constanst{
 	final String PNR_ZH = "PNR";
 	
 	final String USER_VALUE = "polyvi";
+	
+	final String USER = "user";
+	
+	final String ORDID_EDIT = "ordid";
+	
+	final String KEYID_EDIT = "keyid";
+	
+	/**
+	 * 创建日期最小最大值
+	 */
+	final String CREATE_DATETIME_MIN = "CREATE_DATETIME_MIN";
+	
+	final String CREATE_DATETIME_MAX = "CREATE_DATETIME_MAX";
+	
+	/**
+	 * goods中的票宝宝信息
+	 */
+	final String INFO = "INFO";
+
+	final String TICKETS = "TICKETS";
 }

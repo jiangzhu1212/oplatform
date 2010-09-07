@@ -20,7 +20,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.JCardQueryContorller;
 import com.risetek.operation.platform.base.client.model.JCardData;
 import com.risetek.operation.platform.base.client.view.MyTextBox;
-import com.risetek.operation.platform.launch.client.control.OpRetInfo;
+import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -89,7 +89,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
-			OpRetInfo opRetinfo = (OpRetInfo)data.retInfo(ret)[0];
+			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret)[0];
 			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
 				String returnMessage = opRetinfo.getReturnMessage();
 				
