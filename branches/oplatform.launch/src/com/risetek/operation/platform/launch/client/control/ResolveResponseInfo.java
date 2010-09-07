@@ -1,6 +1,6 @@
 package com.risetek.operation.platform.launch.client.control;
 
-public class OpRetInfo {
+public class ResolveResponseInfo {
 	
 	private int returnCode = -1;
 	
