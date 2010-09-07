@@ -16,13 +16,17 @@ public class RequestFactory {
 	
 	public static final String CTI_PACKET="CTI_PACKET";
 	
+	public static final String PACKET="PACKET";
+	
 	private final String commandJCard = "JCardServer/jcardServer!process.do";
 	
 	private final String command007Card = "007ka/kaServer!process.do";
 
 	private final String command = "billServer/billCenter!request.do";
 	
-	private String SIGNATURE = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+	private static  String pBabyUrl = "http://xface.piaobaobao.cn:8383";
+	
+	private final String commandPBaby = "xface/changeToPay.aspx";
 	
 	public RequestFactory(){
 		this.baseUrl = "http://192.168.6.9:8089";
@@ -91,5 +95,26 @@ public class RequestFactory {
 	//********************007card*************************************//
 	public void send007(String text, RequestCallback callback){
 		get(command007Card, Util.string2unicode(text), callback);
+	}
+	/**
+	 * 票宝宝异常处理
+	 */
+	public void getPBaby(String text, RequestCallback callback) {
+		String query = Util.string2unicode(text);
+		String path = commandPBaby;
+		if (request != null && request.isPending()) {
+			request.cancel();
+		}
+		RequestBuilder builder;
+		builder = new RequestBuilder(RequestBuilder.GET, pBabyUrl + "/"
+				+ path + "?" + query);
+		builder.setTimeoutMillis(3000);
+		builder.setHeader("Content-Type", "text/plain; charset=UTF-8");
+
+		try {
+			request = builder.sendRequest(null, callback);
+		} catch (RequestException e) {
+			GWT.log("error", e);
+		}
 	}
 }
