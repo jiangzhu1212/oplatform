@@ -10,7 +10,7 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Window;
-import com.risetek.operation.platform.launch.client.control.OpRetInfo;
+import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
@@ -317,9 +317,9 @@ public class JCardData  extends OPlatformData  {
 	}
 	
 	
-	public OpRetInfo[] retInfo(String retInfo) {
-		OpRetInfo opRetInfo[] = new OpRetInfo[1];
-		opRetInfo[0] = new OpRetInfo();
+	public ResolveResponseInfo[] retInfo(String retInfo) {
+		ResolveResponseInfo opRetInfo[] = new ResolveResponseInfo[1];
+		opRetInfo[0] = new ResolveResponseInfo();
 		JSONObject jo = JSONParser.parse(retInfo).isObject();
 		JSONObject actionInfo = (JSONObject) jo.get(Constanst.ACTION_INFO);
 		opRetInfo[0].setActionInfo(actionInfo.toString());

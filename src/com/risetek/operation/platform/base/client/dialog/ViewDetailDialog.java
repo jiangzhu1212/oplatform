@@ -13,21 +13,20 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 public class ViewDetailDialog extends CustomDialog {
 	
 	public static ViewDetailDialog INSTANCE = new ViewDetailDialog();
-	
+	public Grid gridFrame;
 	public ViewDetailDialog() {
 		// TODO Auto-generated constructor stub
-	
-		setText("详细信息");
-		submit.setVisible(false);
 	}
 	
 	public void makeMainPanel(Grid grid , int row){
+		setText("详细信息");
+		submit.setVisible(false);
 		mainPanel.clear();
 		int colCount = grid.getColumnCount();
 		if(colCount < 3){
 			Window.alert("错误");
 		}
-		Grid gridFrame = new Grid(colCount-2,2);
+		gridFrame = new Grid(colCount-2,2);
 		for(int i = 0 ; i < colCount-2 ; i++){
 			gridFrame.setWidget(i, 0, new Label(grid.getText(0, i+2)));
 			gridFrame.setWidget(i, 1, new Label(grid.getText(row, i+2)));

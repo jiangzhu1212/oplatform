@@ -1,9 +1,15 @@
 package com.risetek.operation.platform.base.client.model;
 
 
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CustomerData extends OPlatformData  {
@@ -51,19 +57,50 @@ public class CustomerData extends OPlatformData  {
 	private String create_time = null;
 	
 	/**
-	 * 实效时间
+	 * 是否有效
 	 */
 	private String validity = null;
 	
 	/**
-	 * 预留
+	 * 用户附加信息
 	 */
 	private String addition = null;
 	
-	private String action_name = "";
+	private String action_name = null;
 
 	public void parseData(String text){
 		
+	}
+	
+	public String toHttpPacket(){
+		JSONObject packet = new JSONObject();
+		JSONObject actionInfo = null;
+		try {
+			packet.put(Constanst.ACTION_NAME, new JSONString(action_name));	
+			if(action_name == null){
+				actionInfo = new JSONObject();
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(50));
+
+			}else if(Constanst.ACTION_NAME_SELECT_JCARD.equals(action_name)){
+				actionInfo = packetData();
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(50));
+
+			}else if(Constanst.ACTION_NAME_MODIFY_STATUS.equals(action_name)){
+				actionInfo = packetData();
+			}
+			packet.put(Constanst.ACTION_INFO,actionInfo);
+		} catch (JSONException e) {			
+			e.printStackTrace();
+			return null;
+		}
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(RequestFactory.CTI_PACKET);
+		buffer.append("=");
+		buffer.append(packet.toString());
+		return buffer.toString();
 	}
 	
 	private JSONObject packetData(){

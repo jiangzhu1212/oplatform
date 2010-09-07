@@ -1,57 +1,72 @@
 package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.JCardQueryButtonDialog;
+import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
-import com.risetek.operation.platform.base.client.model.JCardData;
-import com.risetek.operation.platform.base.client.view.JCardQueryView;
+import com.risetek.operation.platform.base.client.model.PBabyData;
+import com.risetek.operation.platform.base.client.view.PBabyView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
-import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.PBabyConstanst;
 
-public class JCardQueryContorller extends AController {
+public class PBabyController extends AController {
 
-	public static JCardQueryContorller INSTANCE = new JCardQueryContorller();
-	final JCardData data = new JCardData();
+	public static PBabyController INSTANCE = new PBabyController();
+	final PBabyData data = new PBabyData();
 	
-	public final JCardQueryView view = new JCardQueryView();
+	public final PBabyView view = new PBabyView();
 	
-	public JCardQueryButtonDialog jCardQueryDialog = new JCardQueryButtonDialog();
+	public static String pBabyCreateTime = null;
 	
+	public static String ACTION_NAME = null ;
+	
+	String packet = null;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
-	//修改操作的回调
+	//操作的回调
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
-			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret)[0];
-			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
-				Window.alert(opRetinfo.getReturnMessage());
-			}else{
-				if(jCardQueryDialog.packet != null){
-					remoteRequest.getJCard(jCardQueryDialog.packet, QueryCaller);
-				}else{
-					String packet = data.toHttpPacket();
-					remoteRequest.getBill(packet, QueryCaller);
+			if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
+				PBabyData pData = new PBabyData();
+				pData.parseDataCustomer(ret);
+				pData.setCreate_dateTime(pBabyCreateTime);
+				pData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
+				packet = pData.toHttpPacket();
+				remoteRequest.getBill(packet, QueryCaller);
+			}else if(Constanst.ACTION_NAME_EDIT_PBABY.equals(ACTION_NAME)){
+				try{
+					JSONObject o = JSONParser.parse(ret).isObject();
+					String retCode = o.get("flag").isString().stringValue();
+					if("1".equals(retCode)){
+						remoteRequest.getBill(packet, QueryCaller);
+						Window.alert("出票成功");
+					}else{
+						Window.alert("出票失败");
+					}
+				}catch (Exception e) {
+					Window.alert("出票失败");
 				}
 			}
+			
 		}
 
 		public void onError(Request request, Throwable exception) {
@@ -59,17 +74,17 @@ public class JCardQueryContorller extends AController {
 		}
 	}
 	
-	//查询的回调
+	//修改后的查询回调
 	public static final RequestCallback QueryCaller = INSTANCE.new QueryRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			String ret = response.getText();
+			String ret = response.getText();			
 			data.parseData(ret);
 			view.render(data);
 		}
-
+		
 		public void onError(Request request, Throwable exception) {
 			
 		}
@@ -77,7 +92,7 @@ public class JCardQueryContorller extends AController {
 	
 	
 	
-	private JCardQueryContorller(){
+	private PBabyController(){
 		
 	}
 	
@@ -98,7 +113,7 @@ public class JCardQueryContorller extends AController {
 	 * BaseData
 	 * @return
 	 */
-	public JCardData getData() {
+	public PBabyData getData() {
 		return data;
 	}
 	
@@ -110,10 +125,9 @@ public class JCardQueryContorller extends AController {
 	public static class TableEditAction implements ClickActionHandler {
 		
 		private String actionName = "编辑表格";
-		private TransactionEditControl edit_control = new TransactionEditControl();
+		ViewDetailDialog dialog = new ViewDetailDialog();
 		public TableEditAction() {
-			edit_control.setColName(null);	
-			edit_control.dialog.submit.addClickHandler(edit_control);
+			dialog.submit.addClickHandler(new TransactionEditControl());
 		}
 		public String getActionName(){
 			return actionName;
@@ -140,15 +154,17 @@ public class JCardQueryContorller extends AController {
 			
 			switch (col) {
 			case 1:
-				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+			case 2:	
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:				
 				dialog.makeMainPanel(INSTANCE.view.grid , row);
+				dialog.submit.setVisible(true);
+				dialog.submit.setText("出票");
 				dialog.show();
-				break;
-			case 7:			
-				edit_control.setColName(JCardQueryView.columns[col-2]);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
+				break;				
 			default:
 				break;
 			}			
@@ -160,38 +176,34 @@ public class JCardQueryContorller extends AController {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				int statusIndex = dialog.list_status.getSelectedIndex();
-				String newStatusName = dialog.list_status.getItemText(statusIndex);
-				String oldStatusName = dialog.oldValueLabel.getText();
-				if(newStatusName.equals(oldStatusName)){
-					Window.alert("状态未改变");
-					return ;
-				}
-				String newStatus = dialog.list_status.getValue(statusIndex);
-				if(newStatus.trim().equals("")){
-					Window.alert("状态不能为空");
-					return ;
-				}
-				JCardData jCardData = new JCardData();
-				int rowId = Integer.parseInt(dialog.rowid);
-				Grid grid = INSTANCE.view.grid;
-				for(int i = 2 ; i < grid.getColumnCount() ; i ++){
-					if(grid.getText(0, i).equals(JCardConstanst.SN_ZH)){
-						jCardData.setSN(grid.getText(rowId, i));
-					}else if(grid.getText(0, i).equals(JCardConstanst.NUMBER_ZH)){
-						jCardData.setNUMBER(grid.getText(rowId, i));
-					}else if(grid.getText(0, i).equals(JCardConstanst.PWD_ZH)){
-						jCardData.setPWD(grid.getText(rowId, i));
-					}else if(grid.getText(0, i).equals(JCardConstanst.PAR_VALUE_ZH)){
-						jCardData.setPAR_VALUE(grid.getText(rowId, i));
+				ACTION_NAME = Constanst.ACTION_NAME_EDIT_PBABY ;
+				Grid grid = ViewDetailDialog.INSTANCE.gridFrame;
+				String user = PBabyConstanst.USER_VALUE;
+				String orderId = "";
+				String keyId = "";
+				for(int i = 0 ; i < grid.getRowCount() ; i++){
+					if(PBabyConstanst.ORDID_ZH.equals(grid.getText(i, 0))){
+						orderId = grid.getText(i, 1);
+						continue ;
+					}else if(PBabyConstanst.KEYID_ZH.equals(grid.getText(i, 0))){
+						keyId = grid.getText(i, 1);
+						continue ;
 					}
 				}
-				
-				jCardData.setSTATUS(newStatus);
-				jCardData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_STATUS);
-				String packet = jCardData.toHttpPacket();
-				remoteRequest.getJCard(packet, RemoteCaller);
-				dialog.hide();
+ 				StringBuilder sb = new StringBuilder();
+ 				sb.append(PBabyConstanst.USER);
+ 				sb.append("=");
+ 				sb.append(user);
+ 				sb.append("&");
+ 				sb.append(PBabyConstanst.ORDID_EDIT);
+ 				sb.append("=");
+ 				sb.append(orderId);
+ 				sb.append("&");
+ 				sb.append(PBabyConstanst.KEYID_EDIT);
+ 				sb.append("=");
+ 				sb.append(keyId);
+ 				String sendData = sb.toString();
+ 				remoteRequest.getPBaby(sendData, RemoteCaller);
 			}
 			
 			@Override
@@ -210,20 +222,30 @@ public class JCardQueryContorller extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			INSTANCE.jCardQueryDialog = new JCardQueryButtonDialog();
-			Object obj = event.getSource();			
-			 if(obj == JCardQueryView.queryButton){
-				INSTANCE.jCardQueryDialog.setAction_name(Constanst.ACTION_NAME_SELECT_JCARD);
-				INSTANCE.jCardQueryDialog.queryMainPanel();
-				INSTANCE.jCardQueryDialog.show();
-			}else if(obj == JCardQueryView.addButton){
-				INSTANCE.jCardQueryDialog.setAction_name(Constanst.ACTION_NAME_IMPORT_DATA);
-				INSTANCE.jCardQueryDialog.addMainPanel();
-				INSTANCE.jCardQueryDialog.show();
-			}else if(obj == JCardQueryView.balanceButton){
-				INSTANCE.jCardQueryDialog.setAction_name(Constanst.ACTION_NAME_BALANCE);
-				INSTANCE.jCardQueryDialog.balancePanel();
-				INSTANCE.jCardQueryDialog.show();
+			Object obj = event.getSource();
+			pBabyCreateTime = null;
+			final PBabyData pBabyData = new PBabyData();
+			 if(obj == PBabyView.queryButton){
+				String phone = PBabyView.phoneNumber.getText();
+				Date createDateTime = PBabyView.createDataTime.getValue();
+				pBabyData.setPhoneNumber(phone);
+				if(createDateTime != null){
+					String createDate = PBabyView.format.format(createDateTime);
+					pBabyData.setCreate_dateTime(createDate);
+					pBabyCreateTime = createDate;
+				}
+				
+				if(phone != null && !"".equals(pBabyData)){
+					ACTION_NAME = Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO;
+					pBabyData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO);
+					String packet = pBabyData.toHttpPacket();
+					remoteRequest.getBill(packet, RemoteCaller);
+				}else {
+					pBabyData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
+					String packet = pBabyData.toHttpPacket();
+					remoteRequest.getBill(packet, QueryCaller);
+				}
+				
 			}
 		}
 	}
