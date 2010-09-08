@@ -14,8 +14,6 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class TransactionData extends OPlatformData {
 	
-	private int sum;
-	
 	/**
 	 * 业务号
 	 */
@@ -298,15 +296,5 @@ public class TransactionData extends OPlatformData {
 
 	public void setVALIDITY(String vALIDITY) {
 		VALIDITY = vALIDITY;
-	}
-
-	@Override
-	public int getSum() {
-		return sum;
-	}
-
-	@Override
-	public void setSum(int sum) {
-		this.sum = sum;
 	}
 }

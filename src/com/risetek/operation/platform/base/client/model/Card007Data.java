@@ -29,8 +29,6 @@ import com.risetek.operation.platform.launch.client.util.Util;
  */
 public class Card007Data extends OPlatformData {
 		
-	private int sum;
-	
 	/**
 	 * @Description: 格式化数据，并注入到模块的数据对象中 
 	 * @param text  参数 
@@ -76,17 +74,6 @@ public class Card007Data extends OPlatformData {
 		}
 		return status;
 	}
-
-	@Override
-	public int getSum() {
-		return sum;
-	}
-
-	@Override
-	public void setSum(int sum) {
-		this.sum = sum;
-	}	
-	
 	
 	/**********************************************************/
 	/**

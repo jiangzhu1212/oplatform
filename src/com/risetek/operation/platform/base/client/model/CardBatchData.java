@@ -7,8 +7,6 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CardBatchData  extends OPlatformData {
 
-	private int sum = 0;
-	
 	private String batch_id = ""+0;
 	
 	private String channel_id = ""+0;
@@ -72,16 +70,6 @@ public class CardBatchData  extends OPlatformData {
 			json.put(CardBatchConstanst.PRO_BATCH, new JSONString(colValue));
 		}
 		return json;
-	}
-
-	@Override
-	public int getSum() {
-		return sum;
-	}
-
-	@Override
-	public void setSum(int sum) {
-		this.sum = sum;
 	}
 
 	public String getBatch_id() {

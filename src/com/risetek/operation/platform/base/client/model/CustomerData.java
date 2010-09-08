@@ -14,8 +14,6 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CustomerData extends OPlatformData  {
 	
-	private int sum;
-	
 	/**
 	 * 客户编号
 	 */
@@ -312,15 +310,4 @@ public class CustomerData extends OPlatformData  {
 	public void setAddition(String addition) {
 		this.addition = addition;
 	}
-	
-	@Override
-	public int getSum() {
-		return sum;
-	}
-
-	@Override
-	public void setSum(int sum) {
-		this.sum = sum;
-	}
-		
 }

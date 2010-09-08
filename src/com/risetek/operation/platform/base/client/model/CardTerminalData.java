@@ -14,8 +14,6 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CardTerminalData extends OPlatformData {
 
-	private int sum = 0;
-	
 	private int terminal_id = 0;
 	private String sn = null;
 	private String description = null;
@@ -125,14 +123,6 @@ public class CardTerminalData extends OPlatformData {
 		}
 		return json;
 	}
-
-	public int getSum() {
-		return sum;
-	}
-
-	public void setSum(int sum) {
-		this.sum = sum;
-	}		
 
 	public int getTerminal_id() {
 		return terminal_id;
