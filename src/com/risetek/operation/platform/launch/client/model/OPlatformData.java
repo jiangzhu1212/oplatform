@@ -37,7 +37,7 @@ public abstract class OPlatformData {
 		this.sum = sum;
 	}
 	
-	public String ACTION_NAME = null ;
+	private String ACTION_NAME = null ;
 	
 	private String data[][];
 	
@@ -64,6 +64,14 @@ public abstract class OPlatformData {
 		}
 		
 		return opRetInfo;
+	}
+
+	public String getACTION_NAME() {
+		return ACTION_NAME;
+	}
+
+	public void setACTION_NAME(String aCTION_NAME) {
+		ACTION_NAME = aCTION_NAME;
 	}
 	
 }
