@@ -6,14 +6,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.model.BaseData;
 import com.risetek.operation.platform.base.client.view.BaseView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
-import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 /**
  * @author Amber
