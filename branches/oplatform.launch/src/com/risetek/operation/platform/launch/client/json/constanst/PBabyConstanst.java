@@ -4,7 +4,7 @@ public interface PBabyConstanst extends Constanst{
 	
 	final String IS_OK = "IS_OK";
 	
-	final String IS_OK_ZH = "是否出票成功";
+	final String IS_OK_ZH = "是否出票";
 	
 	final String ORDID = "OrdID";
 	

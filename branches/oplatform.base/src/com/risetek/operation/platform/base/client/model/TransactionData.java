@@ -1,7 +1,14 @@
 package com.risetek.operation.platform.base.client.model;
 
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
@@ -15,52 +22,134 @@ public class TransactionData extends OPlatformData {
 	private String trans_id = "" + 0;
 	
 	/**
-	 * 
+	 * 业务别名
 	 */
 	private String alias = null;
 	
 	/**
-	 * 
+	 * 业务名
 	 */
 	private String name = null;
 	
 	/**
-	 * 
+	 * 业务描述
 	 */
 	private String description = null;
 	
 	/**
-	 * 
+	 * 业务回调地址
 	 */
 	private String url = null;
 	
 	/**
-	 * 
+	 * 业务是否能够绑定
 	 */
 	private String bindable = null;
 	
 	/**
-	 * 
+	 * 商户号
 	 */
 	private String merchant_number = null;
 	
 	/**
-	 * 
+	 * pos终端号
 	 */
 	private String pos_number = null;
 	
 	/**
-	 * 
+	 * 业务类型
 	 */
 	private String type = null;
 	
 	/**
-	 * 
+	 * 业务附加信息
 	 */
 	private String addition = null;
+	/**
+	 * 
+	 * 是否有效
+	 */
+	private String VALIDITY = null ;
 	
 	public void parseData(String text){
+		JSONObject jo = JSONParser.parse(text).isObject();
+		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
+		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
+		String[][] data = new String[arr.size()][10];
+		for(int i = 0 ; i < arr.size() ; i ++){
+			JSONObject transaction = arr.get(i).isObject();
+			try {
+				data[i][0] = transaction.get(TransactionConstanst.TRANS_ID).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][1] = transaction.get(TransactionConstanst.ALIAS).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][2] = transaction.get(TransactionConstanst.NAME).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][3] = transaction.get(TransactionConstanst.DESCRIPTION).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][4] = transaction.get(TransactionConstanst.URL).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][5] = transaction.get(TransactionConstanst.BINDABLE).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][6] = transaction.get(TransactionConstanst.MERCHANT_NUMBER).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][7] = transaction.get(TransactionConstanst.POS_NUMBER).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][8] = transaction.get(TransactionConstanst.TYPE).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][9] = transaction.get(TransactionConstanst.ADDITION).isString().stringValue();
+			} catch (Exception e) {
+			}
+		}
+		setData(data);
+	}
+	
+	public String toHttpPacket(String... col){
+		JSONObject packet = new JSONObject();
+		JSONObject actionInfo = null;
+		try {
+			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
+			if(ACTION_NAME == null){
+				actionInfo = new JSONObject();
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
+				actionInfo = packetData();
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_MODIFY_TRANSACTION_INFO.equals(ACTION_NAME)){
+				actionInfo = packetData(col[0],col[1]);
+			}
+			packet.put(Constanst.ACTION_INFO,actionInfo);
+		} catch (JSONException e) {			
+			e.printStackTrace();
+			return null;
+		}
 		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(RequestFactory.PACKET);
+		buffer.append("=");
+		buffer.append(packet.toString());
+		return buffer.toString();
 	}
 
 	private JSONObject packetData(){
@@ -201,6 +290,14 @@ public class TransactionData extends OPlatformData {
 
 	public void setAddition(String addition) {
 		this.addition = addition;
+	}	
+	
+	public String getVALIDITY() {
+		return VALIDITY;
+	}
+
+	public void setVALIDITY(String vALIDITY) {
+		VALIDITY = vALIDITY;
 	}
 
 	@Override

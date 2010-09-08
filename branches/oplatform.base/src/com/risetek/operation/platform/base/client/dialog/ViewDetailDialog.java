@@ -27,6 +27,9 @@ public class ViewDetailDialog extends CustomDialog {
 			Window.alert("错误");
 		}
 		gridFrame = new Grid(colCount-2,2);
+		gridFrame.setStyleName("table");
+		gridFrame.getColumnFormatter().setWidth(0, "80px");
+		gridFrame.getColumnFormatter().setWidth(1, "220px");
 		for(int i = 0 ; i < colCount-2 ; i++){
 			gridFrame.setWidget(i, 0, new Label(grid.getText(0, i+2)));
 			gridFrame.setWidget(i, 1, new Label(grid.getText(row, i+2)));

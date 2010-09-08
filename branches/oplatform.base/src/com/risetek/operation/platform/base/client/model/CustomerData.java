@@ -1,15 +1,15 @@
 package com.risetek.operation.platform.base.client.model;
 
-
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
-import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CustomerData extends OPlatformData  {
@@ -19,7 +19,7 @@ public class CustomerData extends OPlatformData  {
 	/**
 	 * 客户编号
 	 */
-	private String customer_id = ""+0;
+	private int customer_id = 0;
 	
 	/**
 	 * 客户名
@@ -65,30 +65,98 @@ public class CustomerData extends OPlatformData  {
 	 * 用户附加信息
 	 */
 	private String addition = null;
-	
-	private String action_name = null;
 
 	public void parseData(String text){
-		
+		JSONObject jo = JSONParser.parse(text).isObject();
+		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
+		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
+		String[][] data = new String[arr.size()][10];
+		for(int i = 0 ; i < arr.size() ; i ++){
+			JSONObject customer = arr.get(i).isObject();
+			try {
+				try {
+					data[i][0] = customer.get(CustomerConstanst.CUSTOMER_ID)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][1] = customer.get(CustomerConstanst.NAME)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][2] = customer.get(CustomerConstanst.PHONE)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][3] = customer.get(CustomerConstanst.ADDRESS)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][4] = customer.get(CustomerConstanst.ADDRESS_2)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][5] = customer.get(CustomerConstanst.EMAIL)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][6] = customer.get(CustomerConstanst.CARD_ID)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][7] = customer.get(CustomerConstanst.CREATE_TIME)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][8] = customer.get(CustomerConstanst.VALIDITY)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][9] = customer.get(CustomerConstanst.ADDITION)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		setData(data);
 	}
 	
-	public String toHttpPacket(){
+	public String toHttpPacket(String... col){
 		JSONObject packet = new JSONObject();
 		JSONObject actionInfo = null;
 		try {
-			packet.put(Constanst.ACTION_NAME, new JSONString(action_name));	
-			if(action_name == null){
+			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
+			if(ACTION_NAME == null){
 				actionInfo = new JSONObject();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
-				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(50));
-
-			}else if(Constanst.ACTION_NAME_SELECT_JCARD.equals(action_name)){
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
-				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(50));
-
-			}else if(Constanst.ACTION_NAME_MODIFY_STATUS.equals(action_name)){
-				actionInfo = packetData();
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_MODIFY_CUSTOMER_INFO.equals(ACTION_NAME)){
+				actionInfo = packetData(col[0],col[1]);
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
 		} catch (JSONException e) {			
@@ -97,7 +165,7 @@ public class CustomerData extends OPlatformData  {
 		}
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(RequestFactory.CTI_PACKET);
+		buffer.append(RequestFactory.PACKET);
 		buffer.append("=");
 		buffer.append(packet.toString());
 		return buffer.toString();
@@ -105,8 +173,8 @@ public class CustomerData extends OPlatformData  {
 	
 	private JSONObject packetData(){
 		JSONObject json = new JSONObject();
-		if(!customer_id.equals("0")){
-			json.put(CustomerConstanst.CUSTOMER_ID, new JSONString(customer_id));
+		if(customer_id != 0){
+			json.put(CustomerConstanst.CUSTOMER_ID, new JSONNumber(customer_id));
 		}
 		if(name != null && !name.equals("")){
 			json.put(CustomerConstanst.NAME, new JSONString(name));
@@ -142,7 +210,7 @@ public class CustomerData extends OPlatformData  {
 	
 	private JSONObject packetData(String colName , String colValue){
 		JSONObject json = new JSONObject();
-		json.put(CustomerConstanst.CUSTOMER_ID, new JSONString(customer_id));
+		json.put(CustomerConstanst.CUSTOMER_ID, new JSONNumber(customer_id));
 		if(CustomerConstanst.NAME_ZH.equals(colName)){
 			json.put(CustomerConstanst.NAME, new JSONString(colValue));
 		}else if(CustomerConstanst.PHONE_ZH.equals(colName)){
@@ -165,11 +233,11 @@ public class CustomerData extends OPlatformData  {
 		return json;
 	}
 
-	public String getCustomer_id() {
+	public int getCustomer_id() {
 		return customer_id;
 	}
 
-	public void setCustomer_id(String customer_id) {
+	public void setCustomer_id(int customer_id) {
 		this.customer_id = customer_id;
 	}
 
@@ -244,15 +312,7 @@ public class CustomerData extends OPlatformData  {
 	public void setAddition(String addition) {
 		this.addition = addition;
 	}
-
-	public String getAction_name() {
-		return action_name;
-	}
-
-	public void setAction_name(String action_name) {
-		this.action_name = action_name;
-	}
-
+	
 	@Override
 	public int getSum() {
 		return sum;

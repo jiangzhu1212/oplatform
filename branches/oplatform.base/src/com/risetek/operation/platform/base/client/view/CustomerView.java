@@ -27,7 +27,7 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	public static String descript = "";
 	String banner_tips = "";
 	private final static String[] banner_text = {
-		"点击删除客户.",
+		"点击作废此客户.",
 		"点击修改" + columns[1],
 		"点击修改" + columns[2],
 		"点击修改" + columns[3],

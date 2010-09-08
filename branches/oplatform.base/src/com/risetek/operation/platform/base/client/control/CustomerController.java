@@ -19,7 +19,6 @@ import com.risetek.operation.platform.base.client.view.CustomerView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
-import com.risetek.operation.platform.launch.client.util.Util;
 
 public class CustomerController extends AController {
 
@@ -27,10 +26,10 @@ public class CustomerController extends AController {
 	final CustomerData data = new CustomerData();
 	
 	public final CustomerView view = new CustomerView();
-	public final CustomerButtonDialog customerDialog = new CustomerButtonDialog();
+	public CustomerButtonDialog customerDialog = new CustomerButtonDialog();
 
-	private static RequestFactory remoteRequest = new RequestFactory();
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
@@ -45,7 +44,7 @@ public class CustomerController extends AController {
 		}
 	}
 	//查询的回调
-	private static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
@@ -65,7 +64,7 @@ public class CustomerController extends AController {
 	}
 	
 	public static void load(){
-		INSTANCE.data.setSum(100);
+		INSTANCE.data.setSum(50);
 		INSTANCE.view.render(INSTANCE.data);
 		//remoteRequest.get("", "", RemoteCaller);
 	}
@@ -111,9 +110,9 @@ public class CustomerController extends AController {
 				dialog.show();
 				break;	
 			case 2:
-				// 选择了删除用户。
+				// 选择了作废用户。
 				edit_control.setColName(null);
-				edit_control.dialog.submit.setText("删除");
+				edit_control.dialog.submit.setText("作废");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
@@ -162,7 +161,7 @@ public class CustomerController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			
+			INSTANCE.customerDialog = new CustomerButtonDialog();
 			Object obj = event.getSource();
 			if(obj == CustomerView.addButton){
 				INSTANCE.customerDialog.addMainPanel();

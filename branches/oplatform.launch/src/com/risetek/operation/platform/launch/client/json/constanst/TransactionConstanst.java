@@ -8,7 +8,7 @@ public interface TransactionConstanst extends Constanst {
 	
 	final String ALIAS = "ALIAS" ;
 	
-	final String ALIAS_ZH = "业务编号" ;
+	final String ALIAS_ZH = "业务别名" ;
 	
 	final String NAME = "NAME" ;
 	
@@ -20,29 +20,29 @@ public interface TransactionConstanst extends Constanst {
 	
 	final String URL = "URL" ;
 	
-	final String URL_ZH = "业务编号" ;
+	final String URL_ZH = "业务回调地址" ;
 	
 	final String BINDABLE = "BINDABLE" ;
 	
-	final String BINDABLE_ZH = "是否绑定" ;
+	final String BINDABLE_ZH = "是否能绑定" ;
 	
 	final String MERCHANT_NUMBER = "MERCHANT_NUMBER" ;
 	
-	final String MERCHANT_NUMBER_ZH = "业务编号" ;
+	final String MERCHANT_NUMBER_ZH = "商户号" ;
 	
 	final String POS_NUMBER = "POS_NUMBER" ;
 	
-	final String POS_NUMBER_ZH = "业务编号" ;
+	final String POS_NUMBER_ZH = "pos终端号" ;
 	
 	final String TYPE = "TYPE" ;
 	
-	final String TYPE_ZH = "业务编号" ;
+	final String TYPE_ZH = "业务类型" ;
 	
 	final String ADDITION = "ADDTION" ;
 	
-	final String ADDITION_ZH = "业务编号" ;
+	final String ADDITION_ZH = "业务附加信息" ;
 	
-	final String ENABLE = "ENABLE" ;
+	final String VALIDITY = "VALIDITY" ;
 	
-	final String ENABLE_ZH = "是否开通" ;
+	final String VALIDITY_ZH = "是否有效" ;
 }

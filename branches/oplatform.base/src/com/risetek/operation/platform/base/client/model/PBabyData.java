@@ -46,7 +46,8 @@ public class PBabyData extends OPlatformData {
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
-		JSONArray goodsArr = jo.get(Constanst.ITEMS).isArray();
+		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
+		JSONArray goodsArr = actionInfo.get(Constanst.ITEMS).isArray();
 		List<String[]> list = new ArrayList<String[]>();
 		String[] PBabyData = new String[6];
 		for(int i = 0 ; i < goodsArr.size() ; i ++){
@@ -126,12 +127,13 @@ public class PBabyData extends OPlatformData {
 			return ;
 		}
 		JSONObject jo = JSONParser.parse(text).isObject();
-		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
+		JSONNumber item_total = (JSONNumber)actionInfo.get(Constanst.ITEM_TOTAL);
 		if(Integer.parseInt(item_total.toString()) == 0){
 			Window.alert("无此电话号码的用户");
 			return ;
 		}
-		JSONArray customerArr = jo.get(Constanst.ITEMS).isArray();
+		JSONArray customerArr = actionInfo.get(Constanst.ITEMS).isArray();
 		for(int i = 0 ; i < customerArr.size() ; i ++){
 			JSONObject customer = (customerArr.get(i)).isObject();
 			if(Constanst.TRUE.equals(customer.get(CustomerConstanst.VALIDITY).isString().toString())){
