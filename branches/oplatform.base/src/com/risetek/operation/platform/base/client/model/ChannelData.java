@@ -35,34 +35,15 @@ public class ChannelData extends OPlatformData {
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		setSum(Integer.parseInt(item_total.toString()));
 		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
 		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
 		String[][] data = new String[arr.size()][5];
 		for(int i = 0 ; i < arr.size() ; i ++){
-			JSONObject cardTerminal = arr.get(i).isObject();
+			JSONObject channel = arr.get(i).isObject();
 
 			try {
-				data[i][0] = cardTerminal.get(CardTerminalConstanst.TERMINAL_ID)
-						.isString().stringValue();
-			} catch (Exception e) {
-			}
-			try {
-				data[i][1] = cardTerminal.get(CardTerminalConstanst.SN)
-						.isString().stringValue();
-			} catch (Exception e) {
-			}
-			try {
-				data[i][2] = cardTerminal.get(CardTerminalConstanst.DESCRIPTION)
-						.isString().stringValue();
-			} catch (Exception e) {
-			}
-			try {
-				data[i][3] = cardTerminal.get(CardTerminalConstanst.ADDITION)
-						.isString().stringValue();
-			} catch (Exception e) {
-			}
-			try {
-				data[i][4] = cardTerminal.get(CardTerminalConstanst.VALIDITY)
+				data[i][0] = channel.get(CardTerminalConstanst.TERMINAL_ID)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
@@ -72,6 +53,7 @@ public class ChannelData extends OPlatformData {
 	}
 	
 	public String toHttpPacket(String... col){
+		String ACTION_NAME = getACTION_NAME();
 		JSONObject packet = new JSONObject();
 		JSONObject actionInfo = null;
 		try {

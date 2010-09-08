@@ -60,6 +60,7 @@ public class CardTerminalData extends OPlatformData {
 	}
 	
 	public String toHttpPacket(String... col){
+		String ACTION_NAME = getACTION_NAME();
 		JSONObject packet = new JSONObject();
 		JSONObject actionInfo = null;
 		try {

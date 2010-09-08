@@ -84,6 +84,7 @@ public class JCardData  extends OPlatformData  {
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONObject actionInfo = (JSONObject)jo.get(Constanst.ACTION_INFO);
 		JSONArray jcardArr = (JSONArray)actionInfo.get(Constanst.JCARDS_INFO);
+		int total = 0;
 		int size = jcardArr.size();
 		String data[][] = new String[size][9];
 		
@@ -137,19 +138,21 @@ public class JCardData  extends OPlatformData  {
 				data[i][8] = "";
 			}
 			try {
-				Integer.parseInt(((JSONNumber) actionInfo
-						.get(Constanst.TOTAL)).toString());
+				if(total == 0){
+					total = Integer.parseInt(((JSONNumber) actionInfo
+							.get(Constanst.TOTAL)).toString());
+				}
+				
 			} catch (Exception e) {
 				
 			}
 		}
 		setData(data);
-		setSum(size);
-	
+		setSum(total);
 	}
 	
 	public String toHttpPacket(){
-
+			String ACTION_NAME = getACTION_NAME();
 			JSONObject packet = new JSONObject();
 			JSONObject actionInfo = null;
 			try {
@@ -196,6 +199,7 @@ public class JCardData  extends OPlatformData  {
 	}
 	
 	public void toHttpPacketBl(){
+		String ACTION_NAME = getACTION_NAME();
 		JCard = new ArrayList<String>();
 		checkCard = new ArrayList<String>();
 		JSONObject packet = new JSONObject();
