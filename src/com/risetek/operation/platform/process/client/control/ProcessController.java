@@ -3,12 +3,10 @@ package com.risetek.operation.platform.process.client.control;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
-import com.risetek.operation.platform.launch.client.view.PageLabel;
 import com.risetek.operation.platform.process.client.model.ProcessData;
 import com.risetek.operation.platform.process.client.view.ProcessView;
 
