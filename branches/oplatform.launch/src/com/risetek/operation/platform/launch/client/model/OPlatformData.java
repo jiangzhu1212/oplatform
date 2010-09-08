@@ -47,7 +47,7 @@ public abstract class OPlatformData {
 	
 	public String[][] getData() {
 		return data;
-	}	
+	}
 	
 	protected ResolveResponseInfo[] retInfo(String retInfo) {
 		ResolveResponseInfo opRetInfo[] = new ResolveResponseInfo[1];
@@ -70,8 +70,8 @@ public abstract class OPlatformData {
 		return ACTION_NAME;
 	}
 
-	public void setACTION_NAME(String aCTION_NAME) {
-		ACTION_NAME = aCTION_NAME;
+	public void setACTION_NAME(String ACTION_NAME) {
+		this.ACTION_NAME = ACTION_NAME;
 	}
 	
 }

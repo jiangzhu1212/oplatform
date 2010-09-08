@@ -2,6 +2,8 @@ package com.risetek.operation.platform.base.client.view;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -15,6 +17,7 @@ import com.risetek.operation.platform.base.client.control.RoleConfigController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
+import com.risetek.operation.platform.launch.client.view.MouseEventGrid;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 import com.risetek.operation.platform.launch.client.view.PageLabel;
 
@@ -98,6 +101,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 				id = getSelectRoleId();
 				PageLabel label = (PageLabel)event.getSource();
 				label.addStyleName("select");
+				RoleConfigController.INSTANCE.setChildPagePoint(1);
 				HorizontalPanel page = (HorizontalPanel)label.getParent();
 				for(int i=0;i<page.getWidgetCount();i++){
 					Widget w = page.getWidget(i);
@@ -121,25 +125,25 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		first.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				PageLabel label = (PageLabel)event.getSource();
-				RoleConfigController.INSTANCE.firstChildPageAction(label);
+				RoleConfigController.INSTANCE.firstChildPageAction(getSelectRoleId(), getChildGridTitle(), label);
 			}
 		});
 		before.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				PageLabel label = (PageLabel)event.getSource();
-				RoleConfigController.INSTANCE.beforeChildPageAction(label);
+				RoleConfigController.INSTANCE.beforeChildPageAction(getSelectRoleId(), getChildGridTitle(), label);
 			}
 		});
 		after.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				PageLabel label = (PageLabel)event.getSource();
-				RoleConfigController.INSTANCE.afterChildPageAction(label);
+				RoleConfigController.INSTANCE.afterChildPageAction(getSelectRoleId(), getChildGridTitle(), label);
 			}
 		});
 		last.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				PageLabel label = (PageLabel)event.getSource();
-				RoleConfigController.INSTANCE.lastChildPageAction(label);
+				RoleConfigController.INSTANCE.lastChildPageAction(getSelectRoleId(), getChildGridTitle(), label);
 			}
 		});
 		childPage.add(first);
@@ -281,5 +285,67 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	@Override
 	public void lastPageAction(PageLabel label) {
 		RoleConfigController.INSTANCE.lastPageAction(label);
+	}
+	
+	/**
+	 * @author Amber
+	 * 功能：数据表鼠标移动样式事件处理子类
+	 * 2010-8-23 下午11:55:34
+	 */
+	public class GreenMouseEventGrid extends MouseEventGrid {
+
+		String[] bannerText;
+		boolean isChild;
+		
+		public GreenMouseEventGrid(String[] bannerText){
+			this.bannerText = bannerText;
+			this.isChild = false;
+		}
+		
+		public GreenMouseEventGrid(String[] bannerText, boolean isChild){
+			this.bannerText = bannerText;
+			this.isChild = isChild;
+		}
+		
+		@Override
+		public void onMouseOver(Element td, int column) {
+			DOM.removeElementAttribute(td, "title");
+			String text = "";
+			if(column<2){
+				if(column==1){
+					text = "点击删除本条记录";
+				}
+			} else {
+				text = bannerText[column-2];
+			}
+			if(!isChild){
+				setInfo(text);
+			} else {
+				VerticalPanel child = (VerticalPanel)outer.getWidget(1);
+				Grid childTitle = (Grid)child.getWidget(0);
+				childTitle.setText(0, 1, text);
+			}
+            Element tr = DOM.getParent(td);
+            Element body = DOM.getParent(tr);
+            int row = DOM.getChildIndex(body, tr);
+            if(row == 0) return;
+		}
+
+		@Override
+		public void onMouseOut(Element td, int column) {
+			String title = td.getInnerText();
+			
+			if((column > 1) && (null != title) && !("".equals(title)) && !(" ".equalsIgnoreCase(title))) {
+//				DOM.setElementAttribute(td, "title", td.getInnerText());			
+			}
+			
+			if(!isChild){
+				setInfo("");
+			} else {
+				VerticalPanel child = (VerticalPanel)outer.getWidget(1);
+				Grid childTitle = (Grid)child.getWidget(0);
+				childTitle.setText(0, 1, "");
+			}
+		}
 	}
 }

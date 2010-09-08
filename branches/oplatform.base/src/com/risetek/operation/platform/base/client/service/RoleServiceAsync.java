@@ -32,4 +32,6 @@ public interface RoleServiceAsync {
 
 	void getRoleOperationDataCount(String id, AsyncCallback<Integer> callback);
 
+	void getRoleOperationByIdPage(int rowCount, String id, int pagePoint,	AsyncCallback<RoleOperation[]> callback);
+
 }

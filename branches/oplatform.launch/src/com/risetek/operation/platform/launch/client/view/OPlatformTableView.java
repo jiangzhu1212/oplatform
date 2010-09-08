@@ -101,6 +101,10 @@ public abstract class OPlatformTableView extends DockPanel {
 		final PageLabel before = new PageLabel("<<");
 		final PageLabel after = new PageLabel(">>");
 		final PageLabel last = new PageLabel(">|");
+		first.setEnable(false);
+		before.setEnable(false);
+		after.setEnable(false);
+		last.setEnable(false);
 		PageLabel page1 = new PageLabel("1");
 		page1.addStyleName("select");
 		page1.addClickHandler(new ClickHandler() {
@@ -124,10 +128,6 @@ public abstract class OPlatformTableView extends DockPanel {
 				onLoad();
 			}
 		});
-//		first.setEnable(false);
-//		before.setEnable(false);
-//		after.setEnable(false);
-//		last.setEnable(false);
 		first.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				PageLabel label = (PageLabel)event.getSource();
@@ -254,7 +254,7 @@ public abstract class OPlatformTableView extends DockPanel {
 						grid.getCellFormatter().setHorizontalAlignment(index, i, HasHorizontalAlignment.ALIGN_CENTER);
 					} else {
 						if(data.getData()!=null){
-							String text = data.getData()[index-1][i-2];
+							String text = "ss";//data.getData()[index-1][i-2];
 							grid.setText(index, i, text);
 						} else {
 							grid.clearCell(index, i);

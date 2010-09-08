@@ -194,7 +194,11 @@ public abstract class AController {
 		INSTANCE.getChildData().setSum(result);
 		int pageNumber = result/rowCount;
 		if(result%rowCount==0){
-			pageNumber--;
+			if(pageNumber!=0){
+				pageNumber--;
+			}
+		} else {
+			
 		}
 		int count = INSTANCE.getView().getChildPagePanel().getWidgetCount();
 		if(count == pageNumber+5){
@@ -275,19 +279,38 @@ public abstract class AController {
 		loadChild(id, value, point);
 	}
 	
-	public void firstChildPageAction(PageLabel label){
-		
+	public void firstChildPageAction(String id, String value, PageLabel label){
+		int point = 1;
+		setChildPagePoint(point);
+		refreshLabelStyle(point, label);
+		setLabelVisable(label, point);
+		loadChild(id, value, point);
 	}
 	
-	public void beforeChildPageAction(PageLabel label){
-		
+	public void beforeChildPageAction(String id, String value, PageLabel label){
+		int point = getChildPagePoint();
+		point--;
+		setLabelVisable(label, point);
+		setChildPagePoint(point);
+		refreshLabelStyle(point, label);
+		loadChild(id, value, point);
 	}
 
-	public void afterChildPageAction(PageLabel label){
-	
+	public void afterChildPageAction(String id, String value, PageLabel label){
+		int point = getChildPagePoint();
+		point++;
+		setLabelVisable(label, point);
+		setChildPagePoint(point);
+		refreshLabelStyle(point, label);
+		loadChild(id, value, point);
 	}
 
-	public void lastChildPageAction(PageLabel label){
-	
+	public void lastChildPageAction(String id, String value, PageLabel label){
+		HorizontalPanel panel = (HorizontalPanel)label.getParent();
+		int point = panel.getWidgetCount()-4;
+		setChildPagePoint(point);
+		refreshLabelStyle(point, label);
+		setLabelVisable(label, point);
+		loadChild(id, value, point);
 	}
 }
