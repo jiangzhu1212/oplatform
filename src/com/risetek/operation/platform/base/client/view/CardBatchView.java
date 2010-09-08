@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.CardBatchSink;
 import com.risetek.operation.platform.base.client.control.CardBatchController;
-import com.risetek.operation.platform.base.client.model.CardBatchData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.CardBatchConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;

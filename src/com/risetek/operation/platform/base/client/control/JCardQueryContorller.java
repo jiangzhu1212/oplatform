@@ -24,6 +24,7 @@ import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
+
 public class JCardQueryContorller extends AController {
 
 	public static JCardQueryContorller INSTANCE = new JCardQueryContorller();
@@ -188,7 +189,7 @@ public class JCardQueryContorller extends AController {
 				}
 				
 				jCardData.setSTATUS(newStatus);
-				jCardData.ACTION_NAME = Constanst.ACTION_NAME_MODIFY_STATUS;
+				jCardData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_STATUS);
 				String packet = jCardData.toHttpPacket();
 				remoteRequest.getJCard(packet, RemoteCaller);
 				dialog.hide();

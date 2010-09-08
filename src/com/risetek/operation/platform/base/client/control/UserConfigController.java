@@ -2,12 +2,10 @@ package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.view.UserConfigView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
-import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class UserConfigController extends AController {
 

@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TransactionSink;
 import com.risetek.operation.platform.base.client.control.TransactionController;
-import com.risetek.operation.platform.base.client.model.TransactionData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;

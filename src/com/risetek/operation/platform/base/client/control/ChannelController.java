@@ -10,18 +10,15 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.dialog.ChannelButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.ChannelData;
 import com.risetek.operation.platform.base.client.view.ChannelView;
-import com.risetek.operation.platform.base.client.view.TransactionView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
-import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class ChannelController extends AController {
 

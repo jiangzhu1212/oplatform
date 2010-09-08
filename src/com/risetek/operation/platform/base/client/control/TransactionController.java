@@ -10,9 +10,6 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.base.client.control.CustomerController.RemoteRequestCallback;
-import com.risetek.operation.platform.base.client.dialog.EditDialog;
 import com.risetek.operation.platform.base.client.dialog.TransactionButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.TransactionData;
@@ -23,7 +20,6 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
-import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class TransactionController extends AController {
 
