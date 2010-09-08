@@ -49,7 +49,7 @@ public class CustomerData extends OPlatformData  {
 	/**
 	 * 银行
 	 */
-	private String card_id = null;
+	private String id_card = null;
 	
 	/**
 	 * 创建时间
@@ -112,7 +112,7 @@ public class CustomerData extends OPlatformData  {
 					// TODO: handle exception
 				}
 				try {
-					data[i][6] = customer.get(CustomerConstanst.CARD_ID)
+					data[i][6] = customer.get(CustomerConstanst.ID_CARD)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -191,8 +191,8 @@ public class CustomerData extends OPlatformData  {
 		if(email != null && !email.equals("")){
 			json.put(CustomerConstanst.EMAIL, new JSONString(email));
 		}
-		if(card_id != null && !card_id.equals("")){
-			json.put(CustomerConstanst.CARD_ID, new JSONString(card_id));
+		if(id_card != null && !id_card.equals("")){
+			json.put(CustomerConstanst.ID_CARD, new JSONString(id_card));
 		}
 		if(create_time != null && !create_time.equals("")){
 			json.put(CustomerConstanst.CREATE_TIME, new JSONString(create_time));
@@ -221,8 +221,8 @@ public class CustomerData extends OPlatformData  {
 			json.put(CustomerConstanst.ADDRESS_2, new JSONString(colValue));
 		}else if(CustomerConstanst.EMAIL_ZH.equals(colName)){
 			json.put(CustomerConstanst.EMAIL, new JSONString(colValue));
-		}else if(CustomerConstanst.CARD_ID_ZH.equals(colName)){
-			json.put(CustomerConstanst.CARD_ID, new JSONString(colValue));
+		}else if(CustomerConstanst.ID_CARD_ZH.equals(colName)){
+			json.put(CustomerConstanst.ID_CARD, new JSONString(colValue));
 		}else if(CustomerConstanst.CREATE_TIME_ZH.equals(colName)){
 			json.put(CustomerConstanst.CREATE_TIME, new JSONString(colValue));
 		}else if(CustomerConstanst.VALIDITY_ZH.equals(colName)){
@@ -280,13 +280,13 @@ public class CustomerData extends OPlatformData  {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getCard_id() {
-		return card_id;
+	
+	public String getId_card() {
+		return id_card;
 	}
 
-	public void setCard_id(String card_id) {
-		this.card_id = card_id;
+	public void setId_card(String id_card) {
+		this.id_card = id_card;
 	}
 
 	public String getCreate_time() {

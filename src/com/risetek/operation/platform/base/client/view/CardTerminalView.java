@@ -18,7 +18,7 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 
 	public final static Button addButton = new Button("添加终端",new CardTerminalController.TableShowAction());
 	public final static Button queryButton = new Button("查询终端",new CardTerminalController.TableShowAction());
-	public final static String[] columns = {CardTerminalConstanst.TERMINAL_ID_ZH, CardTerminalConstanst.TM_KEY_ZH,CardTerminalConstanst.DESCRIPTION_ZH,CardTerminalConstanst.ADDITION_ZH,CardTerminalConstanst.VALIDITY_ZH};
+	public final static String[] columns = {CardTerminalConstanst.TERMINAL_ID_ZH, CardTerminalConstanst.SN_ZH,CardTerminalConstanst.DESCRIPTION_ZH,CardTerminalConstanst.ADDITION_ZH,CardTerminalConstanst.VALIDITY_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25};
 	public static String descript = "";

@@ -14,7 +14,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.PBabyData;
 import com.risetek.operation.platform.base.client.view.PBabyView;
@@ -24,6 +23,8 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.PBabyConstanst;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
+import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 public class PBabyController extends AController {
 
@@ -252,14 +253,18 @@ public class PBabyController extends AController {
 		}
 	}
 
-	/** 
-	 * 功能： 时间接口方法，返回该模块视图
-	 *(non-Javadoc)
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
-	 */
+
+
 	@Override
-	public Widget getView() {
-		return view;
+	public OPlatformTableView getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OPlatformData getChildData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -267,4 +272,47 @@ public class PBabyController extends AController {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void load(int pagePoint) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void loadChild(String id, String value, int childPagePoint) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPagePoint(int point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getPagePoint() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setChildPagePoint(int point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getChildPagePoint() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/** 
+	 * 功能： 时间接口方法，返回该模块视图
+	 *(non-Javadoc)
+	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
+	 */
+	
 }
