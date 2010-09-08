@@ -17,7 +17,7 @@ public class CardTerminalData extends OPlatformData {
 	private int sum = 0;
 	
 	private int terminal_id = 0;
-	private String tm_key = null;
+	private String sn = null;
 	private String description = null;
 	private String addition = null;
 	private String validity = null;
@@ -37,7 +37,7 @@ public class CardTerminalData extends OPlatformData {
 			} catch (Exception e) {
 			}
 			try {
-				data[i][1] = cardTerminal.get(CardTerminalConstanst.TM_KEY)
+				data[i][1] = cardTerminal.get(CardTerminalConstanst.SN)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
@@ -95,8 +95,8 @@ public class CardTerminalData extends OPlatformData {
 		if(terminal_id!=0){
 			json.put(CardTerminalConstanst.TERMINAL_ID, new JSONNumber(terminal_id));
 		}
-		if(tm_key != null && !tm_key.equals("")){
-			json.put(CardTerminalConstanst.TM_KEY, new JSONString(tm_key));
+		if(sn != null && !sn.equals("")){
+			json.put(CardTerminalConstanst.SN, new JSONString(sn));
 		}
 		if(description != null && !description.equals("")){
 			json.put(CardTerminalConstanst.DESCRIPTION, new JSONString(description));
@@ -114,8 +114,8 @@ public class CardTerminalData extends OPlatformData {
 	private JSONObject packetData(String colName , String colValue){
 		JSONObject json = new JSONObject();
 		json.put(CardTerminalConstanst.TERMINAL_ID, new JSONNumber(terminal_id));
-		if(CardTerminalConstanst.TM_KEY_ZH.equals(colName)){
-			json.put(CardTerminalConstanst.TM_KEY, new JSONString(colValue));
+		if(CardTerminalConstanst.SN_ZH.equals(colName)){
+			json.put(CardTerminalConstanst.SN, new JSONString(colValue));
 		}else if(CardTerminalConstanst.DESCRIPTION_ZH.equals(colName)){
 			json.put(CardTerminalConstanst.DESCRIPTION, new JSONString(colValue));
 		}else if(CardTerminalConstanst.ADDITION_ZH.equals(colName)){
@@ -142,12 +142,12 @@ public class CardTerminalData extends OPlatformData {
 		this.terminal_id = terminal_id;
 	}
 
-	public String getTm_key() {
-		return tm_key;
+	public String getSn() {
+		return sn;
 	}
 
-	public void setTm_key(String tm_key) {
-		this.tm_key = tm_key;
+	public void setSn(String sn) {
+		this.sn = sn;
 	}
 
 	public String getDescription() {

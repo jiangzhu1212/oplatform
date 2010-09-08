@@ -6,9 +6,9 @@ public interface CardTerminalConstanst extends Constanst {
 	
 	final String TERMINAL_ID_ZH = "终端号";
 	
-	final String TM_KEY = "TM_KEY";
+	final String SN = "SN";
 	
-	final String TM_KEY_ZH = "终端序列号";
+	final String SN_ZH = "终端序列号";
 	
 	final String DESCRIPTION = "DESCRIPTION";
 	

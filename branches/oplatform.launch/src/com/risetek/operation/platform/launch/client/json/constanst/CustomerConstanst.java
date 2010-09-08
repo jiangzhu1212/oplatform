@@ -26,9 +26,9 @@ public interface CustomerConstanst extends Constanst {
 	
 	final String EMAIL_ZH = "email";
 	
-	final String CARD_ID = "CARD_ID";
+	final String ID_CARD = "ID_CARD";
 	
-	final String CARD_ID_ZH = "省份证编号";
+	final String ID_CARD_ZH = "省份证编号";
 	
 	final String CREATE_TIME = "CREATE_TIME";
 	

@@ -15,6 +15,7 @@ import com.risetek.operation.platform.launch.client.json.constanst.PBabyConstans
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
+import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 
@@ -109,6 +110,42 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
+	}
+
+	@Override
+	public HorizontalPanel getPagePanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HorizontalPanel getChildPagePanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void firstPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beforePageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void lastPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

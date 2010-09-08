@@ -28,7 +28,7 @@ public class CustomerButtonDialog  extends CustomDialog {
 	private final Label ADDRESS_ZH = new Label(CustomerConstanst.ADDRESS_ZH ,false);
 	private final Label ADDRESS_2_ZH = new Label(CustomerConstanst.ADDRESS_2_ZH ,false);
 	private final Label EMAIL_ZH = new Label(CustomerConstanst.EMAIL_ZH ,false);
-	private final Label CARD_ID_ZH = new Label(CustomerConstanst.CARD_ID_ZH ,false);
+	private final Label CARD_ID_ZH = new Label(CustomerConstanst.ID_CARD_ZH ,false);
 	private final Label CREATE_TIME_ZH = new Label(CustomerConstanst.CREATE_TIME_ZH ,false);
 	private final Label VALIDITY_ZH = new Label(CustomerConstanst.VALIDITY_ZH ,false);
 	private final Label ADDITION_ZH = new Label(CustomerConstanst.ADDITION_ZH ,false);
@@ -155,7 +155,7 @@ public class CustomerButtonDialog  extends CustomDialog {
 			customer.setAddress(address);
 			customer.setAddress_2(address2);
 			customer.setEmail(email);
-			customer.setCard_id(cardId);
+			customer.setId_card(cardId);
 			customer.setCreate_time(createDate);
 			customer.setValidity(validity);
 			customer.setAddition(addition);

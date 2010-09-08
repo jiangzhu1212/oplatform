@@ -1,7 +1,5 @@
 package com.risetek.operation.platform.launch.client.model;
 
-import org.mortbay.util.ajax.JSON;
-
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
@@ -33,6 +31,8 @@ public abstract class OPlatformData {
 	 */
 	public abstract void setSum(int sum);
 	
+	public String ACTION_NAME = null ;
+	
 	private String data[][];
 	
 	public void setData(String data[][]) {
@@ -41,8 +41,16 @@ public abstract class OPlatformData {
 	
 	public String[][] getData() {
 		return data;
-	}
+	}	
 	
+	public String getACTION_NAME() {
+		return ACTION_NAME;
+	}
+
+	public void setACTION_NAME(String aCTION_NAME) {
+		ACTION_NAME = aCTION_NAME;
+	}
+
 	protected ResolveResponseInfo[] retInfo(String retInfo) {
 		ResolveResponseInfo opRetInfo[] = new ResolveResponseInfo[1];
 		opRetInfo[0] = new ResolveResponseInfo();
