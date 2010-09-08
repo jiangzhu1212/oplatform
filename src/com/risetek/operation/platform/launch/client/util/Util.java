@@ -8,6 +8,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 
 public class Util {
 
@@ -173,6 +174,18 @@ public class Util {
 		return list_status;
 	}
 	
+	/**
+	 * 取得字段VALIDITY的listBox
+	 */
+	public static ListBox getValidity(){
+		
+		ListBox list_validity = new ListBox();
+		list_validity.addItem( "" , "" );
+		list_validity.addItem( "有效" , Constanst.TRUE );
+		list_validity.addItem( "无效" , Constanst.FALSE );
+		
+		return list_validity;
+	}
 	/**
 	 * 判断字符串是否可以转为纯数字
 	 */
