@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.view.UserConfigView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
+import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
+import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class UserConfigController extends AController {
 
@@ -18,7 +20,7 @@ public class UserConfigController extends AController {
 	}
 	
 	@Override
-	public Widget getView() {
+	public OPlatformTableView getView() {
 		// TODO Auto-generated method stub
 		return view;
 	}
@@ -38,4 +40,45 @@ public class UserConfigController extends AController {
 		}
 	}
 
+	@Override
+	public void load(int pagePoint) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPagePoint(int point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getPagePoint() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setChildPagePoint(int point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getChildPagePoint() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public OPlatformData getChildData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadChild(String id, String value, int childPagePoint) {
+		// TODO Auto-generated method stub
+		
+	}
 }

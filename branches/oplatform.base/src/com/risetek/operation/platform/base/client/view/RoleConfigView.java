@@ -85,26 +85,63 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	}
 	
 	private Widget createChildPagePanel() {
-		PageLabel first = new PageLabel("|<");
-		PageLabel before = new PageLabel("<<");
-		PageLabel page1 = new PageLabel("1");
+		final PageLabel first = new PageLabel("|<");
+		final PageLabel before = new PageLabel("<<");
+		final PageLabel after = new PageLabel(">>");
+		final PageLabel last = new PageLabel(">|");
+		final PageLabel page1 = new PageLabel("1");
 		page1.addClickHandler(new ClickHandler() {
 			String tisp_value;
 			String id;
-			@Override
 			public void onClick(ClickEvent event) {
 				tisp_value = getChildGridTitle();
 				id = getSelectRoleId();
-				RoleConfigController.loadChild(id, tisp_value);
+				PageLabel label = (PageLabel)event.getSource();
+				label.addStyleName("select");
+				HorizontalPanel page = (HorizontalPanel)label.getParent();
+				for(int i=0;i<page.getWidgetCount();i++){
+					Widget w = page.getWidget(i);
+					if(!w.equals(label)){
+						w.removeStyleName("select");
+					}
+				}
+				if(page.getWidgetCount()>5){
+					first.setEnable(false);
+					before.setEnable(false);
+					after.setEnable(true);
+					last.setEnable(true);
+				}
+				RoleConfigController.INSTANCE.loadChild(id, tisp_value, 1);
 			}
 		});
-		PageLabel after = new PageLabel(">>");
-		PageLabel last = new PageLabel(">|");
 		first.setEnable(false);
 		before.setEnable(false);
-		page1.setEnable(false);
 		after.setEnable(false);
 		last.setEnable(false);
+		first.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				RoleConfigController.INSTANCE.firstChildPageAction(label);
+			}
+		});
+		before.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				RoleConfigController.INSTANCE.beforeChildPageAction(label);
+			}
+		});
+		after.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				RoleConfigController.INSTANCE.afterChildPageAction(label);
+			}
+		});
+		last.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				RoleConfigController.INSTANCE.lastChildPageAction(label);
+			}
+		});
 		childPage.add(first);
 		childPage.add(before);
 		childPage.add(page1);
@@ -135,7 +172,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 
 	@Override
 	protected void onLoad() {
-		RoleConfigController.load();
+		RoleConfigController.INSTANCE.load(1);
 	}
 
 	@Override
@@ -159,11 +196,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 
 	@Override
 	public void render(OPlatformData data) {
-		if(data.getSum()<mainRowCount){
-			grid.resizeRows(mainRowCount+1);
-		} else {
-			grid.resizeRows(data.getSum()+1);
-		}
+		grid.resizeRows(mainRowCount+1);
 		clearGrid(grid, mainRowCount);
 		clearGrid(childGrid, childRowCount);
 		String title = "角色\"未选择\"详细操作内容";
@@ -172,14 +205,14 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 			PageLabel label = (PageLabel)childPage.getWidget(2);
 			label.setEnable(false);
 		}
-		for(int index=0;index<mainRowCount;index++){
+		for(int index=1;index<mainRowCount+1;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
 	}
 	
 	private void clearGrid(Grid grid, int mainRowCount) {
-		for(int i=1;i<mainRowCount;i++){
+		for(int i=1;i<=mainRowCount;i++){
 			for(int a=0;a<grid.getColumnCount();a++){
 				grid.clearCell(i, a);
 			}
@@ -189,7 +222,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	public void renderChild(OPlatformData data) {
 		clearGrid(childGrid, childRowCount);
 		childGrid.resizeRows(childRowCount+1);
-		for(int index=0;index<childRowCount;index++){
+		for(int index=1;index<childRowCount+1;index++){
 			renderLine(childGrid, data, index);
 		}
 	}
@@ -198,7 +231,13 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		String title = "角色\"" + childGridTitle + "\"详细操作内容";
 		childTitle.setText(title);
 		PageLabel label = (PageLabel)childPage.getWidget(2);
-		label.setEnable(true);
+		if(!label.isEnable()) {
+			label.setEnable(true);
+		}
+		int point = RoleConfigController.INSTANCE.getChildPagePoint();
+		if(point==1){
+			label.addStyleName("select");
+		}
 		this.childGridTitle = childGridTitle;
 	}
 	
@@ -212,5 +251,35 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 
 	public void setSelectRoleId(String selectRoleId) {
 		this.selectRoleId = selectRoleId;
+	}
+
+	@Override
+	public HorizontalPanel getPagePanel() {
+		return page;
+	}
+
+	@Override
+	public HorizontalPanel getChildPagePanel() {
+		return childPage;
+	}
+	
+	@Override
+	public void firstPageAction(PageLabel label) {
+		RoleConfigController.INSTANCE.firstPageAction(label);
+	}
+
+	@Override
+	public void beforePageAction(PageLabel label) {
+		RoleConfigController.INSTANCE.beforePageAction(label);
+	}
+
+	@Override
+	public void afterPageAction(PageLabel label) {
+		RoleConfigController.INSTANCE.afterPageAction(label);
+	}
+
+	@Override
+	public void lastPageAction(PageLabel label) {
+		RoleConfigController.INSTANCE.lastPageAction(label);
 	}
 }

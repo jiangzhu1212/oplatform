@@ -9,7 +9,6 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.AcountAddDialog;
 import com.risetek.operation.platform.base.client.dialog.AcountModifyDialog;
@@ -19,6 +18,8 @@ import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
+import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 /**
  * @ClassName: AcountController 
@@ -90,7 +91,7 @@ public class AcountController extends AController {
 	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
 	 */
 	@Override
-	public Widget getView() {
+	public OPlatformTableView getView() {
 		return view;
 	}
 	
@@ -291,5 +292,47 @@ public class AcountController extends AController {
 	public ArrayList<String> getActionNames() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setPagePoint(int point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getPagePoint() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void load(int pagePoint) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setChildPagePoint(int point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getChildPagePoint() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public OPlatformData getChildData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadChild(String id, String value, int childPagePoint) {
+		// TODO Auto-generated method stub
+		
 	}
 }

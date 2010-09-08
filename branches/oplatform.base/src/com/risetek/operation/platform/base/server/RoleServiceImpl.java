@@ -59,7 +59,7 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 	}
 
 	@Override
-	public Role[] addRole(String roleName) {
+	public void addRole(String roleName) {
 		try {
 			Connection conn = ConnectDataBase.CONNDB.getConnection();
 			Statement statement = conn.createStatement();
@@ -78,7 +78,7 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return getAllRole();
+//		return getAllRole();
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 	}
 
 	@Override
-	public Role[] deleteRole(String id) {
+	public void deleteRole(String id) {
 		try {
 			Connection conn = ConnectDataBase.CONNDB.getConnection();
 			Statement statement = conn.createStatement();
@@ -124,11 +124,11 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return getAllRole();
+//		return getAllRole();
 	}
 	
 	@Override
-	public Role[] deleteManyRole(Role[] roles) {
+	public void deleteManyRole(Role[] roles) {
 		try {
 			Connection conn = ConnectDataBase.CONNDB.getConnection();
 			Statement statement = conn.createStatement();
@@ -143,11 +143,11 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return getAllRole();
+//		return getAllRole();
 	}
 
 	@Override
-	public Role[] editRoleName(String id, String name) {
+	public void editRoleName(String id, String name) {
 		try {
 			Connection conn = ConnectDataBase.CONNDB.getConnection();
 			Statement statement = conn.createStatement();
@@ -157,7 +157,7 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return getAllRole();
+//		return getAllRole();
 	}
 
 	@Override
@@ -217,5 +217,103 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 			e.printStackTrace();
 		}
 		return getRoleOperationById(ro.getRoleId().toString());
+	}
+
+	@Override
+	public int getRoleDataCount() {
+		int count = 0;
+		try {
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			String SQL = "select count(*) from RISETEK_ROLE";
+			ResultSet result = statement.executeQuery(SQL);
+			if(result.next()){
+				count = result.getInt(1);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public Role[] getRolePage(int rowCount) {
+		Role[] roles = null;
+		List<Role> list = new ArrayList<Role>();
+		try {
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			String SQL = "select * from RISETEK_ROLE where rownum<=" + rowCount + " order by ID";
+			ResultSet result = statement.executeQuery(SQL);
+			while(result.next()){
+				Role role = new Role();
+				role.setId(result.getInt(1));
+				role.setRoleName(result.getString(2));
+				list.add(role);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(list.size()>0){
+			roles = new Role[list.size()];
+			for(int i=0;i<roles.length;i++){
+				roles[i] = list.get(i);
+			}
+		} else {
+			roles = new Role[0];
+		}
+		return roles;
+	}
+
+	@Override
+	public Role[] getRolePageToPoint(int rowCount, int pagePoint) {
+		Role[] roles = null;
+		List<Role> list = new ArrayList<Role>();
+		try {
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			int start = rowCount * (pagePoint-1);
+			int end = rowCount * pagePoint;
+			String SQL = "select * from RISETEK_ROLE t1 where (select count(*) from RISETEK_ROLE t2 where t2.id < t1.id) >= " + start + " and (select count(*) from RISETEK_ROLE t2 where t2.id < t1.id) < " + end + " order by id";
+			ResultSet result = statement.executeQuery(SQL);
+			while(result.next()){
+				Role role = new Role();
+				role.setId(result.getInt(1));
+				role.setRoleName(result.getString(2));
+				list.add(role);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(list.size()>0){
+			roles = new Role[list.size()];
+			for(int i=0;i<roles.length;i++){
+				roles[i] = list.get(i);
+			}
+		} else {
+			roles = new Role[0];
+		}
+		return roles;
+	}
+
+	@Override
+	public int getRoleOperationDataCount(String id) {
+		int count = 0;
+		try {
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			String SQL = "select count(*) from RISETEK_ROLE_OPERATION where ROLE_ID = " + id;
+			ResultSet result = statement.executeQuery(SQL);
+			if(result.next()){
+				count = result.getInt(1);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 }

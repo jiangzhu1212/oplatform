@@ -8,13 +8,13 @@ public interface RoleServiceAsync {
 
 	void getAllRole(AsyncCallback<Role[]> callback);
 
-	void addRole(String roleName, AsyncCallback<Role[]> callback);
+	void addRole(String roleName, AsyncCallback<Void> callback);
 
 	void getRoleOperationById(String id, AsyncCallback<RoleOperation[]> callback);
 
-	void deleteRole(String id, AsyncCallback<Role[]> callback);
+	void deleteRole(String id, AsyncCallback<Void> callback);
 
-	void editRoleName(String id, String name, AsyncCallback<Role[]> callback);
+	void editRoleName(String id, String name, AsyncCallback<Void> callback);
 
 	void addRoleOperation(RoleOperation[] ros, AsyncCallback<RoleOperation[]> callback);
 
@@ -22,6 +22,14 @@ public interface RoleServiceAsync {
 
 	void deleteRoleOperationById(RoleOperation ro, AsyncCallback<RoleOperation[]> callback);
 
-	void deleteManyRole(Role[] roles, AsyncCallback<Role[]> callback);
+	void deleteManyRole(Role[] roles, AsyncCallback<Void> callback);
+
+	void getRoleDataCount(AsyncCallback<Integer> callback);
+
+	void getRolePage(int rowCount, AsyncCallback<Role[]> callback);
+
+	void getRolePageToPoint(int rowCount, int pagePoint, AsyncCallback<Role[]> callback);
+
+	void getRoleOperationDataCount(String id, AsyncCallback<Integer> callback);
 
 }

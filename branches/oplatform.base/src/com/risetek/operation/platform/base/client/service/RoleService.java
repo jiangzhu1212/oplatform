@@ -10,13 +10,13 @@ public interface RoleService extends RemoteService {
 
 	public Role[] getAllRole();
 	
-	public Role[] addRole(String roleName);
+	public void addRole(String roleName);
 	
-	public Role[] deleteRole(String id);
+	public void deleteRole(String id);
 	
-	public Role[] editRoleName(String id, String name);
+	public void editRoleName(String id, String name);
 	
-	public Role[] deleteManyRole(Role[] roles);
+	public void deleteManyRole(Role[] roles);
 	
 	public RoleOperation[] getRoleOperationById(String id);
 	
@@ -25,5 +25,13 @@ public interface RoleService extends RemoteService {
 	public RoleOperation[] deleteRoleOperation(RoleOperation[] ros);
 	
 	public RoleOperation[] deleteRoleOperationById(RoleOperation ro);
+	
+	public int getRoleDataCount();
+	
+	public Role[] getRolePage(int rowCount);
+	
+	public Role[] getRolePageToPoint(int rowCount, int pagePoint);
+	
+	public int getRoleOperationDataCount(String id);
 	
 }

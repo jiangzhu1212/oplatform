@@ -15,6 +15,9 @@ import com.risetek.operation.platform.base.client.view.TransEnableView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.model.OPlatformData;
+import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
+import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class TransEnableController extends AController {
 
@@ -148,7 +151,7 @@ public class TransEnableController extends AController {
 	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
 	 */
 	@Override
-	public Widget getView() {
+	public OPlatformTableView getView() {
 		return view;
 	}
 
@@ -156,5 +159,47 @@ public class TransEnableController extends AController {
 	public ArrayList<String> getActionNames() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void load(int pagePoint) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPagePoint(int point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getPagePoint() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setChildPagePoint(int point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getChildPagePoint() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public OPlatformData getChildData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadChild(String id, String value, int childPagePoint) {
+		// TODO Auto-generated method stub
+		
 	}
 }
