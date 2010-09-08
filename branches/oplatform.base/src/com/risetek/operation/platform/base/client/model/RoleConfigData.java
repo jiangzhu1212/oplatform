@@ -6,20 +6,7 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class RoleConfigData extends OPlatformData {
 
-	private int sum;
-	
-	@Override
-	public int getSum() {
-		return sum;
-	}
-
-	@Override
-	public void setSum(int sum) {
-		this.sum = sum;
-	}
-
 	public void parseResult(Role[] result) {
-//		setSum(result.length);
 		String[][] data = new String[result.length][2];
 		for(int i=0;i<result.length;i++){
 			data[i][0] = result[i].getId().toString();

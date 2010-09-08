@@ -15,7 +15,6 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class ChannelData extends OPlatformData {
 
-	int sum = 0 ;
 	/**
 	 * 渠道编号
 	 */
@@ -147,14 +146,6 @@ public class ChannelData extends OPlatformData {
 		return json;
 	}
 	
-	public int getSum() {
-		return sum;
-	}
-
-	public void setSum(int sum) {
-		this.sum = sum;
-	}	
-
 	public String getChannel_id() {
 		return channel_id;
 	}

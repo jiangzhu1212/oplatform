@@ -15,13 +15,17 @@ import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
  */
 public abstract class OPlatformData {
 
+	private int sum;
+	
 	/**
 	 * 功能：获取数据总条数
 	 *
 	 * int
 	 * @return
 	 */
-	public abstract int getSum();
+	public int getSum(){
+		return sum;
+	}
 
 	/**
 	 * 功能：设置数据总条数
@@ -29,7 +33,9 @@ public abstract class OPlatformData {
 	 * void
 	 * @param sum
 	 */
-	public abstract void setSum(int sum);
+	public void setSum(int sum){
+		this.sum = sum;
+	}
 	
 	public String ACTION_NAME = null ;
 	
@@ -43,14 +49,6 @@ public abstract class OPlatformData {
 		return data;
 	}	
 	
-	public String getACTION_NAME() {
-		return ACTION_NAME;
-	}
-
-	public void setACTION_NAME(String aCTION_NAME) {
-		ACTION_NAME = aCTION_NAME;
-	}
-
 	protected ResolveResponseInfo[] retInfo(String retInfo) {
 		ResolveResponseInfo opRetInfo[] = new ResolveResponseInfo[1];
 		opRetInfo[0] = new ResolveResponseInfo();

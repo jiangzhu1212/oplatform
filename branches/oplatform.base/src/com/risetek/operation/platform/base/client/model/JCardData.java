@@ -19,8 +19,6 @@ import com.risetek.operation.platform.launch.client.util.Util;
 
 public class JCardData  extends OPlatformData  {
 
-	private int sum;
-	
 	/**
 	 * 索引
 	 */
@@ -455,15 +453,5 @@ public class JCardData  extends OPlatformData  {
 
 	public List<String> getCheckCard() {
 		return checkCard;
-	}
-
-	@Override
-	public int getSum() {
-		return sum;
-	}
-
-	@Override
-	public void setSum(int sum) {
-		this.sum = sum;
 	}
 }

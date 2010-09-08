@@ -12,8 +12,6 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
  */
 public class BankData extends OPlatformData {
 
-	private int sum;
-	
 	/**
 	 * @Description: 格式化数据，并注入到模块的数据对象中 
 	 * @param text  参数 
@@ -28,15 +26,5 @@ public class BankData extends OPlatformData {
 			data[i][3] = re[i].getDescription();
 		}
 		setData(data);
-	}
-
-	@Override
-	public int getSum() {
-		return sum;
-	}
-
-	@Override
-	public void setSum(int sum) {
-		this.sum = sum;
 	}
 }

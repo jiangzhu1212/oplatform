@@ -17,8 +17,6 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class PBabyData extends OPlatformData {
 	
-	private int sum = 0;
-	
 	private String is_ok = null;
 
 	private String ORDID = null;
@@ -245,12 +243,4 @@ public class PBabyData extends OPlatformData {
 	public void setPNR(String pNR) {
 		PNR = pNR;
 	}
-	public int getSum() {
-		return sum;
-	}
-
-	public void setSum(int sum) {
-		this.sum = sum;
-	}
-	
 }
