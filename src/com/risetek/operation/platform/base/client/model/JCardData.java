@@ -72,12 +72,7 @@ public class JCardData  extends OPlatformData  {
 	 * 需要对账的数据
 	 */
 	private String balanceData = null;
-	/**
-	 * 操作名
-	 * @param text
-	 */
-	private String ACTION_NAME = null;
-	
+
 	private List<String> JCard = new ArrayList<String>();
 	private List<String> checkCard = new ArrayList<String>();
 	
@@ -430,14 +425,6 @@ public class JCardData  extends OPlatformData  {
 	public void setUploadData(String uploadData) {
 		this.uploadData = uploadData;
 	}	
-
-	public String getACTION_NAME() {
-		return ACTION_NAME;
-	}
-
-	public void setACTION_NAME(String aCTION_NAME) {
-		ACTION_NAME = aCTION_NAME;
-	}
 
 	public String getBalanceData() {
 		return balanceData;
