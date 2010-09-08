@@ -44,6 +44,9 @@ public class EditDialog extends CustomDialog {
 		this.colName = colName;
 		if(colName!=null){			
 			Grid gridFrame = new Grid(2, 2);
+			gridFrame.setStyleName("table");
+			gridFrame.setWidth("320px");
+			gridFrame.getColumnFormatter().setWidth(0, "80px");
 			label.setText("请输入新的"+colName);
 			gridFrame.setWidget(0, 0, new Label("当前"+colName+":"));
 			gridFrame.setWidget(0, 1, oldValueLabel);

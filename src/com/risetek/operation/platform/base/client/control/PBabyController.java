@@ -28,6 +28,7 @@ import com.risetek.operation.platform.launch.client.json.constanst.PBabyConstans
 public class PBabyController extends AController {
 
 	public static PBabyController INSTANCE = new PBabyController();
+	
 	final PBabyData data = new PBabyData();
 	
 	public final PBabyView view = new PBabyView();
@@ -36,7 +37,8 @@ public class PBabyController extends AController {
 	
 	public static String ACTION_NAME = null ;
 	
-	String packet = null;
+	public static String packet = null;
+	
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//操作的回调
@@ -242,7 +244,7 @@ public class PBabyController extends AController {
 					remoteRequest.getBill(packet, RemoteCaller);
 				}else {
 					pBabyData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
-					String packet = pBabyData.toHttpPacket();
+					packet = pBabyData.toHttpPacket();
 					remoteRequest.getBill(packet, QueryCaller);
 				}
 				

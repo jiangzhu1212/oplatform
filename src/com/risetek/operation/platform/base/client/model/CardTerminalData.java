@@ -1,28 +1,99 @@
 package com.risetek.operation.platform.base.client.model;
 
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.CardTerminalConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CardTerminalData extends OPlatformData {
 
 	private int sum = 0;
 	
-	private String terminal_id = ""+0;
+	private int terminal_id = 0;
 	private String tm_key = null;
 	private String description = null;
 	private String addition = null;
 	private String validity = null;
 	
 	public void parseData(String text){
+		JSONObject jo = JSONParser.parse(text).isObject();
+		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
+		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
+		String[][] data = new String[arr.size()][5];
+		for(int i = 0 ; i < arr.size() ; i ++){
+			JSONObject cardTerminal = arr.get(i).isObject();
+
+			try {
+				data[i][0] = cardTerminal.get(CardTerminalConstanst.TERMINAL_ID)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][1] = cardTerminal.get(CardTerminalConstanst.TM_KEY)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][2] = cardTerminal.get(CardTerminalConstanst.DESCRIPTION)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][3] = cardTerminal.get(CardTerminalConstanst.ADDITION)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][4] = cardTerminal.get(CardTerminalConstanst.VALIDITY)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+
+		}
+		setData(data);
+	}
+	
+	public String toHttpPacket(String... col){
+		JSONObject packet = new JSONObject();
+		JSONObject actionInfo = null;
+		try {
+			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
+			if(ACTION_NAME == null){
+				actionInfo = new JSONObject();
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_QUERY_CARD_TERMINAL.equals(ACTION_NAME)){
+				actionInfo = packetData();
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_MODIFY_CARD_TERMINAL.equals(ACTION_NAME)){
+				actionInfo = packetData(col[0],col[1]);
+			}
+			packet.put(Constanst.ACTION_INFO,actionInfo);
+		} catch (JSONException e) {			
+			e.printStackTrace();
+			return null;
+		}
 		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(RequestFactory.PACKET);
+		buffer.append("=");
+		buffer.append(packet.toString());
+		return buffer.toString();
 	}
 	
 	private JSONObject packetData(){
 		JSONObject json = new JSONObject();
-		if(!terminal_id.equals("0")){
-			json.put(CardTerminalConstanst.TERMINAL_ID, new JSONString(terminal_id));
+		if(terminal_id!=0){
+			json.put(CardTerminalConstanst.TERMINAL_ID, new JSONNumber(terminal_id));
 		}
 		if(tm_key != null && !tm_key.equals("")){
 			json.put(CardTerminalConstanst.TM_KEY, new JSONString(tm_key));
@@ -42,7 +113,7 @@ public class CardTerminalData extends OPlatformData {
 	
 	private JSONObject packetData(String colName , String colValue){
 		JSONObject json = new JSONObject();
-		json.put(CardTerminalConstanst.TERMINAL_ID, new JSONString(terminal_id));
+		json.put(CardTerminalConstanst.TERMINAL_ID, new JSONNumber(terminal_id));
 		if(CardTerminalConstanst.TM_KEY_ZH.equals(colName)){
 			json.put(CardTerminalConstanst.TM_KEY, new JSONString(colValue));
 		}else if(CardTerminalConstanst.DESCRIPTION_ZH.equals(colName)){
@@ -63,11 +134,11 @@ public class CardTerminalData extends OPlatformData {
 		this.sum = sum;
 	}		
 
-	public String getTerminal_id() {
+	public int getTerminal_id() {
 		return terminal_id;
 	}
 
-	public void setTerminal_id(String terminal_id) {
+	public void setTerminal_id(int terminal_id) {
 		this.terminal_id = terminal_id;
 	}
 
