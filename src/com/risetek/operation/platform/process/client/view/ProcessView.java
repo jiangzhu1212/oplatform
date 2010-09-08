@@ -10,6 +10,7 @@ import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
+import com.risetek.operation.platform.launch.client.view.PageLabel;
 import com.risetek.operation.platform.process.client.ProcessSink;
 import com.risetek.operation.platform.process.client.control.ProcessController;
 import com.risetek.operation.platform.process.client.model.ProcessData;
@@ -91,6 +92,42 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	public void render(OPlatformData data) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public HorizontalPanel getPagePanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void firstPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beforePageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void lastPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public HorizontalPanel getChildPagePanel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 //	class GreenMouseEventGrid extends MouseEventGrid {
