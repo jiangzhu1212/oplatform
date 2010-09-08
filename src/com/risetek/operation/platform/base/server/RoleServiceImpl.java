@@ -276,7 +276,7 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 			Statement statement = conn.createStatement();
 			int start = rowCount * (pagePoint-1);
 			int end = rowCount * pagePoint;
-			String SQL = "select * from RISETEK_ROLE t1 where (select count(*) from RISETEK_ROLE t2 where t2.id < t1.id) >= " + start + " and (select count(*) from RISETEK_ROLE t2 where t2.id < t1.id) < " + end + " order by id";
+			String SQL = "select * from (select a.*, rownum rn from (select * from RISETEK_ROLE order by id) a where rownum <= " + end + ")where rn > " + start;
 			ResultSet result = statement.executeQuery(SQL);
 			while(result.next()){
 				Role role = new Role();
@@ -315,5 +315,39 @@ public class RoleServiceImpl extends RemoteServiceServlet implements RoleService
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public RoleOperation[] getRoleOperationByIdPage(int rowCount, String id, int pagePoint) {
+		RoleOperation[] ros = null;
+		List<RoleOperation> list = new ArrayList<RoleOperation>();
+		try {
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			int start = rowCount * (pagePoint-1);
+			int end = rowCount * pagePoint;
+			String SQL = "select * from (select a.*, rownum rn from (select * from RISETEK_ROLE_OPERATION where ROLE_ID = " + id + " order by id) a where rownum <= " + end + ")where rn > " + start;
+			ResultSet result = statement.executeQuery(SQL);
+			while(result.next()){
+				RoleOperation ro = new RoleOperation();
+				ro.setId(result.getInt(1));
+				ro.setRoleId(result.getInt(2));
+				ro.setOperationMode(result.getString(3));
+				ro.setOperationAction(result.getString(4));
+				list.add(ro);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(list.size()>0){
+			ros = new RoleOperation[list.size()];
+			for(int i=0;i<ros.length;i++){
+				ros[i] = list.get(i);
+			}
+		} else {
+			ros = new RoleOperation[0];
+		}
+		return ros;
 	}
 }

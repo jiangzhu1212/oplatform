@@ -111,7 +111,7 @@ public class RoleConfigController extends AController {
 			}
 			public void onFailure(Throwable caught) {}
 		});
-		rs.getRoleOperationById(id, new AsyncCallback<RoleOperation[]>() {
+		rs.getRoleOperationByIdPage(UIConfig.CHILD_TABLE_ROW_NORMAL, id, childPagePoint, new AsyncCallback<RoleOperation[]>() {
 			public void onSuccess(RoleOperation[] result) {
 				INSTANCE.childData.parseChildResult(value, result);
 				INSTANCE.view.renderChild(INSTANCE.childData);
@@ -149,7 +149,7 @@ public class RoleConfigController extends AController {
 				delrole.dialog.show();
 				break;
 			case 2:
-				INSTANCE.loadChild(id, tisp_value, INSTANCE.getChildPagePoint());
+				INSTANCE.loadChild(id, tisp_value, 1);
 				break;
 			case 3:
 				EditRoleNameControl editName = new EditRoleNameControl(tisp_value);

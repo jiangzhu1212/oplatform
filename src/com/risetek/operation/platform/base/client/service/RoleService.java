@@ -34,4 +34,6 @@ public interface RoleService extends RemoteService {
 	
 	public int getRoleOperationDataCount(String id);
 	
+	public RoleOperation[] getRoleOperationByIdPage(int rowCount, String id, int pagePoint);
+	
 }

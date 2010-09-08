@@ -2,6 +2,7 @@ package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
 
+import com.risetek.operation.platform.base.client.model.UserConfigData;
 import com.risetek.operation.platform.base.client.view.UserConfigView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
@@ -12,20 +13,21 @@ public class UserConfigController extends AController {
 	private ArrayList<String> actionNames = new ArrayList<String>();
 	
 	public static UserConfigController INSTANCE = new UserConfigController();
+	final UserConfigData data = new UserConfigData();
 	public final UserConfigView view = new UserConfigView();
+	
+	private int pagePoint = 1;
 	
 	public UserConfigController(){
 	}
 	
 	@Override
 	public OPlatformTableView getView() {
-		// TODO Auto-generated method stub
 		return view;
 	}
 
 	@Override
 	public OPlatformData getData() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -40,43 +42,36 @@ public class UserConfigController extends AController {
 
 	@Override
 	public void load(int pagePoint) {
-		// TODO Auto-generated method stub
-		
+		INSTANCE.data.parseResult();
+		INSTANCE.view.render(INSTANCE.data);
 	}
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override
 	public void setChildPagePoint(int point) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public int getChildPagePoint() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public OPlatformData getChildData() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void loadChild(String id, String value, int childPagePoint) {
-		// TODO Auto-generated method stub
-		
 	}
 }
