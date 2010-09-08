@@ -10,7 +10,6 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.JCardQueryButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
@@ -25,8 +24,6 @@ import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
-import com.risetek.operation.platform.launch.client.view.PageLabel;
-
 public class JCardQueryContorller extends AController {
 
 	public static JCardQueryContorller INSTANCE = new JCardQueryContorller();
@@ -191,7 +188,7 @@ public class JCardQueryContorller extends AController {
 				}
 				
 				jCardData.setSTATUS(newStatus);
-				jCardData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_STATUS);
+				jCardData.ACTION_NAME = Constanst.ACTION_NAME_MODIFY_STATUS;
 				String packet = jCardData.toHttpPacket();
 				remoteRequest.getJCard(packet, RemoteCaller);
 				dialog.hide();

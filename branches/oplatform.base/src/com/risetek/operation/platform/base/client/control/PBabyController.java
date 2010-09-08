@@ -42,7 +42,7 @@ public class PBabyController extends AController {
 	
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
-	//操作的回调
+	//操作的回调  查询电子货物还需要设已支付 现在还没设
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();

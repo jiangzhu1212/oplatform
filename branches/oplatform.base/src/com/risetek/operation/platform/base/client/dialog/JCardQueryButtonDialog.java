@@ -213,7 +213,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 				}			
 				JCardData jCardData = new JCardData();
 				jCardData.setUploadData(uploadData);
-				jCardData.setACTION_NAME(action_name);
+				jCardData.ACTION_NAME = action_name;
 				String packet = jCardData.toHttpPacket();
 				if(packet == null){
 					return ;
@@ -232,7 +232,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 				sbFail = new StringBuilder();
 				JCardData jCardData = new JCardData();
 				jCardData.setBalanceData(balanceText);
-				jCardData.setACTION_NAME(action_name);
+				jCardData.ACTION_NAME = action_name;
 				jCardData.toHttpPacketBl();
 				jwCard = jCardData.getJCard();
 				jwCheckKard = jCardData.getCheckCard();
@@ -262,7 +262,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 				jCardData.setCREATE_DATE(create_date);
 				jCardData.setSTATUS(status);
 				
-				jCardData.setACTION_NAME(action_name);
+				jCardData.ACTION_NAME = action_name;
 				if(Constanst.ACTION_NAME_SELECT_JCARD.equals(action_name)){
 					packet = jCardData.toHttpPacket();
 					if(packet == null){
