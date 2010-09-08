@@ -339,6 +339,10 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	text-align: center;
 }
 
+.pagelabel.select {
+	font-weight: bold;
+}
+
 .pagelabel.active {
 	color: #FF6600;
 }
