@@ -253,22 +253,24 @@ public class PBabyController extends AController {
 		}
 	}
 
-
-
+	/** 
+	 * 功能： 时间接口方法，返回该模块视图
+	 *(non-Javadoc)
+	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
+	 */
 	@Override
 	public OPlatformTableView getView() {
+		return view;
+	}
+
+	@Override
+	public ArrayList<String> getActionNames() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public OPlatformData getChildData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<String> getActionNames() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -308,11 +310,4 @@ public class PBabyController extends AController {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	/** 
-	 * 功能： 时间接口方法，返回该模块视图
-	 *(non-Javadoc)
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
-	 */
-	
 }
