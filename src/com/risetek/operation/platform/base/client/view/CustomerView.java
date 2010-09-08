@@ -13,6 +13,7 @@ import com.risetek.operation.platform.launch.client.json.constanst.CustomerConst
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
+import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class CustomerView extends OPlatformTableView implements IOPlatformView {
 
@@ -27,7 +28,7 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	public static String descript = "";
 	String banner_tips = "";
 	private final static String[] banner_text = {
-		"点击作废此客户.",
+		"点击删除客户.",
 		"点击修改" + columns[1],
 		"点击修改" + columns[2],
 		"点击修改" + columns[3],
@@ -106,5 +107,41 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	public void render(OPlatformData data) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public HorizontalPanel getPagePanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void firstPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beforePageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void lastPageAction(PageLabel label) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public HorizontalPanel getChildPagePanel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

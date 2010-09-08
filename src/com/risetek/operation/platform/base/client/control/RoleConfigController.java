@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.base.client.dialog.AddRoleDialog;
 import com.risetek.operation.platform.base.client.dialog.AddRoleOperationDialog;
 import com.risetek.operation.platform.base.client.dialog.DeleteRoleDialog;
@@ -21,12 +20,14 @@ import com.risetek.operation.platform.base.client.model.RoleConfigData;
 import com.risetek.operation.platform.base.client.service.RoleService;
 import com.risetek.operation.platform.base.client.service.RoleServiceAsync;
 import com.risetek.operation.platform.base.client.view.RoleConfigView;
+import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.DialogControl;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.json.constanst.Role;
 import com.risetek.operation.platform.launch.client.json.constanst.RoleOperation;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
+import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 public class RoleConfigController extends AController {
 
@@ -38,6 +39,8 @@ public class RoleConfigController extends AController {
 	final RoleConfigData data = new RoleConfigData();
 	final RoleConfigData childData = new RoleConfigData();
 	public final RoleConfigView view = new RoleConfigView();
+	private int pagePoint = 1;
+	private int childPagePoint = 1;
 	
 	private RoleConfigController(){
 		actionNames.add("添加用户角色");
@@ -50,14 +53,12 @@ public class RoleConfigController extends AController {
 	}
 	
 	@Override
-	public Widget getView() {
-		// TODO Auto-generated method stub
+	public OPlatformTableView getView() {
 		return view;
 	}
 
 	@Override
 	public OPlatformData getData() {
-		// TODO Auto-generated method stub
 		return data;
 	}
 
@@ -66,21 +67,50 @@ public class RoleConfigController extends AController {
 		return actionNames;
 	}
 	
-	public static void load(){
-		rs.getAllRole(new AsyncCallback<Role[]>() {
+	public void load(){
+		rs.getRoleDataCount(new AsyncCallback<Integer>() {
+			public void onSuccess(Integer result) {
+				INSTANCE.data.setSum(result);
+				resetPagePanel(INSTANCE, UIConfig.MAIN_TABLE_ROW_NORMAL, result);
+			}
+			public void onFailure(Throwable caught) {}
+		});
+		rs.getRolePage(UIConfig.MAIN_TABLE_ROW_NORMAL, new AsyncCallback<Role[]>() {
 			public void onSuccess(Role[] result) {
 				INSTANCE.data.parseResult(result);
 				INSTANCE.view.render(INSTANCE.data);
 			}
 			public void onFailure(Throwable caught) {}
 		});
-		INSTANCE.view.render(INSTANCE.data);
 		INSTANCE.view.renderChild(INSTANCE.childData);
 	}
 	
-	public static void loadChild(String id, final String value){
+	public void load(final int pagePoint){
+		rs.getRoleDataCount(new AsyncCallback<Integer>() {
+			public void onSuccess(Integer result) {
+				INSTANCE.resetPagePanel(INSTANCE, UIConfig.MAIN_TABLE_ROW_NORMAL, result);
+			}
+			public void onFailure(Throwable caught) {}
+		});
+		rs.getRolePageToPoint(UIConfig.MAIN_TABLE_ROW_NORMAL, pagePoint, new AsyncCallback<Role[]>() {
+			public void onSuccess(Role[] result) {
+				INSTANCE.data.parseResult(result);
+				INSTANCE.view.render(INSTANCE.data);
+			}
+			public void onFailure(Throwable caught) {}
+		});
+		INSTANCE.view.renderChild(INSTANCE.childData);
+	}
+	
+	public void loadChild(final String id, final String value, int childPagePoint){
 		INSTANCE.view.setChildGridTitle(value);
 		INSTANCE.view.setSelectRoleId(id);
+		rs.getRoleOperationDataCount(id, new AsyncCallback<Integer>() {
+			public void onSuccess(Integer result) {
+				resetChildPagePanel(INSTANCE, UIConfig.CHILD_TABLE_ROW_NORMAL, result, id, value);
+			}
+			public void onFailure(Throwable caught) {}
+		});
 		rs.getRoleOperationById(id, new AsyncCallback<RoleOperation[]>() {
 			public void onSuccess(RoleOperation[] result) {
 				INSTANCE.childData.parseChildResult(value, result);
@@ -119,7 +149,7 @@ public class RoleConfigController extends AController {
 				delrole.dialog.show();
 				break;
 			case 2:
-				loadChild(id, tisp_value);
+				INSTANCE.loadChild(id, tisp_value, INSTANCE.getChildPagePoint());
 				break;
 			case 3:
 				EditRoleNameControl editName = new EditRoleNameControl(tisp_value);
@@ -137,10 +167,15 @@ public class RoleConfigController extends AController {
 				dialog = new DeleteRoleDialog(value);
 			}
 			public void onClick(ClickEvent event) {
-				rs.deleteRole(id, new AsyncCallback<Role[]>() {
-					public void onSuccess(Role[] result) {
-						INSTANCE.data.parseResult(result);
-						INSTANCE.view.render(INSTANCE.data);
+				rs.deleteRole(id, new AsyncCallback<Void>() {
+					public void onSuccess(Void result) {
+						INSTANCE.load(INSTANCE.getPagePoint());
+					}
+					public void onFailure(Throwable caught) {}
+				});
+				rs.getRoleDataCount(new AsyncCallback<Integer>() {
+					public void onSuccess(Integer result) {
+						INSTANCE.resetPagePanel(INSTANCE, UIConfig.MAIN_TABLE_ROW_NORMAL, result);
 					}
 					public void onFailure(Throwable caught) {}
 				});
@@ -159,10 +194,9 @@ public class RoleConfigController extends AController {
 			public void onClick(ClickEvent event) {
 				if(dialog.isValid()){
 					String name = dialog.getNewValue();
-					rs.editRoleName(id, name, new AsyncCallback<Role[]>() {
-						public void onSuccess(Role[] result) {
-							INSTANCE.data.parseResult(result);
-							INSTANCE.view.render(INSTANCE.data);
+					rs.editRoleName(id, name, new AsyncCallback<Void>() {
+						public void onSuccess(Void result) {
+							INSTANCE.load(INSTANCE.getPagePoint());
 						}
 						public void onFailure(Throwable caught) {}
 					});
@@ -264,14 +298,19 @@ public class RoleConfigController extends AController {
 			public void onClick(ClickEvent event) {
 				if(dialog.isValid()){
 					String roleName = dialog.getNewValue();
-					rs.addRole(roleName, new AsyncCallback<Role[]>() {
-						public void onSuccess(Role[] result) {
-							INSTANCE.data.parseResult(result);
-							INSTANCE.view.render(INSTANCE.data);
+					rs.addRole(roleName, new AsyncCallback<Void>() {
+						public void onSuccess(Void result) {
+							INSTANCE.load(INSTANCE.getPagePoint());
 						}
 						public void onFailure(Throwable caught) {}
 					});
 					dialog.hide();
+					rs.getRoleDataCount(new AsyncCallback<Integer>() {
+						public void onSuccess(Integer result) {
+							INSTANCE.resetPagePanel(INSTANCE, UIConfig.MAIN_TABLE_ROW_NORMAL, result);
+						}
+						public void onFailure(Throwable caught) {}
+					});
 				} else {
 					dialog.submit.setEnabled(false);
 				}
@@ -435,10 +474,9 @@ public class RoleConfigController extends AController {
 				for(int i=0;i<ros.length;i++){
 					ros[i] = list.get(i);
 				}
-				rs.deleteManyRole(ros, new AsyncCallback<Role[]>() {
-					public void onSuccess(Role[] result) {
-						INSTANCE.data.parseResult(result);
-						INSTANCE.view.render(INSTANCE.data);
+				rs.deleteManyRole(ros, new AsyncCallback<Void>() {
+					public void onSuccess(Void result) {
+						INSTANCE.load(INSTANCE.getPagePoint());
 					}
 					public void onFailure(Throwable caught) {}
 				});
@@ -491,5 +529,28 @@ public class RoleConfigController extends AController {
 				public void onFailure(Throwable caught) {}
 			});
 		}
+	}
+
+	public int getPagePoint() {
+		return pagePoint;
+	}
+
+	public void setPagePoint(int pagePoint) {
+		this.pagePoint = pagePoint;
+	}
+
+	@Override
+	public void setChildPagePoint(int point) {
+		childPagePoint = point;
+	}
+
+	@Override
+	public int getChildPagePoint() {
+		return childPagePoint;
+	}
+
+	@Override
+	public OPlatformData getChildData() {
+		return childData;
 	}
 }

@@ -19,7 +19,7 @@ public class RoleConfigData extends OPlatformData {
 	}
 
 	public void parseResult(Role[] result) {
-		setSum(result.length);
+//		setSum(result.length);
 		String[][] data = new String[result.length][2];
 		for(int i=0;i<result.length;i++){
 			data[i][0] = result[i].getId().toString();
