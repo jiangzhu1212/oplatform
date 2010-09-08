@@ -35,6 +35,8 @@ public abstract class OPlatformTableView extends DockPanel {
 	
 	public abstract String[] parseRow(Node node);
 	public abstract Grid getGrid();
+	public abstract HorizontalPanel getPagePanel();
+	public abstract HorizontalPanel getChildPagePanel();
 	
 	public OPlatformTableView() {
 		setWidth("100%");
@@ -68,7 +70,7 @@ public abstract class OPlatformTableView extends DockPanel {
 		messagePanel.setCellHorizontalAlignment(info, HasHorizontalAlignment.ALIGN_RIGHT);
 		main.add(messagePanel);
 		main.add(grid);
-		Widget pagePanel = createChildPagePanel();
+		Widget pagePanel = createPagePanel();
 		main.add(pagePanel);
 		main.setCellHorizontalAlignment(pagePanel, HasHorizontalAlignment.ALIGN_CENTER);
 		outer.add(main);
@@ -80,9 +82,6 @@ public abstract class OPlatformTableView extends DockPanel {
 	}
 	
 	public void addActionPanel(Widget widget, String descript){
-//		HorizontalPanel blank = new HorizontalPanel();
-//		blank.setHeight("5px");
-//		add(blank, DockPanel.SOUTH);
 		HorizontalPanel border = new HorizontalPanel();
 		border.setWidth("100%");
 		border.setHeight("30px");
@@ -97,22 +96,62 @@ public abstract class OPlatformTableView extends DockPanel {
 		add(border, DockPanel.SOUTH);
 	}
 	
-	private Widget createChildPagePanel() {
-		PageLabel first = new PageLabel("|<");
-		PageLabel before = new PageLabel("<<");
+	private Widget createPagePanel() {
+		final PageLabel first = new PageLabel("|<");
+		final PageLabel before = new PageLabel("<<");
+		final PageLabel after = new PageLabel(">>");
+		final PageLabel last = new PageLabel(">|");
 		PageLabel page1 = new PageLabel("1");
+		page1.addStyleName("select");
 		page1.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				label.addStyleName("select");
+				HorizontalPanel page = (HorizontalPanel)label.getParent();
+				for(int i=0;i<page.getWidgetCount();i++){
+					Widget w = page.getWidget(i);
+					if(!w.equals(label)){
+						w.removeStyleName("select");
+					}
+				}
+				if(page.getWidgetCount()>5){
+					first.setEnable(false);
+					before.setEnable(false);
+					after.setEnable(true);
+					last.setEnable(true);
+				}
 				onLoad();
 			}
 		});
-		PageLabel after = new PageLabel(">>");
-		PageLabel last = new PageLabel(">|");
-		first.setEnable(false);
-		before.setEnable(false);
-		after.setEnable(false);
-		last.setEnable(false);
+//		first.setEnable(false);
+//		before.setEnable(false);
+//		after.setEnable(false);
+//		last.setEnable(false);
+		first.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				firstPageAction(label);
+			}
+		});
+		before.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				beforePageAction(label);
+			}
+		});
+		after.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				afterPageAction(label);
+			}
+		});
+		last.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				PageLabel label = (PageLabel)event.getSource();
+				lastPageAction(label);
+			}
+		});
 		page.add(first);
 		page.add(before);
 		page.add(page1);
@@ -120,6 +159,11 @@ public abstract class OPlatformTableView extends DockPanel {
 		page.add(last);
 		return page;
 	}
+	
+	public abstract void firstPageAction(PageLabel label);
+	public abstract void beforePageAction(PageLabel label);
+	public abstract void afterPageAction(PageLabel label);
+	public abstract void lastPageAction(PageLabel label);
 	
 	/**
 	 * 功能：格式化表格样式
@@ -200,29 +244,40 @@ public abstract class OPlatformTableView extends DockPanel {
      * @param index
      */
     public void renderLine(Grid grid, OPlatformData data, int index){
-    	if(index<data.getSum()){
-			for(int i=0;i<grid.getColumnCount();i++){
-				if(i==0){
-					grid.setWidget(index+1, i, new CheckBox());
-				} else if (i==1){
-					grid.setText(index+1, i, Integer.toString(index+1));
-					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
-				} else {
-					if(data.getData()!=null){
-						String text = data.getData()[index][i-2];
-						grid.setText(index+1, i, text);
+    	if(data.getData()!=null){
+	    	if(index<=data.getData().length){
+				for(int i=0;i<grid.getColumnCount();i++){
+					if(i==0){
+						grid.setWidget(index, i, new CheckBox());
+					} else if (i==1){
+						grid.setText(index, i, Integer.toString(index));
+						grid.getCellFormatter().setHorizontalAlignment(index, i, HasHorizontalAlignment.ALIGN_CENTER);
 					} else {
-//						grid.clearCell(index+1, i);
-						grid.setText(index+1, i, "123");
+						if(data.getData()!=null){
+							String text = data.getData()[index-1][i-2];
+							grid.setText(index, i, text);
+						} else {
+							grid.clearCell(index, i);
+						}
 					}
-				}
-				if(i==2){
-					grid.getCellFormatter().setHorizontalAlignment(index+1, i, HasHorizontalAlignment.ALIGN_CENTER);
-				}
-    			setTableLineStyle(grid, index, i);
-    		}
+					if(i==2){
+						grid.getCellFormatter().setHorizontalAlignment(index, i, HasHorizontalAlignment.ALIGN_CENTER);
+					}
+	    			setTableLineStyle(grid, index, i);
+	    		}
+	    	} else {
+	    		if(index==grid.getRowCount()) {
+	    			for(int i=0;i<grid.getColumnCount();i++){
+	    				setTableBottomStyle(grid, index, i);
+		    		}
+	    		} else {
+	    			for(int i=0;i<grid.getColumnCount();i++){
+	    				setTableLineStyle(grid, index, i);
+		    		}
+	    		}
+	    	}
     	} else {
-    		if(index==grid.getRowCount()-1) {
+    		if(index==grid.getRowCount()) {
     			for(int i=0;i<grid.getColumnCount();i++){
     				setTableBottomStyle(grid, index, i);
 	    		}
@@ -236,17 +291,17 @@ public abstract class OPlatformTableView extends DockPanel {
     
     private void setTableLineStyle(Grid grid, int index, int i){
     	if(i==grid.getColumnCount()-1){
-			grid.getCellFormatter().setStyleName(index+1, i, "optable-line-end");
+			grid.getCellFormatter().setStyleName(index, i, "optable-line-end");
 		} else {
-			grid.getCellFormatter().setStyleName(index+1, i, "optable-line");
+			grid.getCellFormatter().setStyleName(index, i, "optable-line");
 		}
     }
     
     private void setTableBottomStyle(Grid grid, int index, int i){
     	if(i==grid.getColumnCount()-1){
-			grid.getCellFormatter().setStyleName(index+1, i, "optable-bottom-end");
+			grid.getCellFormatter().setStyleName(index, i, "optable-bottom-end");
 		} else {
-			grid.getCellFormatter().setStyleName(index+1, i, "optable-bottom");
+			grid.getCellFormatter().setStyleName(index, i, "optable-bottom");
 		}
     }
     

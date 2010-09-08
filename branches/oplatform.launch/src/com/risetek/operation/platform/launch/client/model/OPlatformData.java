@@ -33,16 +33,6 @@ public abstract class OPlatformData {
 	 */
 	public abstract void setSum(int sum);
 	
-	public String ACTION_NAME = null ;	
-	
-	public String getACTION_NAME() {
-		return ACTION_NAME;
-	}
-
-	public void setACTION_NAME(String aCTION_NAME) {
-		ACTION_NAME = aCTION_NAME;
-	}
-
 	private String data[][];
 	
 	public void setData(String data[][]) {
@@ -53,7 +43,7 @@ public abstract class OPlatformData {
 		return data;
 	}
 	
-	public ResolveResponseInfo[] retInfo(String retInfo) {
+	protected ResolveResponseInfo[] retInfo(String retInfo) {
 		ResolveResponseInfo opRetInfo[] = new ResolveResponseInfo[1];
 		opRetInfo[0] = new ResolveResponseInfo();
 		JSONObject jo = JSONParser.parse(retInfo).isObject();
