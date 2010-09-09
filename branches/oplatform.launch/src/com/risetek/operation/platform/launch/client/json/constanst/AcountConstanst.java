@@ -10,14 +10,24 @@ package com.risetek.operation.platform.launch.client.json.constanst;
  */
 public interface AcountConstanst extends Constanst {
 
-	final String ACCOUNT_NUMBER_ZH = "ACCOUNT_NUMBER";
+	final String ACCOUNT_NUMBER = "ACCOUNT_NUMBER";
 	
-	final String BANK_CODE_ZH = "BANK_CODE";
+	final String ACCOUNT_NUMBER_ZH = "账户号";
 	
-	final String ACCOUNT_DESCRIPTION_ZH = "ACCOUNT_DESCRIPTION";
+	final String BANK_ID = "BANK_ID";
+	
+	final String BANK_ID_ZH = "银行卡类型索引";
+	
+	final String DESCRIPTION = "DESCRIPTION";
+	
+	final String DESCRIPTION_ZH = "账户描述";
 
-	final String ACCOUNT_ADDTION_ZH = "ACCOUNT_ADDTION";
+	final String ADDITION = "ADDITION";
+	
+	final String ADDITION_ZH = "账户附加信息";
 
-	final String ACCOUNT_VALIDITY_ZH = "ACCOUNT_VALIDITY";
+	final String VALIDITY = "VALIDITY";
+	
+	final String VALIDITY_ZH = "是否有效";
 
 }

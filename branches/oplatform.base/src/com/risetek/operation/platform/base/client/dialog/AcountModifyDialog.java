@@ -39,7 +39,7 @@ public class AcountModifyDialog extends BaseDialog {
 		gridFrame.setWidget(0, 0, new Label("当前"+colName+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
 		gridFrame.setWidget(1, 0, new Label("新的"+colName+"："));
-		if(colName.equals(AcountConstanst.ACCOUNT_VALIDITY_ZH)){
+		if(colName.equals(AcountConstanst.VALIDITY_ZH)){
 			ListBox listBox = createListBox(bankListBoxValue);
 			gridFrame.setWidget(1, 1, listBox);
 		}else{
@@ -88,8 +88,8 @@ public class AcountModifyDialog extends BaseDialog {
 		if (null == colName) {
 			return true;
 		}
-		if(colName.equals(AcountConstanst.BANK_CODE_ZH)){
-			String check = Util.commValidity((newValueBox.getText()).trim(), AcountConstanst.BANK_CODE_ZH);
+		if(colName.equals(AcountConstanst.BANK_ID_ZH)){
+			String check = Util.commValidity((newValueBox.getText()).trim(), AcountConstanst.BANK_ID_ZH);
 			if (null != check) {
 				setMessage(check);
 				newValueBox.setFocus(true);

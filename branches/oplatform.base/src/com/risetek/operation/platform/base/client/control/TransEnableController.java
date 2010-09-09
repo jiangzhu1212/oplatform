@@ -9,11 +9,13 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.risetek.operation.platform.base.client.dialog.TransEnableButtonDialog;
 import com.risetek.operation.platform.base.client.model.TransEnableData;
 import com.risetek.operation.platform.base.client.view.TransEnableView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -23,8 +25,9 @@ public class TransEnableController extends AController {
 	final TransEnableData data = new TransEnableData();
 	
 	public final TransEnableView view = new TransEnableView();
-	private static RequestFactory remoteRequest = new RequestFactory();
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	public TransEnableButtonDialog transEnableButtonDialog = new TransEnableButtonDialog(); 
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
@@ -39,7 +42,7 @@ public class TransEnableController extends AController {
 		}
 	}
 	//查询的回调
-	private static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
@@ -139,7 +142,17 @@ public class TransEnableController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			
+			INSTANCE.transEnableButtonDialog = new TransEnableButtonDialog();
+			Object obj = event.getSource();			
+			if(obj == TransEnableView.queryButton){
+				INSTANCE.transEnableButtonDialog.setAction_name(Constanst.ACTION_NAME_QUERY_TRANS_ENABLE);
+				INSTANCE.transEnableButtonDialog.queryMainPanel();
+				INSTANCE.transEnableButtonDialog.show();
+			}else if(obj == TransEnableView.addButton){
+				INSTANCE.transEnableButtonDialog.setAction_name(Constanst.ACTION_NAME_ADD_TRANS_ENABLE);
+				INSTANCE.transEnableButtonDialog.addMainPanel();
+				INSTANCE.transEnableButtonDialog.show();
+			}
 		}
 	}
 

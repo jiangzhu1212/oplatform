@@ -31,15 +31,15 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	String banner_tips = "";
 	public final static String[] columns = { 
 			AnnoucementConstanst.ACE_ID_ZH,
-			AnnoucementConstanst.ACE_TYPE_ZH,
-			AnnoucementConstanst.ACE_DATE_ZH, 
-			AnnoucementConstanst.ACE_ADDTION_ZH,
-			AnnoucementConstanst.ACE_CREATE_TIME_ZH,
-			AnnoucementConstanst.ACE_STOP_TIME_ZH,
-			AnnoucementConstanst.ACE_TARGET_TYPE_ZH,
-			AnnoucementConstanst.ACE_TARGET_ID_ZH,
-			AnnoucementConstanst.ACE_VALIDITY_ZH,
-			AnnoucementConstanst.ACE_DESCRIPTION_ZH 
+			AnnoucementConstanst.TYPE_ZH,
+			AnnoucementConstanst.DATE_ZH, 
+			AnnoucementConstanst.ADDITION_ZH,
+			AnnoucementConstanst.CREATE_TIME_ZH,
+			AnnoucementConstanst.STOP_TIME_ZH,
+			AnnoucementConstanst.TARGET_TYPE_ZH,
+			AnnoucementConstanst.TARGET_ID_ZH,
+			AnnoucementConstanst.VALIDITY_ZH,
+			AnnoucementConstanst.DESCRIPTION_ZH 
 	};
 	private final static String[] banner_text = {
 		"点击查看本条记录",

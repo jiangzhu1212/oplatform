@@ -23,6 +23,7 @@ public class CardTerminalData extends OPlatformData {
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		setSum(Integer.parseInt(item_total.toString()));
 		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
 		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
 		String[][] data = new String[arr.size()][5];
@@ -31,7 +32,7 @@ public class CardTerminalData extends OPlatformData {
 
 			try {
 				data[i][0] = cardTerminal.get(CardTerminalConstanst.TERMINAL_ID)
-						.isString().stringValue();
+						.isNumber().toString();
 			} catch (Exception e) {
 			}
 			try {
@@ -75,6 +76,8 @@ public class CardTerminalData extends OPlatformData {
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
 			}else if(Constanst.ACTION_NAME_MODIFY_CARD_TERMINAL.equals(ACTION_NAME)){
 				actionInfo = packetData(col[0],col[1]);
+			}else if(Constanst.ACTION_NAME_ADD_CARD_TERMINAL.equals(ACTION_NAME)){
+				actionInfo = packetData();
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
 		} catch (JSONException e) {			

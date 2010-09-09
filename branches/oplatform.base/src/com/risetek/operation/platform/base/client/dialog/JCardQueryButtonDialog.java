@@ -79,7 +79,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 		
 	DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
 	
-	public RequestFactory request;
+	public RequestFactory request = new RequestFactory();;
 	
 	public  RequestCallback balanceCaller ;
 	//对账操作的回调
@@ -204,7 +204,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
-			request = JCardQueryContorller.remoteRequest ;
+			
 			if(Constanst.ACTION_NAME_IMPORT_DATA.equals(action_name)){
 				String uploadData = updateText.getText();
 				if(uploadData == null || "".equals(uploadData)){

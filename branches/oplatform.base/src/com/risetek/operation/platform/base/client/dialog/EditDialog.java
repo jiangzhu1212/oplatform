@@ -82,7 +82,7 @@ public class EditDialog extends CustomDialog {
 		 * 如果colName为空，表示为删除或作废
 		 */
 		if(colName == null){
-			setText("编号" + tips_id);
+			setText("行号" + tips_id);
 		}else{
 			setText("修改" + colName);
 			oldValueLabel.setText(tips_imsi);	

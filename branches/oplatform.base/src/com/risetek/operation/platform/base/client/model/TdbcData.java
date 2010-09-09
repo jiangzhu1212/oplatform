@@ -1,5 +1,15 @@
 package com.risetek.operation.platform.base.client.model;
 
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
+import com.risetek.operation.platform.launch.client.json.constanst.TdbcConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 /**
@@ -11,13 +21,113 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
  */
 public class TdbcData extends OPlatformData {
 
-	/**
-	 * @Description: 格式化数据，并注入到模块的数据对象中 
-	 * @param text  参数 
-	 * @return void 返回类型 
-	 */
+	private int tdbc_id = 0 ;
+	
+	private int e_goods_sn = 0 ;
+
+	private String image= null ;
+	
 	public void parseData(String text){
-		System.out.println("the text is :" + text);
-		setSum(100);
+		JSONObject jo = JSONParser.parse(text).isObject();
+		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		setSum(Integer.parseInt(item_total.toString()));
+		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
+		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
+		String[][] data = new String[arr.size()][10];
+		for(int i = 0 ; i < arr.size() ; i ++){
+			JSONObject customer = arr.get(i).isObject();
+			try {
+				try {
+					data[i][0] = customer.get(TdbcConstanst.TDBC_ID)
+							.isNumber().toString();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][1] = customer.get(TdbcConstanst.E_GOODS_SN)
+							.isNumber().toString();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					data[i][2] = customer.get(TdbcConstanst.IMAGE)
+							.isString().stringValue();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		setData(data);
+	}
+	
+	public String toHttpPacket(String... col){
+		String ACTION_NAME = getACTION_NAME();
+		JSONObject packet = new JSONObject();
+		JSONObject actionInfo = null;
+		try {
+			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
+			if(ACTION_NAME == null){
+				actionInfo = new JSONObject();
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_QUERY_TDBC_INFO.equals(ACTION_NAME)){
+				actionInfo = packetData();
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_ADD_TDBC_INFO.equals(ACTION_NAME)){
+				actionInfo = packetData();
+			}
+			packet.put(Constanst.ACTION_INFO,actionInfo);
+		} catch (JSONException e) {			
+			e.printStackTrace();
+			return null;
+		}
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(RequestFactory.PACKET);
+		buffer.append("=");
+		buffer.append(packet.toString());
+		return buffer.toString();
+	}
+	
+	private JSONObject packetData(){
+		JSONObject json = new JSONObject();
+		if(tdbc_id != 0){
+			json.put(TdbcConstanst.TDBC_ID, new JSONNumber(tdbc_id));
+		}
+		if(e_goods_sn != 0){
+			json.put(TdbcConstanst.E_GOODS_SN, new JSONNumber(e_goods_sn));
+		}
+		if(image != null || !"".equals(image)){
+			json.put(TdbcConstanst.IMAGE, new JSONNumber(tdbc_id));
+		}
+		return json;
+	}
+	
+	public int getTdbc_id() {
+		return tdbc_id;
+	}
+
+	public void setTdbc_id(int tdbc_id) {
+		this.tdbc_id = tdbc_id;
+	}
+
+	public int getE_goods_sn() {
+		return e_goods_sn;
+	}
+
+	public void setE_goods_sn(int e_goods_sn) {
+		this.e_goods_sn = e_goods_sn;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

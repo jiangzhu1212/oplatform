@@ -10,24 +10,44 @@ package com.risetek.operation.platform.launch.client.json.constanst;
  */
 public interface AnnoucementConstanst extends Constanst {
 	
-	final String ACE_ID_ZH = "ACE_ID";
+	final String ACE_ID = "ACE_ID";
 
-	final String ACE_TYPE_ZH = "ACE_TYPE";
+	final String TYPE = "TYPE";
 
-	final String ACE_DATE_ZH = "ACE_DATE";
+	final String DATE = "DATE";
 
-	final String ACE_DESCRIPTION_ZH = "ACE_DESCRIPTION";
+	final String DESCRIPTION = "DESCRIPTION";
 
-	final String ACE_ADDTION_ZH = "ACE_ADDTION";
+	final String ADDIITION = "ADDITION";
 
-	final String ACE_CREATE_TIME_ZH = "ACE_CREATE_TIME";
+	final String CREATE_TIME = "CREATE_TIME";
 
-	final String ACE_STOP_TIME_ZH = "ACE_STOP_TIME";
+	final String STOP_TIME = "STOP_TIME";
 
-	final String ACE_TARGET_TYPE_ZH = "ACE_TARGET_TYPE";
+	final String TARGET_TYPE = "TARGET_TYPE";
 
-	final String ACE_TARGET_ID_ZH = "ACE_TARGET_ID";
+	final String TARGET_ID = "TARGET_ID";
 
-	final String ACE_VALIDITY_ZH = "ACE_VALIDITY";
+	final String VALIDITY = "VALIDITY";
+	
+	final String ACE_ID_ZH = "公告索引";
+
+	final String TYPE_ZH = "公告类型";
+
+	final String DATE_ZH = "公告数据";
+
+	final String DESCRIPTION_ZH = "描述";
+
+	final String ADDITION_ZH = "公告信息";
+
+	final String CREATE_TIME_ZH = "公告创建时间";
+
+	final String STOP_TIME_ZH = "公告停止时间";
+
+	final String TARGET_TYPE_ZH = "发送目标的类型";
+
+	final String TARGET_ID_ZH = "发送目标";
+
+	final String VALIDITY_ZH = "公告是否有效";
 
 }

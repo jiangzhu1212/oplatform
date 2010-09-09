@@ -17,7 +17,7 @@ public class TransactionData extends OPlatformData {
 	/**
 	 * 业务号
 	 */
-	private String trans_id = "" + 0;
+	private int trans_id =  0;
 	
 	/**
 	 * 业务别名
@@ -69,16 +69,21 @@ public class TransactionData extends OPlatformData {
 	 */
 	private String VALIDITY = null ;
 	
+	public TransactionData() {
+		setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO);
+	}
+	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		setSum(Integer.parseInt(item_total.toString()));
 		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
 		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
 		String[][] data = new String[arr.size()][10];
 		for(int i = 0 ; i < arr.size() ; i ++){
 			JSONObject transaction = arr.get(i).isObject();
 			try {
-				data[i][0] = transaction.get(TransactionConstanst.TRANS_ID).isString().stringValue();
+				data[i][0] = transaction.get(TransactionConstanst.TRANS_ID).isNumber().toString();
 			} catch (Exception e) {
 			}
 			try {
@@ -127,16 +132,14 @@ public class TransactionData extends OPlatformData {
 		JSONObject actionInfo = null;
 		try {
 			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
-			if(ACTION_NAME == null){
-				actionInfo = new JSONObject();
-				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
-				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
-			}else if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
+			if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
 			}else if(Constanst.ACTION_NAME_MODIFY_TRANSACTION_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData(col[0],col[1]);
+			}else if(Constanst.ACTION_NAME_ADD_TRADE_INFO.equals(ACTION_NAME)){
+				actionInfo = packetData();
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
 		} catch (JSONException e) {			
@@ -153,8 +156,8 @@ public class TransactionData extends OPlatformData {
 
 	private JSONObject packetData(){
 		JSONObject json = new JSONObject();
-		if(!trans_id.equals("0")){
-			json.put(TransactionConstanst.TRANS_ID, new JSONString(trans_id));
+		if( trans_id != 0){
+			json.put(TransactionConstanst.TRANS_ID, new JSONNumber(trans_id));
 		}
 		if(alias != null && !alias.equals("")){
 			json.put(TransactionConstanst.ALIAS, new JSONString(alias));
@@ -188,7 +191,7 @@ public class TransactionData extends OPlatformData {
 	
 	private JSONObject packetData(String colName , String colValue){
 		JSONObject json = new JSONObject();
-		json.put(TransactionConstanst.TRANS_ID, new JSONString(trans_id));
+		json.put(TransactionConstanst.TRANS_ID, new JSONNumber(trans_id));
 		if(TransactionConstanst.ALIAS_ZH.equals(colName)){
 			json.put(TransactionConstanst.ALIAS, new JSONString(colValue));
 		}else if(TransactionConstanst.NAME_ZH.equals(colName)){
@@ -211,11 +214,11 @@ public class TransactionData extends OPlatformData {
 		return json;
 	}
 	
-	public String getTrans_id() {
+	public int getTrans_id() {
 		return trans_id;
 	}
 
-	public void setTrans_id(String trans_id) {
+	public void setTrans_id(int trans_id) {
 		this.trans_id = trans_id;
 	}
 

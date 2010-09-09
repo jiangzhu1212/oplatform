@@ -26,7 +26,7 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 
 	public final static Button searchButton = new Button("查询", new TdbcController.TableEditAction());
 
-	public final static String[] columns = {TdbcConstanst.TDBC_ID_ZH, TdbcConstanst.E_GOODS_SN_ZH, TdbcConstanst.TDBC_IMAGE_ZH };
+	public final static String[] columns = {TdbcConstanst.TDBC_ID_ZH, TdbcConstanst.E_GOODS_SN_ZH, TdbcConstanst.IMAGE_ZH };
 	public final static int[] columnsWidth = {25, 25, 35};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	

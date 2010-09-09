@@ -21,16 +21,16 @@ public class AcountAddDialog extends BaseDialog {
 	
 	private String[] addColumns = {
 		AcountConstanst.ACCOUNT_NUMBER_ZH, 
-		AcountConstanst.BANK_CODE_ZH,
-		AcountConstanst.ACCOUNT_ADDTION_ZH,
-		AcountConstanst.ACCOUNT_DESCRIPTION_ZH,
-		AcountConstanst.ACCOUNT_VALIDITY_ZH
+		AcountConstanst.BANK_ID_ZH,
+		AcountConstanst.ADDITION_ZH,
+		AcountConstanst.DESCRIPTION_ZH,
+		AcountConstanst.VALIDITY_ZH
 	};
 	
 	private String[] searchColumns = {
 		AcountConstanst.ACCOUNT_NUMBER_ZH, 
-		AcountConstanst.BANK_CODE_ZH,
-		AcountConstanst.ACCOUNT_VALIDITY_ZH
+		AcountConstanst.BANK_ID_ZH,
+		AcountConstanst.VALIDITY_ZH
 	};
 	
 	/**
@@ -115,7 +115,7 @@ public class AcountAddDialog extends BaseDialog {
 				numberBox.setFocus(true);
 				return false;
 			}
-			check = Util.commValidity((bankCodeBox.getText()).trim(), AcountConstanst.BANK_CODE_ZH);
+			check = Util.commValidity((bankCodeBox.getText()).trim(), AcountConstanst.BANK_ID_ZH);
 			if (null != check) {
 				setMessage(check);
 				bankCodeBox.setFocus(true);

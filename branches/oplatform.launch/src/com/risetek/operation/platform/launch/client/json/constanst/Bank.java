@@ -15,27 +15,31 @@ public class Bank implements Serializable {
 	 */ 
 	private static final long serialVersionUID = 1L;
 	
-	private String bank_code;
+	private String bank_id = null;
 	
-	private String name;
+	private String PREFIX = null ;
 	
-	private String validity;
+	private String name = null;
 	
-	private String description;
+	private String validity = null;
+	
+	private String description = null;
 
-
-	/**
-	 * @return bank_code
-	 */
-	public String getBank_code() {
-		return bank_code;
+	
+	public String getBank_id() {
+		return bank_id;
 	}
 
-	/**
-	 * @param bank_code
-	 */
-	public void setBank_code(String bank_code) {
-		this.bank_code = bank_code;
+	public void setBank_id(String bank_id) {
+		this.bank_id = bank_id;
+	}
+
+	public String getPREFIX() {
+		return PREFIX;
+	}
+
+	public void setPREFIX(String pREFIX) {
+		PREFIX = pREFIX;
 	}
 
 	/**
