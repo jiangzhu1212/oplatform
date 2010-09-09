@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TransEnableSink;
 import com.risetek.operation.platform.base.client.control.TransEnableController;
-import com.risetek.operation.platform.launch.client.json.constanst.ChannelConstanst;
+import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -20,19 +20,14 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class TransEnableView  extends OPlatformTableView implements IOPlatformView {
 
-	private final Button action1 = new Button("action1");
-	public final static String[] columns = {ChannelConstanst.DESCRIPTION_ZH, ChannelConstanst.FEE_ZH, ChannelConstanst.FEE_TYPE_ZH, ChannelConstanst.FEE_ADDITION_ZH, ChannelConstanst.ADDITION_ZH, ChannelConstanst.LOC_CODE_ZH};
-	public final static String[] columns1 = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.BINDABLE_ZH, TransactionConstanst.TYPE_ZH};
-	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25};
-	public final static int[] columnsWidth1 = {25, 25, 25, 25, 25};
-	public final static int rowCount = 10;
+	public final static Button queryButton = new Button("查询业务使能", new TransEnableController.TableShowAction());
+	public final static Button addButton = new Button("添加业务使能", new TransEnableController.TableShowAction());
+	public final static String[] columns = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.BINDABLE_ZH, TransactionConstanst.TYPE_ZH};
+	public final static int[] columnsWidth = {25, 25, 25, 25, 25};
+	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;;
 	public static String descript = "";
-	Grid grid1 = new GreenMouseEventGrid(banner_text1);
 	String banner_tips = "";
 	private final static String[] banner_text = {
-		"点击查看终端绑定业务.",
-	};
-	private final static String[] banner_text1 = {
 		"点击修改业务绑定.",
 	};
 	
@@ -50,15 +45,10 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	public TransEnableView(){
 		addActionPanel(initPromptGrid(), TransEnableSink.Desc);
 		setLocation(TransEnableSink.Group + "->" + TransEnableSink.Name);
-		grid1.setWidth("100%");
-		grid1.resize(2, columns1.length);
 //		grid1.setText(1, 0, "内容");
-		grid1.setStyleName("optable");
 		HTML title = new HTML("这是上面一张表的扩展内容");
 		title.setStyleName("tableordertitle");
 		outer.add(title);
-		outer.add(grid1);
-		formatGrid(grid1, rowCount, columns1, columnsWidth1);
 		grid.addClickHandler(new TransEnableController.TableEditAction());
 	}
 	
@@ -74,7 +64,8 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 //		actionPanel.setHeight("32px");
 //		actionPanel.setWidth("100%");
 //		actionPanel.setBorderWidth(1);
-		actionPanel.add(action1);
+		actionPanel.add(queryButton);
+		actionPanel.add(addButton);
 		return actionPanel;
 	}
 	
@@ -163,7 +154,7 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	 */
 	public void render(OPlatformData data){
 		for(int index=0;index<rowCount;index++){
-			renderLine(grid1, data, index);
+			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
 	}

@@ -31,10 +31,10 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	String banner_tips = "";
 	
 	public final static String[] columns = { 
-			BankConstanst.BANK_CODE_ZH,
-			BankConstanst.BANK_NAME_ZH, 
-			BankConstanst.BANK_VALIDITY_ZH,
-			BankConstanst.BANK_DESCRIPTION_ZH 
+			BankConstanst.BANK_ID_ZH,
+			BankConstanst.NAME_ZH, 
+			BankConstanst.VALIDITY_ZH,
+			BankConstanst.DESCRIPTION_ZH 
 	};
 	private final static String[] banner_text = {
 		"点击查看本条记录",

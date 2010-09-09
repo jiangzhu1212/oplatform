@@ -11,7 +11,7 @@ public class TransEnableSink extends Sink {
 
 	public static final String Group = "基本功能";
 	public static final String Tag = "transactionEnableManage";
-	public static final String Name = "开卡终端业务绑定管理";
+	public static final String Name = "业务使能管理";
 	public static final String Desc = "这是一个开卡终端业务绑定管理";
 	
 	/**

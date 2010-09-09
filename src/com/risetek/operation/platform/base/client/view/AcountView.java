@@ -32,10 +32,10 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	
 	public final static String[] columns = {
 			AcountConstanst.ACCOUNT_NUMBER_ZH, 
-			AcountConstanst.BANK_CODE_ZH,
-			AcountConstanst.ACCOUNT_VALIDITY_ZH,
-			AcountConstanst.ACCOUNT_ADDTION_ZH,
-			AcountConstanst.ACCOUNT_DESCRIPTION_ZH 
+			AcountConstanst.BANK_ID_ZH,
+			AcountConstanst.VALIDITY_ZH,
+			AcountConstanst.ADDITION_ZH,
+			AcountConstanst.DESCRIPTION_ZH 
 	};
 	private final static String[] banner_text = {
 		"点击查看本条记录",

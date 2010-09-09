@@ -67,6 +67,7 @@ public class CustomerData extends OPlatformData  {
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		setSum(Integer.parseInt(item_total.toString()));
 		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
 		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
 		String[][] data = new String[arr.size()][10];
@@ -75,7 +76,7 @@ public class CustomerData extends OPlatformData  {
 			try {
 				try {
 					data[i][0] = customer.get(CustomerConstanst.CUSTOMER_ID)
-							.isString().stringValue();
+							.isNumber().toString();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -156,6 +157,8 @@ public class CustomerData extends OPlatformData  {
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
 			}else if(Constanst.ACTION_NAME_MODIFY_CUSTOMER_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData(col[0],col[1]);
+			}else if(Constanst.ACTION_NAME_ADD_CUSTOMER_INFO.equals(ACTION_NAME)){
+				actionInfo = packetData();
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
 		} catch (JSONException e) {			

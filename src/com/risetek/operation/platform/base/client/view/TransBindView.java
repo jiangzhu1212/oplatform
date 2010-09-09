@@ -1,5 +1,6 @@
 package com.risetek.operation.platform.base.client.view;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -15,6 +16,8 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
 
 public class TransBindView extends OPlatformTableView implements IOPlatformView {
 
+	public final static Button queryButton = new Button("查询业务绑定", new TransBindController.TableShowAction());
+	public final static Button addButton = new Button("添加业务绑定", new TransBindController.TableShowAction());
 	public final static String[] columns = {TransBindConstanst.TRANS_BIND_ID_ZH, TransBindConstanst.TRANS_ID_ZH, TransBindConstanst.CUSTOMER_ID_ZH};
 	public final static int[] columnsWidth = {25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -54,7 +57,8 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	 */
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-		
+		actionPanel.add(queryButton);
+		actionPanel.add(addButton);
 		return actionPanel;
 	}
 	

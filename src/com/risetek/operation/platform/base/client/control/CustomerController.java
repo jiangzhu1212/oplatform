@@ -29,8 +29,8 @@ public class CustomerController extends AController {
 	public final CustomerView view = new CustomerView();
 	public final CustomerButtonDialog customerDialog = new CustomerButtonDialog();
 
-	private static RequestFactory remoteRequest = new RequestFactory();
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
@@ -45,7 +45,7 @@ public class CustomerController extends AController {
 		}
 	}
 	//查询的回调
-	private static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
@@ -95,7 +95,7 @@ public class CustomerController extends AController {
 			int col = Mycell.getCellIndex();
             
 			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-			String rowid = table.getText(row, 2);
+			String rowid = table.getText(row, 1);
 
 			String tisp_value = table.getText(row, col);
 			if(tisp_value.length() == 1){

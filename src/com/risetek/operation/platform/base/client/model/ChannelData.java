@@ -8,7 +8,6 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
-import com.risetek.operation.platform.launch.client.json.constanst.CardTerminalConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.ChannelConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
@@ -32,6 +31,10 @@ public class ChannelData extends OPlatformData {
 	
 	private String loc_code = null ;
 	
+	public ChannelData() {
+		setACTION_NAME(Constanst.ACTION_NAME_QUERY_CHANNEL_INFO);
+	}
+	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
@@ -41,13 +44,41 @@ public class ChannelData extends OPlatformData {
 		String[][] data = new String[arr.size()][5];
 		for(int i = 0 ; i < arr.size() ; i ++){
 			JSONObject channel = arr.get(i).isObject();
-
 			try {
-				data[i][0] = channel.get(CardTerminalConstanst.TERMINAL_ID)
+				data[i][0] = channel.get(ChannelConstanst.CHANNEL_ID)
+						.isNumber().toString();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][1] = channel.get(ChannelConstanst.DESCRIPTION)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
-
+			try {
+				data[i][2] = channel.get(ChannelConstanst.FEE)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][3] = channel.get(ChannelConstanst.FEE_TYPE)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][4] = channel.get(ChannelConstanst.FEE_ADDITION)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][5] = channel.get(ChannelConstanst.ADDITION)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][6] = channel.get(ChannelConstanst.LOC_CODE)
+						.isString().stringValue();
+			} catch (Exception e) {
+			}
 		}
 		setData(data);
 	}
@@ -58,16 +89,14 @@ public class ChannelData extends OPlatformData {
 		JSONObject actionInfo = null;
 		try {
 			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
-			if(ACTION_NAME == null){
-				actionInfo = new JSONObject();
-				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
-				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
-			}else if(Constanst.ACTION_NAME_QUERY_CHANNEL_INFO.equals(ACTION_NAME)){
+			if(Constanst.ACTION_NAME_QUERY_CHANNEL_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
 			}else if(Constanst.ACTION_NAME_MODIFY_CHANNEL_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData(col[0],col[1]);
+			}else if(Constanst.ACTION_NAME_ADD_CHANNEL_INFO.equals(ACTION_NAME)){
+				actionInfo = packetData();
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
 		} catch (JSONException e) {			

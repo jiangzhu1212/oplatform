@@ -2,26 +2,21 @@ package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.BankAddDialog;
 import com.risetek.operation.platform.base.client.dialog.BankModifyDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.BankData;
-import com.risetek.operation.platform.base.client.service.BankService;
-import com.risetek.operation.platform.base.client.service.BankServiceAsync;
 import com.risetek.operation.platform.base.client.view.BankView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
-import com.risetek.operation.platform.launch.client.json.constanst.Bank;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -43,8 +38,6 @@ public class BankController extends AController {
 	private final BankData data = new BankData();
 	
 	public final BankView view = new BankView();
-	
-	private final static BankServiceAsync service = GWT.create(BankService.class);
 
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	/**
@@ -73,19 +66,8 @@ public class BankController extends AController {
 	 * @return void 返回类型 
 	 */
 	public static void load(){
-		service.getAllBank(new AsyncCallback<Bank[]>(){
-			@Override
-			public void onFailure(Throwable caught) {
-				
-			}
-
-			@Override
-			public void onSuccess(Bank[] result) {
-				INSTANCE.data.setSum(result.length);
-				INSTANCE.data.parseResult(result);
-				INSTANCE.view.render(INSTANCE.data);
-			}
-		});
+		INSTANCE.data.setSum(10);
+		INSTANCE.view.render(INSTANCE.data);
 	}
 	
 	/**

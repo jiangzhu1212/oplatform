@@ -36,17 +36,17 @@ public class AnnoucementAddDialog extends BaseDialog {
 	private final DateBox stop_startTime_box = new DateBox();
 	private final DateBox stop_endTime_box = new DateBox();
 			
-	private String[] searchColumns = {AnnoucementConstanst.ACE_TYPE_ZH, AnnoucementConstanst.ACE_VALIDITY_ZH };
+	private String[] searchColumns = {AnnoucementConstanst.TYPE_ZH, AnnoucementConstanst.VALIDITY_ZH };
 
 	private String[] addColumns = { 
-		AnnoucementConstanst.ACE_TYPE_ZH,
-		AnnoucementConstanst.ACE_DATE_ZH,
-		AnnoucementConstanst.ACE_ADDTION_ZH,
-		AnnoucementConstanst.ACE_STOP_TIME_ZH,
-		AnnoucementConstanst.ACE_TARGET_TYPE_ZH,
-		AnnoucementConstanst.ACE_TARGET_ID_ZH,
-		AnnoucementConstanst.ACE_DESCRIPTION_ZH,
-		AnnoucementConstanst.ACE_VALIDITY_ZH 
+		AnnoucementConstanst.TYPE_ZH,
+		AnnoucementConstanst.DATE_ZH,
+		AnnoucementConstanst.ADDITION_ZH,
+		AnnoucementConstanst.STOP_TIME_ZH,
+		AnnoucementConstanst.TARGET_TYPE_ZH,
+		AnnoucementConstanst.TARGET_ID_ZH,
+		AnnoucementConstanst.DESCRIPTION_ZH,
+		AnnoucementConstanst.VALIDITY_ZH 
 	};
 
 	/**
@@ -114,7 +114,7 @@ public class AnnoucementAddDialog extends BaseDialog {
 		dateGrid.setWidget(0, 1, startDateBox);
 		dateGrid.setWidget(1, 1, endDateBox);
 	  
-		DisclosurePanel dp = new DisclosurePanel(AnnoucementConstanst.ACE_DATE_ZH);
+		DisclosurePanel dp = new DisclosurePanel(AnnoucementConstanst.DATE_ZH);
 		dp.setAnimationEnabled(true);
 		dp.setContent(dateGrid);
 		return dp;
@@ -132,7 +132,7 @@ public class AnnoucementAddDialog extends BaseDialog {
 		startGrid.setWidget(0, 1, create_startTime_box);
 		startGrid.setWidget(1, 1, create_endTime_box);
 		
-		DisclosurePanel dp = new DisclosurePanel(AnnoucementConstanst.ACE_CREATE_TIME_ZH);
+		DisclosurePanel dp = new DisclosurePanel(AnnoucementConstanst.CREATE_TIME_ZH);
 		dp.setAnimationEnabled(true);
 	    dp.setContent(startGrid);
 		return dp;
@@ -150,7 +150,7 @@ public class AnnoucementAddDialog extends BaseDialog {
 		stopGrid.setWidget(0, 1, stop_startTime_box);
 		stopGrid.setWidget(1, 1, stop_endTime_box);
 
-		DisclosurePanel dp = new DisclosurePanel(AnnoucementConstanst.ACE_STOP_TIME_ZH);
+		DisclosurePanel dp = new DisclosurePanel(AnnoucementConstanst.STOP_TIME_ZH);
 		dp.setAnimationEnabled(true);
 		dp.setContent(stopGrid);
 		return dp;
@@ -214,31 +214,31 @@ public class AnnoucementAddDialog extends BaseDialog {
 			}
 		}else{
 			String check;
-			check = Util.commValidity((typeBox.getText()).trim(), AnnoucementConstanst.ACE_TYPE_ZH);
+			check = Util.commValidity((typeBox.getText()).trim(), AnnoucementConstanst.TYPE_ZH);
 			if (null != check) {
 				setMessage(check);
 				typeBox.setFocus(true);
 				return false;
 			}
-			check = Util.commValidity((dateBox.getTextBox().getText()).trim(), AnnoucementConstanst.ACE_DATE_ZH);
+			check = Util.commValidity((dateBox.getTextBox().getText()).trim(), AnnoucementConstanst.DATE_ZH);
 			if (null != check) {
 				setMessage(check);
 				dateBox.setFocus(true);
 				return false;
 			}
-			check = Util.commValidity((stopTimeBox.getTextBox().getText()).trim(), AnnoucementConstanst.ACE_STOP_TIME_ZH);
+			check = Util.commValidity((stopTimeBox.getTextBox().getText()).trim(), AnnoucementConstanst.STOP_TIME_ZH);
 			if (null != check) {
 				setMessage(check);
 				stopTimeBox.setFocus(true);
 				return false;
 			}
-			check = Util.commValidity((TARGET_TYPE_Box.getText()).trim(), AnnoucementConstanst.ACE_TARGET_TYPE_ZH);
+			check = Util.commValidity((TARGET_TYPE_Box.getText()).trim(), AnnoucementConstanst.TARGET_TYPE_ZH);
 			if (null != check) {
 				setMessage(check);
 				TARGET_TYPE_Box.setFocus(true);
 				return false;
 			}
-			check = Util.commValidity((TARGET_ID_Box.getText()).trim(), AnnoucementConstanst.ACE_TARGET_ID_ZH);
+			check = Util.commValidity((TARGET_ID_Box.getText()).trim(), AnnoucementConstanst.TARGET_ID_ZH);
 			if (null != check) {
 				setMessage(check);
 				TARGET_ID_Box.setFocus(true);

@@ -27,8 +27,8 @@ public class CardTerminalController extends AController {
 	
 	public final CardTerminalView view = new CardTerminalView();
 	public final CardTerminalButtonDialog cardTerminalButtonDialog = new CardTerminalButtonDialog();
-	private static RequestFactory remoteRequest = new RequestFactory();
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
@@ -43,7 +43,7 @@ public class CardTerminalController extends AController {
 		}
 	}
 	//查询的回调
-	private static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();

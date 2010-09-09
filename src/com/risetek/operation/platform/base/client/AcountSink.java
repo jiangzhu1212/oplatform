@@ -17,7 +17,7 @@ public class AcountSink extends Sink {
 
 	public static final String Group = "基本功能";
 	public static final String Tag = "acount";
-	public static final String Name = "卡列表管理";
+	public static final String Name = "账户管理";
 	public static final String Desc = "银行卡列表基本信息管理";
 
 	/**

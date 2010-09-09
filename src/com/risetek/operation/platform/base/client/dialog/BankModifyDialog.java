@@ -41,7 +41,7 @@ public class BankModifyDialog extends BaseDialog {
 		gridFrame.setWidget(1, 0, new Label("新的"+colName+"："));
 		
 		//判断是否是日期文本框
-		if(colName.equals(BankConstanst.BANK_VALIDITY_ZH)){
+		if(colName.equals(BankConstanst.VALIDITY_ZH)){
 			ListBox listBox = createListBox(bankListBoxValue);
 			gridFrame.setWidget(1, 1, listBox);
 		}else{
@@ -91,8 +91,8 @@ public class BankModifyDialog extends BaseDialog {
 			return true;
 		}
 		
-		if(colName.equals(BankConstanst.BANK_NAME_ZH)){
-			String check = Util.commValidity((newValueBox.getText()).trim(), BankConstanst.BANK_NAME_ZH);
+		if(colName.equals(BankConstanst.NAME_ZH)){
+			String check = Util.commValidity((newValueBox.getText()).trim(), BankConstanst.NAME_ZH);
 			if (null != check) {
 				setMessage(check);
 				newValueBox.setFocus(true);

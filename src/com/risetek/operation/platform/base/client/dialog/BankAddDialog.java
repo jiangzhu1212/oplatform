@@ -19,16 +19,16 @@ public class BankAddDialog extends BaseDialog {
 	public final TextBox descBox = new TextBox();
 
 	private String[] addColumns = { 
-		BankConstanst.BANK_CODE_ZH,
-		BankConstanst.BANK_NAME_ZH, 
-		BankConstanst.BANK_DESCRIPTION_ZH,
-		BankConstanst.BANK_VALIDITY_ZH
+		BankConstanst.BANK_ID_ZH,
+		BankConstanst.NAME_ZH, 
+		BankConstanst.DESCRIPTION_ZH,
+		BankConstanst.VALIDITY_ZH
 	};
 	
 	private String[] searchColumns = { 
-		BankConstanst.BANK_CODE_ZH,
-		BankConstanst.BANK_NAME_ZH, 
-		BankConstanst.BANK_VALIDITY_ZH
+		BankConstanst.BANK_ID_ZH,
+		BankConstanst.NAME_ZH, 
+		BankConstanst.VALIDITY_ZH
 	};
 	
 	/**
@@ -105,13 +105,13 @@ public class BankAddDialog extends BaseDialog {
 	public boolean isValid() {
 		String check;
 		if (null == processTag) {
-			check = Util.commValidity((bankCodeBox.getText()).trim(), BankConstanst.BANK_CODE_ZH);
+			check = Util.commValidity((bankCodeBox.getText()).trim(), BankConstanst.BANK_ID_ZH);
 			if (null != check) {
 				setMessage(check);
 				bankCodeBox.setFocus(true);
 				return false;
 			}
-			check = Util.commValidity((bankNameBox.getText()).trim(), BankConstanst.BANK_NAME_ZH);
+			check = Util.commValidity((bankNameBox.getText()).trim(), BankConstanst.NAME_ZH);
 			if (null != check) {
 				setMessage(check);
 				bankNameBox.setFocus(true);
