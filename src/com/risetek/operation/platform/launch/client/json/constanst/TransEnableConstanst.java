@@ -4,7 +4,7 @@ public interface TransEnableConstanst extends Constanst {
 	
 	final String  TRANS_ENABLE_ID = "TRANS_ENABLE_ID" ;
 	
-	final String  TRANS_ENABLE_ID_ZH = "TRANS_ENABLE_ID" ;
+	final String  TRANS_ENABLE_ID_ZH = "业务使能索引" ;
 	
 	final String  TRANS_ID = "TRANS_ID" ;
 	
@@ -16,9 +16,9 @@ public interface TransEnableConstanst extends Constanst {
 	
 	final String  ENABLE = "ENABLE" ;
 	
-	final String  ENABLE_ZH = "ENABLE" ;
+	final String  ENABLE_ZH = "是否能够读取" ;
 	
 	final String  DESCRIPTION = "DESCRIPTION" ;
 	
-	final String  DESCRIPTION_ZH = "描述" ;
+	final String  DESCRIPTION_ZH = "说明" ;
 }

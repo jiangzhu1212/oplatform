@@ -9,12 +9,24 @@ package com.risetek.operation.platform.launch.client.json.constanst;
  * @version 1.0 
  */
 public interface BankConstanst extends Constanst {
+	
+	final String BANK_ID = "BANK_ID";
 
-	final String BANK_CODE_ZH = "BANK_CODE";
+	final String BANK_ID_ZH = "银行卡索引";
 	
-	final String BANK_NAME_ZH = "BANK_NAME";
+	final String PREFIX = "PREFIX";
+
+	final String PREFIX_ZH = "银行卡卡号前缀";
 	
-	final String BANK_DESCRIPTION_ZH = "BANK_DESCRIPTION";
+	final String NAME = "NAME";
 	
-	final String BANK_VALIDITY_ZH = "BANK_VALIDITY";
+	final String NAME_ZH = "银行卡名称";
+	
+	final String DESCRIPTION = "DESCRIPTION";
+	
+	final String DESCRIPTION_ZH = "银行卡说明信息";
+	
+	final String VALIDITY = "VALIDITY";
+	
+	final String VALIDITY_ZH = "银行卡是否可用";
 }

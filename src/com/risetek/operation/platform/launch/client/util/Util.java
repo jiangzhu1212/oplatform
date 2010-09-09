@@ -187,6 +187,19 @@ public class Util {
 		return list_validity;
 	}
 	/**
+	 * 取得字段ENABLE的listBox
+	 */
+	public static ListBox geteNable(){
+		
+		ListBox list_enable = new ListBox();
+		
+		list_enable.addItem( "有效" , Constanst.TRUE );
+		list_enable.addItem( "无效" , Constanst.FALSE );
+		
+		return list_enable;
+	}
+	
+	/**
 	 * 判断字符串是否可以转为纯数字
 	 */
 	public static boolean isNum(String string){
