@@ -1,4 +1,4 @@
-package com.risetek.operation.platform.launch.client.json.constanst;
+package com.risetek.operation.platform.launch.client.entry;
 
 import java.io.Serializable;
 

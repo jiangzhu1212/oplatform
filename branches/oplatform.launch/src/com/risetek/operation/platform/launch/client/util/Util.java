@@ -1,5 +1,6 @@
 package com.risetek.operation.platform.launch.client.util;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -262,5 +263,11 @@ public class Util {
 	static public String formatMAXDateToJsonString(Date date) {
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd235959");
 		return dateFormat.format(date);
+	}
+	
+	public static String formatTimestampToString(Timestamp time){
+		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd hh:mm:ss");
+		String timeString = format.format(time);
+		return timeString;
 	}
 }
