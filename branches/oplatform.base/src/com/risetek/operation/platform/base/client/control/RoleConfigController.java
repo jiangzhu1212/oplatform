@@ -24,8 +24,8 @@ import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.DialogControl;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
-import com.risetek.operation.platform.launch.client.json.constanst.Role;
-import com.risetek.operation.platform.launch.client.json.constanst.RoleOperation;
+import com.risetek.operation.platform.launch.client.entry.Role;
+import com.risetek.operation.platform.launch.client.entry.RoleOperation;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 

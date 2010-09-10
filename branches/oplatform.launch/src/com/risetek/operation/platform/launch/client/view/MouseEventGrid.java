@@ -65,6 +65,10 @@ public abstract class MouseEventGrid extends Grid {
 		int column = DOM.getChildIndex(tr, td);
 		switch (DOM.eventGetType(event)) {
 		case Event.ONMOUSEOVER:
+			String s = getRowFormatter().getElement(row).getClassName();
+			if(s.length()>0&&s.equals("white")){
+				return;
+			}
 			getRowFormatter().getElement(row).getStyle().setBackgroundColor("#C5E9FC");
 			getRowFormatter().getElement(row).getStyle().setCursor(Style.Cursor.POINTER);
 			onMouseOver(td, column);
@@ -72,6 +76,10 @@ public abstract class MouseEventGrid extends Grid {
 		case Event.ONMOUSEOUT:
 			// 处理这个事件是为了让弹出菜单下面的颜色恢复正常。
 		case Event.ONCLICK:
+			s = getRowFormatter().getElement(row).getClassName();
+			if(s.length()>0&&s.equals("white")){
+				return;
+			}
 			getRowFormatter().getElement(row).getStyle().clearBackgroundColor();
 			getRowFormatter().getElement(row).getStyle().clearCursor();
 			onMouseOut(td, column);

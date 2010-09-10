@@ -9,8 +9,8 @@ import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.risetek.operation.platform.base.client.service.RoleService;
-import com.risetek.operation.platform.launch.client.json.constanst.Role;
-import com.risetek.operation.platform.launch.client.json.constanst.RoleOperation;
+import com.risetek.operation.platform.launch.client.entry.Role;
+import com.risetek.operation.platform.launch.client.entry.RoleOperation;
 import com.risetek.operation.platform.launch.server.core.ConnectDataBase;
 
 /**

@@ -215,14 +215,6 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		renderStatistic(data);
 	}
 	
-	private void clearGrid(Grid grid, int mainRowCount) {
-		for(int i=1;i<=mainRowCount;i++){
-			for(int a=0;a<grid.getColumnCount();a++){
-				grid.clearCell(i, a);
-			}
-		}
-	}
-
 	public void renderChild(OPlatformData data) {
 		clearGrid(childGrid, childRowCount);
 		childGrid.resizeRows(childRowCount+1);

@@ -254,7 +254,7 @@ public abstract class OPlatformTableView extends DockPanel {
 						grid.getCellFormatter().setHorizontalAlignment(index, i, HasHorizontalAlignment.ALIGN_CENTER);
 					} else {
 						if(data.getData()!=null){
-							String text = "ss";//data.getData()[index-1][i-2];
+							String text = data.getData()[index-1][i-2];
 							grid.setText(index, i, text);
 						} else {
 							grid.clearCell(index, i);
@@ -289,7 +289,7 @@ public abstract class OPlatformTableView extends DockPanel {
     	}
     }
     
-    private void setTableLineStyle(Grid grid, int index, int i){
+    public void setTableLineStyle(Grid grid, int index, int i){
     	if(i==grid.getColumnCount()-1){
 			grid.getCellFormatter().setStyleName(index, i, "optable-line-end");
 		} else {
@@ -297,7 +297,7 @@ public abstract class OPlatformTableView extends DockPanel {
 		}
     }
     
-    private void setTableBottomStyle(Grid grid, int index, int i){
+    public void setTableBottomStyle(Grid grid, int index, int i){
     	if(i==grid.getColumnCount()-1){
 			grid.getCellFormatter().setStyleName(index, i, "optable-bottom-end");
 		} else {
@@ -341,7 +341,7 @@ public abstract class OPlatformTableView extends DockPanel {
 			String text = "";
 			if(column<2){
 				if(column==1){
-					text = "点击删除本条记录";
+					text = "点击删除/注销记录";
 				}
 			} else {
 				text = bannerText[column-2];
@@ -385,5 +385,11 @@ public abstract class OPlatformTableView extends DockPanel {
 		return vp;
 	}
 	
-	
+	public void clearGrid(Grid grid, int rowCount) {
+		for(int i=1;i<=rowCount;i++){
+			for(int a=0;a<grid.getColumnCount();a++){
+				grid.clearCell(i, a);
+			}
+		}
+	}
 }

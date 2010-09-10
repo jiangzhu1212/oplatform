@@ -7,6 +7,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,7 +28,7 @@ public class CustomDialog extends DialogBox {
 	
 	@UiField public Button submit;
 	
-	@UiField Button cancel;
+	@UiField public Button cancel;
 	
 	public CustomDialog() {
 		setWidget(uiBinder.createAndBindUi(this));
@@ -39,6 +40,7 @@ public class CustomDialog extends DialogBox {
 		setStyleName("dialog");
 		label.setStyleName("description");
 		mainPanel.setStyleName("main");
+		mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		message.setStyleName("errmsg");
 	}
 	

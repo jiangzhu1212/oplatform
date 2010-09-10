@@ -75,7 +75,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		}
 		RootPanel.get("userinfo").add(userInfoGrid);
 		VerticalPanel pubAction = new VerticalPanel();
-		Button repws = new Button("更改密码");
+		Button repws = new Button("更改个人信息");
 		repws.setWidth("90px");
 		Button logout = new Button("注销登录");
 		logout.setWidth("90px");

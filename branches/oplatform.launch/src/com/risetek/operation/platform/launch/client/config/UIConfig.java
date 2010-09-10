@@ -15,4 +15,11 @@ public interface UIConfig {
 	
 	public final int TABLE_ROW_MIN = 10;
 	
+	public final int CHANG_USER_STATUS_TYPE_OFF = 0;
+	
+	public final int CHANG_USER_STATUS_TYPE_HANG = 1;
+	
+	public final int CHANG_USER_STATUS_TYPE_KICK = 2;
+	
+	public final int CHANG_USER_STATUS_TYPE_RESET = 3;
 }

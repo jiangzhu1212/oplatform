@@ -251,6 +251,8 @@ a, a:visited, a:hover {
 }
 
 .gwt-ListBox {
+	border: 1px solid #B3B3B3;
+	width: 100%;
 }
 
 .gwt-MenuBar {
@@ -904,6 +906,8 @@ a, a:visited, a:hover {
 
 .gwt-TextArea {
   padding: 2px;
+  width: 100%;
+  border: 1px solid #B3B3B3;
 }
 .gwt-TextArea-readonly {
   color: #888;
