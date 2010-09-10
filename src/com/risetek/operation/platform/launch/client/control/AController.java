@@ -37,7 +37,9 @@ public abstract class AController {
 		INSTANCE.getData().setSum(result);
 		int pageNumber = result/rowCount;
 		if(result%rowCount==0){
-			pageNumber--;
+			if(pageNumber>0){
+				pageNumber--;
+			}
 		}
 		int count = INSTANCE.getView().getPagePanel().getWidgetCount();
 		if(count == pageNumber+5){

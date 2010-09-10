@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -269,5 +270,38 @@ public class Util {
 		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd hh:mm:ss");
 		String timeString = format.format(time);
 		return timeString;
+	}
+	
+	/**
+	 * 生成一组随机字符串
+	 * @return
+	 */
+	public static String makeRandomString() {
+        String radStr = "aA1bB2cC3dD4eE5fF6gG7hH8iI9jJ0kK1lL2mM3nN4oO5pP6qQ7rR8sS9tT0uU1vV2wW3xX4yY5zZ6";
+        StringBuffer generateRandStr = new StringBuffer();
+        Random rand = new Random();
+        int length = 10;
+        for(int i=0;i<length;i++)
+        {
+            int randNum = rand.nextInt(26);
+            generateRandStr.append(radStr.substring(randNum,randNum+1));
+        }
+        return generateRandStr+"";
+    }
+	
+	public static boolean isMailAddr(String mailAddr){
+		if (mailAddr.matches("[ \\w\\.\\-]+@([\\w\\-]+\\.)+[\\w\\-]{2,3}")){
+			return true;
+		}
+		return false;
+	}
+	
+	public static String isInputStringEmpty(String input){
+		input = input.trim();
+		if(input.length()>0){
+			return null;
+		} else {
+			return "不能为空！";
+		}
 	}
 }
