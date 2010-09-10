@@ -13,6 +13,17 @@
 		<servlet-name>role</servlet-name>
 		<url-pattern>/oplatform/role</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>user</servlet-name>
+		<servlet-class>com.risetek.operation.platform.base.server.UserServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>user</servlet-name>
+		<url-pattern>/oplatform/user</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>oplatform/index.html</welcome-file>
 	</welcome-file-list>

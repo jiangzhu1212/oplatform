@@ -153,6 +153,23 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	table-layout:fixed;
 }
 
+.optable .green{
+	background-color: #BFFFDF;
+}
+
+.optable .red{
+	background-color: #FFDDDD;
+}
+
+.optable .gray{
+	background-color: #EEEEEE;
+}
+
+.optable .white{
+	background-color: #FFFFFF;
+	color: #BBBBBB;
+}
+
 .optable-title {
 	font-weight: bold;
 	text-align: center;
@@ -285,6 +302,23 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	font-size: 13px;
 	color: #006acd;
 	table-layout: fixed;	
+}
+
+.dialog .table .green{
+	background-color: #BFFFDF;
+}
+
+.dialog .table .red{
+	background-color: #FFDDDD;
+}
+
+.dialog .table .gray{
+	background-color: #EEEEEE;
+}
+
+.dialog .table .white{
+	background-color: #FFFFFF;
+	color: #BBBBBB;
 }
 
 .dialog .oldvalue {
