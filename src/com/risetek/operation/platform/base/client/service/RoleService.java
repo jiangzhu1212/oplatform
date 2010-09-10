@@ -2,8 +2,8 @@ package com.risetek.operation.platform.base.client.service;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.risetek.operation.platform.launch.client.json.constanst.Role;
-import com.risetek.operation.platform.launch.client.json.constanst.RoleOperation;
+import com.risetek.operation.platform.launch.client.entry.Role;
+import com.risetek.operation.platform.launch.client.entry.RoleOperation;
 
 @RemoteServiceRelativePath("role")
 public interface RoleService extends RemoteService {

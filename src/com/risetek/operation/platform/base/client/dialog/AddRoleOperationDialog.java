@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.launch.client.OplatformLaunch;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
-import com.risetek.operation.platform.launch.client.json.constanst.RoleOperation;
+import com.risetek.operation.platform.launch.client.entry.RoleOperation;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 
 public class AddRoleOperationDialog extends CustomDialog {

@@ -19,7 +19,7 @@ public class AddRoleDialog extends CustomDialog {
 		grid.setStyleName("table");
 		grid.setText(0, 0, "角色名称：");
 		grid.getColumnFormatter().setWidth(0, "80px");
-		grid.getColumnFormatter().setWidth(1, "280px");
+		grid.getColumnFormatter().setWidth(1, "220px");
 		grid.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		grid.setWidget(0, 1, newValue);
 		grid.setWidth("300px");

@@ -124,7 +124,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	 */
 	public void render(BaseData data){
 		grid.resizeRows(rowCount+1);
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
