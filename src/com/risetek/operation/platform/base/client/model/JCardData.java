@@ -157,12 +157,7 @@ public class JCardData  extends OPlatformData  {
 			JSONObject actionInfo = null;
 			try {
 				packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
-				if(ACTION_NAME == null){
-					actionInfo = new JSONObject();
-					actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber(0));
-					actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(50));
-
-				}else if(Constanst.ACTION_NAME_SELECT_JCARD.equals(ACTION_NAME)){
+				if(Constanst.ACTION_NAME_SELECT_JCARD.equals(ACTION_NAME)){
 					actionInfo = packetData();
 					actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber(0));
 					actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(50));
@@ -314,18 +309,18 @@ public class JCardData  extends OPlatformData  {
 	}
 	
 	
-	public ResolveResponseInfo[] retInfo(String retInfo) {
-		ResolveResponseInfo opRetInfo[] = new ResolveResponseInfo[1];
-		opRetInfo[0] = new ResolveResponseInfo();
+	public ResolveResponseInfo retInfo(String retInfo) {
+		ResolveResponseInfo opRetInfo = new ResolveResponseInfo();
+		opRetInfo = new ResolveResponseInfo();
 		JSONObject jo = JSONParser.parse(retInfo).isObject();
 		JSONObject actionInfo = (JSONObject) jo.get(Constanst.ACTION_INFO);
-		opRetInfo[0].setActionInfo(actionInfo.toString());
+		opRetInfo.setActionInfo(actionInfo.toString());
 		try {
 			JSONNumber num = (JSONNumber)actionInfo.get(Constanst.RESPONSE_CODE);
-			opRetInfo[0].setReturnCode(Integer.parseInt(num.toString()));
-			opRetInfo[0].setReturnMessage(((JSONString)actionInfo.get(Constanst.RESPONSE_INFO)).stringValue());
+			opRetInfo.setReturnCode(Integer.parseInt(num.toString()));
+			opRetInfo.setReturnMessage(((JSONString)actionInfo.get(Constanst.RESPONSE_INFO)).stringValue());
 		} catch (Exception e) {
-			opRetInfo[0].setReturnCode(-1);
+			opRetInfo.setReturnCode(-1);
 		}
 		
 		return opRetInfo;

@@ -23,8 +23,8 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
  */
 public class AnnoucementView extends OPlatformTableView implements IOPlatformView {
 	
-	public final static Button addButton = new Button("增加", new AnnoucementController.TableEditAction());
-	public final static Button searchButton = new Button("查询", new AnnoucementController.TableEditAction());
+	public final static Button addButton = new Button("增加公告", new AnnoucementController.TableShowAction());
+	public final static Button queryButton = new Button("查询公告", new AnnoucementController.TableShowAction());
 	
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -32,7 +32,7 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	public final static String[] columns = { 
 			AnnoucementConstanst.ACE_ID_ZH,
 			AnnoucementConstanst.TYPE_ZH,
-			AnnoucementConstanst.DATE_ZH, 
+			AnnoucementConstanst.DATA_ZH, 
 			AnnoucementConstanst.ADDITION_ZH,
 			AnnoucementConstanst.CREATE_TIME_ZH,
 			AnnoucementConstanst.STOP_TIME_ZH,
@@ -46,7 +46,7 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 		"点击修改"+columns[1],
 		"点击修改"+columns[2],
 		"点击修改"+columns[3],
-		"",
+		"点击修改"+columns[4],
 		"点击修改"+columns[5],
 		"点击修改"+columns[6],
 		"点击修改"+columns[7],
@@ -82,7 +82,7 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
-		actionPanel.add(searchButton);
+		actionPanel.add(queryButton);
 		return actionPanel;
 	}
 	

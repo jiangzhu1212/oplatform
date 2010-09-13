@@ -57,11 +57,12 @@ public class TransEnableData extends OPlatformData {
 				actionInfo = new JSONObject();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
-			}else if(Constanst.ACTION_NAME_QUERY_TRANS_ENABLE.equals(ACTION_NAME)
-					|| Constanst.ACTION_NAME_MODIFY_TRANS_ENABLE.equals(ACTION_NAME)){
+			}else if(Constanst.ACTION_NAME_QUERY_TRANS_ENABLE.equals(ACTION_NAME)){
 				actionInfo = packetData();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+			}else if(Constanst.ACTION_NAME_MODIFY_TRANS_ENABLE.equals(ACTION_NAME)){
+				actionInfo = packetData(col[0] , col[1]);
 			}else if(Constanst.ACTION_NAME_ADD_TRANS_ENABLE.equals(ACTION_NAME)){
 				actionInfo = packetData();
 			}
@@ -95,6 +96,34 @@ public class TransEnableData extends OPlatformData {
 		}
 		if(description != null && !"".equals(description)){
 			json.put(TransEnableConstanst.DESCRIPTION, new JSONString(description));
+		}
+		return json;
+	}
+	
+	private JSONObject packetData(String colName, String colValue){
+		JSONObject json = new JSONObject();
+		
+		json.put(TransEnableConstanst.TRANS_ENABLE_ID, new JSONNumber(trans_enable_id));
+		if(TransEnableConstanst.TRANS_ID_ZH.equals(colName)){
+			try {
+				json.put(TransEnableConstanst.TRANS_ID,
+						new JSONNumber(Integer.parseInt(colValue)));
+			} catch (Exception e) {
+				json.put(TransEnableConstanst.TRANS_ID,
+						new JSONNumber(0));
+			}
+		}else if(TransEnableConstanst.CHANNEL_ID_ZH.equals(colName)){
+			try {
+				json.put(TransEnableConstanst.CHANNEL_ID,
+						new JSONNumber(Integer.parseInt(colValue)));
+			} catch (Exception e) {
+				json.put(TransEnableConstanst.CHANNEL_ID,
+						new JSONNumber(0));
+			}
+		}else if(TransEnableConstanst.DESCRIPTION_ZH.equals(colName)){
+			json.put(TransEnableConstanst.DESCRIPTION, new JSONString(colValue));
+		}else if(TransEnableConstanst.ENABLE_ZH.equals(colName)){
+			json.put(TransEnableConstanst.ENABLE, new JSONString(colValue));
 		}
 		return json;
 	}

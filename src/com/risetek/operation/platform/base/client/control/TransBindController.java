@@ -9,13 +9,16 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.TransBindButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.TransBindData;
+import com.risetek.operation.platform.base.client.model.TransactionData;
 import com.risetek.operation.platform.base.client.view.TransBindView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
@@ -26,9 +29,13 @@ public class TransBindController extends AController {
 	public static TransBindController INSTANCE = new TransBindController();
 	final TransBindData data = new TransBindData();
 	
+	public static TransBindData queryData = new TransBindData();
+	
 	public final TransBindView view = new TransBindView();
 	
 	public TransBindButtonDialog transBindButtonDialog = new TransBindButtonDialog();
+	
+	public static String ACTION_NAME = null ;
 	
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
@@ -37,8 +44,15 @@ public class TransBindController extends AController {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			data.parseData(response.getText());
-			view.render(data);
+			String ret = response.getText();
+			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
+			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
+				Window.alert(opRetinfo.getReturnMessage());
+			}else{
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRANS_BIND);
+				String packet = queryData.toHttpPacket();				
+				remoteRequest.getBill(packet, QueryCaller);
+			}
 		}
 
 		public void onError(Request request, Throwable exception) {
@@ -51,8 +65,20 @@ public class TransBindController extends AController {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			data.parseData(response.getText());
-			view.render(data);
+			if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
+				String ret = response.getText();
+				TransactionData transData = new TransactionData();
+				ListBox trans_list = new ListBox() ;
+				trans_list.addItem("","");
+				transData.parseData(ret);
+				String[][]  data = transData.getData();
+				for(int i = 0 ; i< data.length ; i ++){
+					trans_list.addItem(data[i][0],data[i][2]);
+				}
+			}else {
+				data.parseData(response.getText());
+				view.render(data);
+			}			
 		}
 
 		public void onError(Request request, Throwable exception) {
@@ -72,7 +98,12 @@ public class TransBindController extends AController {
 	public static void load(){
 		INSTANCE.data.setSum(10);
 		INSTANCE.view.render(INSTANCE.data);
-//		remoteRequest.get("", "", RemoteCaller);
+		TransactionData transData = new TransactionData();
+		ACTION_NAME = Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO ;
+		transData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO) ;
+		transData.setBindable(Constanst.TRUE);
+		String transPacket = transData.toHttpPacket();
+		remoteRequest.getBill(transPacket, QueryCaller);		
 	}
 	
 	/**
@@ -112,7 +143,7 @@ public class TransBindController extends AController {
             
 			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
 			String rowid = table.getText(row, 1);
-
+			String colName = table.getText(0, col);
 			String tisp_value = table.getText(row, col);
 			if(tisp_value.length() == 1){
 				int tvalue = (int)tisp_value.charAt(0);
@@ -136,7 +167,7 @@ public class TransBindController extends AController {
 				
 			case 3:
 			case 4:
-				edit_control.setColName(TransBindView.columns[col-2]);	
+				edit_control.setColName(colName);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
@@ -151,11 +182,7 @@ public class TransBindController extends AController {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("你好");	
-				
-				if( !dialog.isValid() ){
-					return;
-				}					
+								
 			}		
 		}
 

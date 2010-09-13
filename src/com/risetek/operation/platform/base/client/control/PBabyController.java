@@ -143,9 +143,6 @@ public class PBabyController extends AController {
 			if( Mycell == null ) return;
 			int row = Mycell.getRowIndex();
 			int col = Mycell.getCellIndex();
-            
-			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。(这里是行号)
-			String rowid = table.getText(row, 1);
 
 			String tisp_value = table.getText(row, col);
 			if(tisp_value.length() == 1){

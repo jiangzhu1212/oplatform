@@ -9,7 +9,7 @@ import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 
 public class CustomerSink extends Sink {
 	public static final String Group = "基本功能";
-	public static final String Tag = "customerManage";
+	public static final String Tag = "customer";
 	public static final String Name = "客户管理";
 	public static final String Desc = "这是一个客户管理功能";
 

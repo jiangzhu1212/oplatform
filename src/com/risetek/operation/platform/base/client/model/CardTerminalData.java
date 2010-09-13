@@ -66,11 +66,7 @@ public class CardTerminalData extends OPlatformData {
 		JSONObject actionInfo = null;
 		try {
 			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
-			if(ACTION_NAME == null){
-				actionInfo = new JSONObject();
-				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
-				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
-			}else if(Constanst.ACTION_NAME_QUERY_CARD_TERMINAL.equals(ACTION_NAME)){
+			if(Constanst.ACTION_NAME_QUERY_CARD_TERMINAL.equals(ACTION_NAME)){
 				actionInfo = packetData();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));

@@ -130,7 +130,13 @@ public class AcountData extends OPlatformData {
 		JSONObject json = new JSONObject();
 		json.put(AcountConstanst.ACCOUNT_NUMBER, new JSONString(account_number));
 		if(AcountConstanst.BANK_ID_ZH.equals(colName)){
-			json.put(AcountConstanst.BANK_ID, new JSONNumber(Integer.parseInt(colValue)));
+			try {
+				json.put(AcountConstanst.BANK_ID,
+						new JSONNumber(Integer.parseInt(colValue)));
+			} catch (Exception e) {
+				json.put(AcountConstanst.BANK_ID,
+						new JSONNumber(0));
+			}
 		}else if(AcountConstanst.DESCRIPTION_ZH.equals(colName)){
 			json.put(AcountConstanst.DESCRIPTION, new JSONString(colValue));
 		}else if(AcountConstanst.ADDITION_ZH.equals(colName)){

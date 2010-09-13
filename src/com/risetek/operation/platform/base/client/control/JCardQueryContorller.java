@@ -29,7 +29,7 @@ public class JCardQueryContorller extends AController {
 
 	public static JCardQueryContorller INSTANCE = new JCardQueryContorller();
 	final JCardData data = new JCardData();
-	
+	public static JCardData queryData = new JCardData();
 	public final JCardQueryView view = new JCardQueryView();
 	
 	public JCardQueryButtonDialog jCardQueryDialog = new JCardQueryButtonDialog();
@@ -42,16 +42,13 @@ public class JCardQueryContorller extends AController {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
-			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret)[0];
+			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
 			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
 				Window.alert(opRetinfo.getReturnMessage());
 			}else{
-				if(jCardQueryDialog.packet != null){
-					remoteRequest.getJCard(jCardQueryDialog.packet, QueryCaller);
-				}else{
-					String packet = data.toHttpPacket();
-					remoteRequest.getBill(packet, QueryCaller);
-				}
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_SELECT_JCARD);
+				String packet = queryData.toHttpPacket();				
+				remoteRequest.getBill(packet, QueryCaller);
 			}
 		}
 
@@ -130,7 +127,7 @@ public class JCardQueryContorller extends AController {
             
 			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。(这里是行号)
 			String rowid = table.getText(row, 1);
-
+			String colName = table.getText(0, col);
 			String tisp_value = table.getText(row, col);
 			if(tisp_value.length() == 1){
 				int tvalue = (int)tisp_value.charAt(0);
@@ -146,7 +143,7 @@ public class JCardQueryContorller extends AController {
 				dialog.show();
 				break;
 			case 7:			
-				edit_control.setColName(JCardQueryView.columns[col-2]);	
+				edit_control.setColName(colName);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.show(rowid, tisp_value);
 				break;

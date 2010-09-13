@@ -97,9 +97,19 @@ public class TransBindData extends OPlatformData {
 		
 		json.put(TransBindConstanst.TRANS_BIND_ID, new JSONNumber(trans_bind_id));
 		if(TransBindConstanst.CUSTOMER_ID_ZH.equals(colName)){
-			json.put(TransBindConstanst.CUSTOMER_ID, new JSONNumber(Integer.parseInt(colValue)));
+			try {
+				json.put(TransBindConstanst.CUSTOMER_ID,
+						new JSONNumber(Integer.parseInt(colValue)));
+			} catch (Exception e) {
+				json.put(TransBindConstanst.CUSTOMER_ID,
+						new JSONNumber(0));
+			}
 		}else if(TransBindConstanst.TRANS_ID_ZH.equals(colName)){
-			json.put(CustomerConstanst.TRANS_ID, new JSONString(colValue));
+			try {
+				json.put(CustomerConstanst.TRANS_ID, new JSONNumber(Integer.parseInt(colValue)));
+			} catch (Exception e) {
+				json.put(CustomerConstanst.TRANS_ID, new JSONNumber(0));
+			}
 		}
 		return json;
 	}

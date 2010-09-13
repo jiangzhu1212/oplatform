@@ -43,14 +43,14 @@ public class AnnoucementModifyDialog extends BaseDialog {
 		gridFrame.setWidget(0, 0, new Label("当前"+colName+"："));
 		gridFrame.setWidget(0, 1, oldValueLabel);
 		gridFrame.setWidget(1, 0, new Label("新的"+colName+"："));
-		if(colName.equals(AnnoucementConstanst.DATE_ZH) || colName.equals(AnnoucementConstanst.STOP_TIME_ZH)){
+		if(colName.equals(AnnoucementConstanst.DATA_ZH) || colName.equals(AnnoucementConstanst.STOP_TIME_ZH)){
 			DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
 			newDateBox.setFormat(new DateBox.DefaultFormat(format));
 			newDateBox.setWidth("200px");
 			gridFrame.setWidget(1, 1, newDateBox);
 		}else if(colName.equals(AnnoucementConstanst.VALIDITY_ZH)){
-			ListBox listBox = createListBox(AnnouceListBoxValue);
-			gridFrame.setWidget(1,1,listBox);
+			//ListBox listBox = createListBox(AnnouceListBoxValue);
+			//gridFrame.setWidget(1,1,listBox);
 		}else{
 			gridFrame.setWidget(1, 1, newValueBox);
 		}
