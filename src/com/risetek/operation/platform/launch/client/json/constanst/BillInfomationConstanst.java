@@ -1,7 +1,7 @@
 package com.risetek.operation.platform.launch.client.json.constanst;
 
 
-public interface BillConstanst extends Constanst{
+public interface BillInfomationConstanst extends Constanst{
 
 	final String BILL_ID = "BILL_ID";
 
