@@ -31,10 +31,6 @@ public class ChannelData extends OPlatformData {
 	
 	private String loc_code = null ;
 	
-	public ChannelData() {
-		setACTION_NAME(Constanst.ACTION_NAME_QUERY_CHANNEL_INFO);
-	}
-	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
