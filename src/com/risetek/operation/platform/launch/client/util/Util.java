@@ -201,6 +201,19 @@ public class Util {
 		return list_enable;
 	}
 	
+	
+	/**
+	 * 是否能够绑定的listBox
+	 */
+	public static ListBox getBindAble(){
+		
+		ListBox list_bindAble = new ListBox();
+		
+		list_bindAble.addItem( "否" , Constanst.FALSE );
+		list_bindAble.addItem( "是" , Constanst.TRUE );
+				
+		return list_bindAble;
+	}
 	/**
 	 * 判断字符串是否可以转为纯数字
 	 */
@@ -233,11 +246,7 @@ public class Util {
 		return newFormat.format(date);
 	}
 
-	/* 将日期类型转换为JSON发送的yyyyMMdd 类型的字符串 */
-	public static String formatDateToJsonString(Date date) {
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
-		return dateFormat.format(date);
-	}
+	
 
 	/* 将Hm时钟类型转换为字符串 */
 	public static String formatTimeToString(Date date) {
@@ -254,16 +263,65 @@ public class Util {
 
 	}
 	
-	/* change yyyy-MM-dd  To yyyyMMdd000000*/
-	public static String formatMINDateToJsonString(Date date) {
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd000000");
-		return dateFormat.format(date);
+	/**
+	 * 判断时间大小正确否
+	 * 如果日期带 时分秒 则去掉时分秒
+	 * @param str1 最小时间
+	 * @param str2 最大时间
+	 * @return 
+	 */
+	public static boolean checkStringBulk (String str1 , String str2){		
+		if(str1 == null || "".equals(str1.trim())){
+			return true ;
+		}
+		if(str2 == null || "".equals(str2.trim())){
+			return true ;
+		}
+		str1 = str1.replaceAll("000000", "");
+		str1 = str1.replaceAll("235959", "");
+		str2 = str2.replaceAll("000000", "");
+		str2 = str2.replaceAll("235959", "");
+		return Integer.parseInt(str1) <= Integer.parseInt(str2) ? true : false ;
 	}
 	
-	/* change yyyy-MM-dd To yyyyMMdd235959*/
+	/**
+	 *  将日期类型转换为JSON发送的yyyyMMdd 类型的字符串 
+	 */
+	public static String formatDateToJsonString(Date date) {
+		String str = "";
+		if(date != null){
+			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
+			str = dateFormat.format(date);
+		}		
+		return str;
+		
+	}
+	
+	/**
+	 *  yyyy-MM-dd  To yyyyMMdd000000
+	 *  传空则返回 ""
+	*/
+	public static String formatMINDateToJsonString(Date date) {
+		String str = "";
+		if(date != null){
+			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd000000");
+			str = dateFormat.format(date);
+		}
+		
+		return str;
+	}
+	
+	/**
+	 *  change yyyy-MM-dd To yyyyMMdd235959
+	 */
 	static public String formatMAXDateToJsonString(Date date) {
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd235959");
-		return dateFormat.format(date);
+		String str = "";
+		if(date != null){
+			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd235959");
+			str = dateFormat.format(date);
+		}
+		
+		return str;
 	}
 	
 	public static String formatTimestampToString(Timestamp time){

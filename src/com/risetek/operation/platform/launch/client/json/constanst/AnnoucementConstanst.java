@@ -14,27 +14,33 @@ public interface AnnoucementConstanst extends Constanst {
 
 	final String TYPE = "TYPE";
 
-	final String DATE = "DATE";
+	final String DATA = "DATA";
 
 	final String DESCRIPTION = "DESCRIPTION";
 
 	final String ADDIITION = "ADDITION";
 
 	final String CREATE_TIME = "CREATE_TIME";
+	
+	final String CREATE_TIME_MIN = "CREATE_TIME_MIN";
+	
+	final String CREATE_TIME_MAX = "CREATE_TIME_MAX";
 
 	final String STOP_TIME = "STOP_TIME";
+	
+	final String STOP_TIME_MIN = "STOP_TIME_MIN";
+	
+	final String STOP_TIME_MAX = "STOP_TIME_MAX";
 
 	final String TARGET_TYPE = "TARGET_TYPE";
 
 	final String TARGET_ID = "TARGET_ID";
-
-	final String VALIDITY = "VALIDITY";
 	
 	final String ACE_ID_ZH = "公告索引";
 
 	final String TYPE_ZH = "公告类型";
 
-	final String DATE_ZH = "公告数据";
+	final String DATA_ZH = "公告数据";
 
 	final String DESCRIPTION_ZH = "描述";
 
@@ -47,7 +53,5 @@ public interface AnnoucementConstanst extends Constanst {
 	final String TARGET_TYPE_ZH = "发送目标的类型";
 
 	final String TARGET_ID_ZH = "发送目标";
-
-	final String VALIDITY_ZH = "公告是否有效";
 
 }

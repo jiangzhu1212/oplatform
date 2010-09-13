@@ -17,8 +17,4 @@ public interface CardTerminalConstanst extends Constanst {
 	final String ADDITION = "ADDITION";
 	
 	final String ADDITION_ZH = "附加信息";
-	
-	final String VALIDITY = "VALIDITY";
-	
-	final String VALIDITY_ZH = "是否可用";
 }

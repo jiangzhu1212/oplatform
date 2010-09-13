@@ -29,8 +29,8 @@ public class RequestFactory {
 	private final String commandPBaby = "xface/changeToPay.aspx";
 	
 	public RequestFactory(){
-		this.baseUrl = "http://192.168.6.9:8089";
-//		this.baseUrl = "http://125.69.69.135:8089";
+//		this.baseUrl = "http://192.168.6.9:8089";
+		this.baseUrl = "http://125.69.69.135:8089";
 	}
 	
 	

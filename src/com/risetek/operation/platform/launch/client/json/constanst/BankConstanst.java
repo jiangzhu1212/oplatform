@@ -25,8 +25,4 @@ public interface BankConstanst extends Constanst {
 	final String DESCRIPTION = "DESCRIPTION";
 	
 	final String DESCRIPTION_ZH = "银行卡说明信息";
-	
-	final String VALIDITY = "VALIDITY";
-	
-	final String VALIDITY_ZH = "银行卡是否可用";
 }
