@@ -67,11 +67,7 @@ public class TransactionData extends OPlatformData {
 	 * 
 	 * 是否有效
 	 */
-	private String VALIDITY = null ;
-	
-	public TransactionData() {
-		setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO);
-	}
+	private String validity = null ;
 	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
@@ -120,6 +116,10 @@ public class TransactionData extends OPlatformData {
 			}
 			try {
 				data[i][9] = transaction.get(TransactionConstanst.ADDITION).isString().stringValue();
+			} catch (Exception e) {
+			}
+			try {
+				data[i][10] = transaction.get(TransactionConstanst.VALIDITY).isString().stringValue();
 			} catch (Exception e) {
 			}
 		}
@@ -186,6 +186,9 @@ public class TransactionData extends OPlatformData {
 		if(addition != null && !addition.equals("")){
 			json.put(TransactionConstanst.ADDITION, new JSONString(addition));
 		}
+		if(validity != null && !validity.equals("")){
+			json.put(TransactionConstanst.VALIDITY, new JSONString(validity));
+		}
 		return json;
 	}
 	
@@ -210,6 +213,8 @@ public class TransactionData extends OPlatformData {
 			json.put(TransactionConstanst.TYPE, new JSONString(colValue));
 		}else if(TransactionConstanst.ADDITION_ZH.equals(colName)){
 			json.put(TransactionConstanst.ADDITION, new JSONString(colValue));
+		}else if(TransactionConstanst.VALIDITY_ZH.equals(colName)){
+			json.put(TransactionConstanst.VALIDITY, new JSONString(colValue));
 		}
 		return json;
 	}
@@ -292,13 +297,15 @@ public class TransactionData extends OPlatformData {
 
 	public void setAddition(String addition) {
 		this.addition = addition;
-	}	
-	
-	public String getVALIDITY() {
-		return VALIDITY;
 	}
 
-	public void setVALIDITY(String vALIDITY) {
-		VALIDITY = vALIDITY;
+	public String getValidity() {
+		return validity;
 	}
+
+	public void setValidity(String validity) {
+		this.validity = validity;
+	}	
+	
+	
 }

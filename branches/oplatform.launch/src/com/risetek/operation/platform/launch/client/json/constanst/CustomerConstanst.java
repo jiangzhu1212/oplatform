@@ -34,9 +34,13 @@ public interface CustomerConstanst extends Constanst {
 	
 	final String CREATE_TIME_ZH = "创建日期";
 	
-	final String VALIDITY = "VALIDITY";
+	final String CREATE_TIME_MIN = "CREATE_TIME_MIN";
 	
-	final String VALIDITY_ZH = "是否有效期";
+	final String CREATE_TIME_MIN_ZH = "创建日期最小值";
+	
+	final String CREATE_TIME_MAX = "CREATE_TIME";
+	
+	final String CREATE_TIME_MAX_ZH = "创建日期最大值";
 	
 	final String ADDITION = "ADDITION";
 	

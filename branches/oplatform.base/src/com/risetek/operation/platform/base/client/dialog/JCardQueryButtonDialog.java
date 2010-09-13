@@ -69,11 +69,6 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	public List<String> jwCheckKard = new ArrayList<String>();
 	
 	private String action_name = "";
-	private String trans_id = "";
-	/**
-	 * 查询请求包
-	 */
-	public String packet = null;
 	
 	JCardData data = new JCardData();
 		
@@ -89,7 +84,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
-			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret)[0];
+			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
 			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
 				String returnMessage = opRetinfo.getReturnMessage();
 				
@@ -191,14 +186,6 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	public void setAction_name(String action_name) {
 		this.action_name = action_name;	
 	}
-
-	public String getTrans_id() {
-		return trans_id;
-	}
-
-	public void setTrans_id(String trans_id) {
-		this.trans_id = trans_id;
-	}
 	
 	public class SubmitButtonClickHandler implements ClickHandler{
 		@Override
@@ -208,7 +195,7 @@ public class JCardQueryButtonDialog extends CustomDialog {
 			if(Constanst.ACTION_NAME_IMPORT_DATA.equals(action_name)){
 				String uploadData = updateText.getText();
 				if(uploadData == null || "".equals(uploadData)){
-					Window.alert("不能传空数据");
+					setMessage("不能传空数据");
 					return ;
 				}			
 				JCardData jCardData = new JCardData();
@@ -225,35 +212,34 @@ public class JCardQueryButtonDialog extends CustomDialog {
 			}else if(Constanst.ACTION_NAME_BALANCE.equals(action_name)){
 				String balanceText = BALANCE_TEXT.getText();
 				if(balanceText == null || "".equals(balanceText)){
-					Window.alert("不能传空数据");
+					setMessage("不能传空数据");
 					return ;
 				}
 				sbSuccess = new StringBuilder();					
 				sbFail = new StringBuilder();
 				JCardData jCardData = new JCardData();
-				jCardData.setBalanceData(balanceText);
 				jCardData.setACTION_NAME(action_name);
+				jCardData.setBalanceData(balanceText);
 				jCardData.toHttpPacketBl();
 				jwCard = jCardData.getJCard();
 				jwCheckKard = jCardData.getCheckCard();
 				if(jwCard.size()>0){
 					request.getJCard(jwCard.get(0), balanceCaller);
 				}	
-			}else{
+			}else if(Constanst.ACTION_NAME_SELECT_JCARD.equals(action_name)){
 				String sn = SN.getText();	
 				String number = NUMBER.getText();
 				String pwd = PWD.getText();
 				String par_value = PAR_VALUE.getText();
 				String bill_extend_id = BILL_EXTEND_ID.getText();
 				Date creatTime = CREATE_DATE.getValue();
-				String create_date = "";
-				if (creatTime != null) {
-					create_date = format.format(creatTime);
-				}
+				String create_date = Util.formatMINDateToJsonString(creatTime);
+				
 				int statusIndex = list_status.getSelectedIndex();
 				String status = list_status.getValue(statusIndex);
 				
 				JCardData jCardData = new JCardData();
+				jCardData.setACTION_NAME(action_name);
 				jCardData.setSN(sn);
 				jCardData.setNUMBER(number);
 				jCardData.setPWD(pwd);
@@ -262,20 +248,15 @@ public class JCardQueryButtonDialog extends CustomDialog {
 				jCardData.setCREATE_DATE(create_date);
 				jCardData.setSTATUS(status);
 				
-				jCardData.setACTION_NAME(action_name);
-				if(Constanst.ACTION_NAME_SELECT_JCARD.equals(action_name)){
-					packet = jCardData.toHttpPacket();
-					if(packet == null){
-						return ;
-					}
-				}
-				request.getJCard(packet, JCardQueryContorller.QueryCaller);
+				JCardQueryContorller.queryData = jCardData;
 				
-				hide();
-			}			
+				String packet = jCardData.toHttpPacket();
+				request.getJCard(packet, JCardQueryContorller.QueryCaller);
+								
+				hide();			
+			}
 		}
 	}
-	
 	public static String getElecTicketStatusCn(String status) {
 		if("free".equals(status)){
 			return "可用";
@@ -290,5 +271,5 @@ public class JCardQueryButtonDialog extends CustomDialog {
 		}
 
 		return status;
-	}	
+	}
 }

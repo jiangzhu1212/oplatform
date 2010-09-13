@@ -2,17 +2,15 @@ package com.risetek.operation.platform.base.client.dialog;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.risetek.operation.platform.base.client.control.TransBindController;
+import com.risetek.operation.platform.base.client.control.TransEnableController;
 import com.risetek.operation.platform.base.client.model.TransBindData;
-import com.risetek.operation.platform.base.client.model.TransactionData;
 import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
@@ -26,60 +24,37 @@ public class TransBindButtonDialog  extends CustomDialog {
 	private final Label CUSTOMER_ID_ZH = new Label(TransBindConstanst.CUSTOMER_ID_ZH);
 	
 	private final TextBox TRANS_BIND_ID = new MyTextBox() ;	
-	private final ListBox TRANS_ID = new ListBox() ;
+	private ListBox TRANS_ID = new ListBox() ;
 	private final TextBox CUSTOMER_ID = new MyTextBox() ;
 	
 	private String action_name = null;
 	
 	Grid gridFrame = new Grid(4, 2);
-	
-	/**
-	 * 查询请求数据
-	 */
-	TransBindData data = null ;
 		
 	DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
 	
 	public RequestFactory request = new RequestFactory();
-	
-	public  RequestCallback balanceCaller ;
-	
-	//查询业务操作的回调
-	class BalanceRequestCallback implements RequestCallback {
-		public void onResponseReceived(Request request0, Response response) {
 		
-			int code = response.getStatusCode();
-			System.out.println(code);
-			String ret = response.getText();
-			TransactionData transData = new TransactionData();
-			ListBox trans_list = new ListBox() ;
-			trans_list.addItem("","");
-			transData.parseData(ret);
-			String[][]  data = transData.getData();
-			for(int i = 0 ; i< data.length ; i ++){
-				trans_list.addItem(data[i][0],data[i][2]);
-			}
-			gridFrame.setWidget(0, 1, trans_list);
-			
-		}
-
-		public void onError(Request request, Throwable exception) {
-			
-		}
-	}
-	
 	public TransBindButtonDialog() {
 		// TODO Auto-generated constructor stub
-		balanceCaller = new BalanceRequestCallback();
 		ClickHandler handler = new SubmitButtonClickHandler();
 		submit.addClickHandler(handler);
-		TransactionData transData = new TransactionData();
-		transData.setBindable(Constanst.TRUE);
-		String transPacket = transData.toHttpPacket();
-		request.getBill(transPacket, balanceCaller);		
 	}
 	
+	Timer trans_timer = new Timer(){
+		@Override
+		public void run() {
+			if(TransEnableController.INSTANCE.trans_list != null){
+				TRANS_ID = TransEnableController.INSTANCE.trans_list;
+				gridFrame.setWidget(0, 1, TRANS_ID);
+				cancel() ;
+			}
+			
+		}
+	};
+	
 	public void addMainPanel(){
+		trans_timer.scheduleRepeating(1000) ;
 		setText("添加业务使能");
 		gridFrame.clear();
 		gridFrame.resize(2, 2);
@@ -92,6 +67,7 @@ public class TransBindButtonDialog  extends CustomDialog {
 	}
 	
 	public void queryMainPanel(){
+		trans_timer.scheduleRepeating(1000) ;
 		setText("查询业务使能");
 		gridFrame.clear();
 		gridFrame.resize(3, 2);
@@ -132,16 +108,18 @@ public class TransBindButtonDialog  extends CustomDialog {
 			
 			if(Constanst.ACTION_NAME_ADD_TRANS_BIND.equals(action_name)){
 				if(customer_id == 0){
-					Window.alert(TransBindConstanst.CUSTOMER_ID_ZH+"不能为空");
+					setMessage(TransBindConstanst.CUSTOMER_ID_ZH+"不能为空");
+					return ;
 				}else if(trans_id == 0){
-					Window.alert(TransBindConstanst.TRANS_ID_ZH+"不能为空");
+					setMessage(TransBindConstanst.TRANS_ID_ZH+"不能为空");
+					return ;
 				}
 				String packet = transBindData.toHttpPacket();
-				request.getBill(packet, balanceCaller);
+				request.getBill(packet, TransBindController.RemoteCaller);
 			}else if(Constanst.ACTION_NAME_QUERY_TRANS_BIND.equals(action_name)){	
 				String packet = transBindData.toHttpPacket();
-				data = transBindData;
-				request.getBill(packet, balanceCaller);
+				TransBindController.queryData = transBindData;
+				request.getBill(packet, TransBindController.QueryCaller);
 			}
 		}
 	}

@@ -3,17 +3,18 @@ package com.risetek.operation.platform.base.client.control;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.risetek.operation.platform.base.client.dialog.TdbcDialog;
+import com.risetek.operation.platform.base.client.dialog.TdbcButtonDialog;
 import com.risetek.operation.platform.base.client.model.TdbcData;
 import com.risetek.operation.platform.base.client.view.TdbcView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -27,23 +28,36 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 public class TdbcController extends AController {
 
 	public static TdbcController INSTANCE = new TdbcController();
-	
-	private final TdbcData data = new TdbcData();
-	
+	final TdbcData data = new TdbcData();
+	public static TdbcData queryData = new TdbcData();
 	public final TdbcView view = new TdbcView();
+	public TdbcButtonDialog transactionDialog = new TdbcButtonDialog();
 	
-	private static RequestFactory remoteRequest = new RequestFactory();
-	
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
-	/**
-	 * @ClassName: RemoteRequestCallback 
-	 * @Description: 远程回调函数 ,格式化返回数据
-	 * @author JZJ 
-	 * @date 2010-8-26 下午03:24:12 
-	 * @version 1.0
-	 */
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
-		@Override
+		public void onResponseReceived(Request request, Response response) {
+			int code = response.getStatusCode();
+			System.out.println(code);
+			String ret = response.getText();
+			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
+			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
+				Window.alert(opRetinfo.getReturnMessage());
+			}else{
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_TDBC_INFO);
+				String packet = queryData.toHttpPacket();				
+				remoteRequest.getBill(packet, QueryCaller);
+			}
+		}
+
+		public void onError(Request request, Throwable exception) {
+			
+		}
+	}
+	//查询的回调
+	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
@@ -51,108 +65,84 @@ public class TdbcController extends AController {
 			view.render(data);
 		}
 
-		@Override
 		public void onError(Request request, Throwable exception) {
 			
 		}
 	}
+	private TdbcController(){
+//		String name = new TableEditAction().getActionName();
+//		System.out.println(name);
+	}
 	
 	/**
-	 * @Description: 加载数据，会实现一个回调函数
-	 * @return void 返回类型 
+	 * 功能：加载数据，会实现一个回调函数
+	 *
+	 * void
 	 */
 	public static void load(){
 		INSTANCE.data.setSum(10);
 		INSTANCE.view.render(INSTANCE.data);
-		//remoteRequest.get("", "", RemoteCaller);
+//		remoteRequest.get("", "", RemoteCaller);
 	}
 	
 	/**
-	 * (非 Javadoc) 
-	 * Description:  得到模块数据资源
-	 * @return 
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getData()
+	 * 功能：得到模块数据资源
+	 *
+	 * BaseData
+	 * @return
 	 */
-	@Override
 	public TdbcData getData() {
 		return data;
 	}
 	
 	/**
-	 * (非 Javadoc) 
-	 * Description:  事件接口方法，返回该模块视图
-	 * @return 
+	 * @author Amber
+	 * 功能：以下子类分别是该模块事件的实体
+	 * 2010-8-23 下午11:49:52
+	 */
+	public static class TableEditAction implements ClickActionHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public String getActionName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
+	
+	public static class TableShowAction implements ClickActionHandler {
+		
+		private String actionName = "查看表格行";
+		
+		public String getActionName(){
+			return actionName;
+		}
+		
+		public void onClick(ClickEvent event) {
+			INSTANCE.transactionDialog = new TdbcButtonDialog();
+			Object obj = event.getSource();			
+			if(obj == TdbcView.addButton){
+				INSTANCE.transactionDialog.addMainPanel();
+			}else if(obj == TdbcView.queryButton){
+				INSTANCE.transactionDialog.queryMainPanel();
+			}
+		}
+	}
+
+	/** 
+	 * 功能： 时间接口方法，返回该模块视图
+	 *(non-Javadoc)
 	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
 	 */
 	@Override
 	public OPlatformTableView getView() {
 		return view;
-	}
-	
-	/**
-	 * @ClassName: TableEditAction 
-	 * @Description: 以下子类分别是该模块事件的实体 
-	 * @author JZJ 
-	 * @date 2010-8-26 下午02:36:17 
-	 * @version 1.0
-	 */
-	public static class TableShowAction implements ClickActionHandler {
-
-		private String actionName = "查看表格行";
-
-		public String getActionName() {
-			return actionName;
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-
-		}
-	}
-
-	public static class TableEditAction implements ClickActionHandler {
-		
-		private String actionName = "编辑表格";
-
-		public String getActionName(){
-			return actionName;
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Object obj = event.getSource();
-			if (obj == TdbcView.searchButton) {
-				INSTANCE.processFuc(null); // null 表示查询
-				return;
-			}
-		}		
-	}
-	
-	/**
-	 * @Description: 执行search操作
-	 * @param isSearch  参数 
-	 * @return void 返回类型
-	 */
-	private void processFuc(final String tag){
-		final TdbcDialog dialog = new TdbcDialog(tag);
-		dialog.submit.setText("提交");
-		dialog.show();
-
-		dialog.submit.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (dialog.isValid()) {
-					dialog.submit.setEnabled(false);
-					searchTdbc((dialog.E_GOODS_SN_Box.getText()).trim(), TdbcController.RemoteCaller);
-				}
-			}
-		});
-	}
-	
-	//-------------------------执行提交事件---------------------------//
-	private void searchTdbc(String E_GOODS_SN, RequestCallback callback) {
-		String query = "function=searchTdbc&E_GOODS_SN=" + E_GOODS_SN;
-		Window.alert(query);
 	}
 
 	@Override

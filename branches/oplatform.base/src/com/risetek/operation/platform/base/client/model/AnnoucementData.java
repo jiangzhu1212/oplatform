@@ -26,15 +26,23 @@ public class AnnoucementData extends OPlatformData {
 
 	private String type = null;
 
-	private String date = null;
+	private String ace_data = null;
 
 	private String description = null;
 
 	private String addtion = null;
 
 	private String create_time = null;
+	
+	private String create_time_min = null;
+	
+	private String create_time_max = null;
 
 	private String stop_time = null;
+	
+	private String stop_time_min = null;
+	
+	private String stop_time_max = null;
 
 	private String target_type = null;
 
@@ -65,7 +73,7 @@ public class AnnoucementData extends OPlatformData {
 					// TODO: handle exception
 				}
 				try {
-					data[i][2] = annoucement.get(AnnoucementConstanst.DATE)
+					data[i][2] = annoucement.get(AnnoucementConstanst.DATA)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -159,8 +167,8 @@ public class AnnoucementData extends OPlatformData {
 		if(type != null && !type.equals("")){
 			json.put(AnnoucementConstanst.TYPE, new JSONString(type));
 		}
-		if(date != null && !date.equals("")){
-			json.put(AnnoucementConstanst.DATE, new JSONString(date));
+		if(ace_data != null && !ace_data.equals("")){
+			json.put(AnnoucementConstanst.DATA, new JSONString(ace_data));
 		}
 		if(description != null && !description.equals("")){
 			json.put(AnnoucementConstanst.DESCRIPTION, new JSONString(description));
@@ -170,9 +178,23 @@ public class AnnoucementData extends OPlatformData {
 		}
 		if(create_time != null && !create_time.equals("")){
 			json.put(AnnoucementConstanst.CREATE_TIME, new JSONString(create_time));
+		}else {
+			if(create_time_min != null && !create_time_min.equals("")){
+				json.put(AnnoucementConstanst.CREATE_TIME_MIN, new JSONString(create_time_min));
+			}
+			if(create_time_max != null && !create_time_max.equals("")){
+				json.put(AnnoucementConstanst.CREATE_TIME_MAX, new JSONString(create_time_max));
+			}
 		}
 		if(stop_time != null && !stop_time.equals("")){
 			json.put(AnnoucementConstanst.STOP_TIME, new JSONString(stop_time));
+		}else {
+			if(stop_time_min != null && !stop_time_min.equals("")){
+				json.put(AnnoucementConstanst.STOP_TIME_MIN, new JSONString(stop_time_min));
+			}
+			if(stop_time_max != null && !stop_time_max.equals("")){
+				json.put(AnnoucementConstanst.STOP_TIME_MAX, new JSONString(stop_time_max));
+			}
 		}
 		if(target_type != null && !target_type.equals("")){
 			json.put(AnnoucementConstanst.TARGET_TYPE, new JSONString(target_type));
@@ -191,8 +213,8 @@ public class AnnoucementData extends OPlatformData {
 		json.put(CustomerConstanst.CUSTOMER_ID, new JSONNumber(ace_id));
 		if(AnnoucementConstanst.TYPE_ZH.equals(colName)){
 			json.put(AnnoucementConstanst.TYPE, new JSONString(colValue));
-		}else if(AnnoucementConstanst.DATE_ZH.equals(colName)){
-			json.put(AnnoucementConstanst.DATE, new JSONString(colValue));
+		}else if(AnnoucementConstanst.DATA_ZH.equals(colName)){
+			json.put(AnnoucementConstanst.DATA, new JSONString(colValue));
 		}else if(AnnoucementConstanst.DESCRIPTION_ZH.equals(colName)){
 			json.put(AnnoucementConstanst.DESCRIPTION, new JSONString(colValue));
 		}else if(AnnoucementConstanst.ADDITION_ZH.equals(colName)){
@@ -211,7 +233,14 @@ public class AnnoucementData extends OPlatformData {
 		return json;
 	}
 
-	
+	public String getAce_data() {
+		return ace_data;
+	}
+
+	public void setAce_data(String ace_data) {
+		this.ace_data = ace_data;
+	}
+
 	public int getAce_id() {
 		return ace_id;
 	}
@@ -226,14 +255,6 @@ public class AnnoucementData extends OPlatformData {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 
 	public String getDescription() {
@@ -290,6 +311,38 @@ public class AnnoucementData extends OPlatformData {
 
 	public void setValidity(String validity) {
 		this.validity = validity;
+	}
+
+	public String getCreate_time_min() {
+		return create_time_min;
+	}
+
+	public void setCreate_time_min(String create_time_min) {
+		this.create_time_min = create_time_min;
+	}
+
+	public String getCreate_time_max() {
+		return create_time_max;
+	}
+
+	public void setCreate_time_max(String create_time_max) {
+		this.create_time_max = create_time_max;
+	}
+
+	public String getStop_time_min() {
+		return stop_time_min;
+	}
+
+	public void setStop_time_min(String stop_time_min) {
+		this.stop_time_min = stop_time_min;
+	}
+
+	public String getStop_time_max() {
+		return stop_time_max;
+	}
+
+	public void setStop_time_max(String stop_time_max) {
+		this.stop_time_max = stop_time_max;
 	}
 	
 }

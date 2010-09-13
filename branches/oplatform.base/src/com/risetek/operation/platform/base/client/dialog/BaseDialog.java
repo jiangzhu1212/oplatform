@@ -34,8 +34,6 @@ public class BaseDialog extends CustomDialog {
 	protected String colName; //列名
 
 	protected static final String[] bankListBoxValue = {"有效", "无效", "已注销", "已挂失"};
-	
-	protected static final String[] AnnouceListBoxValue = {"有效", "无效"};
 
 	protected static final String styleName = "notice";//CSS
 	

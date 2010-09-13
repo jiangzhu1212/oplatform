@@ -10,10 +10,8 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
  */
 public class EditController {
 	
-	String colName = null;
 	protected EditDialog dialog = null;
 	public void setColName(String colName) {
-		this.colName = colName;
 		dialog = EditDialog.INSTANCE;
 		dialog.makeMainPanel(colName);
 	}

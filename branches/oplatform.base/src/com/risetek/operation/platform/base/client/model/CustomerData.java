@@ -53,6 +53,14 @@ public class CustomerData extends OPlatformData  {
 	 * 创建时间
 	 */
 	private String create_time = null;
+	/**
+	 * 创建时间最小值
+	 */
+	private String create_time_min = null;
+	/**
+	 * 创建时间最大值
+	 */
+	private String create_time_max = null;
 	
 	/**
 	 * 是否有效
@@ -147,11 +155,7 @@ public class CustomerData extends OPlatformData  {
 		JSONObject actionInfo = null;
 		try {
 			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
-			if(ACTION_NAME == null){
-				actionInfo = new JSONObject();
-				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
-				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
-			}else if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
+			if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
@@ -178,32 +182,38 @@ public class CustomerData extends OPlatformData  {
 		if(customer_id != 0){
 			json.put(CustomerConstanst.CUSTOMER_ID, new JSONNumber(customer_id));
 		}
-		if(name != null && !name.equals("")){
+		if(name != null && !name.trim().equals("")){
 			json.put(CustomerConstanst.NAME, new JSONString(name));
 		}
-		if(phone != null && !phone.equals("")){
+		if(phone != null && !phone.trim().equals("")){
 			json.put(CustomerConstanst.PHONE, new JSONString(phone));
 		}
-		if(address != null && !address.equals("")){
+		if(address != null && !address.trim().equals("")){
 			json.put(CustomerConstanst.ADDRESS, new JSONString(address));
 		}
-		if(address_2 != null && !address_2.equals("")){
+		if(address_2 != null && !address_2.trim().equals("")){
 			json.put(CustomerConstanst.ADDRESS_2, new JSONString(address_2));
 		}
-		if(email != null && !email.equals("")){
+		if(email != null && !email.trim().equals("")){
 			json.put(CustomerConstanst.EMAIL, new JSONString(email));
 		}
-		if(id_card != null && !id_card.equals("")){
+		if(id_card != null && !id_card.trim().equals("")){
 			json.put(CustomerConstanst.ID_CARD, new JSONString(id_card));
 		}
-		if(create_time != null && !create_time.equals("")){
+		if(create_time != null && !create_time.trim().equals("")){
 			json.put(CustomerConstanst.CREATE_TIME, new JSONString(create_time));
+		}else {
+			if(create_time_min != null && !create_time_min.trim().equals("")){
+				json.put(CustomerConstanst.CREATE_TIME_MIN, new JSONString(create_time_min));
+			}
+			if(create_time_max != null && !create_time_max.trim().equals("")){
+				json.put(CustomerConstanst.CREATE_TIME_MAX, new JSONString(create_time_max));
+			}
 		}
-		
-		if(validity != null && !validity.equals("")){
+		if(validity != null && !validity.trim().equals("")){
 			json.put(CustomerConstanst.VALIDITY, new JSONString(validity));
 		}
-		if(addition != null && !addition.equals("")){
+		if(addition != null && !addition.trim().equals("")){
 			json.put(CustomerConstanst.ADDITION, new JSONString(addition));
 		}
 		
@@ -314,4 +324,21 @@ public class CustomerData extends OPlatformData  {
 	public void setAddition(String addition) {
 		this.addition = addition;
 	}
+
+	public String getCreate_time_min() {
+		return create_time_min;
+	}
+
+	public void setCreate_time_min(String create_time_min) {
+		this.create_time_min = create_time_min;
+	}
+
+	public String getCreate_time_max() {
+		return create_time_max;
+	}
+
+	public void setCreate_time_max(String create_time_max) {
+		this.create_time_max = create_time_max;
+	}
+	
 }

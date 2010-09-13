@@ -3,14 +3,17 @@ package com.risetek.operation.platform.base.client.dialog;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.risetek.operation.platform.base.client.control.TransactionController;
 import com.risetek.operation.platform.base.client.model.TransactionData;
 import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
  * 
@@ -19,6 +22,7 @@ import com.risetek.operation.platform.launch.client.json.constanst.TransactionCo
  */
 public class TransactionButtonDialog extends CustomDialog {
 	
+	private final Label TRANS_ID_ZH = new Label(TransactionConstanst.TRANS_ID_ZH);
 	private final Label ALIAS_ZH = new Label(TransactionConstanst.ALIAS_ZH);
 	private final Label NAME_ZH = new Label(TransactionConstanst.NAME_ZH);
 	private final Label DESCRIPTION_ZH = new Label(TransactionConstanst.DESCRIPTION_ZH);
@@ -28,7 +32,9 @@ public class TransactionButtonDialog extends CustomDialog {
 	private final Label POS_NUMBER_ZH = new Label(TransactionConstanst.POS_NUMBER_ZH);
 	private final Label TYPE_ZH = new Label(TransactionConstanst.TYPE_ZH);
 	private final Label ADDITION_ZH = new Label(TransactionConstanst.ADDITION_ZH);
+	private final Label VALIDITY_ZH = new Label(TransactionConstanst.VALIDITY_ZH);
 	
+	private final TextBox TRANS_ID = new MyTextBox();
 	private final TextBox ALIAS = new MyTextBox();
 	private final TextBox NAME = new MyTextBox();
 	private final TextBox DESCRIPTION = new MyTextBox();
@@ -36,41 +42,27 @@ public class TransactionButtonDialog extends CustomDialog {
 	private final TextBox MERCHANT_NUMBER = new MyTextBox();
 	private final TextBox POS_NUMBER = new MyTextBox();
 	private final TextBox TYPE = new MyTextBox();
-	private final TextBox ADDITION = new MyTextBox();
+	private final TextBox ADDITION = new MyTextBox();	
+	private final ListBox VALIDITY = Util.getValidity();
 	
-	private final RadioButton bindRadio0 = new RadioButton("bind","是");
-	private final RadioButton bindRadio1 = new RadioButton("bind","否");
+	private ListBox BINDABLE = null;
 	
-	private final HorizontalPanel BINDABLE = new HorizontalPanel();
+	private String ACTION_NAME = null;
 	
-	private String action_name = "";
-	private String trans_id = "";
+	RequestFactory factory = new RequestFactory();
 	
 	public TransactionButtonDialog() {
-		BINDABLE.add(bindRadio0);
-		BINDABLE.add(bindRadio1);
-		bindRadio1.setValue(true);
+		BINDABLE = Util.getBindAble();
 		SubmitButtonClickHandler handler = new SubmitButtonClickHandler();
 		submit.addClickHandler(handler);
 	}
 	
-	private void clearPanel(){
-		ALIAS.setValue(null);
-		NAME.setValue(null);
-		DESCRIPTION.setValue(null);
-		URL.setValue(null);
-		MERCHANT_NUMBER.setValue(null);
-		POS_NUMBER.setValue(null);
-		TYPE.setValue(null);
-		ADDITION.setValue(null);
-		bindRadio1.setValue(true);
-	}
 	
 	public void addMainPanel(){
 		mainPanel.clear();
-		clearPanel();
+		ACTION_NAME = Constanst.ACTION_NAME_ADD_TRANSACTION_INFO;
 		setText("添加商户");
-		Grid gridFrame = new Grid(9, 2);
+		Grid gridFrame = new Grid(10, 2);
 		gridFrame.setWidget(0, 0, ALIAS_ZH);
 		gridFrame.setWidget(0, 1, ALIAS);
 		gridFrame.setWidget(1, 0, NAME_ZH);
@@ -88,58 +80,49 @@ public class TransactionButtonDialog extends CustomDialog {
 		gridFrame.setWidget(7, 0, TYPE_ZH);
 		gridFrame.setWidget(7, 1, TYPE);
 		gridFrame.setWidget(8, 0, ADDITION_ZH);
-		gridFrame.setWidget(8, 1, ADDITION);	
+		gridFrame.setWidget(8, 1, ADDITION);
+		gridFrame.setWidget(9, 0, VALIDITY_ZH);
+		gridFrame.setWidget(9, 1, VALIDITY);
 		mainPanel.add(gridFrame);
 		submit.setText("添加");
 	}
 	
 	public void queryMainPanel(){
 		mainPanel.clear();
-		clearPanel();
+		ACTION_NAME = Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO;
 		setText("查询商户");
-		Grid gridFrame = new Grid(9, 2);
-		gridFrame.setWidget(0, 0, ALIAS_ZH);
-		gridFrame.setWidget(0, 1, ALIAS);
-		gridFrame.setWidget(1, 0, NAME_ZH);
-		gridFrame.setWidget(1, 1, NAME);
-		gridFrame.setWidget(2, 0, DESCRIPTION_ZH);
-		gridFrame.setWidget(2, 1, DESCRIPTION);
-		gridFrame.setWidget(3, 0, URL_ZH);
-		gridFrame.setWidget(3, 1, URL);
-		gridFrame.setWidget(4, 0, BINDABLE_ZH);
-		gridFrame.setWidget(4, 1, BINDABLE);
-		gridFrame.setWidget(5, 0, MERCHANT_NUMBER_ZH);
-		gridFrame.setWidget(5, 1, MERCHANT_NUMBER);
-		gridFrame.setWidget(6, 0, POS_NUMBER_ZH);
-		gridFrame.setWidget(6, 1, POS_NUMBER);
-		gridFrame.setWidget(7, 0, TYPE_ZH);
-		gridFrame.setWidget(7, 1, TYPE);
-		gridFrame.setWidget(8, 0, ADDITION_ZH);
-		gridFrame.setWidget(8, 1, ADDITION);	
+		Grid gridFrame = new Grid(11, 2);
+		gridFrame.setWidget(0, 0, TRANS_ID_ZH);
+		gridFrame.setWidget(0, 1, TRANS_ID);
+		gridFrame.setWidget(1, 0, ALIAS_ZH);
+		gridFrame.setWidget(1, 1, ALIAS);
+		gridFrame.setWidget(2, 0, NAME_ZH);
+		gridFrame.setWidget(2, 1, NAME);
+		gridFrame.setWidget(3, 0, DESCRIPTION_ZH);
+		gridFrame.setWidget(3, 1, DESCRIPTION);
+		gridFrame.setWidget(4, 0, URL_ZH);
+		gridFrame.setWidget(4, 1, URL);
+		gridFrame.setWidget(5, 0, BINDABLE_ZH);
+		gridFrame.setWidget(5, 1, BINDABLE);
+		gridFrame.setWidget(6, 0, MERCHANT_NUMBER_ZH);
+		gridFrame.setWidget(6, 1, MERCHANT_NUMBER);
+		gridFrame.setWidget(7, 0, POS_NUMBER_ZH);
+		gridFrame.setWidget(7, 1, POS_NUMBER);
+		gridFrame.setWidget(8, 0, TYPE_ZH);
+		gridFrame.setWidget(8, 1, TYPE);
+		gridFrame.setWidget(9, 0, ADDITION_ZH);
+		gridFrame.setWidget(9, 1, ADDITION);
+		gridFrame.setWidget(10, 0, VALIDITY_ZH);
+		gridFrame.setWidget(10, 1, VALIDITY);
 		mainPanel.add(gridFrame);
 		submit.setText("查询");
-	}
-
-	public String getAction_name() {
-		return action_name;
-	}
-
-	public void setAction_name(String action_name) {
-		this.action_name = action_name;
-	}
-
-	public String getTrans_id() {
-		return trans_id;
-	}
-
-	public void setTrans_id(String trans_id) {
-		this.trans_id = trans_id;
 	}
 	
 	public class SubmitButtonClickHandler implements ClickHandler{
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
+			String id = TRANS_ID.getText();
 			String alias = ALIAS.getText();
 			String name = NAME.getText();			
 			String description = DESCRIPTION.getText();
@@ -150,20 +133,47 @@ public class TransactionButtonDialog extends CustomDialog {
 			String type = TYPE.getText();
 			String addition = ADDITION.getText();
 			
+			int bindableIndext = BINDABLE.getSelectedIndex();
+			String bindable = BINDABLE.getValue(bindableIndext);
+			
+			int validityIndext = VALIDITY.getSelectedIndex();
+			String validity = VALIDITY.getValue(validityIndext);
+			
 			TransactionData transaction = new TransactionData();
+			transaction.setACTION_NAME(ACTION_NAME);
+			if(id != null && !"".equals(id)){
+				if(!Util.isNum(id)){
+					setMessage("业务编号必须为数字");
+					return ;
+				}
+				transaction.setTrans_id(Integer.parseInt(id));
+			}
 			transaction.setAlias(alias);
 			transaction.setName(name);
 			transaction.setDescription(description);
 			transaction.setUrl(url);
-			if(bindRadio0.getValue()){
-				transaction.setBindable("true");
-			}else{
-				transaction.setBindable("false");
-			}			
+						
 			transaction.setMerchant_number(merchant_number);
 			transaction.setPos_number(pos_number);
 			transaction.setType(type);
-			transaction.setAddition(addition);			
+			transaction.setAddition(addition);	
+			transaction.setBindable(bindable);
+			transaction.setValidity(validity);
+			
+			if(Constanst.ACTION_NAME_ADD_TRANSACTION_INFO.equals(ACTION_NAME)){
+				if(name == null || "".equals(name.trim())){
+					setMessage("业务名称不能为空");
+					return ;
+				}
+				String packet = transaction.toHttpPacket();
+				factory.getBill(packet, TransactionController.RemoteCaller);
+			}else if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
+				TransactionController.queryData = transaction ;
+				String packet = transaction.toHttpPacket();
+				factory.getBill(packet, TransactionController.QueryCaller);
+			}
+			
+			hide() ;
 		}
 	}
 	

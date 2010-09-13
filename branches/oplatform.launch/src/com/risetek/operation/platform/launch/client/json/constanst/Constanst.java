@@ -8,6 +8,10 @@ public interface Constanst {
 	
 	final String PHONE_NUMBER = "PHONE_NUMBER";
 	
+	final String VALIDITY = "VALIDITY";
+	
+	final String VALIDITY_ZH = "是否有效";
+	
 	final String TRUE = "TRUE";
 	
 	final String FALSE = "FALSE" ;
@@ -19,6 +23,10 @@ public interface Constanst {
 	/******************************************* JSON信息结构 *****************************************************************************/
 	
 	final String ACTION_NAME = "ACTION_NAME";
+	
+	final String ACTION_RETRUN_CODE = "ACTION_RETRUN_CODE";
+	
+	final String ACTION_RETRUN_MESSAGE = "ACTION_RETRUN_MESSAGE";
 
 	final String ACTION_INFO = "ACTION_INFO";
 	

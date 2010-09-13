@@ -17,7 +17,7 @@ public class ChannelData extends OPlatformData {
 	/**
 	 * 渠道编号
 	 */
-	private String channel_id = ""+0 ;
+	private int channel_id = 0 ;
 	
 	private String description = null;
 	
@@ -113,8 +113,8 @@ public class ChannelData extends OPlatformData {
 	
 	private JSONObject packetData(){
 		JSONObject json = new JSONObject();
-		if(!channel_id.equals("0")){
-			json.put(ChannelConstanst.CHANNEL_ID, new JSONString(channel_id));
+		if(channel_id != 0){
+			json.put(ChannelConstanst.CHANNEL_ID, new JSONNumber(channel_id));
 		}
 		if(description != null && !description.equals("")){
 			json.put(ChannelConstanst.DESCRIPTION, new JSONString(description));
@@ -140,7 +140,7 @@ public class ChannelData extends OPlatformData {
 	
 	private JSONObject packetData(String colName , String colValue){
 		JSONObject json = new JSONObject();
-		json.put(ChannelConstanst.CHANNEL_ID, new JSONString(channel_id));
+		json.put(ChannelConstanst.CHANNEL_ID, new JSONNumber(channel_id));
 		if(ChannelConstanst.DESCRIPTION_ZH.equals(colName)){
 			json.put(ChannelConstanst.DESCRIPTION, new JSONString(colValue));
 		}else if(ChannelConstanst.FEE_ZH.equals(colName)){
@@ -157,11 +157,13 @@ public class ChannelData extends OPlatformData {
 		return json;
 	}
 	
-	public String getChannel_id() {
+	
+
+	public int getChannel_id() {
 		return channel_id;
 	}
 
-	public void setChannel_id(String channel_id) {
+	public void setChannel_id(int channel_id) {
 		this.channel_id = channel_id;
 	}
 

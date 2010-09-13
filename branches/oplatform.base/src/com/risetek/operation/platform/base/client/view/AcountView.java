@@ -23,8 +23,8 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
  */
 public class AcountView extends OPlatformTableView implements IOPlatformView {
 
-	public final static Button addButton = new Button("增加", new AcountController.TableEditAction());
-	public final static Button searchButton = new Button("查询", new AcountController.TableEditAction());
+	public final static Button addButton = new Button("增加账户", new AcountController.TableShowAction());
+	public final static Button queryButton = new Button("查询账户", new AcountController.TableShowAction());
 
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -72,7 +72,7 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
-		actionPanel.add(searchButton);
+		actionPanel.add(queryButton);
 		return actionPanel;
 	}
 	
@@ -134,7 +134,7 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void render(OPlatformData data) {
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

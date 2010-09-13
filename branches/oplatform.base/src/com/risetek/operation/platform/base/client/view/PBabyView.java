@@ -106,7 +106,7 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 	}
 
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

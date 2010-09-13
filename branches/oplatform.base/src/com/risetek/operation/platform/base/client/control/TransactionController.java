@@ -16,8 +16,11 @@ import com.risetek.operation.platform.base.client.model.TransactionData;
 import com.risetek.operation.platform.base.client.view.TransactionView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
+import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -25,19 +28,26 @@ public class TransactionController extends AController {
 
 	public static TransactionController INSTANCE = new TransactionController();
 	final TransactionData data = new TransactionData();
-	
+	public static TransactionData queryData = new TransactionData();
 	public final TransactionView view = new TransactionView();
-	public final TransactionButtonDialog transactionDialog = new TransactionButtonDialog();
+	public TransactionButtonDialog transactionDialog = new TransactionButtonDialog();
 	
-	private static RequestFactory remoteRequest = new RequestFactory();
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			data.parseData(response.getText());
-			view.render(data);
+			String ret = response.getText();
+			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
+			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
+				Window.alert(opRetinfo.getReturnMessage());
+			}else{
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRADE_INFO);
+				String packet = queryData.toHttpPacket();				
+				remoteRequest.getBill(packet, QueryCaller);
+			}
 		}
 
 		public void onError(Request request, Throwable exception) {
@@ -45,7 +55,7 @@ public class TransactionController extends AController {
 		}
 	}
 	//查询的回调
-	private static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
@@ -110,8 +120,8 @@ public class TransactionController extends AController {
 			int col = Mycell.getCellIndex();
             
 			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-			String rowid = table.getText(row, 2);
-
+			String rowid = table.getText(row, 1);
+			String colName = table.getText(0, col);
 			String tisp_value = table.getText(row, col);
 			if(tisp_value.length() == 1){
 				int tvalue = (int)tisp_value.charAt(0);
@@ -142,8 +152,9 @@ public class TransactionController extends AController {
 			case 8:
 			case 9:
 			case 10:
-			case 11:				
-				edit_control.setColName(TransactionView.columns[col-2]);	
+			case 11:
+			case 12:
+				edit_control.setColName(colName);	
 				edit_control.dialog.submit.setText("修改");
 				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
@@ -159,13 +170,26 @@ public class TransactionController extends AController {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("你好");
-				if(colName.equals("")){
+				TransactionData editData = new TransactionData() ;
+				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_TRANSACTION_INFO);
+				String row = dialog.rowid;
+				String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
+				editData.setTrans_id(Integer.parseInt(id));
+				String colName = dialog.colName;
+				if(colName == null || "".equals(colName)){
 					
+				}else {
+					String colValue = null ;
+					if(TransactionConstanst.VALIDITY_ZH.equals(colName) || TransactionConstanst.BINDABLE_ZH.equals(colName)){
+						int selectIndex = dialog.list_status.getSelectedIndex();
+						colValue = dialog.list_status.getValue(selectIndex);
+					}else{
+						colValue = dialog.getText();
+					}
+					String packet = editData.toHttpPacket(colName,colValue);
+					remoteRequest.getBill(packet, RemoteCaller);
 				}
-				if( !dialog.isValid() ){
-					return;
-				}									
+				dialog.hide();
 			}
 			
 			@Override
@@ -184,6 +208,7 @@ public class TransactionController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
+			INSTANCE.transactionDialog = new TransactionButtonDialog();
 			Object obj = event.getSource();			
 			if(obj == TransactionView.addButton){
 				INSTANCE.transactionDialog.addMainPanel();

@@ -18,8 +18,8 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 
 	public final static Button addButton = new Button("添加商户",new TransactionController.TableShowAction());
 	public final static Button queryButton = new Button("查询商户",new TransactionController.TableShowAction());
-	public final static String[] columns = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.DESCRIPTION_ZH,TransactionConstanst.URL_ZH,TransactionConstanst.BINDABLE_ZH,TransactionConstanst.MERCHANT_NUMBER_ZH,TransactionConstanst.POS_NUMBER_ZH,TransactionConstanst.TYPE_ZH,TransactionConstanst.ADDITION_ZH};
-	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
+	public final static String[] columns = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.DESCRIPTION_ZH,TransactionConstanst.URL_ZH,TransactionConstanst.BINDABLE_ZH,TransactionConstanst.MERCHANT_NUMBER_ZH,TransactionConstanst.POS_NUMBER_ZH,TransactionConstanst.TYPE_ZH,TransactionConstanst.ADDITION_ZH,TransactionConstanst.VALIDITY_ZH};
+	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public static String descript = "";
 	   
@@ -124,7 +124,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 * @param data
 	 */
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

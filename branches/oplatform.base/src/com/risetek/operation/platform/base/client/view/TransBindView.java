@@ -113,7 +113,7 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	 * @param data
 	 */
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

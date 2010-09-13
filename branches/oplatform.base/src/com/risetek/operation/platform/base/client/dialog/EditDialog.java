@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -19,13 +20,14 @@ import com.risetek.operation.platform.launch.client.util.Util;
 public class EditDialog extends CustomDialog {
 	
 	public Label  oldValueLabel = new Label();
-	public DateBox CREATE_TIME = new DateBox();
+	public DateBox DATE_BOX = new DateBox();
 	DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd");
 	public TextBox newValueBox = new TextBox();
 	public String rowid;
-	String colName = null;
-	public final ListBox list_status = Util.getJCardStatus();
+	public String colName = null;
+	public ListBox list_status = null;
 	public static EditDialog INSTANCE = new EditDialog();
+	
 	
 	private EditDialog(){
 	//	setWidth("400px");
@@ -34,7 +36,7 @@ public class EditDialog extends CustomDialog {
 	}
 	
 	public void clearPanel(){
-		CREATE_TIME.setValue(null);
+		DATE_BOX.setValue(null);
 		newValueBox.setValue("");
 	}
 	
@@ -66,9 +68,14 @@ public class EditDialog extends CustomDialog {
 			/**
 			 * 如果是日期格式执行下面的方法
 			 */
-			CREATE_TIME.setFormat(new DateBox.DefaultFormat(format));
-			gridFrame.setWidget(1, 1, CREATE_TIME);
-		}else if(JCardConstanst.STATUS_ZH.equals(colName)){
+			DATE_BOX.setFormat(new DateBox.DefaultFormat(format));
+			gridFrame.setWidget(1, 1, DATE_BOX);
+		}else if(JCardConstanst.STATUS_ZH.equals(colName) ){
+			list_status = Util.getJCardStatus();
+			list_status.setSelectedIndex(0);
+			gridFrame.setWidget(1, 1, list_status);
+		}else if(Constanst.VALIDITY_ZH.equals(colName)){
+			list_status = Util.getValidity();
 			list_status.setSelectedIndex(0);
 			gridFrame.setWidget(1, 1, list_status);
 		}else{
@@ -91,11 +98,6 @@ public class EditDialog extends CustomDialog {
 		super.show();
 	}
 	
-	public boolean isValid()
-	{
-		//这里写入限制的判断
-		
-		return true;
-	}
+	
 	
 }

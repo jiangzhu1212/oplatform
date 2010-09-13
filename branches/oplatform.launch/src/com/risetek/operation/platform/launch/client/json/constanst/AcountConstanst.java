@@ -26,8 +26,4 @@ public interface AcountConstanst extends Constanst {
 	
 	final String ADDITION_ZH = "账户附加信息";
 
-	final String VALIDITY = "VALIDITY";
-	
-	final String VALIDITY_ZH = "是否有效";
-
 }

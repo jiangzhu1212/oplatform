@@ -42,7 +42,4 @@ public interface TransactionConstanst extends Constanst {
 	
 	final String ADDITION_ZH = "业务附加信息" ;
 	
-	final String VALIDITY = "VALIDITY" ;
-	
-	final String VALIDITY_ZH = "是否有效" ;
 }

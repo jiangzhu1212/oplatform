@@ -1,10 +1,7 @@
 package com.risetek.operation.platform.base.client.view;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
@@ -14,7 +11,6 @@ import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
-import com.risetek.operation.platform.launch.client.view.MouseEventGrid;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 import com.risetek.operation.platform.launch.client.view.PageLabel;
 
@@ -29,6 +25,10 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	String banner_tips = "";
 	private final static String[] banner_text = {
 		"点击修改业务绑定.",
+		"",
+		"",
+		"",
+		""
 	};
 	
 	/**
@@ -43,12 +43,10 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	}
 	
 	public TransEnableView(){
-		addActionPanel(initPromptGrid(), TransEnableSink.Desc);
+		Widget action = initPromptGrid();
+		addActionPanel(action, descript);
 		setLocation(TransEnableSink.Group + "->" + TransEnableSink.Name);
-//		grid1.setText(1, 0, "内容");
-		HTML title = new HTML("这是上面一张表的扩展内容");
-		title.setStyleName("tableordertitle");
-		outer.add(title);
+		setStatisticText(100);
 		grid.addClickHandler(new TransEnableController.TableEditAction());
 	}
 	
@@ -60,10 +58,6 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	 */
 	private Widget initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-//		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//		actionPanel.setHeight("32px");
-//		actionPanel.setWidth("100%");
-//		actionPanel.setBorderWidth(1);
 		actionPanel.add(queryButton);
 		actionPanel.add(addButton);
 		return actionPanel;
@@ -113,38 +107,7 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 		return grid;
 	}
 	
-	public class GreenMouseEventGrid extends MouseEventGrid {
-
-		String[] bannerText;
-		
-		public GreenMouseEventGrid(String[] bannerText){
-			this.bannerText = bannerText;
-		}
-		
-		@Override
-		public void onMouseOver(Element td, int column) {
-			DOM.removeElementAttribute(td, "title");			
-			if(column==1){
-					setInfo("点击查看本条记录");
-			}else {
-				setInfo(bannerText[0]);
-			}
-
-            Element tr = DOM.getParent(td);
-            Element body = DOM.getParent(tr);
-            int row = DOM.getChildIndex(body, tr);
-            if(row == 0) return;
-		}
-
-		@Override
-		public void onMouseOut(Element td, int column) {
-			String title = td.getInnerText();
-			
-			if((column > 1) && (null != title) && !("".equals(title)) && !(" ".equalsIgnoreCase(title))) {		
-			}
-			setInfo("");
-		}
-	}
+	
 
 	/**
 	 * 功能：向数据表中注入数据
@@ -153,7 +116,7 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	 * @param data
 	 */
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
