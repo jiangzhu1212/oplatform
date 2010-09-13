@@ -13,7 +13,7 @@ import com.risetek.operation.platform.base.client.view.Card007View;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.BillCard007;
-import com.risetek.operation.platform.launch.client.json.constanst.BillConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.BillInfomationConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.BillInfomation;
 import com.risetek.operation.platform.launch.client.json.constanst.Card007Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -204,41 +204,41 @@ public class Card007Data extends OPlatformData {
 			try {
 				int transId = bi.getTRANS_ID();
 				if (transId != 0) {
-					actionInfo.put(BillConstanst.TRANS_ID, new JSONNumber(transId));
+					actionInfo.put(BillInfomationConstanst.TRANS_ID, new JSONNumber(transId));
 				}if(bi.getBILL_EXTERN_ID()!=null){
-					actionInfo.put(BillConstanst.BILL_EXTERN_ID, new JSONString(bi.getBILL_EXTERN_ID()));
+					actionInfo.put(BillInfomationConstanst.BILL_EXTERN_ID, new JSONString(bi.getBILL_EXTERN_ID()));
 				}if(bi.getCUSTOMER_ID()!=0){
-					actionInfo.put(BillConstanst.CUSTOMER_ID, new JSONNumber(bi.getCUSTOMER_ID()));
+					actionInfo.put(BillInfomationConstanst.CUSTOMER_ID, new JSONNumber(bi.getCUSTOMER_ID()));
 				}if(bi.getBILL_ID()!=0){
-					actionInfo.put(BillConstanst.BILL_ID, new JSONNumber(bi.getBILL_ID()));
+					actionInfo.put(BillInfomationConstanst.BILL_ID, new JSONNumber(bi.getBILL_ID()));
 				}if(bi.getSTATUS()!=null){
-					actionInfo.put(BillConstanst.STATUS, new JSONString(bi.getSTATUS()));
+					actionInfo.put(BillInfomationConstanst.STATUS, new JSONString(bi.getSTATUS()));
 				}if(bi.getSEND_STATUS()!=null){
-					actionInfo.put(BillConstanst.SEND_STATUS, new JSONString(bi.getSEND_STATUS()));
+					actionInfo.put(BillInfomationConstanst.SEND_STATUS, new JSONString(bi.getSEND_STATUS()));
 				}if(bi.getAMOUNT()!=null){
-					actionInfo.put(BillConstanst.AMOUNT, new JSONString(bi.getAMOUNT()));
+					actionInfo.put(BillInfomationConstanst.AMOUNT, new JSONString(bi.getAMOUNT()));
 				}if(bi.getAMOUNT_MAX()!=null){
-					actionInfo.put(BillConstanst.AMOUNT_MAX, new JSONString(bi.getAMOUNT_MAX()));
+					actionInfo.put(BillInfomationConstanst.AMOUNT_MAX, new JSONString(bi.getAMOUNT_MAX()));
 				}if(bi.getAMOUNT_MIN()!=null){
-					actionInfo.put(BillConstanst.AMOUNT_MIN, new JSONString(bi.getAMOUNT_MIN()));
+					actionInfo.put(BillInfomationConstanst.AMOUNT_MIN, new JSONString(bi.getAMOUNT_MIN()));
 				}if(bi.getCREATE_DATETIME()!=null){
-					actionInfo.put(BillConstanst.CREATE_DATETIME, new JSONString(bi.getCREATE_DATETIME()));
+					actionInfo.put(BillInfomationConstanst.CREATE_DATETIME, new JSONString(bi.getCREATE_DATETIME()));
 				}if(bi.getCREATE_DATETIME_MAX()!=null){
-					actionInfo.put(BillConstanst.CREATE_DATETIME_MAX, new JSONString(bi.getCREATE_DATETIME_MAX()));
+					actionInfo.put(BillInfomationConstanst.CREATE_DATETIME_MAX, new JSONString(bi.getCREATE_DATETIME_MAX()));
 				}if(bi.getCREATE_DATETIME_MIN()!=null){
-					actionInfo.put(BillConstanst.CREATE_DATETIME_MIN, new JSONString(bi.getCREATE_DATETIME_MIN()));
+					actionInfo.put(BillInfomationConstanst.CREATE_DATETIME_MIN, new JSONString(bi.getCREATE_DATETIME_MIN()));
 				}if(bi.getBOLISH_DATETIME()!=null){
-					actionInfo.put(BillConstanst.BOLISH_DATETIME, new JSONString(bi.getBOLISH_DATETIME()));
+					actionInfo.put(BillInfomationConstanst.BOLISH_DATETIME, new JSONString(bi.getBOLISH_DATETIME()));
 				}if(bi.getBOLISH_DATETIME_MAX()!=null){
-					actionInfo.put(BillConstanst.BOLISH_DATETIME_MAX, new JSONString(bi.getBOLISH_DATETIME_MAX()));
+					actionInfo.put(BillInfomationConstanst.BOLISH_DATETIME_MAX, new JSONString(bi.getBOLISH_DATETIME_MAX()));
 				}if(bi.getBOLISH_DATETIME_MIN()!=null){
-					actionInfo.put(BillConstanst.BOLISH_DATETIME_MIN, new JSONString(bi.getBOLISH_DATETIME_MIN()));
+					actionInfo.put(BillInfomationConstanst.BOLISH_DATETIME_MIN, new JSONString(bi.getBOLISH_DATETIME_MIN()));
 				}if(bi.getPAY_DATETIME()!=null){
-					actionInfo.put(BillConstanst.PAY_DATETIME, new JSONString(bi.getPAY_DATETIME()));
+					actionInfo.put(BillInfomationConstanst.PAY_DATETIME, new JSONString(bi.getPAY_DATETIME()));
 				}if(bi.getPAY_DATETIME_MAX()!=null){
-					actionInfo.put(BillConstanst.PAY_DATETIME_MAX, new JSONString(bi.getPAY_DATETIME_MAX()));
+					actionInfo.put(BillInfomationConstanst.PAY_DATETIME_MAX, new JSONString(bi.getPAY_DATETIME_MAX()));
 				}if(bi.getPAY_DATETIME_MIN()!=null){
-					actionInfo.put(BillConstanst.PAY_DATETIME_MIN, new JSONString(bi.getPAY_DATETIME_MIN()));
+					actionInfo.put(BillInfomationConstanst.PAY_DATETIME_MIN, new JSONString(bi.getPAY_DATETIME_MIN()));
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
