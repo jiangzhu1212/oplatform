@@ -4,7 +4,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
@@ -24,13 +23,6 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	public static String descript = "";
 	
 	String banner_tips = "";
-	private final static String[] banner_text = {
-		"点击修改列1.",
-		"点击修改列2.",
-		"点击修改列3.",
-		"点击修改列4.",
-		
-	};
 	
 	public void setBannerTips(String tips) {
 		banner_tips = tips;
@@ -38,13 +30,13 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public ProcessView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, descript);
+		HorizontalPanel action = initPromptGrid();
+		addActionPanel(action, descript, ProcessSink.Name);
 		setLocation(ProcessSink.Group + " -> " + ProcessSink.Name);
 		setStatisticText(100);
 	}
 	
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		actionPanel.add(action1);
@@ -70,7 +62,7 @@ public class ProcessView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns, columnsWidth);
 //		grid.resize(2, 2);
