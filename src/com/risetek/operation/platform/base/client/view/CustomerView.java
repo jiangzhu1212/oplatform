@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.CustomerSink;
 import com.risetek.operation.platform.base.client.control.CustomerController;
@@ -27,35 +26,23 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public static String descript = "";
 	String banner_tips = "";
-	private final static String[] banner_text = {
-		"点击删除客户.",
-		"点击修改" + columns[1],
-		"点击修改" + columns[2],
-		"点击修改" + columns[3],
-		"点击修改" + columns[4],
-		"点击修改" + columns[5],
-		"点击修改" + columns[6],
-		"点击修改" + columns[7],
-		"点击修改" + columns[8],
-		"点击修改" + columns[9]
-	};
-	
+		
 	public void setBannerTips(String tips) {
 		banner_tips = tips;
 		setInfo(banner_tips);
 	}
 	
 	public CustomerView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, descript);
+		HorizontalPanel action = initPromptGrid();
 //		setCellHeight(action, "38px");
 		setLocation(CustomerSink.Group + " -> " + CustomerSink.Name);
+		addActionPanel(action, descript, CustomerSink.Name);
 		setStatisticText(100);
 		grid.addClickHandler(new CustomerController.TableEditAction());
 
 	}
 	
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
@@ -85,7 +72,7 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns,columnsWidth);
 //		grid.resize(2, 2);
@@ -97,7 +84,7 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	}
 
 	public void render(CustomerData data){
-		for(int index=1;index<rowCount;index++){
+		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

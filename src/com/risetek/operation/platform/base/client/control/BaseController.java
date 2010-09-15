@@ -25,7 +25,7 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
  */
 public class BaseController extends AController {
 
-	public static BaseController INSTANCE = new BaseController();
+	public static BaseController INSTANCE = (BaseController) getBaseController();
 	final BaseData data = new BaseData();
 	
 	public final BaseView view = new BaseView();
@@ -43,11 +43,14 @@ public class BaseController extends AController {
 			
 		}
 	}
-	private BaseController(){
-//		String name = new TableEditAction().getActionName();
-//		System.out.println(name);
-	}
 	
+	public static AController getBaseController() {
+		if(INSTANCE == null){
+			INSTANCE = new BaseController();
+		}
+		return INSTANCE;
+	}
+
 	/**
 	 * 功能：加载数据，会实现一个回调函数
 	 *

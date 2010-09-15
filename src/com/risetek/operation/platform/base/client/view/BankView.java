@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.BankSink;
 import com.risetek.operation.platform.base.client.control.BankController;
@@ -23,8 +22,8 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
  */
 public class BankView extends OPlatformTableView implements IOPlatformView {
 	
-	public final static Button addButton = new Button("增加", new BankController.TableShowAction());
-	public final static Button queryButton = new Button("查询", new BankController.TableShowAction());
+	public final static Button addButton = new Button("增加", new BankController.TableEditAction());
+	public final static Button searchButton = new Button("查询", new BankController.TableEditAction());
 	
 	public final static int[] columnsWidth = {25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -36,13 +35,7 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 			BankConstanst.VALIDITY_ZH,
 			BankConstanst.DESCRIPTION_ZH 
 	};
-	private final static String[] banner_text = {
-		"点击查看本条记录",
-		"点击修改"+columns[1],
-		"点击修改"+columns[2],
-		"点击修改"+columns[3],
-	};
-	
+		
 	/**	
 	 * @Description: 设置表格内鼠标事件的名称 
 	 * @param tips  参数 
@@ -57,19 +50,19 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	 * Description: 构造器
 	 */
 	public BankView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, BankSink.Desc);
+		HorizontalPanel action = initPromptGrid();
 		setLocation(BankSink.Group + " -> " + BankSink.Name);
+		addActionPanel(action, BankSink.Desc, BankSink.Name);
 	}
 	
 	/**
 	 * @Description: 实现工具栏按钮 
 	 * @return Widget 返回类型 
 	 */
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
-		actionPanel.add(queryButton);
+		actionPanel.add(searchButton);
 		return actionPanel;
 	}
 	
@@ -116,7 +109,7 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		super.formatGrid(grid, rowCount, columns, columnsWidth);
 		grid.addClickHandler(new BankController.TableEditAction());
@@ -131,7 +124,7 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void render(OPlatformData data) {
-		for(int index=1;index<rowCount;index++){
+		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

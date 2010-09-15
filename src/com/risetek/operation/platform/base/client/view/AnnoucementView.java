@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.AnnoucementSink;
 import com.risetek.operation.platform.base.client.control.AnnoucementController;
@@ -23,8 +22,8 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
  */
 public class AnnoucementView extends OPlatformTableView implements IOPlatformView {
 	
-	public final static Button addButton = new Button("增加公告", new AnnoucementController.TableShowAction());
-	public final static Button queryButton = new Button("查询公告", new AnnoucementController.TableShowAction());
+	public final static Button addButton = new Button("增加", new AnnoucementController.TableEditAction());
+	public final static Button searchButton = new Button("查询", new AnnoucementController.TableEditAction());
 	
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -32,7 +31,7 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	public final static String[] columns = { 
 			AnnoucementConstanst.ACE_ID_ZH,
 			AnnoucementConstanst.TYPE_ZH,
-			AnnoucementConstanst.DATA_ZH, 
+			AnnoucementConstanst.DATE_ZH, 
 			AnnoucementConstanst.ADDITION_ZH,
 			AnnoucementConstanst.CREATE_TIME_ZH,
 			AnnoucementConstanst.STOP_TIME_ZH,
@@ -41,19 +40,7 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 			AnnoucementConstanst.VALIDITY_ZH,
 			AnnoucementConstanst.DESCRIPTION_ZH 
 	};
-	private final static String[] banner_text = {
-		"点击查看本条记录",
-		"点击修改"+columns[1],
-		"点击修改"+columns[2],
-		"点击修改"+columns[3],
-		"点击修改"+columns[4],
-		"点击修改"+columns[5],
-		"点击修改"+columns[6],
-		"点击修改"+columns[7],
-		"点击修改"+columns[8],
-		"点击修改"+columns[9],
-	};
-	
+		
 	/**	
 	 * @Description: 设置表格内鼠标事件的名称 
 	 * @param tips  参数 
@@ -68,9 +55,9 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	 * Description: 构造器
 	 */
 	public AnnoucementView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, AnnoucementSink.Desc);
+		HorizontalPanel action = initPromptGrid();
 		setLocation(AnnoucementSink.Group + " -> " + AnnoucementSink.Name);
+		addActionPanel(action, AnnoucementSink.Desc, AnnoucementSink.Name);
 		setStatisticText(100);
 		//setInfo("this is info");
 	}
@@ -79,10 +66,10 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	 * @Description: 实现工具栏按钮 
 	 * @return Widget 返回类型 
 	 */
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
-		actionPanel.add(queryButton);
+		actionPanel.add(searchButton);
 		return actionPanel;
 	}
 	
@@ -129,7 +116,7 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		super.formatGrid(grid, rowCount, columns, columnsWidth);
 		grid.addClickHandler(new AnnoucementController.TableEditAction());

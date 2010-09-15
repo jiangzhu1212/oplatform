@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.CardTerminalSink;
 import com.risetek.operation.platform.base.client.control.CardTerminalController;
@@ -23,29 +22,22 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25};
 	public static String descript = "";
 	String banner_tips = "";
-	private final static String[] banner_text = {
-		"点击删除开卡终端.",
-		"点击修改" + columns[1],
-		"点击修改" + columns[2],
-		"点击修改" + columns[3],
-		"点击修改" + columns[4]
-	};
-	
+		
 	public void setBannerTips(String tips) {
 		banner_tips = tips;
 		setInfo(banner_tips);
 	}
 	
 	public CardTerminalView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, descript);
+		HorizontalPanel action = initPromptGrid();
 		setLocation(CardTerminalSink.Group + " -> " + CardTerminalSink.Name);
+		addActionPanel(action, descript, CardTerminalSink.Name);
 		setStatisticText(100);
 		grid.addClickHandler(new CardTerminalController.TableEditAction());
 
 	}
 	
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();	
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
@@ -73,7 +65,7 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns,columnsWidth);
 
@@ -81,7 +73,7 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 	}
 
 	public void render(OPlatformData data){
-		for(int index=1;index<rowCount;index++){
+		for(int index=0;index<rowCount;index++){
 			renderLine(grid,data, index);
 		}
 		renderStatistic(data);

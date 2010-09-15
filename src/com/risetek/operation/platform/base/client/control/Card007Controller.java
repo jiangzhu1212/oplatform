@@ -34,7 +34,7 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
  */
 public class Card007Controller extends AController {
 			
-	public static Card007Controller INSTANCE = new Card007Controller();
+	public static Card007Controller INSTANCE = getCard007Controller();
 	
 	private final Card007Data data = new Card007Data();
 	
@@ -76,6 +76,13 @@ public class Card007Controller extends AController {
 		INSTANCE.data.new PacketParser().initializedata(remoteRequest, RemoteCaller, Constanst.ACTION_NAME_SELECT_CARD_007);
 		//INSTANCE.data.setSum(10);
 		//INSTANCE.view.render(INSTANCE.data);
+	}
+
+	private static Card007Controller getCard007Controller() {
+		if(INSTANCE == null){
+			INSTANCE = new Card007Controller();
+		}
+		return INSTANCE;
 	}
 
 	/**

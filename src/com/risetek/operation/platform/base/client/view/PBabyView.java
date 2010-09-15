@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.PBabySink;
@@ -40,14 +39,6 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25};
 	public static String descript = "";
 	String banner_tips = "";
-	private final static String[] banner_text = {
-		"点击出票",
-		"点击出票",
-		"点击出票",
-		"点击出票",
-		"点击出票",
-		"点击出票"
-	};
 	
 	public void setBannerTips(String tips) {
 		banner_tips = tips;
@@ -55,8 +46,8 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public PBabyView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, descript);
+		HorizontalPanel action = initPromptGrid();
+		addActionPanel(action, descript, PBabySink.Name);
 //		setCellHeight(action, "38px");
 		setLocation(PBabySink.Group + " -> " + PBabySink.Name);
 		setStatisticText(100);
@@ -64,7 +55,7 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 
 	}
 	
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		
 		createDataTime.setFormat(new DateBox.DefaultFormat(format));
 		
@@ -99,14 +90,14 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns,columnsWidth);
 		return grid;
 	}
 
 	public void render(OPlatformData data){
-		for(int index=1;index<rowCount;index++){
+		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

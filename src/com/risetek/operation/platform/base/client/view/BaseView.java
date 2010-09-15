@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.BaseSink;
 import com.risetek.operation.platform.base.client.control.BaseController;
@@ -29,14 +28,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	public static String descript = "";
 	
 	String banner_tips = "";
-	private final static String[] banner_text = {
-		"点击修改列1.",
-		"点击修改列2.",
-		"点击修改列3.",
-		"点击修改列4.",
 		
-	};
-	
 	/**
 	 * 功能：设置表格内鼠标事件的名称
 	 *
@@ -49,9 +41,9 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public BaseView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, descript);
+		HorizontalPanel action = initPromptGrid();
 		setLocation(BaseSink.Group + " -> " + BaseSink.Name);
+		addActionPanel(action, descript, BaseSink.Name);
 		setStatisticText(100);
 	}
 	
@@ -61,7 +53,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	 * Widget
 	 * @return
 	 */
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 //		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 //		actionPanel.setHeight("32px");
@@ -110,7 +102,7 @@ public class BaseView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns, columnsWidth);
 		return grid;

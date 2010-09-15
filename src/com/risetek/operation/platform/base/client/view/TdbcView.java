@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TdbcSink;
 import com.risetek.operation.platform.base.client.control.TdbcController;
@@ -24,19 +23,13 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
  */
 public class TdbcView extends OPlatformTableView implements IOPlatformView {
 
-	public final static Button addButton = new Button("添加二维码", new TdbcController.TableShowAction());
-	public final static Button queryButton = new Button("查询二维码", new TdbcController.TableShowAction());
-	
+	public final static Button searchButton = new Button("查询", new TdbcController.TableEditAction());
+
 	public final static String[] columns = {TdbcConstanst.TDBC_ID_ZH, TdbcConstanst.E_GOODS_SN_ZH, TdbcConstanst.IMAGE_ZH };
 	public final static int[] columnsWidth = {25, 25, 35};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	
 	public String banner_tips = "";
-	private final static String[] banner_text = {
-		"点击查看本条记录",
-		"",
-		""
-	};
 	
 	/**	
 	 * @Description: 设置表格内鼠标事件的名称 
@@ -52,8 +45,8 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	 * Description: 构造器
 	 */
 	public TdbcView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, TdbcSink.Desc);
+		HorizontalPanel action = initPromptGrid();
+		addActionPanel(action, TdbcSink.Desc, TdbcSink.Name);
 		setLocation(TdbcSink.Group + " -> " + TdbcSink.Name);
 	}
 	
@@ -61,10 +54,9 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	 * @Description: 实现工具栏按钮 
 	 * @return Widget 返回类型 
 	 */
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-		actionPanel.add(addButton);
-		actionPanel.add(queryButton);
+		actionPanel.add(searchButton);
 		return actionPanel;
 	}
 	
@@ -111,7 +103,7 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		super.formatGrid(grid, rowCount, columns, columnsWidth);
 		return grid;
