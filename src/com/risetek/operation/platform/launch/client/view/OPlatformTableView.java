@@ -418,7 +418,7 @@ public abstract class OPlatformTableView extends DockPanel {
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	private void checkAddAction(HorizontalPanel widget, String name) {
