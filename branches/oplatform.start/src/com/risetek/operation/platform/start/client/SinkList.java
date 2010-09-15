@@ -20,6 +20,7 @@ import com.risetek.operation.platform.base.client.TransEnableSink;
 import com.risetek.operation.platform.base.client.TransactionSink;
 import com.risetek.operation.platform.base.client.UserConfigSink;
 import com.risetek.operation.platform.launch.client.sink.Sink;
+import com.risetek.operation.platform.log.client.LogSink;
 import com.risetek.operation.platform.process.client.ProcessSink;
 
 /**
@@ -55,6 +56,7 @@ public class SinkList {
 		sinkList.add(new JCardQuerySink());
 		sinkList.add(new UserConfigSink());
 		sinkList.add(new PBabySink());
+		sinkList.add(new LogSink());
 		return sinkList;
 	}
 	

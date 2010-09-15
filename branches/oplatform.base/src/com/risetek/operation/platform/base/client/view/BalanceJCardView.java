@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.JCardQuerySink;
 import com.risetek.operation.platform.base.client.control.JCardQueryContorller;
@@ -34,34 +33,23 @@ public class BalanceJCardView  extends OPlatformTableView implements IOPlatformV
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public static String descript = "";
 	String banner_tips = "";
-	private final static String[] banner_text = {
-		"",
-		"",
-		"",
-		"",
-		"" ,
-		"点击修改" + columns[5],
-		"",
-		"",
-		"",
-	};
-	
+		
 	public void setBannerTips(String tips) {
 		banner_tips = tips;
 		setInfo(banner_tips);
 	}
 	
 	public BalanceJCardView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, descript);
+		HorizontalPanel action = initPromptGrid();
 //		setCellHeight(action, "38px");
 		setLocation(JCardQuerySink.Group + " -> " + JCardQuerySink.Name);
+		addActionPanel(action, descript, JCardQuerySink.Name);
 		setStatisticText(100);
 		grid.addClickHandler(new JCardQueryContorller.TableEditAction());
 
 	}
 	
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
@@ -90,7 +78,7 @@ public class BalanceJCardView  extends OPlatformTableView implements IOPlatformV
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns,columnsWidth);
 		return grid;

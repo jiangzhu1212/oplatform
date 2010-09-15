@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TransBindSink;
 import com.risetek.operation.platform.base.client.control.TransBindController;
@@ -24,11 +23,6 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	public static String descript = "";
 	
 	String banner_tips = "";
-	private final static String[] banner_text = {
-		"点击删除业务绑定.",
-		"点击修改列" + columns[1],
-		"点击修改列" + columns[2]
-	};
 	
 	/**
 	 * 功能：设置表格内鼠标事件的名称
@@ -42,8 +36,8 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	}
 	
 	public TransBindView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action,descript);
+		HorizontalPanel action = initPromptGrid();
+		addActionPanel(action, descript, TransBindSink.Name);
 		setLocation(TransBindSink.Group + " -> " + TransBindSink.Name);
 		setStatisticText(100);
 		grid.addClickHandler(new TransBindController.TableEditAction());
@@ -55,7 +49,7 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	 * Widget
 	 * @return
 	 */
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(queryButton);
 		actionPanel.add(addButton);
@@ -100,7 +94,7 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns, columnsWidth);
 		return grid;
@@ -113,7 +107,7 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	 * @param data
 	 */
 	public void render(OPlatformData data){
-		for(int index=1;index<rowCount;index++){
+		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

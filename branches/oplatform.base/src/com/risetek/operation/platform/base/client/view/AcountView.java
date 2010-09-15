@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.AcountSink;
 import com.risetek.operation.platform.base.client.control.AcountController;
@@ -23,8 +22,8 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
  */
 public class AcountView extends OPlatformTableView implements IOPlatformView {
 
-	public final static Button addButton = new Button("增加账户", new AcountController.TableShowAction());
-	public final static Button queryButton = new Button("查询账户", new AcountController.TableShowAction());
+	public final static Button addButton = new Button("增加", new AcountController.TableEditAction());
+	public final static Button searchButton = new Button("查询", new AcountController.TableEditAction());
 
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -36,13 +35,6 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 			AcountConstanst.VALIDITY_ZH,
 			AcountConstanst.ADDITION_ZH,
 			AcountConstanst.DESCRIPTION_ZH 
-	};
-	private final static String[] banner_text = {
-		"点击查看本条记录",
-		"点击修改"+columns[1],
-		"点击修改"+columns[2],
-		"点击修改"+columns[3],
-		"点击修改"+columns[4],
 	};
 	
 	/**
@@ -59,9 +51,9 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	 * Description: 构造器
 	 */
 	public AcountView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, AcountSink.Desc);
+		HorizontalPanel action = initPromptGrid();
 		setLocation(AcountSink.Group + " -> " + AcountSink.Name);
+		addActionPanel(action, AcountSink.Desc, AcountSink.Name);
 	}
 	
 	/**
@@ -69,10 +61,10 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	 * @return  参数 
 	 * @return Widget 返回类型 
 	 */
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
-		actionPanel.add(queryButton);
+		actionPanel.add(searchButton);
 		return actionPanel;
 	}
 	
@@ -119,7 +111,7 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		super.formatGrid(grid, rowCount, columns, columnsWidth);
 		grid.addClickHandler(new AcountController.TableEditAction());
@@ -134,7 +126,7 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void render(OPlatformData data) {
-		for(int index=1;index<rowCount;index++){
+		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

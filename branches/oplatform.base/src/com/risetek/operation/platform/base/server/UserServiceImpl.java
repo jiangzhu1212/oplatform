@@ -16,12 +16,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.risetek.operation.platform.base.client.service.UserService;
 import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.server.core.ConnectDataBase;
 
-public class UserServiceImpl extends RemoteServiceServlet implements
-		com.risetek.operation.platform.base.client.service.UserService {
+public class UserServiceImpl extends RemoteServiceServlet implements UserService {
 
 	/**
 	 * 
@@ -212,8 +212,10 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 				tu = user;
 			}
 			String newPws = Util.makeRandomString();
-			SQL = "update RISETEK_USER set USERPASSWORD = '" + newPws + "' where ID = " + id;
+			SQL = "update RISETEK_USER set USERPASSWORD = '" + newPws + "' , STATUS = -2 where ID = " + id;
+			statement.execute(SQL);
 			tu.setUserPassword(newPws);
+			tu.setStatus(-2);
 			statement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

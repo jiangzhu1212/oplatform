@@ -5,15 +5,17 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.risetek.operation.platform.base.client.dialog.AddUserDialog;
 import com.risetek.operation.platform.base.client.dialog.ChangUserStatusDialog;
-import com.risetek.operation.platform.base.client.dialog.ResetUserPasswordDialog;
 import com.risetek.operation.platform.base.client.dialog.ShowUserInfoDialog;
 import com.risetek.operation.platform.base.client.model.RoleConfigData;
 import com.risetek.operation.platform.base.client.model.UserConfigData;
@@ -30,6 +32,7 @@ import com.risetek.operation.platform.launch.client.entry.Role;
 import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
+import com.risetek.operation.platform.log.client.RLog;
 
 public class UserConfigController extends AController {
 
@@ -117,6 +120,7 @@ public class UserConfigController extends AController {
 			public void onClick(ClickEvent event) {
 				if(dialog.isValid()){
 					User user = dialog.getNewValue();
+					RLog.writeLog("添加了用户\"" + user.getUserName() + "\"");
 					us.registUser(user, new AsyncCallback<Void>() {
 						public void onSuccess(Void result) {
 							INSTANCE.load(INSTANCE.getPagePoint());
@@ -241,11 +245,20 @@ public class UserConfigController extends AController {
 			}
 			if(flag>1){
 				Window.alert("只允许处理一条记录！");
+				for(int i=1;i<grid.getRowCount();i++){
+					CheckBox box = (CheckBox)grid.getWidget(i, 0);
+					if(box!=null){
+						if(box.getValue()){
+							box.setValue(false);
+						}
+					}
+				}
 				return;
 			} else if(flag==0){
 				Window.alert("未选择任何记录！");
 				return;
 			}
+			RLog.writeLog("注销用户\"" + tisp_value + "\"");
 			OffUserControl duc = INSTANCE.new OffUserControl(tisp_value, id);
 			duc.dialog.submit.addClickHandler(duc);
 			duc.dialog.show();
@@ -271,6 +284,14 @@ public class UserConfigController extends AController {
 			}
 			if(flag>1){
 				Window.alert("只允许处理一条记录！");
+				for(int i=1;i<grid.getRowCount();i++){
+					CheckBox box = (CheckBox)grid.getWidget(i, 0);
+					if(box!=null){
+						if(box.getValue()){
+							box.setValue(false);
+						}
+					}
+				}
 				return;
 			} else if(flag==0){
 				Window.alert("未选择任何记录！");
@@ -282,11 +303,13 @@ public class UserConfigController extends AController {
 		}
 		
 		public class ResetPasswordControl extends DialogControl implements ClickHandler{
-			ResetUserPasswordDialog dialog;
+			ChangUserStatusDialog dialog;
 			String id;
+			String value;
 			public ResetPasswordControl(String value, String id){
-				dialog = new ResetUserPasswordDialog(value);
+				dialog = new ChangUserStatusDialog(value, UIConfig.CHANG_USER_STATUS_TYPE_RESET);
 				this.id = id;
+				this.value = value;
 			}
 			
 			public void onClick(ClickEvent event) {
@@ -296,9 +319,16 @@ public class UserConfigController extends AController {
 						User user = result[0];
 						ShowUserInfoDialog suid = new ShowUserInfoDialog(user, INSTANCE.roleData);
 						suid.show();
+						suid.addCloseHandler(new CloseHandler<PopupPanel>() {
+							@Override
+							public void onClose(CloseEvent<PopupPanel> event) {
+								INSTANCE.load(INSTANCE.getPagePoint());
+							}
+						});
 					}
 					public void onFailure(Throwable caught) {}
 				});
+				RLog.writeLog("复位用户\"" + value + "\"的密码。");
 			}
 
 			protected CustomDialog getDialog() {
@@ -309,8 +339,6 @@ public class UserConfigController extends AController {
 	}
 	
 	public static class HangUserAction implements ClickHandler {
-
-		@Override
 		public void onClick(ClickEvent event) {
 			String value = "";
 			String id = "";
@@ -328,6 +356,14 @@ public class UserConfigController extends AController {
 			}
 			if(flag>1){
 				Window.alert("只允许处理一条记录！");
+				for(int i=1;i<grid.getRowCount();i++){
+					CheckBox box = (CheckBox)grid.getWidget(i, 0);
+					if(box!=null){
+						if(box.getValue()){
+							box.setValue(false);
+						}
+					}
+				}
 				return;
 			} else if(flag==0){
 				Window.alert("未选择任何记录！");
@@ -341,9 +377,11 @@ public class UserConfigController extends AController {
 		public class HangUserControl extends DialogControl implements ClickHandler {
 			ChangUserStatusDialog dialog;
 			String id;
+			String value;
 			public HangUserControl(String value, String id){
 				dialog = new ChangUserStatusDialog(value, UIConfig.CHANG_USER_STATUS_TYPE_HANG);
 				this.id = id;
+				this.value = value;
 			}
 			public void onClick(ClickEvent event) {
 				us.hangUser(id, new AsyncCallback<Void>() {
@@ -353,6 +391,7 @@ public class UserConfigController extends AController {
 					}
 					public void onFailure(Throwable caught) {}
 				});
+				RLog.writeLog("挂起用户\"" + value + "\"");
 			}
 
 			@Override
@@ -369,6 +408,7 @@ public class UserConfigController extends AController {
 		public void onClick(ClickEvent event) {
 			String value = "";
 			String id = "";
+			String status = "";
 			Grid grid = INSTANCE.view.grid;
 			int flag = 0;
 			for(int i=1;i<grid.getRowCount();i++){
@@ -377,15 +417,36 @@ public class UserConfigController extends AController {
 					if(box.getValue()){
 						value = grid.getText(i, 3);
 						id = grid.getText(i, 2);
+						status = grid.getText(i, 4);
 						flag++;
 					}
 				}
 			}
 			if(flag>1){
 				Window.alert("只允许处理一条记录！");
+				for(int i=1;i<grid.getRowCount();i++){
+					CheckBox box = (CheckBox)grid.getWidget(i, 0);
+					if(box!=null){
+						if(box.getValue()){
+							box.setValue(false);
+						}
+					}
+				}
 				return;
 			} else if(flag==0){
 				Window.alert("未选择任何记录！");
+				return;
+			}
+			if(status.equals("失效")){
+				Window.alert("失效用户不能执行强制下线操作！");
+				for(int i=1;i<grid.getRowCount();i++){
+					CheckBox box = (CheckBox)grid.getWidget(i, 0);
+					if(box!=null){
+						if(box.getValue()){
+							box.setValue(false);
+						}
+					}
+				}
 				return;
 			}
 			KickUserControl huc = new KickUserControl(value, id);
@@ -396,9 +457,11 @@ public class UserConfigController extends AController {
 		public class KickUserControl extends DialogControl implements ClickHandler {
 			ChangUserStatusDialog dialog;
 			String id;
+			String value;
 			public KickUserControl(String value, String id){
 				dialog = new ChangUserStatusDialog(value, UIConfig.CHANG_USER_STATUS_TYPE_KICK);
 				this.id = id;
+				this.value = value;
 			}
 			public void onClick(ClickEvent event) {
 				us.kickUser(id, new AsyncCallback<Void>() {
@@ -408,6 +471,7 @@ public class UserConfigController extends AController {
 					}
 					public void onFailure(Throwable caught) {}
 				});
+				RLog.writeLog("强制用户\"" + value + "\"下线。");
 			}
 
 			@Override
@@ -438,6 +502,14 @@ public class UserConfigController extends AController {
 			}
 			if(flag>1){
 				Window.alert("只允许处理一条记录！");
+				for(int i=1;i<grid.getRowCount();i++){
+					CheckBox box = (CheckBox)grid.getWidget(i, 0);
+					if(box!=null){
+						if(box.getValue()){
+							box.setValue(false);
+						}
+					}
+				}
 				return;
 			} else if(flag==0){
 				Window.alert("未选择任何记录！");
@@ -451,9 +523,11 @@ public class UserConfigController extends AController {
 		public class ResetUserStatusControl extends DialogControl implements ClickHandler {
 			ChangUserStatusDialog dialog;
 			String id;
+			String value;
 			public ResetUserStatusControl(String value, String id){
 				dialog = new ChangUserStatusDialog(value, UIConfig.CHANG_USER_STATUS_TYPE_RESET);
 				this.id = id;
+				this.value = value;
 			}
 			public void onClick(ClickEvent event) {
 				us.resetUserStatuc(id, new AsyncCallback<Void>() {
@@ -463,6 +537,7 @@ public class UserConfigController extends AController {
 					}
 					public void onFailure(Throwable caught) {}
 				});
+				RLog.writeLog("复位用户\"" + value + "\"的状态。");
 			}
 
 			@Override

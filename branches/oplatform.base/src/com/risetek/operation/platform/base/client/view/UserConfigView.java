@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.UserConfigSink;
 import com.risetek.operation.platform.base.client.control.UserConfigController;
@@ -30,23 +29,12 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 	public Button resetUserStatuc = new Button("复位用户状态", new UserConfigController.ResetUserStatucAction());
 	public Button editUser = new Button("修改用户信息");
 	
-	private final static String[] banner_text = {
-		"选择该用户",
-		"选择该用户",
-		"选择该用户",
-		"选择该用户",
-		"修改用户邮箱地址",
-		"选择该用户",
-		"选择该用户",
-		"选择该用户"
-	};
-	
 	public UserConfigView(){
-		addActionPanel(initPromptGrid(), UserConfigSink.Desc);
+		addActionPanel(initPromptGrid(), UserConfigSink.Desc, UserConfigSink.Name);
 		setLocation(UserConfigSink.Group + "->" + UserConfigSink.Name);
 	}
 	
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addUser);
 		actionPanel.add(deleteUser);
@@ -76,16 +64,17 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns, columnsWidth);
-		grid.addClickHandler(new UserConfigController.TableAction());
+//		grid.addClickHandler(new UserConfigController.TableAction());
 		return grid;
 	}
 
 	@Override
 	public void render(OPlatformData data) {
 		grid.resizeRows(rowCount+1);
+		clearGridStyle(grid, rowCount);
 		clearGrid(grid, rowCount);
 		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
@@ -122,7 +111,7 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 						}
 						grid.setText(index, i, text);
 						if(style.length()>0){
-							grid.getRowFormatter().addStyleName(index, style);
+							grid.getRowFormatter().setStyleName(index, style);
 						}
 					} else if(i == 5) {
 						String[][] roleData = UserConfigController.INSTANCE.getRoleData().getData();

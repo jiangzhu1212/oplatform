@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TransactionSink;
 import com.risetek.operation.platform.base.client.control.TransactionController;
@@ -18,24 +17,12 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 
 	public final static Button addButton = new Button("添加商户",new TransactionController.TableShowAction());
 	public final static Button queryButton = new Button("查询商户",new TransactionController.TableShowAction());
-	public final static String[] columns = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.DESCRIPTION_ZH,TransactionConstanst.URL_ZH,TransactionConstanst.BINDABLE_ZH,TransactionConstanst.MERCHANT_NUMBER_ZH,TransactionConstanst.POS_NUMBER_ZH,TransactionConstanst.TYPE_ZH,TransactionConstanst.ADDITION_ZH,TransactionConstanst.VALIDITY_ZH};
-	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
+	public final static String[] columns = {TransactionConstanst.TRANS_ID_ZH, TransactionConstanst.ALIAS_ZH, TransactionConstanst.NAME_ZH, TransactionConstanst.DESCRIPTION_ZH,TransactionConstanst.URL_ZH,TransactionConstanst.BINDABLE_ZH,TransactionConstanst.MERCHANT_NUMBER_ZH,TransactionConstanst.POS_NUMBER_ZH,TransactionConstanst.TYPE_ZH,TransactionConstanst.ADDITION_ZH};
+	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public static String descript = "";
 	   
 	String banner_tips = "";
-	private final static String[] banner_text = {
-		"点击删除业务.",
-		"点击修改列" + columns[1],
-		"点击修改列" + columns[2],
-		"点击修改列" + columns[3],
-		"点击修改列" + columns[4],
-		"点击修改列" + columns[5],
-		"点击修改列" + columns[6],
-		"点击修改列" + columns[7],
-		"点击修改列" + columns[8],
-		"点击修改列" + columns[9]
-	};
 	
 	/**
 	 * 功能：设置表格内鼠标事件的名称
@@ -49,8 +36,8 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	}
 	
 	public TransactionView(){
-		Widget action = initPromptGrid();
-		addActionPanel(action,descript);
+		HorizontalPanel action = initPromptGrid();
+		addActionPanel(action, descript, TransactionSink.Name);
 		setLocation(TransactionSink.Group + " -> " + TransactionSink.Name);
 		setStatisticText(100);
 		grid.addClickHandler(new TransactionController.TableEditAction());
@@ -62,7 +49,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 * Widget
 	 * @return
 	 */
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 //		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 //		actionPanel.setHeight("32px");
@@ -111,7 +98,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns, columnsWidth);
 		return grid;
@@ -124,7 +111,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 * @param data
 	 */
 	public void render(OPlatformData data){
-		for(int index=1;index<rowCount;index++){
+		for(int index=0;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

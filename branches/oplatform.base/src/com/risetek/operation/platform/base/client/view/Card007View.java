@@ -50,15 +50,6 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 		Card007Constanst.RETINFO_ZH,
 		Card007Constanst.PAYSTATE_ZH
 	};
-	private final static String[] banner_text = {
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		""
-	};
 	
 	/**
 	 * @Description: 设置表格内鼠标事件的名称 
@@ -74,9 +65,9 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 	 * Description: 构造器
 	 */
 	public Card007View(){
-		Widget action = initPromptGrid();
-		addActionPanel(action, Card007Sink.Desc);
+		HorizontalPanel action = initPromptGrid();
 		setLocation(Card007Sink.Group + " -> " + Card007Sink.Name);
+		addActionPanel(action, Card007Sink.Desc, Card007Sink.Name);
 	}
 	
 	/**
@@ -84,7 +75,7 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 	 * @return  参数 
 	 * @return Widget 返回类型 
 	 */
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(createSearchBar());
 		actionPanel.add(chargeButton);
@@ -167,7 +158,7 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		super.formatGrid(grid, rowCount, columns, columnsWidth);
 		return grid;

@@ -24,6 +24,26 @@
 		<url-pattern>/oplatform/user</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>log</servlet-name>
+		<servlet-class>com.risetek.operation.platform.log.server.LogServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>log</servlet-name>
+		<url-pattern>/oplatform/log</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>login</servlet-name>
+		<servlet-class>com.risetek.operation.platform.start.server.LoginServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>login</servlet-name>
+		<url-pattern>/oplatform/login</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>oplatform/index.html</welcome-file>
 	</welcome-file-list>

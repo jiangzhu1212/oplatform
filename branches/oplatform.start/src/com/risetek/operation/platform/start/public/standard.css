@@ -391,7 +391,9 @@ a, a:visited, a:hover {
 }
 
 .gwt-PasswordTextBox {
-  padding: 2px;
+	border: 1px solid #B3B3B3;
+	height: 18px;
+	width: 100%;
 }
 .gwt-PasswordTextBox-readonly {
   color: #888;

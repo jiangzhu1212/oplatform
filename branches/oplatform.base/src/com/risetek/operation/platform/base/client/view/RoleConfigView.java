@@ -43,22 +43,10 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	public Button delManyRoleOperation = new Button("删除多个操作", new RoleConfigController.DeleteManyRoleOperationAction(childGrid));
 	public Button showRole = new Button("查看角色操作内容", new RoleConfigController.ShowRoleContentAction(grid));
 	
-	private final static String[] banner_text = {
-		"点击查看用户角色内容",
-		"点击修改用户角色名称"
-	};
-	
-	private final static String[] childBanner_text = {
-		"点击选中本条记录",
-		"点击选中本条记录",
-		"点击选中本条记录",
-		"点击选中本条记录"
-	};
-	
 	public RoleConfigView(){
 		grid.setHeight("40%");
-		addActionPanel(initPromptGrid(), RoleConfigSink.Desc);
 		setLocation(RoleConfigSink.Group + "->" + RoleConfigSink.Name);
+		addActionPanel(initPromptGrid(), RoleConfigSink.Desc, RoleConfigSink.Name);
 		childGrid.setStyleName("optable");
 		
 		childTableTitle.setWidth("100%");
@@ -154,7 +142,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		return childPage;
 	}
 
-	private Widget initPromptGrid(){
+	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addRole);
 		actionPanel.add(delManyRole);
@@ -182,7 +170,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	@Override
 	public Grid getGrid() {
 		if(grid == null){
-			grid = new GreenMouseEventGrid(banner_text);
+			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, mainRowCount, columns, columnsWidth);
 		grid.addClickHandler(new RoleConfigController.TableAction());
@@ -191,7 +179,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	
 	public Grid getChildGrid() {
 		if(childGrid == null){
-			childGrid = new GreenMouseEventGrid(childBanner_text, true);
+			childGrid = new GreenMouseEventGrid(true);
 		}
 		formatGrid(childGrid, childRowCount, childColumns, childColumnsWidth);
 		childGrid.addClickHandler(new RoleConfigController.ChildTableAction());
@@ -286,16 +274,13 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 	 */
 	public class GreenMouseEventGrid extends MouseEventGrid {
 
-		String[] bannerText;
 		boolean isChild;
 		
-		public GreenMouseEventGrid(String[] bannerText){
-			this.bannerText = bannerText;
+		public GreenMouseEventGrid(){
 			this.isChild = false;
 		}
 		
-		public GreenMouseEventGrid(String[] bannerText, boolean isChild){
-			this.bannerText = bannerText;
+		public GreenMouseEventGrid(boolean isChild){
 			this.isChild = isChild;
 		}
 		
@@ -308,7 +293,7 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 					text = "点击删除本条记录";
 				}
 			} else {
-				text = bannerText[column-2];
+				text = "";//bannerText[column-2];
 			}
 			if(!isChild){
 				setInfo(text);

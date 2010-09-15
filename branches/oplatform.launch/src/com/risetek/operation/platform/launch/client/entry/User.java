@@ -2,6 +2,7 @@ package com.risetek.operation.platform.launch.client.entry;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class User implements Serializable {
 
@@ -29,6 +30,8 @@ public class User implements Serializable {
 	private Timestamp registTime;
 	
 	private String notes;
+	
+	private ArrayList<String> roleOperation;
 
 	public Integer getId() {
 		return id;
@@ -108,6 +111,14 @@ public class User implements Serializable {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public ArrayList<String> getRoleOperation() {
+		return roleOperation;
+	}
+
+	public void setRoleOperation(ArrayList<String> roleOperation) {
+		this.roleOperation = roleOperation;
 	}
 
 }

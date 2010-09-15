@@ -31,8 +31,6 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 public class RoleConfigController extends AController {
 
-	private ArrayList<String> actionNames = new ArrayList<String>();
-	
 	private final static RoleServiceAsync rs = GWT.create(RoleService.class);
 	
 	public static RoleConfigController INSTANCE = new RoleConfigController();
@@ -43,13 +41,6 @@ public class RoleConfigController extends AController {
 	private int childPagePoint = 1;
 	
 	private RoleConfigController(){
-		actionNames.add("添加用户角色");
-		actionNames.add("删除用户角色");
-		actionNames.add("修改用户角色名称");
-		actionNames.add("添加用户角色操作");
-		actionNames.add("删除用户角色操作");
-		actionNames.add("删除多条用户角色操作");
-		actionNames.add("修改用户角色操作");
 	}
 	
 	@Override
