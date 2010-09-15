@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.AcountController;
 import com.risetek.operation.platform.base.client.model.AcountData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.AcountConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -21,10 +20,10 @@ import com.risetek.operation.platform.launch.client.util.Util;
  */
 public class AcountButtonDialog extends BaseDialog {   
 	
-	public final TextBox ACCOUNT_NUMBER = new MyTextBox();
-	public final TextBox BANK_ID = new MyTextBox();
-	public final TextBox ADDITION = new MyTextBox();
-	public final TextBox DESCRIPTION = new MyTextBox();
+	public final TextBox ACCOUNT_NUMBER = new TextBox();
+	public final TextBox BANK_ID = new TextBox();
+	public final TextBox ADDITION = new TextBox();
+	public final TextBox DESCRIPTION = new TextBox();
 	public final ListBox VALIDITY = Util.getValidity();
 	
 	private String ACTION_NAME = null;
@@ -57,6 +56,7 @@ public class AcountButtonDialog extends BaseDialog {
 	public void addMainPanel(){	
 		ACTION_NAME = Constanst.ACTION_NAME_ADD_ACCOUNT_INFO ;
 		gridFrame.resize(5, 2);
+		gridFrame.setStyleName("table");
 		formatGrid(gridFrame, addColumns);
 		gridFrame.setWidget(0,1,ACCOUNT_NUMBER);
 		gridFrame.setWidget(1,1,BANK_ID);
@@ -73,6 +73,7 @@ public class AcountButtonDialog extends BaseDialog {
 	public void queryMainPanel(){
 		ACTION_NAME = Constanst.ACTION_NAME_QUERY_ACCOUNT_INFO ;
 		gridFrame.resize(5, 2);
+		gridFrame.setStyleName("table");
 		formatGrid(gridFrame, searchColumns);
 		gridFrame.setWidget(0,1,ACCOUNT_NUMBER);
 		gridFrame.setWidget(1,1,BANK_ID);

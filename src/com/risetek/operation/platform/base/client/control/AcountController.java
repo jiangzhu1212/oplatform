@@ -10,14 +10,16 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.AcountAddDialog;
-import com.risetek.operation.platform.base.client.dialog.AcountModifyDialog;
+import com.risetek.operation.platform.base.client.dialog.AcountButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.AcountData;
 import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.AcountConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
@@ -30,275 +32,190 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
  */
 public class AcountController extends AController {
 
-	private static int col;    //列序号
-	
-	private static String keyid;//主键
-	
-	public static AcountController INSTANCE = getAcountController();
-	
-	private final AcountData data = new AcountData();
-	
+	public static AcountController INSTANCE = new AcountController();
+	final AcountData data = new AcountData();
+	public static AcountData queryData = new AcountData() ;
 	public final AcountView view = new AcountView();
-	
-	private static RequestFactory remoteRequest = new RequestFactory();
-	
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
-	/**
-	 * @ClassName: RemoteRequestCallback 
-	 * @Description: 远程回调函数 ,格式化返回数据
-	 * @author JZJ 
-	 * @date 2010-8-26 下午02:46:20 
-	 * @version 1.0
-	 */
+	public AcountButtonDialog acountButtonDialog = new AcountButtonDialog();
+
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
-		@Override
+		public void onResponseReceived(Request request, Response response) {
+			int code = response.getStatusCode();
+			System.out.println(code);
+			String ret = response.getText();
+			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
+			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
+				Window.alert(opRetinfo.getReturnMessage());
+			}else{
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_SELECT_JCARD);
+				String packet = queryData.toHttpPacket();				
+				remoteRequest.getBill(packet, QueryCaller);
+			}
+		}
+
 		public void onError(Request request, Throwable exception) {
 			
 		}
-		@Override
+	}
+	//查询的回调
+	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			data.parseData(response.getText());
 			view.render(data);
 		}
+
+		public void onError(Request request, Throwable exception) {
+			
+		}
 	}
 	
-	/**
-	 * @Description: 加载数据，会实现一个回调函数
-	 * @return void 返回类型 
-	 */
+	private AcountController(){
+//		String name = new TableEditAction().getActionName();
+//		System.out.println(name);
+	}
+	
 	public static void load(){
-		INSTANCE.data.setSum(10);
+		INSTANCE.data.setSum(100);
 		INSTANCE.view.render(INSTANCE.data);
 		//remoteRequest.get("", "", RemoteCaller);
 	}
 	
-	private static AcountController getAcountController() {
-		if(INSTANCE == null){
-			INSTANCE = new AcountController();
-		}
-		return INSTANCE;
-	}
-
-	/**
-	 * (非 Javadoc) 
-	 * Description:  得到模块数据资源
-	 * @return 
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getData()
-	 */
 	public AcountData getData() {
 		return data;
 	}
-	
-	/**
-	 * (非 Javadoc) 
-	 * Description:  事件接口方法，返回该模块视图
-	 * @return 
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
-	 */
-	@Override
-	public OPlatformTableView getView() {
-		return view;
-	}
-	
-	/**
-	 * @ClassName: TableEditAction 
-	 * @Description: 以下子类分别是该模块事件的实体 
-	 * @author JZJ 
-	 * @date 2010-8-26 下午02:36:17 
-	 * @version 1.0
-	 */
-	public static class TableShowAction implements ClickActionHandler {
 
-		private String actionName = "查看表格行";
-
-		public String getActionName() {
-			return actionName;
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-
-		}
-	}
-
-	
 	public static class TableEditAction implements ClickActionHandler {
-
+		
 		private String actionName = "编辑表格";
-
-		public String getActionName() {
+		private CustomerEditControl edit_control = new CustomerEditControl();
+		public TableEditAction() {
+			edit_control.setColName(null);	
+			edit_control.dialog.submit.addClickHandler(edit_control);
+		}
+		public String getActionName(){
 			return actionName;
 		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Object obj = event.getSource();
-			if (obj == AcountView.addButton) {
-				INSTANCE.processFuc(null); // null 表示增加
-				return;
-			} else if (obj == AcountView.searchButton) {
-				INSTANCE.processFuc("search"); // search 表示查询
-				return;
-			} else {
-				INSTANCE.gridOnclick(event);
-			}
-		}
-	}
-	
-	/**
-	 * @Description: 执行add/search操作
-	 * @return void 返回类型
-	 */
-	private void processFuc(final String processTag) {
-		final AcountAddDialog addDialog = new AcountAddDialog(processTag);
-		addDialog.submit.setText("提交");
-		addDialog.show();
 		
-		addDialog.submit.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (addDialog.isValid()) {
-					addDialog.submit.setEnabled(false);
-					Window.alert(processTag);
+		public void onClick(ClickEvent event) {
+			
+			HTMLTable table = (HTMLTable)event.getSource();
+			Cell Mycell = table.getCellForEvent(event);
+			if( Mycell == null ) return;
+			int row = Mycell.getRowIndex();
+			int col = Mycell.getCellIndex();
+            
+			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
+			String rowid = table.getText(row, 1);
+			String colName = table.getText(0, col);
+			String tisp_value = table.getText(row, col);
+			if(tisp_value.length() == 1){
+				int tvalue = (int)tisp_value.charAt(0);
+				if(tvalue == 160){
+					tisp_value = "";
 				}
 			}
-		});
-	}
-	
-	
-	/**
-	 * @Description: 处理所有grid事件(修改、删除)
-	 * @param event  参数 
-	 * @return void 返回类型
-	 */
-	public void gridOnclick(ClickEvent event) {
-		HTMLTable table = (HTMLTable) event.getSource();
-		Cell Mycell = table.getCellForEvent(event);
-		if (Mycell == null) return;
-		int row = Mycell.getRowIndex();
-		col = Mycell.getCellIndex();//列序号
-		keyid = table.getText(row, 2);// 我们的操作都针对这个号码。
-		String rowid = table.getText(row, 1);//行序号
-		String colName = table.getText(0, col);//列名称
-
-		String tisp_value = table.getText(row, col);
-		if (tisp_value.length() == 1) {
-			int tvalue = (int) tisp_value.charAt(0);
-			if (tvalue == 160) {
-				tisp_value = "";
-			}
-		}
-
-		switch (col) {
-		case 1:
-			// 删除银行卡信息。
-			caseUtils(null, rowid, table.getText(row, 2));
-			break;
-		case 2:
-			// 查看详细
-			ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
-			dialog.makeMainPanel(INSTANCE.view.grid, row);
-			dialog.show();
-			break;
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-			// 修改发卡行代码值。
-			// 修改有效性。
-			// 修改ADDITON。
-			// 修改备注。
-			caseUtils(colName, rowid, tisp_value);
-			break;
-		default:
-			break;
-		}
-	}
-
-	/**
-	 * @Description: case处理工具
-	 * @param colName 列名称
-	 */
-	private void caseUtils(String colName, String rowid, String tisp_value){
-		AcountModifyControl acout_control = new AcountModifyControl(colName);
-		acout_control.dialog.submit.addClickHandler(acout_control);
-		acout_control.dialog.submit.setText(colName == null ? "删除" : "修改");
-		acout_control.dialog.show(rowid, tisp_value);
-	}
-	
-	/** 
-	 * @ClassName: AcountModifyControl 
-	 * @Description: 修改银行卡信息控制类，根据传入的processNum来调用对应的方法进行处理
-	 * @author JZJ 
-	 * @date 2010-8-27 上午10:11:17 
-	 * @version
-	 */
-	private static class AcountModifyControl implements ClickHandler {
-		
-		private AcountModifyDialog dialog;
-		
-		public AcountModifyControl(String colName) {
-			dialog = new AcountModifyDialog(colName);
-		}
-		
-		@Override
-		public void onClick(ClickEvent event) {
-			if(!dialog.isValid()) return;
-			dialog.submit.setEnabled(false);
 			switch (col) {
+			case 1:
+				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+				dialog.makeMainPanel(INSTANCE.view.grid , row);
+				dialog.show();
+				break;	
 			case 2:
-				delRow(keyid, AcountController.RemoteCaller);
+				// 选择了删除用户。
+				edit_control.setColName(null);
+				edit_control.dialog.submit.setText("删除");
+				edit_control.dialog.show(rowid, tisp_value);
 				break;
+				
 			case 3:
-				modifyBankCode(keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
-				break;
 			case 4:
-				modifyValidity(keyid, dialog.validityValue, AcountController.RemoteCaller);			
-				break;
 			case 5:
-				modifyAddtion(keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
-				break;
 			case 6:
-				modifyDesc(keyid, dialog.newValueBox.getText(), AcountController.RemoteCaller);			
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+			case 11:
+				edit_control.setColName(colName);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			default:
 				break;
+			}			
+			
+		}
+		
+		public class CustomerEditControl extends EditController implements ClickHandler {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				AcountData editData = new AcountData() ;
+				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_ACCOUNT_INFO);
+				String row = dialog.rowid;
+				String account_number = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
+				editData.setAccount_number(account_number);
+					String colName = dialog.colName;
+					if(colName == null || "".equals(colName)){
+						
+					}else {
+						String colValue = null ;
+						if(AcountConstanst.VALIDITY_ZH.equals(colName)){
+							int selectIndex = dialog.list_status.getSelectedIndex();
+							colValue = dialog.list_status.getValue(selectIndex);
+						}else{
+							colValue = dialog.getText();
+						}
+						String packet = editData.toHttpPacket(colName,colValue);
+						remoteRequest.getBill(packet, RemoteCaller);
+					}
+			}		
+		}
+		
+	}
+		
+	
+	public static class TableShowAction implements ClickActionHandler {
+		
+		private String actionName = "查看表格行";
+		
+		public String getActionName(){
+			return actionName;
+		}
+		
+		public void onClick(ClickEvent event) {
+			INSTANCE.acountButtonDialog = new AcountButtonDialog();
+			Object obj = event.getSource();
+			if(obj == AcountView.addButton){
+				INSTANCE.acountButtonDialog.addMainPanel();
+			}else if(obj == AcountView.queryButton){
+				INSTANCE.acountButtonDialog.queryMainPanel();
 			}
 		}
+		
 	}
-	
-	// ----------------- 处理对应请求  -----------------------//
-	public static void delRow(String keyID, RequestCallback callback) {
-		String query = "function=deluser&id=" + keyID;
-		Window.alert(query);
-	}
-	
-	private static void modifyBankCode(String keyID, String bankCode, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&bankCode=" + bankCode;
-		Window.alert(query);
-	}
-	
-	private static void modifyValidity(String keyID, String validity, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&validity=" + validity;
-		Window.alert(query);
-	}
-	
-	private static void modifyAddtion(String keyID, String addtion, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&addtion=" + addtion;
-		Window.alert(query);
-	}
-	
-	private static void modifyDesc(String keyID, String desc, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&desc=" + desc;
-		Window.alert(query);
+
+	@Override
+	public OPlatformTableView getView() {
+		return view;
 	}
 
 	@Override
 	public ArrayList<String> getActionNames() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void load(int pagePoint) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -311,12 +228,6 @@ public class AcountController extends AController {
 	public int getPagePoint() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public void load(int pagePoint) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

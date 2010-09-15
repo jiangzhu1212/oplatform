@@ -20,7 +20,6 @@ public class ChannelView  extends OPlatformTableView implements IOPlatformView {
 	public final static String[] columns = {ChannelConstanst.CHANNEL_ID_ZH,ChannelConstanst.DESCRIPTION_ZH,ChannelConstanst.FEE_ZH,ChannelConstanst.FEE_TYPE_ZH,ChannelConstanst.FEE_ADDITION_ZH,ChannelConstanst.ADDITION_ZH,ChannelConstanst.LOC_CODE_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25,25,25};
-	public static String descript = "";
 	String banner_tips = "";
 		
 	public void setBannerTips(String tips) {
@@ -31,7 +30,7 @@ public class ChannelView  extends OPlatformTableView implements IOPlatformView {
 	public ChannelView(){
 		HorizontalPanel action = initPromptGrid();
 		setLocation(ChannelSink.Group + " -> " + ChannelSink.Name);
-		addActionPanel(action, descript, ChannelSink.Name);
+		addActionPanel(action, ChannelSink.Desc, ChannelSink.Name);
 		setStatisticText(100);
 		grid.addClickHandler(new ChannelController.TableEditAction());
 

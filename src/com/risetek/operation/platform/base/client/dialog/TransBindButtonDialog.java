@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TransBindController;
 import com.risetek.operation.platform.base.client.control.TransEnableController;
 import com.risetek.operation.platform.base.client.model.TransBindData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -23,9 +22,9 @@ public class TransBindButtonDialog  extends CustomDialog {
 	private final Label TRANS_ID_ZH = new Label(TransBindConstanst.TRANS_ID_ZH);
 	private final Label CUSTOMER_ID_ZH = new Label(TransBindConstanst.CUSTOMER_ID_ZH);
 	
-	private final TextBox TRANS_BIND_ID = new MyTextBox() ;	
+	private final TextBox TRANS_BIND_ID = new TextBox() ;	
 	private ListBox TRANS_ID = new ListBox() ;
-	private final TextBox CUSTOMER_ID = new MyTextBox() ;
+	private final TextBox CUSTOMER_ID = new TextBox() ;
 	
 	private String action_name = null;
 	

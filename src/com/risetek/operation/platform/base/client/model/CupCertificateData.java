@@ -14,7 +14,7 @@ import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class CupCertificateData extends OPlatformData {
 
-	private int cupc_id = 0 ;
+	private int certificate_id = 0 ;
 	
 	private int bill_id = 0 ;
 	
@@ -41,7 +41,7 @@ public class CupCertificateData extends OPlatformData {
 			JSONObject json = arr.get(i).isObject();
 
 			try {
-				data[i][0] = json.get(CupCertificateConstanst.CUPC_ID)
+				data[i][0] = json.get(CupCertificateConstanst.CERTIFICATE_ID)
 						.isNumber().toString();
 			} catch (Exception e) {
 			}
@@ -102,8 +102,8 @@ public class CupCertificateData extends OPlatformData {
 	
 	private JSONObject packetData(){
 		JSONObject json = new JSONObject();
-		if(cupc_id!=0){
-			json.put(CupCertificateConstanst.CUPC_ID, new JSONNumber(cupc_id));
+		if(certificate_id!=0){
+			json.put(CupCertificateConstanst.CERTIFICATE_ID, new JSONNumber(certificate_id));
 		}
 		if(bill_id!=0){
 			json.put(CupCertificateConstanst.BILL_ID, new JSONNumber(bill_id));
@@ -129,15 +129,15 @@ public class CupCertificateData extends OPlatformData {
 		}
 		return json ;
 	}
+
 	
-	public int getCupc_id() {
-		return cupc_id;
+	public int getCertificate_id() {
+		return certificate_id;
 	}
 
-	public void setCupc_id(int cupc_id) {
-		this.cupc_id = cupc_id;
+	public void setCertificate_id(int certificate_id) {
+		this.certificate_id = certificate_id;
 	}
-
 
 	public int getBill_id() {
 		return bill_id;

@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TransEnableController;
 import com.risetek.operation.platform.base.client.model.TransEnableData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -25,11 +24,11 @@ public class TransEnableButtonDialog  extends CustomDialog {
 	private final Label ENABLE_ZH = new Label(TransEnableConstanst.ENABLE_ZH);
 	private final Label DESCRIPTION_ZH = new Label(TransEnableConstanst.DESCRIPTION_ZH);
 	
-	private final TextBox TRANS_ENABLE_ID = new MyTextBox();
+	private final TextBox TRANS_ENABLE_ID = new TextBox();
 	private ListBox TRANS_ID = new ListBox() ;
 	private ListBox CHANNEL_ID = new ListBox()  ;
 	private final ListBox ENABLE = Util.geteNable();
-	private final TextBox DESCRIPTION = new MyTextBox();
+	private final TextBox DESCRIPTION = new TextBox();
 	
 	Grid gridFrame = new Grid(4, 2);
 	

@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.JCardQueryContorller;
 import com.risetek.operation.platform.base.client.model.JCardData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
@@ -43,11 +42,11 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	private final Label BILL_EXTEND_ID_ZH = new Label(JCardConstanst.BILL_EXTEND_ID_ZH);
 	private final Label CREATE_DATE_ZH = new Label(JCardConstanst.CREATE_DATE_ZH);
 	
-	private final TextBox SN = new MyTextBox();
-	private final TextBox NUMBER = new MyTextBox();
-	private final TextBox PWD = new MyTextBox();
-	private final TextBox PAR_VALUE = new MyTextBox();
-	private final TextBox BILL_EXTEND_ID = new MyTextBox();
+	private final TextBox SN = new TextBox();
+	private final TextBox NUMBER = new TextBox();
+	private final TextBox PWD = new TextBox();
+	private final TextBox PAR_VALUE = new TextBox();
+	private final TextBox BILL_EXTEND_ID = new TextBox();
 	private final DateBox CREATE_DATE = new DateBox();
 	
 	private final TextArea updateText = new TextArea();

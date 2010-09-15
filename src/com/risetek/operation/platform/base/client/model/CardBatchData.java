@@ -76,13 +76,13 @@ public class CardBatchData  extends OPlatformData {
 		JSONObject actionInfo = null;
 		try {
 			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
-			if(Constanst.ACTION_NAME_QUERY_CARD_TERMINAL.equals(ACTION_NAME)){
+			if(Constanst.ACTION_NAME_QUERY_CARD_BATCH.equals(ACTION_NAME)){
 				actionInfo = packetData();
 				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
-			}else if(Constanst.ACTION_NAME_MODIFY_CARD_TERMINAL.equals(ACTION_NAME)){
+			}else if(Constanst.ACTION_NAME_MODIFY_CARD_BATCH.equals(ACTION_NAME)){
 				actionInfo = packetData(col[0],col[1]);
-			}else if(Constanst.ACTION_NAME_ADD_CARD_TERMINAL.equals(ACTION_NAME)){
+			}else if(Constanst.ACTION_NAME_ADD_CARD_BATCH.equals(ACTION_NAME)){
 				actionInfo = packetData();
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);

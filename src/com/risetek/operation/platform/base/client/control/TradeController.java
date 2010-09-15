@@ -10,34 +10,29 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.BankButtonDialog;
+import com.risetek.operation.platform.base.client.dialog.TradeButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
-import com.risetek.operation.platform.base.client.model.BankData;
-import com.risetek.operation.platform.base.client.view.BankView;
+import com.risetek.operation.platform.base.client.model.TradeData;
+import com.risetek.operation.platform.base.client.view.TradeView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
+import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.TradeConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
+import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
-/**
- * @ClassName: BankController 
- * @Description: 发卡行模块控制器实体 
- * @author JZJ 
- * @date 2010-8-26 下午02:02:30 
- * @version 1.0
- */
-public class BankController extends AController {
+public class TradeController extends AController {
 
-	public static BankController INSTANCE = new BankController();
-	final BankData data = new BankData();
-	public static BankData queryData = new BankData() ;
-	public final BankView view = new BankView();
-	public BankButtonDialog bankDialog = null;
-
+	public static TradeController INSTANCE = new TradeController();
+	final TradeData data = new TradeData();
+	public static TradeData queryData = new TradeData();
+	public final TradeView view = new TradeView();
+	public TradeButtonDialog buttonDialog = new TradeButtonDialog();
+	
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -47,10 +42,10 @@ public class BankController extends AController {
 			System.out.println(code);
 			String ret = response.getText();
 			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
-			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
+			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE){
 				Window.alert(opRetinfo.getReturnMessage());
 			}else{
-				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_ANNOUCEMENT_INFO);
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRADE_INFO);
 				String packet = queryData.toHttpPacket();				
 				remoteRequest.getBill(packet, QueryCaller);
 			}
@@ -74,26 +69,41 @@ public class BankController extends AController {
 			
 		}
 	}
-	
-	private BankController(){
+	private TradeController(){
 //		String name = new TableEditAction().getActionName();
 //		System.out.println(name);
 	}
 	
+	/**
+	 * 功能：加载数据，会实现一个回调函数
+	 *
+	 * void
+	 */
 	public static void load(){
-		INSTANCE.data.setSum(100);
+		INSTANCE.data.setSum(10);
 		INSTANCE.view.render(INSTANCE.data);
-		//remoteRequest.get("", "", RemoteCaller);
+//		remoteRequest.get("", "", RemoteCaller);
 	}
 	
-	public BankData getData() {
+	/**
+	 * 功能：得到模块数据资源
+	 *
+	 * BaseData
+	 * @return
+	 */
+	public TradeData getData() {
 		return data;
 	}
-
+	
+	/**
+	 * @author Amber
+	 * 功能：以下子类分别是该模块事件的实体
+	 * 2010-8-23 下午11:49:52
+	 */
 	public static class TableEditAction implements ClickActionHandler {
 		
 		private String actionName = "编辑表格";
-		private BankEditControl edit_control = new BankEditControl();
+		private ViewEditControl edit_control = new ViewEditControl();
 		public TableEditAction() {
 			edit_control.setColName(null);	
 			edit_control.dialog.submit.addClickHandler(edit_control);
@@ -120,26 +130,34 @@ public class BankController extends AController {
 					tisp_value = "";
 				}
 			}
+			
 			switch (col) {
 			case 1:
 				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
 				dialog.makeMainPanel(INSTANCE.view.grid , row);
 				dialog.show();
-				break;	
+				break;
 			case 2:
-				// 选择了删除用户。
-				edit_control.setColName(null);
+				// 选择了删除业务。
+				edit_control.setColName(null);	
 				edit_control.dialog.submit.setText("删除");
+				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
-				
+
 			case 3:
 			case 4:
 			case 5:
 			case 6:
 			case 7:
+			case 8:
+			case 9:
+			case 10:
+			case 11:
+			case 12:
 				edit_control.setColName(colName);	
 				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.submit.addClickHandler(edit_control);
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			default:
@@ -147,35 +165,42 @@ public class BankController extends AController {
 			}			
 			
 		}
+	
 		
-		public class BankEditControl extends EditController implements ClickHandler {
+		public class ViewEditControl extends EditController implements ClickHandler {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				BankData editData = new BankData() ;
-				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_CUSTOMER_INFO);
+				TradeData editData = new TradeData() ;
+				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_TRADE_INFO);
 				String row = dialog.rowid;
 				String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
-				editData.setBank_id(Integer.parseInt(id));
-					String colName = dialog.colName;
-					if(colName == null || "".equals(colName)){
-						
-					}else {
-						String colValue = null ;
-						if(CustomerConstanst.VALIDITY_ZH.equals(colName)){
-							int selectIndex = dialog.list_status.getSelectedIndex();
-							colValue = dialog.list_status.getValue(selectIndex);
-						}else{
-							colValue = dialog.getText();
-						}
-						String packet = editData.toHttpPacket(colName,colValue);
-						remoteRequest.getBill(packet, RemoteCaller);
+				editData.setTrans_id(Integer.parseInt(id));
+				String colName = dialog.colName;
+				if(colName == null || "".equals(colName)){
+					
+				}else {
+					String colValue = null ;
+					if( TradeConstanst.CREATE_TIME_ZH.equals(colName) || TradeConstanst.BOLISH_TIME_ZH.equals(colName)){
+						colValue = Util.formatMINDateToJsonString(dialog.DATE_BOX.getValue());
+					}else if(Constanst.VALIDITY_ZH.equals(colName) || TradeConstanst.STATUS_ZH.equals(colName) || TradeConstanst.THIRD_STATUS_ZH.equals(colName)){
+						int selectIndex = dialog.list_status.getSelectedIndex();
+						colValue = dialog.list_status.getValue(selectIndex);
+					}else{
+						colValue = dialog.getText();
 					}
-			}		
+					String packet = editData.toHttpPacket(colName,colValue);
+					remoteRequest.getBill(packet, RemoteCaller);
+				}
+				dialog.hide();
+			}
+			
+			@Override
+			protected CustomDialog getDialog() {
+				return dialog;
+			}			
 		}
-		
 	}
-		
 	
 	public static class TableShowAction implements ClickActionHandler {
 		
@@ -186,17 +211,23 @@ public class BankController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			INSTANCE.bankDialog = new BankButtonDialog();
-			Object obj = event.getSource();
-			if(obj == BankView.addButton){
-				INSTANCE.bankDialog.addMainPanel();
-			}else if(obj == BankView.queryButton){
-				INSTANCE.bankDialog.queryMainPanel();
+			INSTANCE.buttonDialog = new TradeButtonDialog();
+			Object obj = event.getSource();			
+			if(obj == TradeView.addButton){
+				INSTANCE.buttonDialog.addMainPanel();
+				INSTANCE.buttonDialog.show();
+			}else if(obj == TradeView.queryButton){
+				INSTANCE.buttonDialog.queryMainPanel();
+				INSTANCE.buttonDialog.show();
 			}
 		}
-		
 	}
 
+	/** 
+	 * 功能： 时间接口方法，返回该模块视图
+	 *(non-Javadoc)
+	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
+	 */
 	@Override
 	public OPlatformTableView getView() {
 		return view;

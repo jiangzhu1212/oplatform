@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TdbcController;
 import com.risetek.operation.platform.base.client.model.TdbcData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TdbcConstanst;
@@ -21,9 +20,9 @@ import com.risetek.operation.platform.launch.client.util.Util;
  */
 public class TdbcButtonDialog extends BaseDialog {  
 
-	public final TextBox TDBC_ID = new MyTextBox() ;
-	public final TextBox E_GOODS_SN = new MyTextBox() ;
-	public final TextBox IMAGE = new MyTextBox();
+	public final TextBox TDBC_ID = new TextBox() ;
+	public final TextBox E_GOODS_SN = new TextBox() ;
+	public final TextBox IMAGE = new TextBox();
 	
 	public String ACTION_NAME = null ;
 	public RequestFactory request = new RequestFactory();

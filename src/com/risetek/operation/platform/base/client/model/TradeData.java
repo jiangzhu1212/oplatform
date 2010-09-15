@@ -9,10 +9,10 @@ import com.google.gwt.json.client.JSONString;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.TradeIdConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.TradeConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
-public class TradeIdData extends OPlatformData {
+public class TradeData extends OPlatformData {
 	
 	private int trade_id = 0 ;
 	
@@ -42,6 +42,8 @@ public class TradeIdData extends OPlatformData {
 	
 	private String addition = null ;
 	
+	private String validity = null ;
+	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
@@ -53,57 +55,57 @@ public class TradeIdData extends OPlatformData {
 			JSONObject json = arr.get(i).isObject();
 
 			try {
-				data[i][0] = json.get(TradeIdConstanst.TRADE_ID)
+				data[i][0] = json.get(TradeConstanst.TRADE_ID)
 						.isNumber().toString();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][1] = json.get(TradeIdConstanst.CUSTOMER_ID)
+				data[i][1] = json.get(TradeConstanst.CUSTOMER_ID)
 						.isNumber().toString();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][2] = json.get(TradeIdConstanst.TRANS_ID)
+				data[i][2] = json.get(TradeConstanst.TRANS_ID)
 						.isNumber().toString();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][3] = json.get(TradeIdConstanst.AMOUNT)
+				data[i][3] = json.get(TradeConstanst.AMOUNT)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][4] = json.get(TradeIdConstanst.STATUS)
+				data[i][4] = json.get(TradeConstanst.STATUS)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][5] = json.get(TradeIdConstanst.THIRD_STATUS)
+				data[i][5] = json.get(TradeConstanst.THIRD_STATUS)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][6] = json.get(TradeIdConstanst.CREATE_TIME)
+				data[i][6] = json.get(TradeConstanst.CREATE_TIME)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][7] = json.get(TradeIdConstanst.BOLISH_TIME)
+				data[i][7] = json.get(TradeConstanst.BOLISH_TIME)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][8] = json.get(TradeIdConstanst.DESCRIPTION)
+				data[i][8] = json.get(TradeConstanst.DESCRIPTION)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][9] = json.get(TradeIdConstanst.VALIDITY)
+				data[i][9] = json.get(TradeConstanst.VALIDITY)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][10] = json.get(TradeIdConstanst.ADDITION)
+				data[i][10] = json.get(TradeConstanst.ADDITION)
 						.isString().stringValue();
 			} catch (Exception e) {
 			}
@@ -142,75 +144,75 @@ public class TradeIdData extends OPlatformData {
 	private JSONObject packetData(){
 		JSONObject json = new JSONObject();
 		if(trade_id!=0){
-			json.put(TradeIdConstanst.TRADE_ID, new JSONNumber(trade_id));
+			json.put(TradeConstanst.TRADE_ID, new JSONNumber(trade_id));
 		}
 		if(customer_id!=0){
-			json.put(TradeIdConstanst.CUSTOMER_ID, new JSONNumber(customer_id));
+			json.put(TradeConstanst.CUSTOMER_ID, new JSONNumber(customer_id));
 		}
 		if(trans_id!=0){
-			json.put(TradeIdConstanst.TRANS_ID, new JSONNumber(trans_id));
+			json.put(TradeConstanst.TRANS_ID, new JSONNumber(trans_id));
 		}
 		if(amount != null && !amount.equals("")){
-			json.put(TradeIdConstanst.AMOUNT, new JSONString(amount));
+			json.put(TradeConstanst.AMOUNT, new JSONString(amount));
 		}
 		if(status != null && !status.equals("")){
-			json.put(TradeIdConstanst.STATUS, new JSONString(status));
+			json.put(TradeConstanst.STATUS, new JSONString(status));
 		}
 		if(third_status != null && !third_status.equals("")){
-			json.put(TradeIdConstanst.THIRD_STATUS, new JSONString(third_status));
+			json.put(TradeConstanst.THIRD_STATUS, new JSONString(third_status));
 		}
 		if(create_time != null && !create_time.equals("")){
-			json.put(TradeIdConstanst.CREATE_TIME, new JSONString(create_time));
+			json.put(TradeConstanst.CREATE_TIME, new JSONString(create_time));
 		}else {
 			if(create_time_min != null && !create_time_min.equals("")){
-				json.put(TradeIdConstanst.CREATE_TIME_MIN, new JSONString(create_time_min));
+				json.put(TradeConstanst.CREATE_TIME_MIN, new JSONString(create_time_min));
 			}
 			if(create_time_max != null && !create_time_max.equals("")){
-				json.put(TradeIdConstanst.CREATE_TIME_MAX, new JSONString(create_time_max));
+				json.put(TradeConstanst.CREATE_TIME_MAX, new JSONString(create_time_max));
 			}
 		}
 		if(bolish_time != null && !bolish_time.equals("")){
-			json.put(TradeIdConstanst.BOLISH_TIME, new JSONString(bolish_time));
+			json.put(TradeConstanst.BOLISH_TIME, new JSONString(bolish_time));
 		}else{
 			if(bolish_time_min != null && !bolish_time_min.equals("")){
-				json.put(TradeIdConstanst.BOLISH_TIME_MIN, new JSONString(bolish_time_min));
+				json.put(TradeConstanst.BOLISH_TIME_MIN, new JSONString(bolish_time_min));
 			}
 			if(bolish_time_max != null && !bolish_time_max.equals("")){
-				json.put(TradeIdConstanst.BOLISH_TIME_MAX, new JSONString(bolish_time_max));
+				json.put(TradeConstanst.BOLISH_TIME_MAX, new JSONString(bolish_time_max));
 			}
 		}
 		if(description != null && !description.equals("")){
-			json.put(TradeIdConstanst.DESCRIPTION, new JSONString(description));
+			json.put(TradeConstanst.DESCRIPTION, new JSONString(description));
 		}
 		if(addition != null && !addition.equals("")){
-			json.put(TradeIdConstanst.ADDITION, new JSONString(addition));
+			json.put(TradeConstanst.ADDITION, new JSONString(addition));
 		}
 		return json ;
 	}
 	
 	private JSONObject packetData(String colName , String colValue){
 		JSONObject json = new JSONObject();
-		json.put(TradeIdConstanst.TRADE_ID_ZH, new JSONNumber(trade_id));
-		if(TradeIdConstanst.CUSTOMER_ID_ZH.equals(colName)){
-			json.put(TradeIdConstanst.CUSTOMER_ID, new JSONNumber(Integer.parseInt(colValue)));
-		}else if(TradeIdConstanst.TRANS_ID_ZH.equals(colName)){
-			json.put(TradeIdConstanst.TRADE_ID, new JSONNumber(Integer.parseInt(colValue)));
-		}else if(TradeIdConstanst.AMOUNT_ZH.equals(colName)){
-			json.put(TradeIdConstanst.AMOUNT, new JSONString(colValue));
-		}else if(TradeIdConstanst.STATUS_ZH.equals(colName)){
-			json.put(TradeIdConstanst.STATUS, new JSONString(colValue));
-		}else if(TradeIdConstanst.THIRD_STATUS_ZH.equals(colName)){
-			json.put(TradeIdConstanst.THIRD_STATUS, new JSONString(colValue));
-		}else if(TradeIdConstanst.CREATE_TIME_ZH.equals(colName)){
-			json.put(TradeIdConstanst.CREATE_TIME, new JSONString(colValue));
-		}else if(TradeIdConstanst.BOLISH_TIME_ZH.equals(colName)){
-			json.put(TradeIdConstanst.BOLISH_TIME, new JSONString(colValue));
-		}else if(TradeIdConstanst.DESCRIPTION_ZH.equals(colName)){
-			json.put(TradeIdConstanst.DESCRIPTION, new JSONString(colValue));
-		}else if(TradeIdConstanst.VALIDITY_ZH.equals(colName)){
-			json.put(TradeIdConstanst.VALIDITY, new JSONString(colValue));
-		}else if(TradeIdConstanst.ADDITION_ZH.equals(colName)){
-			json.put(TradeIdConstanst.ADDITION, new JSONString(colValue));
+		json.put(TradeConstanst.TRADE_ID_ZH, new JSONNumber(trade_id));
+		if(TradeConstanst.CUSTOMER_ID_ZH.equals(colName)){
+			json.put(TradeConstanst.CUSTOMER_ID, new JSONNumber(Integer.parseInt(colValue)));
+		}else if(TradeConstanst.TRANS_ID_ZH.equals(colName)){
+			json.put(TradeConstanst.TRADE_ID, new JSONNumber(Integer.parseInt(colValue)));
+		}else if(TradeConstanst.AMOUNT_ZH.equals(colName)){
+			json.put(TradeConstanst.AMOUNT, new JSONString(colValue));
+		}else if(TradeConstanst.STATUS_ZH.equals(colName)){
+			json.put(TradeConstanst.STATUS, new JSONString(colValue));
+		}else if(TradeConstanst.THIRD_STATUS_ZH.equals(colName)){
+			json.put(TradeConstanst.THIRD_STATUS, new JSONString(colValue));
+		}else if(TradeConstanst.CREATE_TIME_ZH.equals(colName)){
+			json.put(TradeConstanst.CREATE_TIME, new JSONString(colValue));
+		}else if(TradeConstanst.BOLISH_TIME_ZH.equals(colName)){
+			json.put(TradeConstanst.BOLISH_TIME, new JSONString(colValue));
+		}else if(TradeConstanst.DESCRIPTION_ZH.equals(colName)){
+			json.put(TradeConstanst.DESCRIPTION, new JSONString(colValue));
+		}else if(TradeConstanst.VALIDITY_ZH.equals(colName)){
+			json.put(TradeConstanst.VALIDITY, new JSONString(colValue));
+		}else if(TradeConstanst.ADDITION_ZH.equals(colName)){
+			json.put(TradeConstanst.ADDITION, new JSONString(colValue));
 		}
 		return json;
 	}
@@ -325,5 +327,14 @@ public class TradeIdData extends OPlatformData {
 
 	public void setAddition(String addition) {
 		this.addition = addition;
+	}
+
+	public String getValidity() {
+		return validity;
+	}
+
+	public void setValidity(String validity) {
+		this.validity = validity;
 	}	
+	
 }

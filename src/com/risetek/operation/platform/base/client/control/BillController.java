@@ -10,33 +10,25 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.BankButtonDialog;
+import com.risetek.operation.platform.base.client.dialog.BillButtionDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
-import com.risetek.operation.platform.base.client.model.BankData;
-import com.risetek.operation.platform.base.client.view.BankView;
+import com.risetek.operation.platform.base.client.model.BillData;
+import com.risetek.operation.platform.base.client.view.BillView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
-/**
- * @ClassName: BankController 
- * @Description: 发卡行模块控制器实体 
- * @author JZJ 
- * @date 2010-8-26 下午02:02:30 
- * @version 1.0
- */
-public class BankController extends AController {
+public class BillController extends AController {
 
-	public static BankController INSTANCE = new BankController();
-	final BankData data = new BankData();
-	public static BankData queryData = new BankData() ;
-	public final BankView view = new BankView();
-	public BankButtonDialog bankDialog = null;
+	public static BillController INSTANCE = new BillController();
+	final BillData data = new BillData();
+	public static BillData queryData = new BillData() ;
+	public final BillView view = new BillView();
+	public BillButtionDialog buttonDialog = new BillButtionDialog();
 
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
@@ -50,7 +42,7 @@ public class BankController extends AController {
 			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
 				Window.alert(opRetinfo.getReturnMessage());
 			}else{
-				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_ANNOUCEMENT_INFO);
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_BILL_INFO);
 				String packet = queryData.toHttpPacket();				
 				remoteRequest.getBill(packet, QueryCaller);
 			}
@@ -75,7 +67,7 @@ public class BankController extends AController {
 		}
 	}
 	
-	private BankController(){
+	private BillController(){
 //		String name = new TableEditAction().getActionName();
 //		System.out.println(name);
 	}
@@ -86,14 +78,14 @@ public class BankController extends AController {
 		//remoteRequest.get("", "", RemoteCaller);
 	}
 	
-	public BankData getData() {
+	public BillData getData() {
 		return data;
 	}
 
 	public static class TableEditAction implements ClickActionHandler {
 		
 		private String actionName = "编辑表格";
-		private BankEditControl edit_control = new BankEditControl();
+		private ViewEditControl edit_control = new ViewEditControl();
 		public TableEditAction() {
 			edit_control.setColName(null);	
 			edit_control.dialog.submit.addClickHandler(edit_control);
@@ -122,20 +114,17 @@ public class BankController extends AController {
 			}
 			switch (col) {
 			case 1:
+				//查看详细信息
 				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
 				dialog.makeMainPanel(INSTANCE.view.grid , row);
 				dialog.show();
 				break;	
 			case 2:
-				// 选择了删除用户。
 				edit_control.setColName(null);
 				edit_control.dialog.submit.setText("删除");
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
-				
-			case 3:
-			case 4:
-			case 5:
+
 			case 6:
 			case 7:
 				edit_control.setColName(colName);	
@@ -148,26 +137,21 @@ public class BankController extends AController {
 			
 		}
 		
-		public class BankEditControl extends EditController implements ClickHandler {
+		public class ViewEditControl extends EditController implements ClickHandler {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				BankData editData = new BankData() ;
-				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_CUSTOMER_INFO);
+				BillData editData = new BillData() ;
+				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_BILL_INFO);
 				String row = dialog.rowid;
 				String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
-				editData.setBank_id(Integer.parseInt(id));
+				editData.setCustomer_id(Integer.parseInt(id));
 					String colName = dialog.colName;
 					if(colName == null || "".equals(colName)){
 						
 					}else {
 						String colValue = null ;
-						if(CustomerConstanst.VALIDITY_ZH.equals(colName)){
-							int selectIndex = dialog.list_status.getSelectedIndex();
-							colValue = dialog.list_status.getValue(selectIndex);
-						}else{
-							colValue = dialog.getText();
-						}
+						colValue = dialog.getText();
 						String packet = editData.toHttpPacket(colName,colValue);
 						remoteRequest.getBill(packet, RemoteCaller);
 					}
@@ -186,12 +170,12 @@ public class BankController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			INSTANCE.bankDialog = new BankButtonDialog();
+			INSTANCE.buttonDialog = new BillButtionDialog();
 			Object obj = event.getSource();
-			if(obj == BankView.addButton){
-				INSTANCE.bankDialog.addMainPanel();
-			}else if(obj == BankView.queryButton){
-				INSTANCE.bankDialog.queryMainPanel();
+			if(obj == BillView.addButton){
+				INSTANCE.buttonDialog.addMainPanel();
+			}else if(obj == BillView.queryButton){
+				INSTANCE.buttonDialog.queryMainPanel();
 			}
 		}
 		

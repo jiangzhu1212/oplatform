@@ -98,6 +98,8 @@ public class EditDialog extends CustomDialog {
 		super.show();
 	}
 	
-	
+	public void setMessage(String message){
+		super.setMessage(message);
+	}
 	
 }

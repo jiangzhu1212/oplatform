@@ -10,15 +10,18 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.AnnoucementAddDialog;
-import com.risetek.operation.platform.base.client.dialog.AnnoucementModifyDialog;
+import com.risetek.operation.platform.base.client.dialog.AnnoucementButtonDialog;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.AnnoucementData;
 import com.risetek.operation.platform.base.client.view.AnnoucementView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.AnnoucementConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
+import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 /**
@@ -30,323 +33,180 @@ import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
  */
 public class AnnoucementController extends AController {
 
-	private static int col;    //列序号
-	
-	private static String keyid;//主键
-	
-	public static AnnoucementController INSTANCE = getAnnoucementController();
-	
-	private final AnnoucementData data = new AnnoucementData();
-	
+	public static AnnoucementController INSTANCE = new AnnoucementController();
+	final AnnoucementData data = new AnnoucementData();
+	public static AnnoucementData queryData = new AnnoucementData() ;
 	public final AnnoucementView view = new AnnoucementView();
-	
-	private static RequestFactory remoteRequest = new RequestFactory();
-	
-	private static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
-	/**
-	 * @ClassName: RemoteRequestCallback 
-	 * @Description: 远程回调函数 ,格式化返回数据
-	 * @author JZJ 
-	 * @date 2010-8-26 下午02:46:20 
-	 * @version 1.0
-	 */
+	public AnnoucementButtonDialog acountmentButtonDialog = new AnnoucementButtonDialog();
+
+	public static RequestFactory remoteRequest = new RequestFactory();
+	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
+	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
-		@Override
+		public void onResponseReceived(Request request, Response response) {
+			int code = response.getStatusCode();
+			System.out.println(code);
+			String ret = response.getText();
+			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
+			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
+				Window.alert(opRetinfo.getReturnMessage());
+			}else{
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_ACCOUNT_INFO);
+				String packet = queryData.toHttpPacket();				
+				remoteRequest.getBill(packet, QueryCaller);
+			}
+		}
+
 		public void onError(Request request, Throwable exception) {
 			
 		}
-		@Override
+	}
+	//查询的回调
+	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			data.parseData(response.getText());
 			view.render(data);
 		}
-	}
 
-	/**
-	 * Description: 构造器
-	 */
-	private AnnoucementController() {
-		// String name = new TableEditAction().getActionName();
-		// System.out.println(name);
+		public void onError(Request request, Throwable exception) {
+			
+		}
 	}
 	
-	private static AnnoucementController getAnnoucementController() {
-		if(INSTANCE == null){
-			INSTANCE = new AnnoucementController();
-		}
-		return INSTANCE;
+	private AnnoucementController(){
+//		String name = new TableEditAction().getActionName();
+//		System.out.println(name);
 	}
-
-	/**
-	 * @Description: 加载数据，会实现一个回调函数
-	 * @return void 返回类型 
-	 */
+	
 	public static void load(){
-		INSTANCE.data.setSum(10);
+		INSTANCE.data.setSum(100);
 		INSTANCE.view.render(INSTANCE.data);
 		//remoteRequest.get("", "", RemoteCaller);
 	}
 	
-	/**
-	 * (非 Javadoc) 
-	 * Description:  得到模块数据资源
-	 * @return 
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getData()
-	 */
 	public AnnoucementData getData() {
 		return data;
 	}
-	
-	/**
-	 * (非 Javadoc) 
-	 * Description:  事件接口方法，返回该模块视图
-	 * @return 
-	 * @see com.risetek.operation.platform.launch.client.control.AController#getView()
-	 */
-	@Override
-	public OPlatformTableView getView() {
-		return view;
-	}
-	
-	/**
-	 * @ClassName: TableEditAction 
-	 * @Description: 以下子类分别是该模块事件的实体 
-	 * @author JZJ 
-	 * @date 2010-8-26 下午02:36:17 
-	 * @version 1.0
-	 */
-	public static class TableShowAction implements ClickActionHandler {
 
-		private String actionName = "查看表格行";
-
-		public String getActionName() {
-			return actionName;
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-
-		}
-	}
-
-	
 	public static class TableEditAction implements ClickActionHandler {
-
+		
 		private String actionName = "编辑表格";
-
-		public String getActionName() {
+		private CustomerEditControl edit_control = new CustomerEditControl();
+		public TableEditAction() {
+			edit_control.setColName(null);	
+			edit_control.dialog.submit.addClickHandler(edit_control);
+		}
+		public String getActionName(){
 			return actionName;
 		}
-
-		@Override
+		
 		public void onClick(ClickEvent event) {
-			Object obj = event.getSource();
-			if (obj == AnnoucementView.addButton) {
-				INSTANCE.processFuc(null);// null 表示增加
-				return;
-			} else if (obj == AnnoucementView.searchButton) {
-				INSTANCE.processFuc("search"); // search 表示查询
-				return;
-			} else {
-				INSTANCE.gridOnclick(event);
-			}
-		}
-	}
-	
-	/**
-	 * @Description: 执行提交操作
-	 * @return void 返回类型
-	 */
-	public void processFuc(final String processTag) {
-		final AnnoucementAddDialog addDialog = new AnnoucementAddDialog(processTag);
-		addDialog.submit.setText("提交");
-		addDialog.show();
-
-		addDialog.submit.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (addDialog.isValid()) {
-					addDialog.submit.setEnabled(false);
-					Window.alert(processTag);
+			
+			HTMLTable table = (HTMLTable)event.getSource();
+			Cell Mycell = table.getCellForEvent(event);
+			if( Mycell == null ) return;
+			int row = Mycell.getRowIndex();
+			int col = Mycell.getCellIndex();
+            
+			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
+			String rowid = table.getText(row, 1);
+			String colName = table.getText(0, col);
+			String tisp_value = table.getText(row, col);
+			if(tisp_value.length() == 1){
+				int tvalue = (int)tisp_value.charAt(0);
+				if(tvalue == 160){
+					tisp_value = "";
 				}
 			}
-		});
-	}
-	
-	/**
-	 * @Description: 处理所有grid事件(修改、删除)
-	 * @param event  参数 
-	 * @return void 返回类型
-	 */
-	public void gridOnclick(ClickEvent event){
-		HTMLTable table = (HTMLTable) event.getSource();
-		Cell Mycell = table.getCellForEvent(event);
-		if (Mycell == null) return;
-		int row = Mycell.getRowIndex();
-		col = Mycell.getCellIndex();
-		keyid = table.getText(row, 2);//我们的操作都针对这个号码。
-		String rowid = table.getText(row, 1);
-		String colName = table.getText(0, col);
-		
-		String tisp_value = table.getText(row, col);
-		if (tisp_value.length() == 1) {
-			int tvalue = (int) tisp_value.charAt(0);
-			if (tvalue == 160) {
-				tisp_value = "";
-			}
-		}
-
-		switch (col) {
-		case 1:
-			// 删除公告信息。
-			caseUtils(null, rowid, table.getText(row, 2));
-			break;
-		case 2:
-			//查看详细
-			ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
-			dialog.makeMainPanel(INSTANCE.view.grid, row);
-			dialog.show();
-			break;
-		case 3:
-		case 4:
-		case 5:
-			// 修改公告类型。
-			// 修改公告日期。
-			// 修改ADDITON。
-			caseUtils(colName, rowid, tisp_value);
-			break;
-		case 6:
-			break;
-		case 7:
-		case 8:
-		case 9:
-		case 10:
-		case 11:
-			// 修改停止时间。
-			// 修改TARGET_TYPE。
-			// 修改TARGET_ID。
-			// 修改有效期。
-			// 修改备注。
-			caseUtils(colName, rowid, tisp_value);
-			break;
-		default:
-			break;
-		}
-	}
-	
-	/**
-	 * @Description: case处理工具
-	 * @param colName 列名称
-	 */
-	private void caseUtils(String colName, String rowid, String tisp_value){
-		AnnoucementModifyControl control = new AnnoucementModifyControl(colName);
-		control.dialog.submit.addClickHandler(control);
-		control.dialog.submit.setText(colName == null ? "删除" : "修改");
-		control.dialog.show(rowid, tisp_value);
-	}
-	
-	/** 
-	 * @ClassName: AcountModifyControl 
-	 * @Description: 修改银行卡信息控制类，根据传入的tag来调用对应的方法进行处理
-	 * @author JZJ 
-	 * @date 2010-8-27 上午10:11:17 
-	 * @version
-	 */
-	private static class AnnoucementModifyControl implements ClickHandler {
-			
-		private AnnoucementModifyDialog dialog;
-		
-		public AnnoucementModifyControl(String colName) {
-			dialog = new AnnoucementModifyDialog(colName);
-		}
-		
-		@Override
-		public void onClick(ClickEvent event) {
-			if(!dialog.isValid()) return;
-			dialog.submit.setEnabled(false);
 			switch (col) {
+			case 1:
+				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+				dialog.makeMainPanel(INSTANCE.view.grid , row);
+				dialog.show();
+				break;	
 			case 2:
-				delRow(keyid, AnnoucementController.RemoteCaller);
+				// 选择了删除用户。
+				edit_control.setColName(null);
+				edit_control.dialog.submit.setText("删除");
+				edit_control.dialog.show(rowid, tisp_value);
 				break;
+				
 			case 3:
-				modifyType(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-				break;
 			case 4:
-				modifyDate(keyid, dialog.newDateBox.getTextBox().getText(), AnnoucementController.RemoteCaller);			
-				break;
 			case 5:
-				modifyAddtion(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-				break;
 			case 6:
-				//创建时间
-				break;
 			case 7:
-				modifyStopTime(keyid, dialog.newDateBox.getTextBox().getText(), AnnoucementController.RemoteCaller);			
-				break;
 			case 8:
-				modify_TARGET_TYPE(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-				break;
 			case 9:
-				modify_TARGET_ID(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
-				break;
 			case 10:
-				modifyValidity(keyid, dialog.validityValue, AnnoucementController.RemoteCaller);			
-				break;
 			case 11:
-				modifyDesc(keyid, dialog.newValueBox.getText(), AnnoucementController.RemoteCaller);			
+				edit_control.setColName(colName);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.show(rowid, tisp_value);
 				break;
 			default:
 				break;
+			}			
+			
+		}
+		
+		public class CustomerEditControl extends EditController implements ClickHandler {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				AnnoucementData editData = new AnnoucementData() ;
+				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_ANNOUCEMENT_INFO);
+				String row = dialog.rowid;
+				String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
+				editData.setAce_id(Integer.parseInt(id));
+					String colName = dialog.colName;
+					if(colName == null || "".equals(colName)){
+						
+					}else {
+						String colValue = null ;
+						if(AnnoucementConstanst.VALIDITY_ZH.equals(colName)){
+							int selectIndex = dialog.list_status.getSelectedIndex();
+							colValue = dialog.list_status.getValue(selectIndex);
+						}else if(AnnoucementConstanst.CREATE_TIME_ZH.equals(colName) || AnnoucementConstanst.STOP_TIME_ZH.equals(colName)){
+							colValue = Util.formatDateToJsonString(dialog.DATE_BOX.getValue());
+						}else{
+							colValue = dialog.getText();
+						}
+						String packet = editData.toHttpPacket(colName,colValue);
+						remoteRequest.getBill(packet, RemoteCaller);
+					}
+			}		
+		}
+		
+	}
+		
+	
+	public static class TableShowAction implements ClickActionHandler {
+		
+		private String actionName = "查看表格行";
+		
+		public String getActionName(){
+			return actionName;
+		}
+		
+		public void onClick(ClickEvent event) {
+			INSTANCE.acountmentButtonDialog = new AnnoucementButtonDialog();
+			Object obj = event.getSource();
+			if(obj == AnnoucementView.addButton){
+				INSTANCE.acountmentButtonDialog.addMainPanel();
+			}else if(obj == AnnoucementView.queryButton){
+				INSTANCE.acountmentButtonDialog.queryMainPanel();
 			}
 		}
+		
 	}
-	
-	// ----------------- 处理对应请求  -----------------------//
-	public static void delRow(String keyID, RequestCallback callback) {
-		String query = "function=del&id=" + keyID;
-		Window.alert(query);
-	}
-	
-	private static void modifyType(String keyID, String type, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&type=" + type;
-		Window.alert(query);
-	}
-	
-	private static void modifyDate(String keyID, String date, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&date=" + date;
-		Window.alert(query);
-	}
-	
-	private static void modifyAddtion(String keyID, String addtion, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&addtion=" + addtion;
-		Window.alert(query);
-	}
-	
-	private static void modifyStopTime(String keyID, String stopTime, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&stopTime=" + stopTime;
-		Window.alert(query);
-	}
-	
-	private static void modify_TARGET_TYPE(String keyID, String TARGET_TYPE, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&TARGET_TYPE=" + TARGET_TYPE;
-		Window.alert(query);
-	}
-	
-	private static void modify_TARGET_ID(String keyID, String TARGET_ID, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&TARGET_ID=" + TARGET_ID;
-		Window.alert(query);
-	}
-	
-	private static void modifyValidity(String keyID, String Validity, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&Validity=" + Validity;
-		Window.alert(query);
-	}
-	
-	private static void modifyDesc(String keyID, String desc, RequestCallback callback) {
-		String query = "function=moduser&id=" + keyID + "&desc=" + desc;
-		Window.alert(query);
+
+	@Override
+	public OPlatformTableView getView() {
+		return view;
 	}
 
 	@Override
