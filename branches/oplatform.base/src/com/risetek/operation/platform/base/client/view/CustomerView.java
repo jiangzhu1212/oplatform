@@ -84,7 +84,7 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	}
 
 	public void render(CustomerData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

@@ -1,15 +1,11 @@
 package com.risetek.operation.platform.base.client.dialog;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TransactionController;
 import com.risetek.operation.platform.base.client.model.TransactionData;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
-import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -19,7 +15,7 @@ import com.risetek.operation.platform.launch.client.util.Util;
  * @author 杨彬
  * transActionView button按钮事件
  */
-public class TransactionButtonDialog extends CustomDialog {
+public class TransactionButtonDialog extends BaseButtonDailog {
 	
 	private final Label TRANS_ID_ZH = new Label(TransactionConstanst.TRANS_ID_ZH);
 	private final Label ALIAS_ZH = new Label(TransactionConstanst.ALIAS_ZH);
@@ -44,18 +40,7 @@ public class TransactionButtonDialog extends CustomDialog {
 	private final TextBox ADDITION = new TextBox();	
 	private final ListBox VALIDITY = Util.getValidity();
 	
-	private ListBox BINDABLE = null;
-	
-	private String ACTION_NAME = null;
-	
-	RequestFactory factory = new RequestFactory();
-	
-	public TransactionButtonDialog() {
-		BINDABLE = Util.getBindAble();
-		SubmitButtonClickHandler handler = new SubmitButtonClickHandler();
-		submit.addClickHandler(handler);
-	}
-	
+	private final ListBox BINDABLE = Util.getBindAble();
 	
 	public void addMainPanel(){
 		mainPanel.clear();
@@ -116,64 +101,62 @@ public class TransactionButtonDialog extends CustomDialog {
 		mainPanel.add(gridFrame);
 		submit.setText("查询");
 	}
-	
-	public class SubmitButtonClickHandler implements ClickHandler{
-		@Override
-		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
-			String id = TRANS_ID.getText();
-			String alias = ALIAS.getText();
-			String name = NAME.getText();			
-			String description = DESCRIPTION.getText();
-			String url = URL.getText();
-			
-			String merchant_number = MERCHANT_NUMBER.getText();
-			String pos_number = POS_NUMBER.getText();
-			String type = TYPE.getText();
-			String addition = ADDITION.getText();
-			
-			int bindableIndext = BINDABLE.getSelectedIndex();
-			String bindable = BINDABLE.getValue(bindableIndext);
-			
-			int validityIndext = VALIDITY.getSelectedIndex();
-			String validity = VALIDITY.getValue(validityIndext);
-			
-			TransactionData transaction = new TransactionData();
-			transaction.setACTION_NAME(ACTION_NAME);
-			if(id != null && !"".equals(id)){
-				if(!Util.isNum(id)){
-					setMessage("业务编号必须为数字");
-					return ;
-				}
-				transaction.setTrans_id(Integer.parseInt(id));
+
+	@Override
+	public void subminHandler() {
+		// TODO Auto-generated method stub
+		String id = TRANS_ID.getText();
+		String alias = ALIAS.getText();
+		String name = NAME.getText();			
+		String description = DESCRIPTION.getText();
+		String url = URL.getText();
+		
+		String merchant_number = MERCHANT_NUMBER.getText();
+		String pos_number = POS_NUMBER.getText();
+		String type = TYPE.getText();
+		String addition = ADDITION.getText();
+		
+		int bindableIndext = BINDABLE.getSelectedIndex();
+		String bindable = BINDABLE.getValue(bindableIndext);
+		
+		int validityIndext = VALIDITY.getSelectedIndex();
+		String validity = VALIDITY.getValue(validityIndext);
+		
+		TransactionData transaction = new TransactionData();
+		transaction.setACTION_NAME(ACTION_NAME);
+		if(id != null && !"".equals(id)){
+			if(!Util.isNum(id)){
+				setMessage("业务编号必须为数字");
+				return ;
 			}
-			transaction.setAlias(alias);
-			transaction.setName(name);
-			transaction.setDescription(description);
-			transaction.setUrl(url);
-						
-			transaction.setMerchant_number(merchant_number);
-			transaction.setPos_number(pos_number);
-			transaction.setType(type);
-			transaction.setAddition(addition);	
-			transaction.setBindable(bindable);
-			transaction.setValidity(validity);
-			
-			if(Constanst.ACTION_NAME_ADD_TRANSACTION_INFO.equals(ACTION_NAME)){
-				if(name == null || "".equals(name.trim())){
-					setMessage("业务名称不能为空");
-					return ;
-				}
-				String packet = transaction.toHttpPacket();
-				factory.getBill(packet, TransactionController.RemoteCaller);
-			}else if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
-				TransactionController.queryData = transaction ;
-				String packet = transaction.toHttpPacket();
-				factory.getBill(packet, TransactionController.QueryCaller);
-			}
-			
-			hide() ;
+			transaction.setTrans_id(Integer.parseInt(id));
 		}
+		transaction.setAlias(alias);
+		transaction.setName(name);
+		transaction.setDescription(description);
+		transaction.setUrl(url);
+					
+		transaction.setMerchant_number(merchant_number);
+		transaction.setPos_number(pos_number);
+		transaction.setType(type);
+		transaction.setAddition(addition);	
+		transaction.setBindable(bindable);
+		transaction.setValidity(validity);
+		
+		if(Constanst.ACTION_NAME_ADD_TRANSACTION_INFO.equals(ACTION_NAME)){
+			if(name == null || "".equals(name.trim())){
+				setMessage("业务名称不能为空");
+				return ;
+			}
+			String packet = transaction.toHttpPacket();
+			request.getBill(packet, TransactionController.RemoteCaller);
+		}else if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
+			TransactionController.queryData = transaction ;
+			String packet = transaction.toHttpPacket();
+			request.getBill(packet, TransactionController.QueryCaller);
+		}
+		
+		hide() ;
 	}
 	
 }

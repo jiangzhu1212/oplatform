@@ -15,6 +15,11 @@ public interface Constanst {
 	final String TRUE = "TRUE";
 	
 	final String FALSE = "FALSE" ;
+	
+	/**
+	 * 修改数据的名字
+	 */
+	final String EDIT_ZH = "修改";
 
 	public static final String BILLS_WEB_CLIENT="BILLS_REQUEST";
 	

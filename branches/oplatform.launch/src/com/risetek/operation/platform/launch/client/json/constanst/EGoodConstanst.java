@@ -56,11 +56,11 @@ public interface EGoodConstanst extends Constanst {
 	
 	final String USED_TIME_MIN = "USED_TIME_MIN" ;
 	
-	final String USED_TIME_MIN_ZH = "货物使用时间最小值";
+	final String USED_TIME_MIN_ZH = "使用时间最小值";
 	
 	final String USED_TIME_MAX = "USED_TIME_MAX" ;
 	
-	final String USED_TIME_MAX_ZH = "货物使用时间最大值";
+	final String USED_TIME_MAX_ZH = "使用时间最大值";
 	
 	final String STATUS = "STATUS" ;
 	
@@ -68,7 +68,7 @@ public interface EGoodConstanst extends Constanst {
 	
 	final String THIRD_STATUS = "THIRD_STATUS" ;
 	
-	final String THIRD_STATUS_ZH = "货物第三方状态";
+	final String THIRD_STATUS_ZH = "第三方状态";
 	
 	final String ADDITION = "ADDITION" ;
 	

@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -20,8 +17,6 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.JCardQueryContorller;
 import com.risetek.operation.platform.base.client.model.JCardData;
 import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
-import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -32,7 +27,7 @@ import com.risetek.operation.platform.launch.client.util.Util;
  * 2010-9-2
  * 
  */
-public class JCardQueryButtonDialog extends CustomDialog {
+public class JCardQueryButtonDialog extends BaseButtonDailog {
 	
 	private final Label SN_ZH = new Label(JCardConstanst.SN_ZH);
 	private final Label NUMBER_ZH = new Label(JCardConstanst.NUMBER_ZH);
@@ -67,15 +62,9 @@ public class JCardQueryButtonDialog extends CustomDialog {
 	
 	public List<String> jwCheckKard = new ArrayList<String>();
 	
-	private String action_name = "";
-	
 	JCardData data = new JCardData();
-		
-	DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
 	
-	public RequestFactory request = new RequestFactory();;
-	
-	public  RequestCallback balanceCaller ;
+	public  RequestCallback balanceCaller = new BalanceRequestCallback();
 	//对账操作的回调
 	class BalanceRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request0, Response response) {
@@ -123,29 +112,26 @@ public class JCardQueryButtonDialog extends CustomDialog {
 		}
 	}
 	
-	public JCardQueryButtonDialog() {
-		balanceCaller = new BalanceRequestCallback();
-		CREATE_DATE.setFormat(new DateBox.DefaultFormat(format));
-		ClickHandler handler = new SubmitButtonClickHandler();
-		submit.addClickHandler(handler);
-	}
-	
 	public void addMainPanel(){
 		updateText.setSize("350px", "300px");
+		ACTION_NAME = Constanst.ACTION_NAME_IMPORT_DATA;
 		setText("添加俊卡");
 		label.setText("上传的骏卡信息");
-		Grid gridFrame = new Grid(1, 1);
+		gridFrame = new Grid(1,1);
+		gridFrame.resize(1, 1);
 		gridFrame.setWidget(0, 0, updateText);			
 		mainPanel.add(gridFrame);
 		submit.setText("添加");
+		show();
 	}
 	
 	public void balancePanel(){
 		BALANCE_TEXT.setSize("350px", "150px");
 		BALANCE_RIGTH_TEXT.setSize("350px", "120px");
 		BALANCE_WRONG_TEXT.setSize("350px", "180px");
+		ACTION_NAME = Constanst.ACTION_NAME_BALANCE;
 		setText("俊卡对账");
-		Grid gridFrame = new Grid(6, 1);
+		gridFrame = new Grid(6,1);
 		gridFrame.setWidget(0, 0, new Label("需要对账数据"));
 		gridFrame.setWidget(1, 0, BALANCE_TEXT);
 		gridFrame.setWidget(2, 0, new Label("对账成功数据"));
@@ -154,12 +140,13 @@ public class JCardQueryButtonDialog extends CustomDialog {
 		gridFrame.setWidget(5, 0, BALANCE_WRONG_TEXT);
 		mainPanel.add(gridFrame);
 		submit.setText("对账");
+		show();
 	}
 	
 	public void queryMainPanel(){
-
+		ACTION_NAME = Constanst.ACTION_NAME_SELECT_JCARD;
 		setText("查询骏卡");
-		Grid gridFrame = new Grid(7, 2);
+		gridFrame.resize(7, 2);
 		gridFrame.setWidget(0, 0, SN_ZH);
 		gridFrame.setWidget(0, 1, SN);
 		gridFrame.setWidget(1, 0, NUMBER_ZH);
@@ -176,86 +163,9 @@ public class JCardQueryButtonDialog extends CustomDialog {
 		gridFrame.setWidget(6, 1, CREATE_DATE);	
 		mainPanel.add(gridFrame);
 		submit.setText("查询");
+		show();
 	}
 
-	public String getAction_name() {
-		return action_name;
-	}
-
-	public void setAction_name(String action_name) {
-		this.action_name = action_name;	
-	}
-	
-	public class SubmitButtonClickHandler implements ClickHandler{
-		@Override
-		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
-			
-			if(Constanst.ACTION_NAME_IMPORT_DATA.equals(action_name)){
-				String uploadData = updateText.getText();
-				if(uploadData == null || "".equals(uploadData)){
-					setMessage("不能传空数据");
-					return ;
-				}			
-				JCardData jCardData = new JCardData();
-				jCardData.setUploadData(uploadData);
-				jCardData.setACTION_NAME(action_name);
-				String packet = jCardData.toHttpPacket();
-				if(packet == null){
-					return ;
-				}
-				
-				request.postJCard(packet, JCardQueryContorller.RemoteCaller);							
-				
-				hide();		
-			}else if(Constanst.ACTION_NAME_BALANCE.equals(action_name)){
-				String balanceText = BALANCE_TEXT.getText();
-				if(balanceText == null || "".equals(balanceText)){
-					setMessage("不能传空数据");
-					return ;
-				}
-				sbSuccess = new StringBuilder();					
-				sbFail = new StringBuilder();
-				JCardData jCardData = new JCardData();
-				jCardData.setACTION_NAME(action_name);
-				jCardData.setBalanceData(balanceText);
-				jCardData.toHttpPacketBl();
-				jwCard = jCardData.getJCard();
-				jwCheckKard = jCardData.getCheckCard();
-				if(jwCard.size()>0){
-					request.getJCard(jwCard.get(0), balanceCaller);
-				}	
-			}else if(Constanst.ACTION_NAME_SELECT_JCARD.equals(action_name)){
-				String sn = SN.getText();	
-				String number = NUMBER.getText();
-				String pwd = PWD.getText();
-				String par_value = PAR_VALUE.getText();
-				String bill_extend_id = BILL_EXTEND_ID.getText();
-				Date creatTime = CREATE_DATE.getValue();
-				String create_date = Util.formatMINDateToJsonString(creatTime);
-				
-				int statusIndex = list_status.getSelectedIndex();
-				String status = list_status.getValue(statusIndex);
-				
-				JCardData jCardData = new JCardData();
-				jCardData.setACTION_NAME(action_name);
-				jCardData.setSN(sn);
-				jCardData.setNUMBER(number);
-				jCardData.setPWD(pwd);
-				jCardData.setPAR_VALUE(par_value);
-				jCardData.setBILL_EXTEND_ID(bill_extend_id);
-				jCardData.setCREATE_DATE(create_date);
-				jCardData.setSTATUS(status);
-				
-				JCardQueryContorller.queryData = jCardData;
-				
-				String packet = jCardData.toHttpPacket();
-				request.getJCard(packet, JCardQueryContorller.QueryCaller);
-								
-				hide();			
-			}
-		}
-	}
 	public static String getElecTicketStatusCn(String status) {
 		if("free".equals(status)){
 			return "可用";
@@ -270,5 +180,74 @@ public class JCardQueryButtonDialog extends CustomDialog {
 		}
 
 		return status;
+	}
+
+	@Override
+	public void subminHandler() {
+		// TODO Auto-generated method stub
+		
+		if(Constanst.ACTION_NAME_IMPORT_DATA.equals(ACTION_NAME)){
+			String uploadData = updateText.getText();
+			if(uploadData == null || "".equals(uploadData)){
+				setMessage("不能传空数据");
+				return ;
+			}			
+			JCardData jCardData = new JCardData();
+			jCardData.setUploadData(uploadData);
+			jCardData.setACTION_NAME(ACTION_NAME);
+			String packet = jCardData.toHttpPacket();
+			if(packet == null){
+				return ;
+			}
+			
+			request.postJCard(packet, JCardQueryContorller.RemoteCaller);							
+			
+			hide();		
+		}else if(Constanst.ACTION_NAME_BALANCE.equals(ACTION_NAME)){
+			String balanceText = BALANCE_TEXT.getText();
+			if(balanceText == null || "".equals(balanceText)){
+				setMessage("不能传空数据");
+				return ;
+			}
+			sbSuccess = new StringBuilder();					
+			sbFail = new StringBuilder();
+			JCardData jCardData = new JCardData();
+			jCardData.setACTION_NAME(ACTION_NAME);
+			jCardData.setBalanceData(balanceText);
+			jCardData.toHttpPacketBl();
+			jwCard = jCardData.getJCard();
+			jwCheckKard = jCardData.getCheckCard();
+			if(jwCard.size()>0){
+				request.getJCard(jwCard.get(0), balanceCaller);
+			}	
+		}else if(Constanst.ACTION_NAME_SELECT_JCARD.equals(ACTION_NAME)){
+			String sn = SN.getText();	
+			String number = NUMBER.getText();
+			String pwd = PWD.getText();
+			String par_value = PAR_VALUE.getText();
+			String bill_extend_id = BILL_EXTEND_ID.getText();
+			Date creatTime = CREATE_DATE.getValue();
+			String create_date = Util.formatDateToJsonString(creatTime);
+			
+			int statusIndex = list_status.getSelectedIndex();
+			String status = list_status.getValue(statusIndex);
+			
+			JCardData jCardData = new JCardData();
+			jCardData.setACTION_NAME(ACTION_NAME);
+			jCardData.setSN(sn);
+			jCardData.setNUMBER(number);
+			jCardData.setPWD(pwd);
+			jCardData.setPAR_VALUE(par_value);
+			jCardData.setBILL_EXTEND_ID(bill_extend_id);
+			jCardData.setCREATE_DATE(create_date);
+			jCardData.setSTATUS(status);
+			
+			JCardQueryContorller.queryData = jCardData;
+			
+			String packet = jCardData.toHttpPacket();
+			request.getJCard(packet, JCardQueryContorller.QueryCaller);
+							
+			hide();			
+		}
 	}
 }

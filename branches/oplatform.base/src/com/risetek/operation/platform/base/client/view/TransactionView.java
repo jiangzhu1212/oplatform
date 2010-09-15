@@ -51,10 +51,6 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 */
 	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-//		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//		actionPanel.setHeight("32px");
-//		actionPanel.setWidth("100%");
-//		actionPanel.setBorderWidth(1);
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
 		return actionPanel;
@@ -111,7 +107,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 * @param data
 	 */
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

@@ -3,7 +3,6 @@ package com.risetek.operation.platform.base.client.view;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TradeSink;
 import com.risetek.operation.platform.base.client.control.TradeController;

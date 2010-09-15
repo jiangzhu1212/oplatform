@@ -3,16 +3,12 @@ package com.risetek.operation.platform.base.client.control;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.TransEnableButtonDialog;
-import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.ChannelData;
 import com.risetek.operation.platform.base.client.model.TransEnableData;
 import com.risetek.operation.platform.base.client.model.TransactionData;
@@ -127,75 +123,17 @@ public class TransEnableController extends AController {
 		return data;
 	}
 	
-	/**
-	 * @author Amber
-	 * 功能：以下子类分别是该模块事件的实体
-	 * 2010-8-23 下午11:49:52
-	 */
-	public static class TableEditAction implements ClickActionHandler {
+	public static class TableEditAction extends BaseTableEditController {
 		
-		private String actionName = "编辑表格";
-		TransEnableEditControl edit_control = new TransEnableEditControl();
-		public String getActionName(){
-			return actionName;
-		}
-		public TableEditAction() {
-			edit_control.setColName(null);	
-			edit_control.dialog.submit.addClickHandler(edit_control);
-		}
-		public void onClick(ClickEvent event) {
-			
-			HTMLTable table = (HTMLTable)event.getSource();
-			Cell Mycell = table.getCellForEvent(event);
-			if( Mycell == null ) return;
-			int row = Mycell.getRowIndex();
-			int col = Mycell.getCellIndex();
-            
-			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-			String rowid = table.getText(row, 1);
-			String colName = table.getText(0, col);
-			String tisp_value = table.getText(row, col);
-			if(tisp_value.length() == 1){
-				int tvalue = (int)tisp_value.charAt(0);
-				if(tvalue == 160){
-					tisp_value = "";
-				}
-			}
-			switch (col) {
-			case 1:
-				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
-				dialog.makeMainPanel(INSTANCE.view.grid , row);
-				dialog.show();
-				break;	
-			case 2:
-				// 选择了删除业务绑定。
-				edit_control.setColName(null);
-				edit_control.dialog.submit.setText("删除");
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
-				
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-				edit_control.setColName(colName);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
-			default:
-				break;
-			}			
-			
-		}
-		
-		public class TransEnableEditControl extends EditController implements ClickHandler {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-							
-			}		
+		@Override
+		public void setGrid() {
+			grid = INSTANCE.view.grid;
 		}
 
+		@Override
+		public void submintHandler() {
+			
+		}	
 	}
 
 	
@@ -211,13 +149,9 @@ public class TransEnableController extends AController {
 			INSTANCE.transEnableButtonDialog = new TransEnableButtonDialog();
 			Object obj = event.getSource();			
 			if(obj == TransEnableView.queryButton){
-				INSTANCE.transEnableButtonDialog.setAction_name(Constanst.ACTION_NAME_QUERY_TRANS_ENABLE);
 				INSTANCE.transEnableButtonDialog.queryMainPanel();
-				INSTANCE.transEnableButtonDialog.show();
 			}else if(obj == TransEnableView.addButton){
-				INSTANCE.transEnableButtonDialog.setAction_name(Constanst.ACTION_NAME_ADD_TRANS_ENABLE);
 				INSTANCE.transEnableButtonDialog.addMainPanel();
-				INSTANCE.transEnableButtonDialog.show();
 			}
 		}
 	}

@@ -3,15 +3,11 @@ package com.risetek.operation.platform.base.client.control;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.BankButtonDialog;
-import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.BankData;
 import com.risetek.operation.platform.base.client.view.BankView;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -89,69 +85,16 @@ public class BankController extends AController {
 	public BankData getData() {
 		return data;
 	}
-
-	public static class TableEditAction implements ClickActionHandler {
-		
-		private String actionName = "编辑表格";
-		private BankEditControl edit_control = new BankEditControl();
-		public TableEditAction() {
-			edit_control.setColName(null);	
-			edit_control.dialog.submit.addClickHandler(edit_control);
-		}
-		public String getActionName(){
-			return actionName;
-		}
-		
-		public void onClick(ClickEvent event) {
-			
-			HTMLTable table = (HTMLTable)event.getSource();
-			Cell Mycell = table.getCellForEvent(event);
-			if( Mycell == null ) return;
-			int row = Mycell.getRowIndex();
-			int col = Mycell.getCellIndex();
-            
-			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-			String rowid = table.getText(row, 1);
-			String colName = table.getText(0, col);
-			String tisp_value = table.getText(row, col);
-			if(tisp_value.length() == 1){
-				int tvalue = (int)tisp_value.charAt(0);
-				if(tvalue == 160){
-					tisp_value = "";
-				}
-			}
-			switch (col) {
-			case 1:
-				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
-				dialog.makeMainPanel(INSTANCE.view.grid , row);
-				dialog.show();
-				break;	
-			case 2:
-				// 选择了删除用户。
-				edit_control.setColName(null);
-				edit_control.dialog.submit.setText("删除");
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
-				
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-				edit_control.setColName(colName);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
-			default:
-				break;
-			}			
-			
-		}
-		
-		public class BankEditControl extends EditController implements ClickHandler {
+	
+	public static class TableEditAction extends BaseTableEditController {
 			
 			@Override
-			public void onClick(ClickEvent event) {
+			public void setGrid() {
+				grid = INSTANCE.view.grid;
+			}
+	
+			@Override
+			public void submintHandler() {
 				BankData editData = new BankData() ;
 				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_CUSTOMER_INFO);
 				String row = dialog.rowid;
@@ -171,8 +114,7 @@ public class BankController extends AController {
 						String packet = editData.toHttpPacket(colName,colValue);
 						remoteRequest.getBill(packet, RemoteCaller);
 					}
-			}		
-		}
+			}
 		
 	}
 		
