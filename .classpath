@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/oplatform.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/oplatform.launch"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/oplatform.process"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/oplatform.log"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
