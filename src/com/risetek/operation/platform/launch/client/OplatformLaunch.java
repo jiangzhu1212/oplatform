@@ -8,15 +8,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.launch.client.dialog.NoticeDialog;
+import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 
@@ -52,58 +53,12 @@ public abstract class OplatformLaunch implements EntryPoint {
 	Tree userMenu = new Tree();
 	private SinkInfo curInfo;
 	public static ArrayList<Sink> sinkList = null;
+	public static User loginUser = null;
+	
+	public abstract void loginAction();
 	
 	public void onModuleLoad() {
-		displayNowTime();
-		Widget mainPanel = initMainPanel();
-		RootPanel.get("main").add(mainPanel);
-		Grid userInfoGrid = new Grid(1, 8);
-		userInfoGrid.setText(0, 0, "登录用户:");
-		userInfoGrid.setText(0, 1, "测试");
-		userInfoGrid.setText(0, 2, "权限:");
-		userInfoGrid.setText(0, 3, "值班技术");
-		userInfoGrid.setText(0, 4, "上次登录时间:");
-		userInfoGrid.setText(0, 5, "2010-08-24 22:48:30");
-		userInfoGrid.setText(0, 6, "上次登录地址:");
-		userInfoGrid.setText(0, 7, "125.69.69.135");
-		for(int i=0;i<userInfoGrid.getColumnCount();i++){
-			if(i%2==0){
-				userInfoGrid.getCellFormatter().setStyleName(0, i, "userinfo-name");
-			} else {
-				userInfoGrid.getCellFormatter().setStyleName(0, i, "userinfo-content");
-			}
-		}
-		RootPanel.get("userinfo").add(userInfoGrid);
-		VerticalPanel pubAction = new VerticalPanel();
-		Button repws = new Button("更改个人信息");
-		repws.setWidth("90px");
-		Button logout = new Button("注销登录");
-		logout.setWidth("90px");
-		HTML blank = new HTML();
-		blank.setStyleName("blank5");
-		pubAction.add(repws);
-		pubAction.add(blank);
-		pubAction.add(logout);
-		RootPanel.get("public").add(pubAction);
-		
-		History.addValueChangeHandler(new ValueChangeHandler<String>() {
-			public void onValueChange(ValueChangeEvent<String> event) {
-				String token = event.getValue();
-				SinkInfo info = findSinkInfo(token);
-				if(info == null){
-					showInfo();
-					return;
-				}
-				show(info, false);
-			}
-		});
-		
-		String initToken = History.getToken();
-		if(initToken.length()>0){
-			onHistoryChanged(initToken);
-		} else {
-			showInfo();
-		}
+		loginAction();		
 	}
 	
 	public void onHistoryChanged(String token){
@@ -115,7 +70,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		show(info, false);
 	}
 	
-	private SinkInfo findSinkInfo(String token){
+	public SinkInfo findSinkInfo(String token){
 		int count = userMenu.getItemCount();
 		if(count>0){
 			for(int i=0;i<count;i++){
@@ -141,7 +96,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 		return null;
 	}
 	
-	private void showInfo(){
+	public void showInfo(){
 		selectDefaultWidget();
 	}
 	
@@ -154,13 +109,75 @@ public abstract class OplatformLaunch implements EntryPoint {
 	 */
 	public abstract Tree registerTreeMenu(Tree userMenu);
 	
+	protected Widget initTitlePanel(){
+		HorizontalPanel titlePanel = new HorizontalPanel();
+		Image img = new Image("logo.png");
+		img.setSize("240px", "47px");
+		titlePanel.add(img);
+		HTML title = new HTML("中联信通&nbsp;&nbsp;&nbsp;手机支付&nbsp;&nbsp;&nbsp;运维平台");
+		titlePanel.add(title);
+		title.setStyleName("h1");
+		VerticalPanel pubAction = new VerticalPanel();
+		Button repws = new Button("更改个人信息");
+		repws.setWidth("90px");
+		Button logout = new Button("注销登录");
+		logout.setWidth("90px");
+		HTML blank = new HTML();
+		blank.setStyleName("blank5");
+		pubAction.add(repws);
+		pubAction.add(blank);
+		pubAction.add(logout);
+		pubAction.setWidth("100px");
+		titlePanel.add(pubAction);
+		titlePanel.setCellWidth(title, "100%");
+		titlePanel.setWidth("100%");
+		return titlePanel;
+	}
+	
+	protected Widget initUserInfoPanel(){
+		HorizontalPanel userInfoPanel = new HorizontalPanel();
+		Grid userInfoGrid = new Grid(1, 8);
+		userInfoGrid.setText(0, 0, "登录用户:");
+		userInfoGrid.setText(0, 1, "测试");
+		userInfoGrid.setText(0, 2, "权限:");
+		userInfoGrid.setText(0, 3, "值班技术");
+		userInfoGrid.setText(0, 4, "上次登录时间:");
+		userInfoGrid.setText(0, 5, "2010-08-24 22:48:30");
+		userInfoGrid.setText(0, 6, "上次登录地址:");
+		userInfoGrid.setText(0, 7, "125.69.69.135");
+		for(int i=0;i<userInfoGrid.getColumnCount();i++){
+			if(i%2==0){
+				userInfoGrid.getCellFormatter().setStyleName(0, i, "userinfo-name");
+			} else {
+				userInfoGrid.getCellFormatter().setStyleName(0, i, "userinfo-content");
+			}
+		}
+		userInfoPanel.setHeight("20px");
+		userInfoPanel.add(userInfoGrid);
+		userInfoPanel.setWidth("100%");
+		userInfoPanel.setCellHorizontalAlignment(userInfoGrid, HasHorizontalAlignment.ALIGN_RIGHT);
+		userInfoPanel.setStyleName("userinfo");
+		return userInfoPanel;
+	}
+	
+	protected Widget initCopyRightPanel(){
+		Grid grid = new Grid(1, 1);
+		grid.setStyleName("contact-box");
+		HTML copyRight = new HTML("<font size=\"4\">&copy;</font>&nbsp;2009-2010 成都中联信通科技有限公司");
+		copyRight.setStyleName("contact");
+		grid.setWidget(0, 0, copyRight);
+		grid.setSize("100%", "20px");
+		grid.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
+		return grid;
+	}
+	
 	/**
 	 * 功能：初始化主框架视图部分
 	 *
 	 * Widget
 	 * @return
 	 */
-	private Widget initMainPanel(){
+	protected Widget initMainPanel(){
 		HorizontalPanel main = new HorizontalPanel();
 		main.setWidth("100%");
 		main.setHeight("100%");
@@ -182,11 +199,6 @@ public abstract class OplatformLaunch implements EntryPoint {
 					SinkInfo info = (SinkInfo)obj;
 					show(info, true);
 					onHistoryChanged(info.getTag());
-//					if(obj instanceof Widget){
-//						body.clear();
-//						Widget w = (Widget)obj;
-//						body.add(w);
-//					}
 				}
 			}
 		});
@@ -251,7 +263,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 	 *
 	 * void
 	 */
-	private void displayNowTime(){
+	protected void displayNowTime(){
 		final Label nowTime = new Label();
 		Timer timer = new Timer() {
 			public void run() {

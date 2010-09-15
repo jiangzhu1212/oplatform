@@ -1,9 +1,12 @@
 package com.risetek.operation.platform.launch.client.view;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -15,6 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
+import com.risetek.operation.platform.launch.client.OplatformLaunch;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 /**
@@ -32,6 +36,7 @@ public abstract class OPlatformTableView extends DockPanel {
 	private final Label statisticLabel = new Label("");
 	public VerticalPanel main = new VerticalPanel();
 	public HorizontalPanel page = new HorizontalPanel();
+	public HorizontalPanel actionPanel;
 	
 	public abstract String[] parseRow(Node node);
 	public abstract Grid getGrid();
@@ -81,7 +86,9 @@ public abstract class OPlatformTableView extends DockPanel {
 	    add(empty, DockPanel.SOUTH);
 	}
 	
-	public void addActionPanel(Widget widget, String descript){
+	public void addActionPanel(HorizontalPanel widget, String descript, String name){
+		actionPanel = widget;
+		checkAddAction(widget, name);
 		HorizontalPanel border = new HorizontalPanel();
 		border.setWidth("100%");
 		border.setHeight("30px");
@@ -94,6 +101,10 @@ public abstract class OPlatformTableView extends DockPanel {
 		border.setCellWidth(desc, "25%");
 		border.setCellHorizontalAlignment(desc, HasHorizontalAlignment.ALIGN_RIGHT);
 		add(border, DockPanel.SOUTH);
+	}
+	
+	public HorizontalPanel getActionPanel(){
+		return actionPanel;
 	}
 	
 	private Widget createPagePanel() {
@@ -322,41 +333,25 @@ public abstract class OPlatformTableView extends DockPanel {
 	 */
 	public class GreenMouseEventGrid extends MouseEventGrid {
 
-		String[] bannerText;
 		boolean isChild;
 		
-		public GreenMouseEventGrid(String[] bannerText){
-			this.bannerText = bannerText;
+		public GreenMouseEventGrid(){
 			this.isChild = false;
 		}
 		
-		public GreenMouseEventGrid(String[] bannerText, boolean isChild){
-			this.bannerText = bannerText;
+		public GreenMouseEventGrid(boolean isChild){
 			this.isChild = isChild;
 		}
 		
 		@Override
 		public void onMouseOver(Element td, int column) {
 			DOM.removeElementAttribute(td, "title");
-			String text = "";
-			if(column<2){
-				if(column==1){
-					text = "点击删除/注销记录";
-				}
-			} else {
-				text = bannerText[column-2];
-			}
-			if(!isChild){
-				setInfo(text);
-			} else {
-				VerticalPanel child = (VerticalPanel)outer.getWidget(1);
-				Grid childTitle = (Grid)child.getWidget(0);
-				childTitle.setText(0, 1, text);
-			}
             Element tr = DOM.getParent(td);
             Element body = DOM.getParent(tr);
             int row = DOM.getChildIndex(body, tr);
-            if(row == 0) return;
+            if(row == 0) {
+            	return;
+            }
 		}
 
 		@Override
@@ -392,4 +387,51 @@ public abstract class OPlatformTableView extends DockPanel {
 			}
 		}
 	}
+	
+	public void clearGridStyle(Grid grid, int rowCount) {
+		for(int i=1;i<=rowCount;i++){
+			grid.getRowFormatter().removeStyleName(i, "green");
+			grid.getRowFormatter().removeStyleName(i, "red");
+			grid.getRowFormatter().removeStyleName(i, "white");
+			for(int a=0;a<grid.getColumnCount();a++){
+				grid.clearCell(i, a);
+			}
+		}
+	}
+	
+	protected ArrayList<String> getLocalActionList(ArrayList<String> ro, String name) {
+		ArrayList<String> list = new ArrayList<String>();
+		for(int i=0;i<ro.size();i++){
+			String[] temp = ro.get(i).split(",");
+			if(temp[0].equals(name)){
+				list.add(temp[1]);
+			}
+		}
+		return list;
+	}
+	
+	protected boolean checkAction(Button btn, ArrayList<String> actions) {
+		String name = btn.getText();
+		for(int i=0;i<actions.size();i++){
+			String ac = actions.get(i);
+			if(ac.equals(name)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void checkAddAction(HorizontalPanel widget, String name) {
+		ArrayList<String> ro = OplatformLaunch.loginUser.getRoleOperation();
+		ArrayList<String> actions = getLocalActionList(ro, name);
+		for(int i=0;i<widget.getWidgetCount();i++){
+			Widget w = widget.getWidget(i);
+			if(w instanceof Button){
+				if(!checkAction((Button)w, actions)){
+					w.setVisible(false);
+				}
+			}
+		}
+	}
+	
 }

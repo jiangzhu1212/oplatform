@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
@@ -16,6 +17,9 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
  * 2010-8-23 下午11:24:56
  */
 public abstract class AController {
+	
+	protected ArrayList<String> actionNames = new ArrayList<String>();
+	
 	/**
 	 * 功能：用于加载模块时获取视图接口
 	 *
@@ -25,13 +29,24 @@ public abstract class AController {
 	public abstract OPlatformTableView getView();
 	public abstract OPlatformData getData();
 	public abstract OPlatformData getChildData();
-	public abstract ArrayList<String> getActionNames();
 	public abstract void load(final int pagePoint);
 	public abstract void loadChild(final String id, String value, final int childPagePoint);
 	public abstract void setPagePoint(int point);
 	public abstract int getPagePoint();
 	public abstract void setChildPagePoint(int point);
 	public abstract int getChildPagePoint();
+	
+	public ArrayList<String> getActionNames(){
+		HorizontalPanel hp = getView().getActionPanel();
+		for(int i=0;i<hp.getWidgetCount();i++){
+			Widget w = hp.getWidget(i);
+			if(w instanceof Button){
+				String name = ((Button)w).getText();
+				actionNames.add(name);
+			}
+		}
+		return actionNames;
+	}
 	
 	public void resetPagePanel(AController INSTANCE, final int rowCount, int result){
 		INSTANCE.getData().setSum(result);

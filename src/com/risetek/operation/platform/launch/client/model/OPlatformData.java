@@ -10,7 +10,7 @@ import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 
 /**
  * @author Amber
- * 功能：此类用于数据格式化框架，暂时摆起。不一定会用到
+ * 功能：此类用于数据格式化框架。
  * 2010-8-23 下午11:27:06
  */
 public abstract class OPlatformData {
@@ -40,6 +40,8 @@ public abstract class OPlatformData {
 	private String ACTION_NAME = null ;
 	
 	private String data[][];
+
+	public boolean autoRefresh = true;
 	
 	public void setData(String data[][]) {
 		this.data = data;
@@ -49,20 +51,20 @@ public abstract class OPlatformData {
 		return data;
 	}
 	
-	public ResolveResponseInfo retInfo(String retInfo) {
-		ResolveResponseInfo opRetInfo = new ResolveResponseInfo();
-		opRetInfo = new ResolveResponseInfo();
+	protected ResolveResponseInfo[] retInfo(String retInfo) {
+		ResolveResponseInfo opRetInfo[] = new ResolveResponseInfo[1];
+		opRetInfo[0] = new ResolveResponseInfo();
 		JSONObject jo = JSONParser.parse(retInfo).isObject();
 		JSONObject actionInfo = (JSONObject) jo.get(Constanst.ACTION_INFO);
-		opRetInfo.setActionInfo(actionInfo.toString());
+		opRetInfo[0].setActionInfo(actionInfo.toString());
 		try {
-			JSONNumber num = (JSONNumber)jo.get(Constanst.ACTION_RETRUN_CODE);
-			opRetInfo.setReturnCode(Integer.parseInt(num.toString()));
-			opRetInfo.setReturnMessage(((JSONString)jo.get(Constanst.ACTION_RETRUN_MESSAGE)).stringValue());
+			JSONNumber num = (JSONNumber)actionInfo.get(Constanst.RETURN_CODE);
+			opRetInfo[0].setReturnCode(Integer.parseInt(num.toString()));
+			opRetInfo[0].setReturnMessage(((JSONString)actionInfo.get(Constanst.RETURN_MESSAGE)).stringValue());
 		} catch (Exception e) {
-			opRetInfo.setReturnCode(-1);
+			opRetInfo[0].setReturnCode(-1);
 		}
-
+		
 		return opRetInfo;
 	}
 
