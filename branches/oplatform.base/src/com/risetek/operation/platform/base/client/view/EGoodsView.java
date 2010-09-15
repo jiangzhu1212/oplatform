@@ -1,43 +1,31 @@
 package com.risetek.operation.platform.base.client.view;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.xml.client.Node;
-import com.risetek.operation.platform.base.client.PBabySink;
-import com.risetek.operation.platform.base.client.control.PBabyController;
+import com.risetek.operation.platform.base.client.EGoodsSink;
+import com.risetek.operation.platform.base.client.control.EGoodsController;
+import com.risetek.operation.platform.base.client.model.EGoodsData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
-import com.risetek.operation.platform.launch.client.json.constanst.PBabyConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 import com.risetek.operation.platform.launch.client.view.PageLabel;
 
-public class PBabyView  extends OPlatformTableView implements IOPlatformView {
+public class EGoodsView extends OPlatformTableView implements IOPlatformView {
 
 
-	public final static Button queryButton = new Button("查询异常票宝宝",new PBabyController.TableShowAction());
-	
-	public final static TextBox phoneNumber = new TextBox();
-	
-	public final static DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd"); 
-	
-	public final static DateBox createDataTime = new DateBox();
-	
-	public final static String[] columns = {
-		PBabyConstanst.ORDID_ZH,
-		PBabyConstanst.KEYID_ZH,
-		PBabyConstanst.IS_OK_ZH,
-		PBabyConstanst.CODE_ZH,
-		PBabyConstanst.SEAT_ZH,
-		PBabyConstanst.PNR_ZH
-		};
+	public final static Button queryButton = new Button("查询电子货物",new EGoodsController.TableShowAction());
+	public final static Button addButton = new Button("添加电子货物",new EGoodsController.TableShowAction());
+
+	public final static String[] columns = {EGoodConstanst.E_GOODS_ID_ZH,EGoodConstanst.E_GOODS_SN_ZH,EGoodConstanst.TRANS_ID_ZH,EGoodConstanst.CUSTOMER_ID_ZH
+											,EGoodConstanst.DESCRIPTION_ZH,EGoodConstanst.INFO_ZH,EGoodConstanst.CREATE_TIME_ZH,EGoodConstanst.BOLISH_TIME_ZH
+											,EGoodConstanst.USED_TIME_ZH,EGoodConstanst.STATUS_ZH,EGoodConstanst.THIRD_STATUS_ZH,EGoodConstanst.ADDITION_ZH,
+											EGoodConstanst.VALIDITY_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
-	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25};
-	public static String descript = "";
+	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	String banner_tips = "";
 	
 	public void setBannerTips(String tips) {
@@ -45,23 +33,19 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 		setInfo(banner_tips);
 	}
 	
-	public PBabyView(){
+	public EGoodsView(){
 		HorizontalPanel action = initPromptGrid();
-		addActionPanel(action, descript, PBabySink.Name);
+		addActionPanel(action, EGoodsSink.Desc,EGoodsSink.Name);
 //		setCellHeight(action, "38px");
-		setLocation(PBabySink.Group + " -> " + PBabySink.Name);
+		setLocation(EGoodsSink.Group + " -> " + EGoodsSink.Name);
 		setStatisticText(100);
-		grid.addClickHandler(new PBabyController.TableEditAction());
+		grid.addClickHandler(new EGoodsController.TableEditAction());
 
 	}
 	
 	private HorizontalPanel initPromptGrid(){
-		
-		createDataTime.setFormat(new DateBox.DefaultFormat(format));
-		
 		HorizontalPanel actionPanel = new HorizontalPanel();
-		actionPanel.add(phoneNumber);
-		actionPanel.add(createDataTime);
+		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
 		
 		actionPanel.setStyleName("aa");		
@@ -70,9 +54,7 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public void onLoad(){
-		phoneNumber.setText("");
-		createDataTime.setValue(null);
-		PBabyController.load();
+		EGoodsController.load();
 	}
 
 	@Override
@@ -93,24 +75,29 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns,columnsWidth);
+//		grid.resize(2, 2);
+//		grid.setText(0, 0, "00");
+//		grid.setText(0, 1, "01");
+//		grid.setText(1, 0, "10");
+//		grid.setText(1, 1, "11");
 		return grid;
 	}
 
-	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+	public void render(EGoodsData data){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);
 	}
 
 	@Override
-	public HorizontalPanel getPagePanel() {
+	public void render(OPlatformData data) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
-	public HorizontalPanel getChildPagePanel() {
+	public HorizontalPanel getPagePanel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -139,4 +126,9 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 		
 	}
 
+	@Override
+	public HorizontalPanel getChildPagePanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

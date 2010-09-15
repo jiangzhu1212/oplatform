@@ -22,8 +22,8 @@ import com.risetek.operation.platform.launch.client.view.PageLabel;
  */
 public class BankView extends OPlatformTableView implements IOPlatformView {
 	
-	public final static Button addButton = new Button("增加", new BankController.TableEditAction());
-	public final static Button searchButton = new Button("查询", new BankController.TableEditAction());
+	public final static Button addButton = new Button("增加发卡行", new BankController.TableShowAction());
+	public final static Button queryButton = new Button("查询发卡行", new BankController.TableShowAction());
 	
 	public final static int[] columnsWidth = {25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
@@ -62,7 +62,7 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
-		actionPanel.add(searchButton);
+		actionPanel.add(queryButton);
 		return actionPanel;
 	}
 	
@@ -124,7 +124,7 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void render(OPlatformData data) {
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

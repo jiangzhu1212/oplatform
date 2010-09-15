@@ -4,17 +4,11 @@ import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.AnnoucementController;
 import com.risetek.operation.platform.base.client.model.AnnoucementData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.AnnoucementConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -29,14 +23,14 @@ import com.risetek.operation.platform.launch.client.util.Util;
  */
 public class AnnoucementButtonDialog extends BaseDialog {    
 	
-	public final TextBox ACE_ID = new MyTextBox();
-	public final TextBox TYPE = new MyTextBox();
-	public final TextBox DATA = new MyTextBox();
-	public final TextBox ADDTION = new MyTextBox();
+	public final TextBox ACE_ID = new TextBox();
+	public final TextBox TYPE = new TextBox();
+	public final TextBox DATA = new TextBox();
+	public final TextBox ADDTION = new TextBox();
 	public final DateBox STOP_TIME = new DateBox();
-	public final TextBox TARGET_TYPE = new MyTextBox();
-	public final TextBox TARGET_ID = new MyTextBox();
-	public final TextBox DESCRIPTION = new MyTextBox();
+	public final TextBox TARGET_TYPE = new TextBox();
+	public final TextBox TARGET_ID = new TextBox();
+	public final TextBox DESCRIPTION = new TextBox();
 	
 	public final ListBox VALIDITY = Util.getValidity() ;
 	
@@ -56,7 +50,12 @@ public class AnnoucementButtonDialog extends BaseDialog {
 	private String[] searchColumns = {
 			AnnoucementConstanst.ACE_ID_ZH, 
 			AnnoucementConstanst.TYPE_ZH, 
-			AnnoucementConstanst.VALIDITY_ZH 
+			AnnoucementConstanst.DATA_ZH,
+			AnnoucementConstanst.VALIDITY_ZH,
+			AnnoucementConstanst.CREATE_TIME_MIN_ZH,
+			AnnoucementConstanst.CREATE_TIME_MAX_ZH,
+			AnnoucementConstanst.STOP_TIME_MIN_ZH,
+			AnnoucementConstanst.STOP_TIME_MAX_ZH
 	};
 
 	private String[] addColumns = { 
@@ -87,6 +86,9 @@ public class AnnoucementButtonDialog extends BaseDialog {
 	public void addMainPanel(){	
 		ACTION_NAME = Constanst.ACTION_NAME_ADD_ANNOUCEMENT_INFO ;
 		gridFrame.resize(8, 2);
+		gridFrame.setStyleName("table");
+		gridFrame.getColumnFormatter().setWidth(0, "80px");
+		gridFrame.getColumnFormatter().setWidth(1, "220px");
 		formatGrid(gridFrame, addColumns);
 		gridFrame.setWidget(0,1,TYPE);
 		gridFrame.setWidget(1,1,DATA);
@@ -99,7 +101,7 @@ public class AnnoucementButtonDialog extends BaseDialog {
 		setText("增加公告信息");
 		setDescript("请输入新的公告信息");
 		mainPanel.add(gridFrame);
-		submit.setText("查询");
+		submit.setText("添加");
 		show();
 	}
 	
@@ -109,57 +111,24 @@ public class AnnoucementButtonDialog extends BaseDialog {
 	 */
 	public void queryMainPanel(){
 		ACTION_NAME = Constanst.ACTION_NAME_QUERY_ANNOUCEMENT_INFO ;
-		gridFrame.resize(4, 2);
+		gridFrame.resize(8, 2);
+		gridFrame.setStyleName("table");
+		gridFrame.getColumnFormatter().setWidth(0, "80px");
+		gridFrame.getColumnFormatter().setWidth(1, "220px");
 		formatGrid(gridFrame, searchColumns);
 		gridFrame.setWidget(0,1,ACE_ID);
 		gridFrame.setWidget(1,1,TYPE);
 		gridFrame.setWidget(2,1,DATA);
 		gridFrame.setWidget(3,1,VALIDITY);
-		VerticalPanel datePanel = new VerticalPanel();
-		datePanel.add(gridFrame);
-		datePanel.add(createStartPanel());
-		datePanel.add(createStopPanel());
+		gridFrame.setWidget(4,1,CREATE_STARTTIME);
+		gridFrame.setWidget(5,1,CREATE_ENDTIME);
+		gridFrame.setWidget(6,1,STOP_STARTTIME);
+		gridFrame.setWidget(7,1,STOP_ENDTIME);
 		setText("查询公告信息");
 		setDescript("请输入查询信息");
-		mainPanel.add(datePanel);
+		mainPanel.add(gridFrame);
 		submit.setText("查询");
 		show();
-	}
-	
-	/**
-	 * @Description: 创建 创建公告日期组件 
-	 * @return Widget 返回类型
-	 */
-	private Widget createStartPanel() {
-		Grid startGrid = new Grid(2, 2);
-		startGrid.setStyleName(styleName);
-		startGrid.setWidget(0, 0, new Label("开始日期："));
-		startGrid.setWidget(1, 0, new Label("结束日期："));
-		startGrid.setWidget(0, 1, CREATE_STARTTIME);
-		startGrid.setWidget(1, 1, CREATE_ENDTIME);
-		
-		DisclosurePanel dp = new DisclosurePanel(AnnoucementConstanst.CREATE_TIME_ZH);
-		dp.setAnimationEnabled(true);
-	    dp.setContent(startGrid);
-		return dp;
-	}
-	
-	/**
-	 * @Description: 创建 停止公告日期组件 
-	 * @return Widget 返回类型
-	 */
-	private Widget createStopPanel() {
-		Grid stopGrid = new Grid(2, 2);
-		stopGrid.setStyleName(styleName);
-		stopGrid.setWidget(0, 0, new Label("开始日期："));
-		stopGrid.setWidget(1, 0, new Label("结束日期："));
-		stopGrid.setWidget(0, 1, STOP_STARTTIME);
-		stopGrid.setWidget(1, 1, STOP_ENDTIME);
-
-		DisclosurePanel dp = new DisclosurePanel(AnnoucementConstanst.STOP_TIME_ZH);
-		dp.setAnimationEnabled(true);
-		dp.setContent(stopGrid);
-		return dp;
 	}
 	
 	/**

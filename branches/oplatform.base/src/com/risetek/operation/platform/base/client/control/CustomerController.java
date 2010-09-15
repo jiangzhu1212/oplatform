@@ -128,8 +128,7 @@ public class CustomerController extends AController {
 				edit_control.dialog.submit.setText("删除");
 				edit_control.dialog.show(rowid, tisp_value);
 				break;
-				
-			case 3:
+			case 3:	
 			case 4:
 			case 5:
 			case 6:
@@ -164,11 +163,7 @@ public class CustomerController extends AController {
 						String colValue = null ;
 						if(CustomerConstanst.CREATE_TIME_ZH.equals(colName)){
 							Date createDate = dialog.DATE_BOX.getValue();
-							if(createDate == null){
-								editData.setCreate_time("");
-							}else{
-								colValue = Util.formatMINDateToJsonString(createDate);
-							}
+							colValue = Util.formatMINDateToJsonString(createDate);
 						}else if(CustomerConstanst.VALIDITY_ZH.equals(colName)){
 							int selectIndex = dialog.list_status.getSelectedIndex();
 							colValue = dialog.list_status.getValue(selectIndex);

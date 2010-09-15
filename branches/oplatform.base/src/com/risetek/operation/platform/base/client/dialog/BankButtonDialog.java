@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.BankController;
 import com.risetek.operation.platform.base.client.model.BankData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.BankConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -21,10 +20,10 @@ import com.risetek.operation.platform.launch.client.util.Util;
  */
 public class BankButtonDialog extends BaseDialog {   
 	
-	public final TextBox BANK_ID = new MyTextBox();
-	public final TextBox PREFIX = new MyTextBox();
-	public final TextBox NAME = new MyTextBox();
-	public final TextBox DESCRIPTION = new MyTextBox();
+	public final TextBox BANK_ID = new TextBox();
+	public final TextBox PREFIX = new TextBox();
+	public final TextBox NAME = new TextBox();
+	public final TextBox DESCRIPTION = new TextBox();
 	public final ListBox VALIDITY = Util.getValidity();
 	
 	private String ACTION_NAME = null ;

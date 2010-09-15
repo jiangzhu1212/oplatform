@@ -4,6 +4,10 @@ public class ResolveResponseInfo {
 	
 	private int returnCode = -1;
 	
+	private String returnMessage;
+	
+	private String actionInfo = "";
+	
 	public int getReturnCode() {
 		return returnCode;
 	}
@@ -15,12 +19,7 @@ public class ResolveResponseInfo {
 	}
 	public void setReturnMessage(String returnMessage) {
 		this.returnMessage = returnMessage;
-	}
-	private String returnMessage;
-	
-	private String actionInfo = "";
-
-	
+	}	
 	public String getActionInfo() {
 		return actionInfo;
 	}

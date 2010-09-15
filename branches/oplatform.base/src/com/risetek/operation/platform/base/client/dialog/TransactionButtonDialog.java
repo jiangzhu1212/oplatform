@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TransactionController;
 import com.risetek.operation.platform.base.client.model.TransactionData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -34,15 +33,15 @@ public class TransactionButtonDialog extends CustomDialog {
 	private final Label ADDITION_ZH = new Label(TransactionConstanst.ADDITION_ZH);
 	private final Label VALIDITY_ZH = new Label(TransactionConstanst.VALIDITY_ZH);
 	
-	private final TextBox TRANS_ID = new MyTextBox();
-	private final TextBox ALIAS = new MyTextBox();
-	private final TextBox NAME = new MyTextBox();
-	private final TextBox DESCRIPTION = new MyTextBox();
-	private final TextBox URL = new MyTextBox();
-	private final TextBox MERCHANT_NUMBER = new MyTextBox();
-	private final TextBox POS_NUMBER = new MyTextBox();
-	private final TextBox TYPE = new MyTextBox();
-	private final TextBox ADDITION = new MyTextBox();	
+	private final TextBox TRANS_ID = new TextBox();
+	private final TextBox ALIAS = new TextBox();
+	private final TextBox NAME = new TextBox();
+	private final TextBox DESCRIPTION = new TextBox();
+	private final TextBox URL = new TextBox();
+	private final TextBox MERCHANT_NUMBER = new TextBox();
+	private final TextBox POS_NUMBER = new TextBox();
+	private final TextBox TYPE = new TextBox();
+	private final TextBox ADDITION = new TextBox();	
 	private final ListBox VALIDITY = Util.getValidity();
 	
 	private ListBox BINDABLE = null;

@@ -7,8 +7,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -16,10 +14,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.CustomerController;
 import com.risetek.operation.platform.base.client.model.CustomerData;
-import com.risetek.operation.platform.base.client.view.MyTextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
-import com.risetek.operation.platform.launch.client.json.constanst.AnnoucementConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -42,15 +38,15 @@ public class CustomerButtonDialog  extends CustomDialog {
 	private final Label VALIDITY_ZH = new Label(CustomerConstanst.VALIDITY_ZH ,false);
 	private final Label ADDITION_ZH = new Label(CustomerConstanst.ADDITION_ZH ,false);
 	
-	private final TextBox CUSTOMER_ID = new MyTextBox();
-	private final TextBox NAME = new MyTextBox();
-	private final TextBox PHONE = new MyTextBox();
-	private final TextBox ADDRESS = new MyTextBox();
-	private final TextBox ADDRESS_2 = new MyTextBox();
-	private final TextBox EMAIL = new MyTextBox();
-	private final TextBox CARD_ID = new MyTextBox();
+	private final TextBox CUSTOMER_ID = new TextBox();
+	private final TextBox NAME = new TextBox();
+	private final TextBox PHONE = new TextBox();
+	private final TextBox ADDRESS = new TextBox();
+	private final TextBox ADDRESS_2 = new TextBox();
+	private final TextBox EMAIL = new TextBox();
+	private final TextBox CARD_ID = new TextBox();
 	private final DateBox CREATE_TIME = new DateBox();
-	private final TextBox ADDITION = new MyTextBox();
+	private final TextBox ADDITION = new TextBox();
 	
 	private final DateBox CREATE_TIME_MIN = new DateBox();
 	private final DateBox CREATE_TIME_MAX = new DateBox();
@@ -191,6 +187,7 @@ public class CustomerButtonDialog  extends CustomDialog {
 				customer.setCreate_time(Util.formatMINDateToJsonString(createTime));
 				String packet = customer.toHttpPacket();
 				factory.getBill(packet, CustomerController.RemoteCaller);
+				hide();
 			}else if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
 				String create_time_min = Util.formatMINDateToJsonString(CREATE_TIME_MIN.getValue());
 				String create_time_max = Util.formatMAXDateToJsonString(CREATE_TIME_MAX.getValue());
@@ -202,6 +199,7 @@ public class CustomerButtonDialog  extends CustomDialog {
 				CustomerController.queryData = customer;
 				String packet = customer.toHttpPacket();
 				factory.getBill(packet, CustomerController.QueryCaller);
+				hide();
 			}
 		}
 	}
