@@ -1,7 +1,6 @@
 package com.risetek.operation.platform.base.client.control;
 
 import com.risetek.operation.platform.base.client.dialog.EditDialog;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 
 /**
  * 
@@ -16,7 +15,7 @@ public class EditController {
 		dialog.makeMainPanel(colName);
 	}
 
-	protected CustomDialog getDialog() {
+	protected EditDialog getDialog() {
 		return dialog;
 	}
 

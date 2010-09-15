@@ -183,10 +183,10 @@ public class AnnoucementButtonDialog extends BaseDialog {
 					return ;
 				}
 				Date start_time = START_DATE.getValue();
-				String start_date = Util.formatMINDateToJsonString(start_time);
+				String start_date = Util.formatDateToJsonString(start_time);
 				
 				Date end_time = START_DATE.getValue();
-				String end_date = Util.formatMINDateToJsonString(end_time);		
+				String end_date = Util.formatDateToJsonString(end_time);		
 				if(!Util.checkStringBulk(start_date, end_date)){
 					setMessage("公告创建时间不能超过停止时间");
 					return ;
@@ -204,8 +204,8 @@ public class AnnoucementButtonDialog extends BaseDialog {
 					}
 					annoucementData.setAce_id(Integer.parseInt(id));
 				}
-				String create_startTime = Util.formatMINDateToJsonString(CREATE_STARTTIME.getValue());
-				String create_endTime = Util.formatMAXDateToJsonString(CREATE_ENDTIME.getValue());
+				String create_startTime = Util.formatDateToJsonString(CREATE_STARTTIME.getValue());
+				String create_endTime = Util.formatDateToJsonString(CREATE_ENDTIME.getValue());
 				if(!Util.checkStringBulk(create_startTime, create_endTime)){
 					setMessage("公告创建时间最小值不能大于最大值");
 					return ;
@@ -213,8 +213,8 @@ public class AnnoucementButtonDialog extends BaseDialog {
 				annoucementData.setCreate_time_min(create_startTime);
 				annoucementData.setCreate_time_max(create_endTime);
 				
-				String stop_starttime = Util.formatMINDateToJsonString(STOP_STARTTIME.getValue());
-				String stop_endtime = Util.formatMAXDateToJsonString(STOP_ENDTIME.getValue());
+				String stop_starttime = Util.formatDateToJsonString(STOP_STARTTIME.getValue());
+				String stop_endtime = Util.formatDateToJsonString(STOP_ENDTIME.getValue());
 				if(!Util.checkStringBulk(stop_starttime, stop_endtime)){
 					setMessage("公告结束时间最小值不能大于最大值");
 					return ;

@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.CupCertificateController;
 import com.risetek.operation.platform.base.client.model.CupCertificateData;
-import com.risetek.operation.platform.base.client.view.MyDateBox;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CupCertificateConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -28,9 +27,9 @@ public class CupCertificateButtonDialog extends BaseButtonDailog {
 	private TextBox TYPE = new TextBox();
 	private TextBox ACCOUNT_NUMBER = new TextBox();
 	
-	private DateBox TIME = new MyDateBox();
-	private DateBox TIME_MIN = new MyDateBox();
-	private DateBox TIME_MAX = new MyDateBox();
+	private DateBox TIME = new DateBox();
+	private DateBox TIME_MIN = new DateBox();
+	private DateBox TIME_MAX = new DateBox();
 	
 	@Override
 	public void addMainPanel() {
@@ -114,7 +113,7 @@ public class CupCertificateButtonDialog extends BaseButtonDailog {
 				setMessage("支付账号不能为空");
 				return ;
 			}
-			String time = Util.formatMINDateToJsonString(TIME.getValue());
+			String time = Util.formatDateToJsonString(TIME.getValue());
 			if(time == null || "".equals(time)){
 				setMessage("支付时间不能为空");
 				return ;
@@ -123,8 +122,8 @@ public class CupCertificateButtonDialog extends BaseButtonDailog {
 			String packet = cupCertificateData.toHttpPacket();
 			request.getBill(packet, CupCertificateController.RemoteCaller);
 		}else if(Constanst.ACTION_NAME_QUERY_CERTIFICATE_INFO.equals(ACTION_NAME)){
-			String time_min = Util.formatMINDateToJsonString(TIME_MIN.getValue());
-			String time_max = Util.formatMINDateToJsonString(TIME_MAX.getValue());
+			String time_min = Util.formatDateToJsonString(TIME_MIN.getValue());
+			String time_max = Util.formatDateToJsonString(TIME_MAX.getValue());
 			if(Util.checkStringBulk(time_min, time_max)){
 				setMessage("支付时间最小值不能大于最大值");
 				return ;

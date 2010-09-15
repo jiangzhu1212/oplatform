@@ -19,7 +19,6 @@ import com.risetek.operation.platform.base.client.model.PBabyData;
 import com.risetek.operation.platform.base.client.view.PBabyView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.PBabyConstanst;
@@ -120,6 +119,8 @@ public class PBabyController extends AController {
 		return data;
 	}
 	
+	
+	
 	/**
 	 * @author Amber
 	 * 功能：以下子类分别是该模块事件的实体
@@ -205,11 +206,7 @@ public class PBabyController extends AController {
  				String sendData = sb.toString();
  				remoteRequest.getPBaby(sendData, RemoteCaller);
 			}
-			
-			@Override
-			protected CustomDialog getDialog() {
-				return dialog;
-			}			
+				
 		}
 	}
 	

@@ -1,22 +1,16 @@
 package com.risetek.operation.platform.base.client.dialog;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.TradeController;
 import com.risetek.operation.platform.base.client.model.TradeData;
-import com.risetek.operation.platform.base.client.view.MyDateBox;
-import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
-import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TradeConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
-public class TradeButtonDialog extends CustomDialog {
+public class TradeButtonDialog extends BaseButtonDailog {
 	
 	private Label TRADE_ID_ZH = new Label(TradeConstanst.TRADE_ID_ZH);
 	private Label CUSTOMER_ID_ZH = new Label(TradeConstanst.CUSTOMER_ID_ZH);
@@ -41,26 +35,18 @@ public class TradeButtonDialog extends CustomDialog {
 	private ListBox THIRD_STATUS = Util.getThirdStatus() ;
 	private ListBox VALIDITY = Util.getValidity() ;
 	
-	private DateBox CREATE_TIME = new MyDateBox();
-	private DateBox CREATE_TIME_MIN = new MyDateBox();
-	private DateBox CREATE_TIME_MAX = new MyDateBox();
-	private DateBox BOLISH_TIME = new MyDateBox();
-	private DateBox BOLISH_TIME_MIN = new MyDateBox();
-	private DateBox BOLISH_TIME_MAX = new MyDateBox();
-	private String ACTION_NAME = null ;
-	
-	RequestFactory request = new RequestFactory();
-	
-	public TradeButtonDialog() {
-		SubmitButtonClickHandler handler = new SubmitButtonClickHandler();
-		submit.addClickHandler(handler);
-	}
+	private DateBox CREATE_TIME = new DateBox();
+	private DateBox CREATE_TIME_MIN = new DateBox();
+	private DateBox CREATE_TIME_MAX = new DateBox();
+	private DateBox BOLISH_TIME = new DateBox();
+	private DateBox BOLISH_TIME_MIN = new DateBox();
+	private DateBox BOLISH_TIME_MAX = new DateBox();
 	
 	public void addMainPanel(){
 		ACTION_NAME = Constanst.ACTION_NAME_ADD_TRADE_INFO ;
 		mainPanel.clear();
 		setText("添加交易");
-		Grid gridFrame = new Grid(10, 2);
+		gridFrame.resize(10, 2);
 		gridFrame.setWidget(0, 0, CUSTOMER_ID_ZH);
 		gridFrame.setWidget(0, 1, CUSTOMER_ID);
 		gridFrame.setWidget(1, 0, TRANS_ID_ZH);
@@ -90,7 +76,7 @@ public class TradeButtonDialog extends CustomDialog {
 		ACTION_NAME = Constanst.ACTION_NAME_QUERY_TRADE_INFO ;
 		mainPanel.clear();
 		setText("查询交易");
-		Grid gridFrame = new Grid(9, 2);
+		gridFrame.resize(9, 2);
 		gridFrame.setWidget(0, 0, TRADE_ID_ZH);
 		gridFrame.setWidget(0, 1, TRADE_ID);
 		gridFrame.setWidget(1, 0, CUSTOMER_ID_ZH);
@@ -115,107 +101,105 @@ public class TradeButtonDialog extends CustomDialog {
 		submit.setText("查询");
 		show();
 	}
-	
-	public class SubmitButtonClickHandler implements ClickHandler{
-		@Override
-		public void onClick(ClickEvent event) {
-			
-			String customer_id = CUSTOMER_ID.getText();
-			String trans_id = TRANS_ID.getText();
-			String addition = ADDITION.getText();
-			String amount = AMOUNT.getText();
-			String description = DESCRIPTION.getText();
-			
-			int statusIndex = STATUS.getSelectedIndex() ;
-			String status = STATUS.getValue(statusIndex);
-			
-			int third_status_index = THIRD_STATUS.getSelectedIndex() ;
-			String third_status = THIRD_STATUS.getValue(third_status_index);
-			
-			int validityIndex = VALIDITY.getSelectedIndex() ;
-			String validity = VALIDITY.getValue(validityIndex);
-			
-			TradeData tradeData = new TradeData() ;
-			tradeData.setACTION_NAME(ACTION_NAME);
-			if(customer_id != null && !"".equals(customer_id)){
-				tradeData.setCustomer_id(Integer.parseInt(customer_id));
+
+	@Override
+	public void subminHandler() {
+		
+		String customer_id = CUSTOMER_ID.getText();
+		String trans_id = TRANS_ID.getText();
+		String addition = ADDITION.getText();
+		String amount = AMOUNT.getText();
+		String description = DESCRIPTION.getText();
+		
+		int statusIndex = STATUS.getSelectedIndex() ;
+		String status = STATUS.getValue(statusIndex);
+		
+		int third_status_index = THIRD_STATUS.getSelectedIndex() ;
+		String third_status = THIRD_STATUS.getValue(third_status_index);
+		
+		int validityIndex = VALIDITY.getSelectedIndex() ;
+		String validity = VALIDITY.getValue(validityIndex);
+		
+		TradeData tradeData = new TradeData() ;
+		tradeData.setACTION_NAME(ACTION_NAME);
+		if(customer_id != null && !"".equals(customer_id)){
+			tradeData.setCustomer_id(Integer.parseInt(customer_id));
+		}
+		if(trans_id != null && !"".equals(trans_id)){
+			tradeData.setTrans_id(Integer.parseInt(trans_id));
+		}
+		tradeData.setAddition(addition);
+		tradeData.setAmount(amount);
+		tradeData.setDescription(description);
+		tradeData.setStatus(status);
+		tradeData.setThird_status(third_status);
+		tradeData.setValidity(validity);
+		
+		if(Constanst.ACTION_NAME_ADD_TRADE_INFO.equals(ACTION_NAME)){
+			if(customer_id == null && "".equals(customer_id)){
+				setMessage("客户编号不能为空");
+				return ;
 			}
-			if(trans_id != null && !"".equals(trans_id)){
+			if(trans_id == null && "".equals(trans_id)){
+				setMessage("业务编号不能为空");
+				return ;
+			}
+			if(amount == null && "".equals(amount)){
+				setMessage("金额不能为空");
+				return ;
+			}
+			if(statusIndex == 0){
+				setMessage("交易状态不能为空");
+				return ;
+			}
+			if(third_status_index == 0){
+				setMessage("第三方状态不能为空");
+				return ;
+			}
+			String create_time = Util.formatDateToJsonString(CREATE_TIME.getValue());
+			String bolish_time = Util.formatDateToJsonString(BOLISH_TIME.getValue());
+			if(create_time == null && "".equals(create_time)){
+				setMessage("创建时间不能为空");
+				return ;
+			}
+			if(create_time == null && "".equals(create_time)){
+				setMessage("失效时间不能为空");
+				return ;
+			}
+			tradeData.setCreate_time(create_time);
+			tradeData.setBolish_time(bolish_time);
+			
+			String packet = tradeData.toHttpPacket();
+			request.getBill(packet, TradeController.RemoteCaller);
+			hide();
+		}else if(Constanst.ACTION_NAME_QUERY_TRADE_INFO.equals(ACTION_NAME)){
+			String trade_id = TRADE_ID.getText();
+			if(trade_id != null && !"".equals(trade_id)){
 				tradeData.setTrans_id(Integer.parseInt(trans_id));
 			}
-			tradeData.setAddition(addition);
-			tradeData.setAmount(amount);
-			tradeData.setDescription(description);
-			tradeData.setStatus(status);
-			tradeData.setThird_status(third_status);
-			tradeData.setValidity(validity);
+			String create_time_min = Util.formatDateToJsonString(CREATE_TIME_MIN.getValue());
+			String create_time_max = Util.formatDateToJsonString(CREATE_TIME_MAX.getValue());
+			String bolish_time_min = Util.formatDateToJsonString(BOLISH_TIME_MIN.getValue());
+			String bolish_time_max = Util.formatDateToJsonString(BOLISH_TIME_MAX.getValue());
 			
-			if(Constanst.ACTION_NAME_ADD_TRADE_INFO.equals(ACTION_NAME)){
-				if(customer_id == null && "".equals(customer_id)){
-					setMessage("客户编号不能为空");
-					return ;
-				}
-				if(trans_id == null && "".equals(trans_id)){
-					setMessage("业务编号不能为空");
-					return ;
-				}
-				if(amount == null && "".equals(amount)){
-					setMessage("金额不能为空");
-					return ;
-				}
-				if(statusIndex == 0){
-					setMessage("交易状态不能为空");
-					return ;
-				}
-				if(third_status_index == 0){
-					setMessage("第三方状态不能为空");
-					return ;
-				}
-				String create_time = Util.formatMINDateToJsonString(CREATE_TIME.getValue());
-				String bolish_time = Util.formatMINDateToJsonString(BOLISH_TIME.getValue());
-				if(create_time == null && "".equals(create_time)){
-					setMessage("创建时间不能为空");
-					return ;
-				}
-				if(create_time == null && "".equals(create_time)){
-					setMessage("失效时间不能为空");
-					return ;
-				}
-				tradeData.setCreate_time(create_time);
-				tradeData.setBolish_time(bolish_time);
-				
-				String packet = tradeData.toHttpPacket();
-				request.getBill(packet, TradeController.RemoteCaller);
-				hide();
-			}else if(Constanst.ACTION_NAME_QUERY_TRADE_INFO.equals(ACTION_NAME)){
-				String trade_id = TRADE_ID.getText();
-				if(trade_id != null && !"".equals(trade_id)){
-					tradeData.setTrans_id(Integer.parseInt(trans_id));
-				}
-				String create_time_min = Util.formatMINDateToJsonString(CREATE_TIME_MIN.getValue());
-				String create_time_max = Util.formatMAXDateToJsonString(CREATE_TIME_MAX.getValue());
-				String bolish_time_min = Util.formatMINDateToJsonString(BOLISH_TIME_MIN.getValue());
-				String bolish_time_max = Util.formatMAXDateToJsonString(BOLISH_TIME_MAX.getValue());
-				
-				if(!Util.checkStringBulk(create_time_min, create_time_max)){
-					setMessage("创建时间最小值不能大于最大值");
-					return ;
-				}
-				if(!Util.checkStringBulk(bolish_time_min, bolish_time_max)){
-					setMessage("失效时间最小值不能大于最大值");
-					return ;
-				}
-				
-				tradeData.setCreate_time_min(create_time_min);
-				tradeData.setCreate_time_max(create_time_max);
-				tradeData.setBolish_time_min(bolish_time_min);
-				tradeData.setBolish_time_max(bolish_time_max);
-				TradeController.queryData = tradeData ;
-				String packet = tradeData.toHttpPacket();
-				request.getBill(packet, TradeController.QueryCaller);
-				
-				hide();
+			if(!Util.checkStringBulk(create_time_min, create_time_max)){
+				setMessage("创建时间最小值不能大于最大值");
+				return ;
 			}
+			if(!Util.checkStringBulk(bolish_time_min, bolish_time_max)){
+				setMessage("失效时间最小值不能大于最大值");
+				return ;
+			}
+			
+			tradeData.setCreate_time_min(create_time_min);
+			tradeData.setCreate_time_max(create_time_max);
+			tradeData.setBolish_time_min(bolish_time_min);
+			tradeData.setBolish_time_max(bolish_time_max);
+			TradeController.queryData = tradeData ;
+			String packet = tradeData.toHttpPacket();
+			request.getBill(packet, TradeController.QueryCaller);
+			
+			hide();
 		}
 	}
 }

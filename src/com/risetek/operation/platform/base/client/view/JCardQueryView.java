@@ -19,7 +19,6 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 	public final static Button queryButton = new Button("查询骏卡",new JCardQueryContorller.TableShowAction());
 	public final static Button addButton = new Button("添加骏卡",new JCardQueryContorller.TableShowAction());
 	public final static Button balanceButton = new Button("骏卡对账",new JCardQueryContorller.TableShowAction());
-	
 	public final static String[] columns = {
 		JCardConstanst.JCARDID_ZH, 
 		JCardConstanst.BILL_EXTEND_ID_ZH,
@@ -46,8 +45,6 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		setLocation(JCardQuerySink.Group + " -> " + JCardQuerySink.Name);
 		addActionPanel(action, descript, JCardQuerySink.Name);
 		setStatisticText(100);
-		grid.addClickHandler(new JCardQueryContorller.TableEditAction());
-
 	}
 	
 	private HorizontalPanel initPromptGrid(){
@@ -55,6 +52,8 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
 		actionPanel.add(balanceButton);
+		Button queryButton = new Button("修改"+JCardConstanst.STATUS_ZH,new JCardQueryContorller.TableEditAction());
+		actionPanel.add(queryButton);
 		
 		actionPanel.setStyleName("aa");		
 		
@@ -68,7 +67,7 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 	@Override
 	public void ProcessControlKey(int keyCode, boolean alt) {
 		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
