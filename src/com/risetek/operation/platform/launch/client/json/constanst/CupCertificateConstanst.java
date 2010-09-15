@@ -2,9 +2,9 @@ package com.risetek.operation.platform.launch.client.json.constanst;
 
 public interface CupCertificateConstanst extends Constanst {
 	
-	final String CUPC_ID = "CUPC_ID" ;
+	final String CERTIFICATE_ID = "CERTIFICATE_ID" ;
 	
-	final String CUPC_ID_ZH = "支付凭证索引" ;
+	final String CERTIFICATE_ID_ZH = "支付凭证索引" ;
 	
 	final String BILL_ID = "BILL_ID" ;
 	
@@ -33,4 +33,5 @@ public interface CupCertificateConstanst extends Constanst {
 	final String ACCOUNT_NUMBER = "ACCOUNT_NUMBER" ;
 	
 	final String ACCOUNT_NUMBER_ZH = "支付账号" ;
+	
 }

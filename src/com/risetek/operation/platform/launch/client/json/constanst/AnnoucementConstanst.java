@@ -53,5 +53,13 @@ public interface AnnoucementConstanst extends Constanst {
 	final String TARGET_TYPE_ZH = "发送目标的类型";
 
 	final String TARGET_ID_ZH = "发送目标";
+	
+	final String CREATE_TIME_MIN_ZH = "公告创建时间最小值";
+	
+	final String CREATE_TIME_MAX_ZH = "公告创建时间最大值";
+	
+	final String STOP_TIME_MIN_ZH = "公告停止时间最小值";
+	
+	final String STOP_TIME_MAX_ZH = "公告停止时间最大值";
 
 }

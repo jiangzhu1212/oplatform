@@ -51,18 +51,18 @@ public abstract class OPlatformData {
 		return data;
 	}
 	
-	protected ResolveResponseInfo[] retInfo(String retInfo) {
-		ResolveResponseInfo opRetInfo[] = new ResolveResponseInfo[1];
-		opRetInfo[0] = new ResolveResponseInfo();
+	public ResolveResponseInfo retInfo(String retInfo) {
+		ResolveResponseInfo opRetInfo = new ResolveResponseInfo();
+		opRetInfo = new ResolveResponseInfo();
 		JSONObject jo = JSONParser.parse(retInfo).isObject();
 		JSONObject actionInfo = (JSONObject) jo.get(Constanst.ACTION_INFO);
-		opRetInfo[0].setActionInfo(actionInfo.toString());
+		opRetInfo.setActionInfo(actionInfo.toString());
 		try {
-			JSONNumber num = (JSONNumber)actionInfo.get(Constanst.RETURN_CODE);
-			opRetInfo[0].setReturnCode(Integer.parseInt(num.toString()));
-			opRetInfo[0].setReturnMessage(((JSONString)actionInfo.get(Constanst.RETURN_MESSAGE)).stringValue());
+			JSONNumber num = (JSONNumber)actionInfo.get(Constanst.ACTION_RETRUN_CODE);
+			opRetInfo.setReturnCode(Integer.parseInt(num.toString()));
+			opRetInfo.setReturnMessage(((JSONString)actionInfo.get(Constanst.ACTION_RETRUN_MESSAGE)).stringValue());
 		} catch (Exception e) {
-			opRetInfo[0].setReturnCode(-1);
+			opRetInfo.setReturnCode(-1);
 		}
 		
 		return opRetInfo;

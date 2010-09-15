@@ -1,6 +1,6 @@
 package com.risetek.operation.platform.launch.client.json.constanst;
 
-public interface TradeIdConstanst extends Constanst {
+public interface TradeConstanst extends Constanst {
 	
 	final String TRADE_ID = "TRADE_ID" ;
 	
