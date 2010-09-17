@@ -34,7 +34,7 @@ public class AnnoucementController extends AController {
 	public static AnnoucementData queryData = new AnnoucementData() ;
 	public final AnnoucementView view = new AnnoucementView();
 	public AnnoucementButtonDialog acountmentButtonDialog = new AnnoucementButtonDialog();
-
+	private int pagePoint = 1;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -163,14 +163,12 @@ public class AnnoucementController extends AController {
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override

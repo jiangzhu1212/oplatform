@@ -26,7 +26,7 @@ public class TransactionController extends AController {
 	public static TransactionData queryData = new TransactionData();
 	public final TransactionView view = new TransactionView();
 	public TransactionButtonDialog transactionDialog = new TransactionButtonDialog();
-	
+	private int pagePoint = 1;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -168,14 +168,12 @@ public class TransactionController extends AController {
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override

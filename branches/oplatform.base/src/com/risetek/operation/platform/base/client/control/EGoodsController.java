@@ -27,8 +27,8 @@ public class EGoodsController extends AController {
 	final EGoodsData data = new EGoodsData();
 	public static EGoodsData queryData = new EGoodsData() ;
 	public final EGoodsView view = new EGoodsView();
-	public EGoodsButtonDialog buttonDialog = new EGoodsButtonDialog();
-
+	public EGoodsButtonDialog buttonDialog = null;
+	private int pagePoint = 1;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -157,21 +157,19 @@ public class EGoodsController extends AController {
 	@Override
 	public void load(int pagePoint) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setPagePoint(int pagePoint) {
-		// TODO Auto-generated method stub
 		queryData.setPAGE_POS(pagePoint);
 		String paceket = queryData.toHttpPacket();
 		remoteRequest.getBill(paceket, QueryCaller);
 	}
 
 	@Override
+	public void setPagePoint(int point) {
+		pagePoint = point;
+	}
+
+	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override

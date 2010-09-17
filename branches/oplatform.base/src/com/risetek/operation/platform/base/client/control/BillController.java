@@ -25,7 +25,7 @@ public class BillController extends AController {
 	public static BillData queryData = new BillData() ;
 	public final BillView view = new BillView();
 	public BillButtionDialog buttonDialog = new BillButtionDialog();
-
+	private int pagePoint = 1;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -146,14 +146,12 @@ public class BillController extends AController {
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override

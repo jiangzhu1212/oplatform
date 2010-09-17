@@ -27,7 +27,9 @@ public class TransEnableController extends AController {
 	final TransEnableData data = new TransEnableData();
 	public static TransEnableData queryData = new TransEnableData();
 	public final TransEnableView view = new TransEnableView();
-	public TransEnableButtonDialog transEnableButtonDialog = new TransEnableButtonDialog(); 
+	public TransEnableButtonDialog transEnableButtonDialog = null; 
+	private int pagePoint = 1;
+	
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	public ListBox trans_list = null ;
@@ -175,21 +177,19 @@ public class TransEnableController extends AController {
 	@Override
 	public void load(int pagePoint) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setPagePoint(int pagePoint) {
-		// TODO Auto-generated method stub
 		queryData.setPAGE_POS(pagePoint);
 		String paceket = queryData.toHttpPacket();
 		remoteRequest.getBill(paceket, QueryCaller);
 	}
 
 	@Override
+	public void setPagePoint(int point) {
+		pagePoint = point;
+	}
+
+	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override
