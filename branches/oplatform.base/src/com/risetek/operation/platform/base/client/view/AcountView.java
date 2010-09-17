@@ -79,7 +79,7 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void onLoad(){
-		AcountController.load();
+		AcountController.INSTANCE.load(1);
 	}
 
 	/**
@@ -139,31 +139,31 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public HorizontalPanel getPagePanel() {
 		// TODO Auto-generated method stub
-		return null;
+		return page;
 	}
 
 	@Override
 	public void firstPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		AcountController.INSTANCE.firstPageAction(label);
 	}
 
 	@Override
 	public void beforePageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		AcountController.INSTANCE.beforePageAction(label);
 	}
 
 	@Override
 	public void afterPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		AcountController.INSTANCE.afterPageAction(label);
 	}
 
 	@Override
 	public void lastPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		AcountController.INSTANCE.lastPageAction(label);
 	}
 
 	@Override

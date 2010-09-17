@@ -159,15 +159,10 @@ public class JCardData  extends OPlatformData  {
 				packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
 				if(Constanst.ACTION_NAME_SELECT_JCARD.equals(ACTION_NAME)){
 					actionInfo = packetData();
-					actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber(0));
-					actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(50));
-//					Jcard jc = (Jcard) o;
-//					int startPos = jc.getSTART_POS();
-//					int pageIndex = startPos;				
-//					actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber(pageIndex));
-//					if(jc.getMAX_COUNT()!=0){
-//						actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(jc.getMAX_COUNT()));
-//					}	
+					actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber(PAGE_POS * PAGE_SIZE));
+					if(PAGE_SIZE != 0){
+						actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(PAGE_SIZE));
+					}
 				}else if(Constanst.ACTION_NAME_MODIFY_STATUS.equals(ACTION_NAME)){
 					actionInfo = packetData();
 				}else if(Constanst.ACTION_NAME_IMPORT_DATA.equals(ACTION_NAME)){

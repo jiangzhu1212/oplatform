@@ -6,7 +6,6 @@ import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
-import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.AcountConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -79,12 +78,12 @@ public class AcountData extends OPlatformData {
 			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
 			if(ACTION_NAME == null){
 				actionInfo = new JSONObject();
-				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
-				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(PAGE_POS));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(PAGE_SIZE));
 			}else if(Constanst.ACTION_NAME_QUERY_ACCOUNT_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData();
-				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(0));
-				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(UIConfig.TABLE_ROW_NORMAL));
+				actionInfo.put(Constanst.PAGE_POS,new JSONNumber(PAGE_POS));
+				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(PAGE_SIZE));
 			}else if(Constanst.ACTION_NAME_MODIFY_ACCOUNT_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData(col[0],col[1]);
 			}else if(Constanst.ACTION_NAME_ADD_AC_BIND.equals(ACTION_NAME)){

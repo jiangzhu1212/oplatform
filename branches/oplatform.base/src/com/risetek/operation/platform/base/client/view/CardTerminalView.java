@@ -85,31 +85,31 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 	@Override
 	public HorizontalPanel getPagePanel() {
 		// TODO Auto-generated method stub
-		return null;
+		return page;
 	}
 
 	@Override
 	public void firstPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		CardTerminalController.INSTANCE.firstPageAction(label);
 	}
 
 	@Override
 	public void beforePageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		CardTerminalController.INSTANCE.beforePageAction(label);
 	}
 
 	@Override
 	public void afterPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		CardTerminalController.INSTANCE.afterPageAction(label);
 	}
 
 	@Override
 	public void lastPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		CardTerminalController.INSTANCE.lastPageAction(label);
 	}
 
 	@Override

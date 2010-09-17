@@ -95,31 +95,31 @@ public class BillView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public HorizontalPanel getPagePanel() {
 		// TODO Auto-generated method stub
-		return null;
+		return page;
 	}
 
 	@Override
 	public void firstPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		BillController.INSTANCE.firstPageAction(label);
 	}
 
 	@Override
 	public void beforePageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		BillController.INSTANCE.beforePageAction(label);
 	}
 
 	@Override
 	public void afterPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		BillController.INSTANCE.afterPageAction(label);
 	}
 
 	@Override
 	public void lastPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		BillController.INSTANCE.lastPageAction(label);
 	}
 
 	@Override

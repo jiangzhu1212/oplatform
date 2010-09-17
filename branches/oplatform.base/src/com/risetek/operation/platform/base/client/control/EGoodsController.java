@@ -1,17 +1,14 @@
 package com.risetek.operation.platform.base.client.control;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.EGoodsButtonDialog;
-import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.EGoodsData;
 import com.risetek.operation.platform.base.client.view.EGoodsView;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -19,7 +16,7 @@ import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.EGoodConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -83,110 +80,48 @@ public class EGoodsController extends AController {
 	public EGoodsData getData() {
 		return data;
 	}
+	
+	public static class TableEditAction extends BaseTableEditController {
+		
+		@Override
+		public void setGrid() {
+			grid = INSTANCE.view.grid;
+		}
 
-	public static class TableEditAction implements ClickActionHandler {
-		
-		private String actionName = "编辑表格";
-		private EGoodsEditControl edit_control = new EGoodsEditControl();
-		public TableEditAction() {
-			edit_control.setColName(null);	
-			edit_control.dialog.submit.addClickHandler(edit_control);
-		}
-		public String getActionName(){
-			return actionName;
-		}
-		
-		public void onClick(ClickEvent event) {
-			
-			HTMLTable table = (HTMLTable)event.getSource();
-			Cell Mycell = table.getCellForEvent(event);
-			if( Mycell == null ) return;
-			int row = Mycell.getRowIndex();
-			int col = Mycell.getCellIndex();
-            
-			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
-			String rowid = table.getText(row, 1);
-			String colName = table.getText(0, col);
-			String tisp_value = table.getText(row, col);
-			if(tisp_value.length() == 1){
-				int tvalue = (int)tisp_value.charAt(0);
-				if(tvalue == 160){
-					tisp_value = "";
-				}
-			}
-			switch (col) {
-			case 1:
-				//查看详细信息
-				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
-				dialog.makeMainPanel(INSTANCE.view.grid , row);
-				dialog.show();
-				break;	
-			case 2:
-				edit_control.setColName(null);
-				edit_control.dialog.submit.setText("删除");
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
-				
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-			case 10:
-			case 11:
-			case 12:
-			case 13:
-			case 14:
-				edit_control.setColName(colName);	
-				edit_control.dialog.submit.setText("修改");
-				edit_control.dialog.show(rowid, tisp_value);
-				break;
-			default:
-				break;
-			}			
-			
-		}
-		
-		public class EGoodsEditControl extends EditController implements ClickHandler {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				EGoodsData editData = new EGoodsData() ;
-				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_GOODS_INFO);
-				String row = dialog.rowid;
-				String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
-				editData.setCustomer_id(Integer.parseInt(id));
-					String colName = dialog.colName;
-					if(colName == null || "".equals(colName)){
-						
-					}else {
-						String colValue = null ;
-						if(EGoodConstanst.CREATE_TIME_ZH.equals(colName) || EGoodConstanst.BOLISH_TIME_ZH.equals(colName)){
-							Date dialogDate = dialog.DATE_BOX.getValue();
-							if(dialogDate == null){
-								dialog.setMessage(colName+"不能为空");
-								return ;
-							}else{
-								colValue = Util.formatMINDateToJsonString(dialogDate);
-							}
-						}else if(EGoodConstanst.USED_TIME_ZH.equals(colName)){
-							colValue = Util.formatMINDateToJsonString(dialog.DATE_BOX.getValue());
-						}else if(Constanst.VALIDITY_ZH.equals(colName) || EGoodConstanst.STATUS_ZH.equals(colName) || EGoodConstanst.THIRD_STATUS_ZH.equals(colName)){
-							int selectIndex = dialog.list_status.getSelectedIndex();
-							colValue = dialog.list_status.getValue(selectIndex);
+		@Override
+		public void submintHandler() {
+			EGoodsData editData = new EGoodsData() ;
+			editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_GOODS_INFO);
+			String row = dialog.rowid;
+			String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
+			editData.setCustomer_id(Integer.parseInt(id));
+				String colName = dialog.colName;
+				if(colName == null || "".equals(colName)){
+					
+				}else {
+					String colValue = null ;
+					if(EGoodsConstanst.CREATE_TIME_ZH.equals(colName) || EGoodsConstanst.BOLISH_TIME_ZH.equals(colName)){
+						Date dialogDate = dialog.DATE_BOX.getValue();
+						if(dialogDate == null){
+							dialog.setMessage(colName+"不能为空");
+							return ;
 						}else{
-							colValue = dialog.getText();
+							colValue = Util.formatDateToJsonString(dialogDate);
 						}
-						String packet = editData.toHttpPacket(colName,colValue);
-						remoteRequest.getBill(packet, RemoteCaller);
+					}else if(EGoodsConstanst.USED_TIME_ZH.equals(colName)){
+						colValue = Util.formatDateToJsonString(dialog.DATE_BOX.getValue());
+					}else if(Constanst.VALIDITY_ZH.equals(colName) || EGoodsConstanst.STATUS_ZH.equals(colName) || EGoodsConstanst.THIRD_STATUS_ZH.equals(colName)){
+						int selectIndex = dialog.list_status.getSelectedIndex();
+						colValue = dialog.list_status.getValue(selectIndex);
+					}else{
+						colValue = dialog.getText();
 					}
-			}		
+					String packet = editData.toHttpPacket(colName,colValue);
+					remoteRequest.getBill(packet, RemoteCaller);
+				}
 		}
-		
-	}
-		
+	
+	}		
 	
 	public static class TableShowAction implements ClickActionHandler {
 		
@@ -214,15 +149,23 @@ public class EGoodsController extends AController {
 	}
 
 	@Override
+	public ArrayList<String> getActionNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void load(int pagePoint) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setPagePoint(int point) {
+	public void setPagePoint(int pagePoint) {
 		// TODO Auto-generated method stub
-		
+		queryData.setPAGE_POS(pagePoint);
+		String paceket = queryData.toHttpPacket();
+		remoteRequest.getBill(paceket, QueryCaller);
 	}
 
 	@Override

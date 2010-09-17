@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
@@ -103,6 +105,12 @@ public class Card007Controller extends AController {
 	@Override
 	public OPlatformTableView getView() {
 		return view;
+	}
+	
+	@Override
+	public ArrayList<String> getActionNames() {
+		
+		return null;
 	}
 	
 	/**
@@ -258,7 +266,6 @@ public class Card007Controller extends AController {
 	@Override
 	public void load(int pagePoint) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -121,6 +121,7 @@ public class Util {
 		return 0;
 	}
 	
+	
 	/**
 	 * @Description: 公共验证不能为空的字段
 	 * @param text
@@ -388,6 +389,19 @@ public class Util {
 		String str = "";
 		if(date != null){
 			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd000000");
+			str = dateFormat.format(date);
+		}
+		
+		return str;
+	}
+	
+	/**
+	 * 根据需要转换日期
+	 */
+	public static String formatDateToStringByStr2(Date date , String str2){
+		String str = "";
+		if(date != null){
+			DateTimeFormat dateFormat = DateTimeFormat.getFormat(str2);
 			str = dateFormat.format(date);
 		}
 		
