@@ -102,15 +102,11 @@ public class Util {
 		List<Integer> list = new ArrayList<Integer>();
 		int rowCount = grid.getRowCount();
 		for (int i = 1; i < rowCount; i++) {
-		Object obj = grid.getWidget(i, 0);
-		if(obj != null){
-			CheckBox cBox = (CheckBox)obj;
+			CheckBox cBox = (CheckBox)grid.getWidget(i, 0);
 			if(cBox.getValue()){
 				list.add(i);
 			}
-			}
 		}
-		
 		return list;
 	}
 	/**
@@ -323,10 +319,10 @@ public class Util {
 
 		return time;
 	}
-	
+
 	/* change yyyy-MM-dd hh:mm:ss To yyyyMMddhhmmss*/
 	public static String changeDateStringFormat(String text) {
-		DateTimeFormat newFormat = DateTimeFormat.getFormat("yyyyMMddHHmmss");
+		DateTimeFormat newFormat = DateTimeFormat.getFormat("yyyyMMddhhmmss");
 		DateTimeFormat oldFormat = DateTimeFormat
 				.getFormat("yyyy-MM-dd hh:mm:ss");
 		Date date = oldFormat.parse(text);
@@ -351,7 +347,8 @@ public class Util {
 	}
 	
 	/**
-	 * 判断时间大小正确否 如果最小时间大于最大时间 返回false
+	 * 判断时间大小正确否
+	 * 如果日期带 时分秒 则去掉时分秒
 	 * @param str1 最小时间
 	 * @param str2 最大时间
 	 * @return 
@@ -363,31 +360,20 @@ public class Util {
 		if(str2 == null || "".equals(str2.trim())){
 			return true ;
 		}
-		return Long.parseLong(str1) <= Long.parseLong(str2) ? true : false ;
+		str1 = str1.replaceAll("000000", "");
+		str1 = str1.replaceAll("235959", "");
+		str2 = str2.replaceAll("000000", "");
+		str2 = str2.replaceAll("235959", "");
+		return Integer.parseInt(str1) <= Integer.parseInt(str2) ? true : false ;
 	}
 	
 	/**
-	 *  Date  To 有 youNeed
-	 *  str2 : 表示需要转换的类型
-	 *  传空则返回 ""
-	*/
-	public static String formatDateToStringByStr2(Date date,String str2) {
-		String str = "";
-		if(date != null){
-			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
-			str = dateFormat.format(date);
-		}
-		
-		return str;
-	}
-	
-	/**
-	 *  将日期类型转换为JSON发送的yyyyMMddHHmmss 类型的字符串 
+	 *  将日期类型转换为JSON发送的yyyyMMdd 类型的字符串 
 	 */
 	public static String formatDateToJsonString(Date date) {
 		String str = "";
 		if(date != null){
-			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMddHHmmss");
+			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
 			str = dateFormat.format(date);
 		}		
 		return str;
@@ -422,7 +408,7 @@ public class Util {
 	}
 	
 	public static String formatTimestampToString(Timestamp time){
-		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd hh:mm:ss");
+		DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss");
 		String timeString = format.format(time);
 		return timeString;
 	}
