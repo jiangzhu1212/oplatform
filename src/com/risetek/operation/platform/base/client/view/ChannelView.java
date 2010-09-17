@@ -8,6 +8,7 @@ import com.risetek.operation.platform.base.client.ChannelSink;
 import com.risetek.operation.platform.base.client.control.ChannelController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.ChannelConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -40,6 +41,9 @@ public class ChannelView  extends OPlatformTableView implements IOPlatformView {
 		HorizontalPanel actionPanel = new HorizontalPanel();	
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new ChannelController.TableEditAction()));
+		}
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;
@@ -72,7 +76,7 @@ public class ChannelView  extends OPlatformTableView implements IOPlatformView {
 	}
 
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid ,data, index);
 		}
 		renderStatistic(data);

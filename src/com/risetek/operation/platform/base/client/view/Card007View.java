@@ -172,7 +172,7 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void render(OPlatformData data) {
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

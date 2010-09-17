@@ -7,6 +7,7 @@ import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TradeSink;
 import com.risetek.operation.platform.base.client.control.TradeController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TradeConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -45,7 +46,9 @@ public class TradeView extends OPlatformTableView implements IOPlatformView {
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
-		
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new TradeController.TableEditAction()));
+		}
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;

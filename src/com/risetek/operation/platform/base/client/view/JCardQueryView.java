@@ -7,6 +7,7 @@ import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.JCardQuerySink;
 import com.risetek.operation.platform.base.client.control.JCardQueryContorller;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -52,7 +53,7 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
 		actionPanel.add(balanceButton);
-		Button queryButton = new Button("修改"+JCardConstanst.STATUS_ZH,new JCardQueryContorller.TableEditAction());
+		Button queryButton = new Button(Constanst.EDIT_ZH+JCardConstanst.STATUS_ZH,new JCardQueryContorller.TableEditAction());
 		actionPanel.add(queryButton);
 		
 		actionPanel.setStyleName("aa");		

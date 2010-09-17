@@ -8,6 +8,7 @@ import com.risetek.operation.platform.base.client.CardBatchSink;
 import com.risetek.operation.platform.base.client.control.CardBatchController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.CardBatchConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -41,6 +42,9 @@ public class CardBatchView extends OPlatformTableView implements IOPlatformView 
 		HorizontalPanel actionPanel = new HorizontalPanel();	
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new CardBatchController.TableEditAction()));
+		}
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;
@@ -73,7 +77,7 @@ public class CardBatchView extends OPlatformTableView implements IOPlatformView 
 	}
 
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid,data, index);
 		}
 		renderStatistic(data);

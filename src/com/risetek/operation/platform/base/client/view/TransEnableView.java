@@ -10,6 +10,7 @@ import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TransEnableSink;
 import com.risetek.operation.platform.base.client.control.TransEnableController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -59,12 +60,11 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	 */
 	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();
-//		actionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//		actionPanel.setHeight("32px");
-//		actionPanel.setWidth("100%");
-//		actionPanel.setBorderWidth(1);
 		actionPanel.add(queryButton);
 		actionPanel.add(addButton);
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new TransEnableController.TableEditAction()));
+		}
 		return actionPanel;
 	}
 	
@@ -152,7 +152,7 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	 * @param data
 	 */
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

@@ -7,6 +7,7 @@ import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TransactionSink;
 import com.risetek.operation.platform.base.client.control.TransactionController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -53,6 +54,9 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new TransactionController.TableEditAction()));
+		}
 		return actionPanel;
 	}
 	

@@ -8,6 +8,7 @@ import com.risetek.operation.platform.base.client.CustomerSink;
 import com.risetek.operation.platform.base.client.control.CustomerController;
 import com.risetek.operation.platform.base.client.model.CustomerData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -47,7 +48,9 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
 		actionPanel.add(bindCustomer);
-		
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new CustomerController.TableEditAction()));
+		}
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;

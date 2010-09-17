@@ -9,7 +9,9 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.TradeConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
@@ -76,6 +78,14 @@ public class EditDialog extends CustomDialog {
 			gridFrame.setWidget(1, 1, list_status);
 		}else if(Constanst.VALIDITY_ZH.equals(colName)){
 			list_status = Util.getValidity();
+			list_status.setSelectedIndex(0);
+			gridFrame.setWidget(1, 1, list_status);
+		}else if(TradeConstanst.STATUS_ZH.equals(colName) || EGoodsConstanst.STATUS_ZH.equals(colName)){
+			list_status = Util.getBillStatus();
+			list_status.setSelectedIndex(0);
+			gridFrame.setWidget(1, 1, list_status);
+		}else if(TradeConstanst.THIRD_STATUS_ZH.equals(colName) || EGoodsConstanst.THIRD_STATUS_ZH.equals(colName)){
+			list_status = Util.getThirdStatus();
 			list_status.setSelectedIndex(0);
 			gridFrame.setWidget(1, 1, list_status);
 		}else{
