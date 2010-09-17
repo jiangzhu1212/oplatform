@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.control;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
@@ -93,27 +95,6 @@ public class TdbcController extends AController {
 		return data;
 	}
 	
-	/**
-	 * @author Amber
-	 * 功能：以下子类分别是该模块事件的实体
-	 * 2010-8-23 下午11:49:52
-	 */
-	public static class TableEditAction implements ClickActionHandler {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public String getActionName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-	}
-	
 	public static class TableShowAction implements ClickActionHandler {
 		
 		private String actionName = "查看表格行";
@@ -144,9 +125,17 @@ public class TdbcController extends AController {
 	}
 
 	@Override
+	public ArrayList<String> getActionNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void load(int pagePoint) {
 		// TODO Auto-generated method stub
-		
+		queryData.setPAGE_POS(pagePoint);
+		String paceket = queryData.toHttpPacket();
+		remoteRequest.getBill(paceket, QueryCaller);
 	}
 
 	@Override

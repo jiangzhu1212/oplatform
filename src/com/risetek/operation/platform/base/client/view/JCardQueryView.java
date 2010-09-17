@@ -62,7 +62,7 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 	}
 	
 	public void onLoad(){
-		JCardQueryContorller.load();
+		JCardQueryContorller.INSTANCE.load(1);
 	}
 
 	@Override
@@ -96,31 +96,31 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 	@Override
 	public HorizontalPanel getPagePanel() {
 		// TODO Auto-generated method stub
-		return null;
+		return page;
 	}
 
 	@Override
 	public void firstPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		JCardQueryContorller.INSTANCE.firstPageAction(label);
 	}
 
 	@Override
 	public void beforePageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		JCardQueryContorller.INSTANCE.beforePageAction(label);
 	}
 
 	@Override
 	public void afterPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		JCardQueryContorller.INSTANCE.afterPageAction(label);
 	}
 
 	@Override
 	public void lastPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		JCardQueryContorller.INSTANCE.lastPageAction(label);
 	}
 
 	@Override

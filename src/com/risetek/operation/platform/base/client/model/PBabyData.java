@@ -153,6 +153,8 @@ public class PBabyData extends OPlatformData {
 		try {
 			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
 			actionInfo = packetData();
+			actionInfo.put(Constanst.PAGE_POS,new JSONNumber(PAGE_POS));
+			actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(PAGE_SIZE));
 		} catch (Exception e) {			
 		}
 		packet.put(Constanst.ACTION_INFO,actionInfo);

@@ -97,31 +97,31 @@ public class EGoodsView extends OPlatformTableView implements IOPlatformView {
 	@Override
 	public HorizontalPanel getPagePanel() {
 		// TODO Auto-generated method stub
-		return null;
+		return page;
 	}
 
 	@Override
 	public void firstPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		EGoodsController.INSTANCE.firstPageAction(label);
 	}
 
 	@Override
 	public void beforePageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		EGoodsController.INSTANCE.beforePageAction(label);
 	}
 
 	@Override
 	public void afterPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		EGoodsController.INSTANCE.afterPageAction(label);
 	}
 
 	@Override
 	public void lastPageAction(PageLabel label) {
 		// TODO Auto-generated method stub
-		
+		EGoodsController.INSTANCE.lastPageAction(label);
 	}
 
 	@Override

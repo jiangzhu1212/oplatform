@@ -241,7 +241,7 @@ public class JCardQueryButtonDialog extends BaseButtonDailog {
 			jCardData.setBILL_EXTEND_ID(bill_extend_id);
 			jCardData.setCREATE_DATE(create_date);
 			jCardData.setSTATUS(status);
-			
+			jCardData.setPAGE_POS(0);
 			JCardQueryContorller.queryData = jCardData;
 			
 			String packet = jCardData.toHttpPacket();
