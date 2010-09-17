@@ -17,8 +17,10 @@ public class AddRoleOperationDialog extends CustomDialog {
 
 	private Tree tree;
 	private String id;
+	private String[][] childData;
 	
-	public AddRoleOperationDialog(String id, String roleName){
+	public AddRoleOperationDialog(String id, String roleName, String[][] childData){
+		this.childData = childData;
 		this.id = id;
 		setText("向角色\"" + roleName + "\"添加模块和操作");
 		setDescript("向指定的角色添加实际操作内容");
@@ -26,21 +28,37 @@ public class AddRoleOperationDialog extends CustomDialog {
 		tree = new Tree();
 		for(int i=0;i<list.size();i++){
 			Sink sink = list.get(i);
+			String group = sink.getSinkInfo().getGroup();
+			int count = tree.getItemCount();
+			boolean add = true;
+			TreeItem groupItem = new TreeItem(group);
+			for(int a=0;a<count;a++){
+				TreeItem item = tree.getItem(a);
+				if(item.getText().equals(group)){
+					groupItem = item;
+					add = false;
+					break;
+				}
+			}
+			if(add){
+				tree.addItem(groupItem);
+			}
 			String name = sink.getSinkInfo().getName();
-			TreeItem item = new TreeItem(name);
+			TreeItem modeItem = new TreeItem(name);
 			ArrayList<String> actions = sink.getController().getActionNames();
 			if(actions==null){
 				TreeItem childItem = new TreeItem("无操作内容");
-				item.addItem(childItem);
-				tree.addItem(item);
+				modeItem.addItem(childItem);
+				tree.addItem(modeItem);
 				continue;
 			}
 			for(int a=0;a<actions.size();a++){
 				String action = actions.get(a);
 				CheckBox box = new CheckBox(action);
-				item.addItem(box);
+				box.setValue(getRoleOperation(action));
+				modeItem.addItem(box);
 			}
-			tree.addItem(item);
+			groupItem.addItem(modeItem);
 		}
 		Grid grid = new Grid(2, 2);
 		grid.setStyleName("table");
@@ -56,6 +74,16 @@ public class AddRoleOperationDialog extends CustomDialog {
 		mainPanel.add(grid);
 	}
 	
+	private Boolean getRoleOperation(String action) {
+		for(int i=0;i<childData.length;i++){
+			String name = childData[i][3];
+			if(name.equals(action)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void show(){
 		submit.setText("添加");
 		super.show();
@@ -64,22 +92,29 @@ public class AddRoleOperationDialog extends CustomDialog {
 	public RoleOperation[] getRoleOperation(){
 		ArrayList<RoleOperation> list = new ArrayList<RoleOperation>();
 		RoleOperation[] result = null;
-		int l1 = tree.getItemCount();
-		for(int i=0;i<l1;i++){
-			TreeItem item = tree.getItem(i);
-			int l2 = item.getChildCount();
-			for(int a=0;a<l2;a++){
-				TreeItem childItem = item.getChild(a);
-				Widget w = childItem.getWidget();
-				if(w!=null){
-					CheckBox box = (CheckBox)w;
-					if(box.getValue()){
-						RoleOperation ro = new RoleOperation();
-						ro.setOperationMode(item.getText());
-						ro.setOperationAction(box.getText());
-						int roleId = Integer.parseInt(id);
-						ro.setRoleId(roleId);
-						list.add(ro);
+		int groupCount = tree.getItemCount();
+		for(int i=0;i<groupCount;i++){
+			TreeItem groupItem = tree.getItem(i);
+			int modeCount = groupItem.getChildCount();
+			for(int a=0;a<modeCount;a++){
+				TreeItem modeItem = groupItem.getChild(a);
+				int actionCount = modeItem.getChildCount();
+				for(int b=0;b<actionCount;b++){
+					TreeItem actionItem = modeItem.getChild(b);
+					Widget w = actionItem.getWidget();
+					if(w!=null){
+						CheckBox box = (CheckBox)w;
+						if(box.getValue()){
+							if(getRoleOperation(box.getText())){
+								continue;
+							}
+							RoleOperation ro = new RoleOperation();
+							ro.setOperationMode(modeItem.getText());
+							ro.setOperationAction(box.getText());
+							int roleId = Integer.parseInt(id);
+							ro.setRoleId(roleId);
+							list.add(ro);
+						}
 					}
 				}
 			}

@@ -27,7 +27,7 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 	public Button hangUser = new Button("挂起用户", new UserConfigController.HangUserAction());
 	public Button kickUser = new Button("强制用户下线", new UserConfigController.KickUserAction());
 	public Button resetUserStatuc = new Button("复位用户状态", new UserConfigController.ResetUserStatucAction());
-	public Button editUser = new Button("修改用户信息");
+	public Button editUser = new Button("修改用户信息", new UserConfigController.ChangUserInfoAction());
 	
 	public UserConfigView(){
 		addActionPanel(initPromptGrid(), UserConfigSink.Desc, UserConfigSink.Name);
@@ -41,6 +41,7 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 		actionPanel.add(resetPws);
 		actionPanel.add(hangUser);
 		actionPanel.add(kickUser);
+		actionPanel.add(resetUserStatuc);
 		actionPanel.add(editUser);
 		return actionPanel;
 	}
@@ -67,7 +68,7 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns, columnsWidth);
-//		grid.addClickHandler(new UserConfigController.TableAction());
+		grid.addClickHandler(new UserConfigController.TableAction());
 		return grid;
 	}
 
@@ -115,7 +116,7 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 						}
 					} else if(i == 5) {
 						String[][] roleData = UserConfigController.INSTANCE.getRoleData().getData();
-						String role = "";
+						String role = "<角色已被删除>";
 						String id = data.getData()[index-1][i-2];
 						for(int a=0;a<roleData.length;a++){
 							String[] temp = roleData[a];
@@ -169,26 +170,22 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 
 	@Override
 	public void firstPageAction(PageLabel label) {
-		// TODO Auto-generated method stub
-		
+		UserConfigController.INSTANCE.firstPageAction(label);
 	}
 
 	@Override
 	public void beforePageAction(PageLabel label) {
-		// TODO Auto-generated method stub
-		
+		UserConfigController.INSTANCE.beforePageAction(label);
 	}
 
 	@Override
 	public void afterPageAction(PageLabel label) {
-		// TODO Auto-generated method stub
-		
+		UserConfigController.INSTANCE.afterPageAction(label);
 	}
 
 	@Override
 	public void lastPageAction(PageLabel label) {
-		// TODO Auto-generated method stub
-		
+		UserConfigController.INSTANCE.lastPageAction(label);
 	}
 
 	@Override
