@@ -323,10 +323,10 @@ public class Util {
 
 		return time;
 	}
-
+	
 	/* change yyyy-MM-dd hh:mm:ss To yyyyMMddhhmmss*/
 	public static String changeDateStringFormat(String text) {
-		DateTimeFormat newFormat = DateTimeFormat.getFormat("yyyyMMddhhmmss");
+		DateTimeFormat newFormat = DateTimeFormat.getFormat("yyyyMMddHHmmss");
 		DateTimeFormat oldFormat = DateTimeFormat
 				.getFormat("yyyy-MM-dd hh:mm:ss");
 		Date date = oldFormat.parse(text);
@@ -364,6 +364,21 @@ public class Util {
 			return true ;
 		}
 		return Long.parseLong(str1) <= Long.parseLong(str2) ? true : false ;
+	}
+	
+	/**
+	 *  Date  To 有 youNeed
+	 *  str2 : 表示需要转换的类型
+	 *  传空则返回 ""
+	*/
+	public static String formatDateToStringByStr2(Date date,String str2) {
+		String str = "";
+		if(date != null){
+			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
+			str = dateFormat.format(date);
+		}
+		
+		return str;
 	}
 	
 	/**

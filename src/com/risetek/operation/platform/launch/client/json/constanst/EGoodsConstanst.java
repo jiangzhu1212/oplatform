@@ -1,6 +1,6 @@
 package com.risetek.operation.platform.launch.client.json.constanst;
 
-public interface EGoodConstanst extends Constanst {
+public interface EGoodsConstanst extends Constanst {
 	
 	final String E_GOODS_ID = "E_GOODS_ID" ;
 	
@@ -8,7 +8,7 @@ public interface EGoodConstanst extends Constanst {
 	
 	final String E_GOODS_SN = "E_GOODS_SN" ;
 	
-	final String E_GOODS_SN_ZH = "货物的变化";
+	final String E_GOODS_SN_ZH = "货物编号";
 	
 	final String TRANS_ID = "TRANS_ID" ;
 	
@@ -20,7 +20,7 @@ public interface EGoodConstanst extends Constanst {
 	
 	final String DESCRIPTION = "DESCRIPTION" ;
 	
-	final String DESCRIPTION_ZH = "货物描述";
+	final String DESCRIPTION_ZH = "描述";
 	
 	final String INFO = "INFO" ;
 	
@@ -52,7 +52,7 @@ public interface EGoodConstanst extends Constanst {
 	
 	final String USED_TIME = "USED_TIME" ;
 	
-	final String USED_TIME_ZH = "货物使用时间";
+	final String USED_TIME_ZH = "使用时间";
 	
 	final String USED_TIME_MIN = "USED_TIME_MIN" ;
 	
