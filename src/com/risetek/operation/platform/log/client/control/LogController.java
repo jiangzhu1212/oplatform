@@ -1,7 +1,5 @@
 package com.risetek.operation.platform.log.client.control;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -21,8 +19,6 @@ import com.risetek.operation.platform.log.client.view.LogView;
 
 public class LogController extends AController {
 
-	private ArrayList<String> actionNames = new ArrayList<String>();
-	
 	private final static LogServiceAsync ls = GWT.create(LogService.class);
 	
 	public static LogController INSTANCE = new LogController();
@@ -48,15 +44,6 @@ public class LogController extends AController {
 	public OPlatformData getChildData() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public ArrayList<String> getActionNames() {
-		if(actionNames.isEmpty()){
-			return null;
-		} else {
-			return actionNames;
-		}
 	}
 
 	@Override
