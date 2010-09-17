@@ -4,6 +4,7 @@ import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
+import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 
@@ -43,9 +44,9 @@ public abstract class OPlatformData {
 
 	public boolean autoRefresh = true;
 	
-	private int PAGE_SIZE = 0 ;
+	protected int PAGE_SIZE = UIConfig.TABLE_ROW_NORMAL ;
 	
-	private int PAGE_POS = 0 ;
+	protected int PAGE_POS = 0 ;
 	
 	public ResolveResponseInfo retInfo(String retInfo) {
 		ResolveResponseInfo opRetInfo = new ResolveResponseInfo();
