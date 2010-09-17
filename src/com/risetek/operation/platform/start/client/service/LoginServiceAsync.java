@@ -13,4 +13,8 @@ public interface LoginServiceAsync {
 
 	void setLoginUser(User user, AsyncCallback<Void> callback);
 
+	void setUserLogout(User user, AsyncCallback<Void> callback);
+
+	void updateUserInfo(User user, AsyncCallback<User> callback);
+
 }

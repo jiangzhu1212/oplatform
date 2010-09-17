@@ -43,6 +43,11 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 				us.setNotes(result.getString(10));
 				tu = us;
 			}
+			SQL = "select * from RISETEK_ROLE where ID = " + tu.getRole();
+			result = statement.executeQuery(SQL);
+			if(result.next()){
+				tu.setRoleName(result.getString(2));
+			}
 			statement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -116,5 +121,27 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			ip = request.getRemoteAddr();
 		}
 		return ip + ":" + request.getRemotePort() + "&" + request.getRemoteHost();
+	}
+
+	@Override
+	public void setUserLogout(User user) {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession();
+		session.removeAttribute("userinfo");
+		try {
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			String SQL = "update RISETEK_USER set STATUS = 0 where ID = " + user.getId();
+			statement.execute(SQL);
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public User updateUserInfo(User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

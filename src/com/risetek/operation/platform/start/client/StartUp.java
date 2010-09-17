@@ -20,6 +20,7 @@ import com.risetek.operation.platform.launch.client.dialog.LoadingDialog;
 import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
+import com.risetek.operation.platform.start.client.control.LoginController;
 import com.risetek.operation.platform.start.client.service.LoginService;
 import com.risetek.operation.platform.start.client.service.LoginServiceAsync;
 
@@ -32,6 +33,12 @@ public class StartUp extends OplatformLaunch {
 	
 	LoginDialog dialog = new LoginDialog();
 	private final static LoginServiceAsync ls = GWT.create(LoginService.class);
+	
+	public StartUp(){
+		changUserInfo.addClickHandler(new LoginController.ChangUserInfoAction(loginUser));
+		logout.addClickHandler(new LoginController.LogoutAction());
+		repws.addClickHandler(new LoginController.ChangUserPasswordAction(loginUser));
+	}
 	
 	/** 
 	 * 功能： 菜单注册
@@ -46,17 +53,17 @@ public class StartUp extends OplatformLaunch {
 			Sink sink = SinkList.getSinkList().get(i);
 			info = sink.getSinkInfo();
 			String an = info.getName();
-//			boolean add = false;
-//			for(int a=0;a<ro.size();a++){
-//				String[] op = ro.get(a).split(",");
-//				if(an.equals(op[0])){
-//					add = true;
-//					break;
-//				}
-//			}
-//			if(!add){
-//				continue;
-//			}
+			boolean add = false;
+			for(int a=0;a<ro.size();a++){
+				String[] op = ro.get(a).split(",");
+				if(an.equals(op[0])){
+					add = true;
+					break;
+				}
+			}
+			if(!add){
+				continue;
+			}
 			TreeItem item = searchGroupItem(userMenu, info.getGroup());
 			if(item!=null){
 				TreeItem child = creatChildTreeItem(info);
@@ -142,15 +149,22 @@ public class StartUp extends OplatformLaunch {
 							if(result.getUserName()==null){
 								ld.cancel();
 								Window.alert("用户不存在！");
+								Window.Location.reload();
 								return;
 							} else if (!result.getUserPassword().equals(user.getUserPassword())){
 								ld.cancel();
 								Window.alert("用户密码错误！");
+								Window.Location.reload();
 								return;
 							} else if (result.getStatus()<-1){
 								ld.cancel();
 								Window.alert("用户状态不正常！\n请联系管理员。");
+								Window.Location.reload();
 								return;
+							} else if(result.getStatus()==-1){
+								ld.cancel();
+								Window.alert("用户未激活！\n请立刻修改密码激活账户。");
+								repws.click();
 							} else if(result.getStatus()>0){
 								ld.cancel();
 								Window.alert("该账户已在别处登录，别处登录会立刻强迫下线。\n如不是已知登录请联系管理员。");

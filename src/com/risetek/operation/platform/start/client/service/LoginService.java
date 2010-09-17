@@ -15,4 +15,8 @@ public interface LoginService extends RemoteService {
 	
 	public void setLoginUser(User user);
 	
+	public void setUserLogout(User user);
+	
+	public User updateUserInfo(User user);
+	
 }
