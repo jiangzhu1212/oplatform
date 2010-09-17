@@ -20,6 +20,7 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 
 
 	public final static Button queryButton = new Button("查询异常票宝宝",new PBabyController.TableShowAction());
+	public final static Button checkTicket = new Button("出票",new PBabyController.TableEditAction());
 	
 	public final static TextBox phoneNumber = new TextBox();
 	
@@ -34,10 +35,9 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 		PBabyConstanst.CODE_ZH,
 		PBabyConstanst.SEAT_ZH,
 		PBabyConstanst.PNR_ZH
-		};
+	};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25};
-	public static String descript = "";
 	String banner_tips = "";
 	
 	public void setBannerTips(String tips) {
@@ -47,7 +47,7 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 	
 	public PBabyView(){
 		HorizontalPanel action = initPromptGrid();
-		addActionPanel(action, descript, PBabySink.Name);
+		addActionPanel(action, PBabySink.Desc, PBabySink.Name);
 //		setCellHeight(action, "38px");
 		setLocation(PBabySink.Group + " -> " + PBabySink.Name);
 		setStatisticText(100);
@@ -63,7 +63,7 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 		actionPanel.add(phoneNumber);
 		actionPanel.add(createDataTime);
 		actionPanel.add(queryButton);
-		
+		actionPanel.add(checkTicket);
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;

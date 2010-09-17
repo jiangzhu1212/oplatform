@@ -16,7 +16,7 @@ import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.EGoodConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -100,7 +100,7 @@ public class EGoodsController extends AController {
 					
 				}else {
 					String colValue = null ;
-					if(EGoodConstanst.CREATE_TIME_ZH.equals(colName) || EGoodConstanst.BOLISH_TIME_ZH.equals(colName)){
+					if(EGoodsConstanst.CREATE_TIME_ZH.equals(colName) || EGoodsConstanst.BOLISH_TIME_ZH.equals(colName)){
 						Date dialogDate = dialog.DATE_BOX.getValue();
 						if(dialogDate == null){
 							dialog.setMessage(colName+"不能为空");
@@ -108,9 +108,9 @@ public class EGoodsController extends AController {
 						}else{
 							colValue = Util.formatDateToJsonString(dialogDate);
 						}
-					}else if(EGoodConstanst.USED_TIME_ZH.equals(colName)){
+					}else if(EGoodsConstanst.USED_TIME_ZH.equals(colName)){
 						colValue = Util.formatDateToJsonString(dialog.DATE_BOX.getValue());
-					}else if(Constanst.VALIDITY_ZH.equals(colName) || EGoodConstanst.STATUS_ZH.equals(colName) || EGoodConstanst.THIRD_STATUS_ZH.equals(colName)){
+					}else if(Constanst.VALIDITY_ZH.equals(colName) || EGoodsConstanst.STATUS_ZH.equals(colName) || EGoodsConstanst.THIRD_STATUS_ZH.equals(colName)){
 						int selectIndex = dialog.list_status.getSelectedIndex();
 						colValue = dialog.list_status.getValue(selectIndex);
 					}else{

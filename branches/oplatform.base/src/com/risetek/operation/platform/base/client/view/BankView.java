@@ -8,6 +8,7 @@ import com.risetek.operation.platform.base.client.BankSink;
 import com.risetek.operation.platform.base.client.control.BankController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.BankConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -63,6 +64,9 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new BankController.TableEditAction()));
+		}
 		return actionPanel;
 	}
 	

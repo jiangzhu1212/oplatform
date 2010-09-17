@@ -43,13 +43,9 @@ public abstract class OPlatformData {
 
 	public boolean autoRefresh = true;
 	
-	public void setData(String data[][]) {
-		this.data = data;
-	}
+	private int PAGE_SIZE = 0 ;
 	
-	public String[][] getData() {
-		return data;
-	}
+	private int PAGE_POS = 0 ;
 	
 	public ResolveResponseInfo retInfo(String retInfo) {
 		ResolveResponseInfo opRetInfo = new ResolveResponseInfo();
@@ -66,6 +62,30 @@ public abstract class OPlatformData {
 		}
 		
 		return opRetInfo;
+	}
+	
+	public int getPAGE_SIZE() {
+		return PAGE_SIZE;
+	}
+
+	public void setPAGE_SIZE(int pAGE_SIZE) {
+		PAGE_SIZE = pAGE_SIZE;
+	}
+
+	public int getPAGE_POS() {
+		return PAGE_POS;
+	}
+
+	public void setPAGE_POS(int pAGE_POS) {
+		PAGE_POS = pAGE_POS;
+	}
+
+	public void setData(String data[][]) {
+		this.data = data;
+	}
+	
+	public String[][] getData() {
+		return data;
 	}
 
 	public String getACTION_NAME() {

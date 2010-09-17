@@ -7,48 +7,48 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.EGoodsController;
 import com.risetek.operation.platform.base.client.model.EGoodsData;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.EGoodConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 public class EGoodsButtonDialog extends BaseButtonDailog {
 	
-	private Label E_GOODS_ID_ZH = new Label(EGoodConstanst.E_GOODS_ID_ZH);
+	private Label E_GOODS_ID_ZH = new Label(EGoodsConstanst.E_GOODS_ID_ZH);
 	
-	private Label E_GOODS_SN_ZH = new Label(EGoodConstanst.E_GOODS_SN_ZH);
+	private Label E_GOODS_SN_ZH = new Label(EGoodsConstanst.E_GOODS_SN_ZH);
 	
-	private Label TRANS_ID_ZH = new Label(EGoodConstanst.TRANS_ID_ZH);
+	private Label TRANS_ID_ZH = new Label(EGoodsConstanst.TRANS_ID_ZH);
 	
-	private Label CUSTOMER_ID_ZH = new Label(EGoodConstanst.CUSTOMER_ID_ZH);
+	private Label CUSTOMER_ID_ZH = new Label(EGoodsConstanst.CUSTOMER_ID_ZH);
 	
-	private Label DESCRIPTION_ZH = new Label(EGoodConstanst.DESCRIPTION_ZH);
+	private Label DESCRIPTION_ZH = new Label(EGoodsConstanst.DESCRIPTION_ZH);
 	
-	private Label INFO_ZH = new Label(EGoodConstanst.INFO_ZH);
+	private Label INFO_ZH = new Label(EGoodsConstanst.INFO_ZH);
 	
-	private Label CREATE_TIME_ZH = new Label(EGoodConstanst.CREATE_TIME_ZH);
+	private Label CREATE_TIME_ZH = new Label(EGoodsConstanst.CREATE_TIME_ZH);
 	
-	private Label BOLISH_TIME_ZH = new Label(EGoodConstanst.BOLISH_TIME_ZH);
+	private Label BOLISH_TIME_ZH = new Label(EGoodsConstanst.BOLISH_TIME_ZH);
 	
-	private Label USED_TIME_ZH = new Label(EGoodConstanst.USED_TIME_ZH);
+	private Label USED_TIME_ZH = new Label(EGoodsConstanst.USED_TIME_ZH);
 	
-	private Label STATUS_ZH = new Label(EGoodConstanst.STATUS_ZH);
+	private Label STATUS_ZH = new Label(EGoodsConstanst.STATUS_ZH);
 	
-	private Label THIRD_STATUS_ZH = new Label(EGoodConstanst.THIRD_STATUS_ZH);
+	private Label THIRD_STATUS_ZH = new Label(EGoodsConstanst.THIRD_STATUS_ZH);
 	
-	private Label ADDITION_ZH = new Label(EGoodConstanst.ADDITION_ZH);
+	private Label ADDITION_ZH = new Label(EGoodsConstanst.ADDITION_ZH);
 	
-	private Label VALIDITY_ZH = new Label(EGoodConstanst.VALIDITY_ZH);
+	private Label VALIDITY_ZH = new Label(EGoodsConstanst.VALIDITY_ZH);
 	
-	private Label CREATE_TIME_MIN_ZH = new Label(EGoodConstanst.CREATE_TIME_MIN_ZH);
+	private Label CREATE_TIME_MIN_ZH = new Label(EGoodsConstanst.CREATE_TIME_MIN_ZH);
 	
-	private Label CREATE_TIME_MAX_ZH = new Label(EGoodConstanst.CREATE_TIME_MAX_ZH);
+	private Label CREATE_TIME_MAX_ZH = new Label(EGoodsConstanst.CREATE_TIME_MAX_ZH);
 	
-	private Label BOLISH_TIME_MIN_ZH = new Label(EGoodConstanst.BOLISH_TIME_MIN_ZH);
+	private Label BOLISH_TIME_MIN_ZH = new Label(EGoodsConstanst.BOLISH_TIME_MIN_ZH);
 	
-	private Label BOLISH_TIME_MAX_ZH = new Label(EGoodConstanst.BOLISH_TIME_MAX_ZH);
+	private Label BOLISH_TIME_MAX_ZH = new Label(EGoodsConstanst.BOLISH_TIME_MAX_ZH);
 	
-	private Label USED_TIME_MIN_ZH = new Label(EGoodConstanst.USED_TIME_MIN_ZH);
+	private Label USED_TIME_MIN_ZH = new Label(EGoodsConstanst.USED_TIME_MIN_ZH);
 	
-	private Label USED_TIME_MAX_ZH = new Label(EGoodConstanst.USED_TIME_MAX_ZH);
+	private Label USED_TIME_MAX_ZH = new Label(EGoodsConstanst.USED_TIME_MAX_ZH);
 	
 	
 	private TextBox E_GOODS_ID = new TextBox();

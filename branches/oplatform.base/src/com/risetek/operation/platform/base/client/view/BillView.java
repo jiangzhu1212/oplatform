@@ -8,6 +8,7 @@ import com.risetek.operation.platform.base.client.BillSink;
 import com.risetek.operation.platform.base.client.control.BillController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.BillConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -44,7 +45,9 @@ public class BillView extends OPlatformTableView implements IOPlatformView {
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
-		
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new BillController.TableEditAction()));
+		}
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;

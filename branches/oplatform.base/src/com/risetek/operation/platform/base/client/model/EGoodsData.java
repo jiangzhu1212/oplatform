@@ -9,7 +9,7 @@ import com.google.gwt.json.client.JSONString;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.EGoodConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
 public class EGoodsData extends OPlatformData {
@@ -62,59 +62,59 @@ public class EGoodsData extends OPlatformData {
 		for (int i = 0; i < arr.size(); i++) {
 			JSONObject channel = arr.get(i).isObject();
 			try {
-				data[i][0] = channel.get(EGoodConstanst.E_GOODS_ID).isNumber()
+				data[i][0] = channel.get(EGoodsConstanst.E_GOODS_ID).isNumber()
 						.toString();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][1] = channel.get(EGoodConstanst.E_GOODS_SN).isNumber()
+				data[i][1] = channel.get(EGoodsConstanst.E_GOODS_SN).isNumber()
 						.toString();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][2] = channel.get(EGoodConstanst.TRANS_ID).isNumber()
+				data[i][2] = channel.get(EGoodsConstanst.TRANS_ID).isNumber()
 						.toString();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][3] = channel.get(EGoodConstanst.CUSTOMER_ID).isNumber()
+				data[i][3] = channel.get(EGoodsConstanst.CUSTOMER_ID).isNumber()
 						.toString();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][4] = channel.get(EGoodConstanst.DESCRIPTION).isString().stringValue();
+				data[i][4] = channel.get(EGoodsConstanst.DESCRIPTION).isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][5] = channel.get(EGoodConstanst.INFO).isString().stringValue();
+				data[i][5] = channel.get(EGoodsConstanst.INFO).isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][6] = channel.get(EGoodConstanst.CREATE_TIME).isString().stringValue();
+				data[i][6] = channel.get(EGoodsConstanst.CREATE_TIME).isString().stringValue();
 			} catch (Exception e) {
 			}			
 			try {
-				data[i][7] = channel.get(EGoodConstanst.BOLISH_TIME).isString().stringValue();
+				data[i][7] = channel.get(EGoodsConstanst.BOLISH_TIME).isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][8] = channel.get(EGoodConstanst.USED_TIME).isString().stringValue();
+				data[i][8] = channel.get(EGoodsConstanst.USED_TIME).isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][9] = channel.get(EGoodConstanst.STATUS).isString().stringValue();
+				data[i][9] = channel.get(EGoodsConstanst.STATUS).isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][10] = channel.get(EGoodConstanst.THIRD_STATUS).isString().stringValue();
+				data[i][10] = channel.get(EGoodsConstanst.THIRD_STATUS).isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][11] = channel.get(EGoodConstanst.ADDITION).isString().stringValue();
+				data[i][11] = channel.get(EGoodsConstanst.ADDITION).isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
-				data[i][12] = channel.get(EGoodConstanst.VALIDITY).isString().stringValue();
+				data[i][12] = channel.get(EGoodsConstanst.VALIDITY).isString().stringValue();
 			} catch (Exception e) {
 			}
 		}
@@ -152,105 +152,105 @@ public class EGoodsData extends OPlatformData {
 	private JSONObject packetData(){
 		JSONObject json = new JSONObject();
 		if(e_goods_id!=0){
-			json.put(EGoodConstanst.E_GOODS_ID, new JSONNumber(e_goods_id));
+			json.put(EGoodsConstanst.E_GOODS_ID, new JSONNumber(e_goods_id));
 		}
 		if(e_goods_sn!=0){
-			json.put(EGoodConstanst.E_GOODS_SN, new JSONNumber(e_goods_sn));
+			json.put(EGoodsConstanst.E_GOODS_SN, new JSONNumber(e_goods_sn));
 		}
 		if(trans_id!=0){
-			json.put(EGoodConstanst.TRANS_ID, new JSONNumber(trans_id));
+			json.put(EGoodsConstanst.TRANS_ID, new JSONNumber(trans_id));
 		}
 		if(customer_id!=0){
-			json.put(EGoodConstanst.CUSTOMER_ID, new JSONNumber(customer_id));
+			json.put(EGoodsConstanst.CUSTOMER_ID, new JSONNumber(customer_id));
 		}
 		if(description != null && !description.equals("")){
-			json.put(EGoodConstanst.DESCRIPTION, new JSONString(description));
+			json.put(EGoodsConstanst.DESCRIPTION, new JSONString(description));
 		}
 		if(info != null && !info.equals("")){
-			json.put(EGoodConstanst.INFO, new JSONString(info));
+			json.put(EGoodsConstanst.INFO, new JSONString(info));
 		}
 		if(create_time != null && !create_time.equals("")){
-			json.put(EGoodConstanst.CREATE_TIME, new JSONString(create_time));
+			json.put(EGoodsConstanst.CREATE_TIME, new JSONString(create_time));
 		}else {
 			if(create_time_min != null && !create_time_min.trim().equals("")){
-				json.put(EGoodConstanst.CREATE_TIME_MIN, new JSONString(create_time_min));
+				json.put(EGoodsConstanst.CREATE_TIME_MIN, new JSONString(create_time_min));
 			}
 			if(create_time_max != null && !create_time_max.trim().equals("")){
-				json.put(EGoodConstanst.CREATE_TIME_MAX, new JSONString(create_time_max));
+				json.put(EGoodsConstanst.CREATE_TIME_MAX, new JSONString(create_time_max));
 			}
 		}
 		if(create_time != null && !create_time.equals("")){
-			json.put(EGoodConstanst.CREATE_TIME, new JSONString(create_time));
+			json.put(EGoodsConstanst.CREATE_TIME, new JSONString(create_time));
 		}else {
 			if(create_time_min != null && !create_time_min.trim().equals("")){
-				json.put(EGoodConstanst.CREATE_TIME_MIN, new JSONString(create_time_min));
+				json.put(EGoodsConstanst.CREATE_TIME_MIN, new JSONString(create_time_min));
 			}
 			if(create_time_max != null && !create_time_max.trim().equals("")){
-				json.put(EGoodConstanst.CREATE_TIME_MAX, new JSONString(create_time_max));
+				json.put(EGoodsConstanst.CREATE_TIME_MAX, new JSONString(create_time_max));
 			}
 		}
 		if(bolish_time != null && !bolish_time.equals("")){
-			json.put(EGoodConstanst.BOLISH_TIME, new JSONString(bolish_time));
+			json.put(EGoodsConstanst.BOLISH_TIME, new JSONString(bolish_time));
 		}else {
 			if(bolish_time_min != null && !bolish_time_min.trim().equals("")){
-				json.put(EGoodConstanst.BOLISH_TIME_MIN, new JSONString(bolish_time_min));
+				json.put(EGoodsConstanst.BOLISH_TIME_MIN, new JSONString(bolish_time_min));
 			}
 			if(bolish_time_max != null && !bolish_time_max.trim().equals("")){
-				json.put(EGoodConstanst.BOLISH_TIME_MAX, new JSONString(bolish_time_max));
+				json.put(EGoodsConstanst.BOLISH_TIME_MAX, new JSONString(bolish_time_max));
 			}
 		}
 		if(used_time != null && !used_time.equals("")){
-			json.put(EGoodConstanst.USED_TIME, new JSONString(used_time));
+			json.put(EGoodsConstanst.USED_TIME, new JSONString(used_time));
 		}else {
 			if(used_time_min != null && !used_time_min.trim().equals("")){
-				json.put(EGoodConstanst.USED_TIME_MIN, new JSONString(used_time_min));
+				json.put(EGoodsConstanst.USED_TIME_MIN, new JSONString(used_time_min));
 			}
 			if(used_time_max != null && !used_time_max.trim().equals("")){
-				json.put(EGoodConstanst.USED_TIME_MAX, new JSONString(used_time_max));
+				json.put(EGoodsConstanst.USED_TIME_MAX, new JSONString(used_time_max));
 			}
 		}
 		if(status != null && !status.equals("")){
-			json.put(EGoodConstanst.STATUS, new JSONString(status));
+			json.put(EGoodsConstanst.STATUS, new JSONString(status));
 		}
 		if(third_status != null && !third_status.equals("")){
-			json.put(EGoodConstanst.THIRD_STATUS, new JSONString(third_status));
+			json.put(EGoodsConstanst.THIRD_STATUS, new JSONString(third_status));
 		}
 		if(addition != null && !addition.equals("")){
-			json.put(EGoodConstanst.ADDITION, new JSONString(addition));
+			json.put(EGoodsConstanst.ADDITION, new JSONString(addition));
 		}
 		if(validity != null && !validity.equals("")){
-			json.put(EGoodConstanst.VALIDITY, new JSONString(validity));
+			json.put(EGoodsConstanst.VALIDITY, new JSONString(validity));
 		}
 		return json ;
 	}
 	
 	private JSONObject packetData(String colName , String colValue){
 		JSONObject json = new JSONObject();
-		json.put(EGoodConstanst.E_GOODS_ID, new JSONNumber(e_goods_id));
-		if(EGoodConstanst.E_GOODS_SN_ZH.equals(colName)){
-			json.put(EGoodConstanst.E_GOODS_ID, new JSONNumber(Integer.parseInt(colValue)));
-		}else if(EGoodConstanst.CUSTOMER_ID_ZH.equals(colName)){
-			json.put(EGoodConstanst.CUSTOMER_ID, new JSONNumber(Integer.parseInt(colValue)));
-		}else if(EGoodConstanst.TRANS_ID_ZH.equals(colName)){
-			json.put(EGoodConstanst.TRANS_ID, new JSONNumber(Integer.parseInt(colValue)));
-		}else if(EGoodConstanst.DESCRIPTION_ZH.equals(colName)){
-			json.put(EGoodConstanst.DESCRIPTION, new JSONString(colValue));
-		}else if(EGoodConstanst.INFO_ZH.equals(colName)){
-			json.put(EGoodConstanst.INFO, new JSONString(colValue));
-		}else if(EGoodConstanst.CREATE_TIME_ZH.equals(colName)){
-			json.put(EGoodConstanst.CREATE_TIME, new JSONString(colValue));
-		}else if(EGoodConstanst.BOLISH_TIME_ZH.equals(colName)){
-			json.put(EGoodConstanst.BOLISH_TIME, new JSONString(colValue));
-		}else if(EGoodConstanst.USED_TIME_ZH.equals(colName)){
-			json.put(EGoodConstanst.USED_TIME, new JSONString(colValue));
-		}else if(EGoodConstanst.STATUS_ZH.equals(colName)){
-			json.put(EGoodConstanst.STATUS, new JSONString(colValue));
-		}else if(EGoodConstanst.THIRD_STATUS_ZH.equals(colName)){
-			json.put(EGoodConstanst.THIRD_STATUS, new JSONString(colValue));
-		}else if(EGoodConstanst.ADDITION_ZH.equals(colName)){
-			json.put(EGoodConstanst.ADDITION, new JSONString(colValue));
-		}else if(EGoodConstanst.VALIDITY_ZH.equals(colName)){
-			json.put(EGoodConstanst.VALIDITY, new JSONString(colValue));
+		json.put(EGoodsConstanst.E_GOODS_ID, new JSONNumber(e_goods_id));
+		if(EGoodsConstanst.E_GOODS_SN_ZH.equals(colName)){
+			json.put(EGoodsConstanst.E_GOODS_ID, new JSONNumber(Integer.parseInt(colValue)));
+		}else if(EGoodsConstanst.CUSTOMER_ID_ZH.equals(colName)){
+			json.put(EGoodsConstanst.CUSTOMER_ID, new JSONNumber(Integer.parseInt(colValue)));
+		}else if(EGoodsConstanst.TRANS_ID_ZH.equals(colName)){
+			json.put(EGoodsConstanst.TRANS_ID, new JSONNumber(Integer.parseInt(colValue)));
+		}else if(EGoodsConstanst.DESCRIPTION_ZH.equals(colName)){
+			json.put(EGoodsConstanst.DESCRIPTION, new JSONString(colValue));
+		}else if(EGoodsConstanst.INFO_ZH.equals(colName)){
+			json.put(EGoodsConstanst.INFO, new JSONString(colValue));
+		}else if(EGoodsConstanst.CREATE_TIME_ZH.equals(colName)){
+			json.put(EGoodsConstanst.CREATE_TIME, new JSONString(colValue));
+		}else if(EGoodsConstanst.BOLISH_TIME_ZH.equals(colName)){
+			json.put(EGoodsConstanst.BOLISH_TIME, new JSONString(colValue));
+		}else if(EGoodsConstanst.USED_TIME_ZH.equals(colName)){
+			json.put(EGoodsConstanst.USED_TIME, new JSONString(colValue));
+		}else if(EGoodsConstanst.STATUS_ZH.equals(colName)){
+			json.put(EGoodsConstanst.STATUS, new JSONString(colValue));
+		}else if(EGoodsConstanst.THIRD_STATUS_ZH.equals(colName)){
+			json.put(EGoodsConstanst.THIRD_STATUS, new JSONString(colValue));
+		}else if(EGoodsConstanst.ADDITION_ZH.equals(colName)){
+			json.put(EGoodsConstanst.ADDITION, new JSONString(colValue));
+		}else if(EGoodsConstanst.VALIDITY_ZH.equals(colName)){
+			json.put(EGoodsConstanst.VALIDITY, new JSONString(colValue));
 		}
 		
 		return json ;

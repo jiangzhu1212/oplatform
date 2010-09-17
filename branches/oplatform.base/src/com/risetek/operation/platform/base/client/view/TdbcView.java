@@ -117,7 +117,7 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	 * @return void 返回类型 
 	 */
 	public void render(TdbcData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

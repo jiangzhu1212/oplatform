@@ -118,8 +118,8 @@ public class Card007Data extends OPlatformData {
 				BillInfomation info = new BillInfomation();
 				if(Card007View.dateBox != null){
 					Date date = Card007View.dateBox.getValue();
-					String dateTimeMIN = Util.formatDateToJsonString(date);
-					String dateTimeMAX = Util.formatDateToJsonString(date);
+					String dateTimeMIN = Util.formatMINDateToJsonString(date);
+					String dateTimeMAX = Util.formatMAXDateToJsonString(date);
 					info.setPAY_DATETIME_MIN(dateTimeMIN);
 					info.setPAY_DATETIME_MAX(dateTimeMAX);
 				}
@@ -150,7 +150,7 @@ public class Card007Data extends OPlatformData {
 					actionInfo = buildBillObj(o);
 					
 					StringBuffer status = new StringBuffer();
-					status.append(new JSONString(Constanst.STATUS).stringValue());
+					status.append(Constanst.STATUS);
 					status.append("\"");
 					status.append(":");
 					if(card.getCHARGE_STATUS()!=null){

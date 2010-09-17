@@ -8,7 +8,8 @@ import com.risetek.operation.platform.base.client.EGoodsSink;
 import com.risetek.operation.platform.base.client.control.EGoodsController;
 import com.risetek.operation.platform.base.client.model.EGoodsData;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
-import com.risetek.operation.platform.launch.client.json.constanst.EGoodConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -20,10 +21,10 @@ public class EGoodsView extends OPlatformTableView implements IOPlatformView {
 	public final static Button queryButton = new Button("查询电子货物",new EGoodsController.TableShowAction());
 	public final static Button addButton = new Button("添加电子货物",new EGoodsController.TableShowAction());
 
-	public final static String[] columns = {EGoodConstanst.E_GOODS_ID_ZH,EGoodConstanst.E_GOODS_SN_ZH,EGoodConstanst.TRANS_ID_ZH,EGoodConstanst.CUSTOMER_ID_ZH
-											,EGoodConstanst.DESCRIPTION_ZH,EGoodConstanst.INFO_ZH,EGoodConstanst.CREATE_TIME_ZH,EGoodConstanst.BOLISH_TIME_ZH
-											,EGoodConstanst.USED_TIME_ZH,EGoodConstanst.STATUS_ZH,EGoodConstanst.THIRD_STATUS_ZH,EGoodConstanst.ADDITION_ZH,
-											EGoodConstanst.VALIDITY_ZH};
+	public final static String[] columns = {EGoodsConstanst.E_GOODS_ID_ZH,EGoodsConstanst.E_GOODS_SN_ZH,EGoodsConstanst.TRANS_ID_ZH,EGoodsConstanst.CUSTOMER_ID_ZH
+											,EGoodsConstanst.DESCRIPTION_ZH,EGoodsConstanst.INFO_ZH,EGoodsConstanst.CREATE_TIME_ZH,EGoodsConstanst.BOLISH_TIME_ZH
+											,EGoodsConstanst.USED_TIME_ZH,EGoodsConstanst.STATUS_ZH,EGoodsConstanst.THIRD_STATUS_ZH,EGoodsConstanst.ADDITION_ZH,
+											EGoodsConstanst.VALIDITY_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
 	String banner_tips = "";
@@ -35,7 +36,7 @@ public class EGoodsView extends OPlatformTableView implements IOPlatformView {
 	
 	public EGoodsView(){
 		HorizontalPanel action = initPromptGrid();
-		addActionPanel(action, EGoodsSink.Desc,EGoodsSink.Name);
+		addActionPanel(action, "",EGoodsSink.Name);
 //		setCellHeight(action, "38px");
 		setLocation(EGoodsSink.Group + " -> " + EGoodsSink.Name);
 		setStatisticText(100);
@@ -47,7 +48,9 @@ public class EGoodsView extends OPlatformTableView implements IOPlatformView {
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
-		
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new EGoodsController.TableEditAction()));
+		}
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;
@@ -75,11 +78,6 @@ public class EGoodsView extends OPlatformTableView implements IOPlatformView {
 			grid = new GreenMouseEventGrid();
 		}
 		formatGrid(grid, rowCount, columns,columnsWidth);
-//		grid.resize(2, 2);
-//		grid.setText(0, 0, "00");
-//		grid.setText(0, 1, "01");
-//		grid.setText(1, 0, "10");
-//		grid.setText(1, 1, "11");
 		return grid;
 	}
 

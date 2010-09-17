@@ -7,6 +7,7 @@ import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.TransBindSink;
 import com.risetek.operation.platform.base.client.control.TransBindController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransBindConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -53,6 +54,9 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(queryButton);
 		actionPanel.add(addButton);
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new TransBindController.TableEditAction()));
+		}
 		return actionPanel;
 	}
 	
@@ -107,7 +111,7 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	 * @param data
 	 */
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid, data, index);
 		}
 		renderStatistic(data);

@@ -8,6 +8,7 @@ import com.risetek.operation.platform.base.client.AcountSink;
 import com.risetek.operation.platform.base.client.control.AcountController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.AcountConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -65,6 +66,9 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 		HorizontalPanel actionPanel = new HorizontalPanel();
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new AcountController.TableEditAction()));
+		}
 		return actionPanel;
 	}
 	

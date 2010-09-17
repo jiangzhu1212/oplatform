@@ -12,6 +12,7 @@ import com.google.gwt.user.client.Window;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.PBabyConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 
@@ -44,6 +45,7 @@ public class PBabyData extends OPlatformData {
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		setSum(Integer.parseInt(item_total.toString()));
 		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
 		JSONArray goodsArr = actionInfo.get(Constanst.ITEMS).isArray();
 		List<String[]> list = new ArrayList<String[]>();
@@ -134,7 +136,7 @@ public class PBabyData extends OPlatformData {
 		JSONArray customerArr = actionInfo.get(Constanst.ITEMS).isArray();
 		for(int i = 0 ; i < customerArr.size() ; i ++){
 			JSONObject customer = (customerArr.get(i)).isObject();
-			if(Constanst.TRUE.equals(customer.get(CustomerConstanst.VALIDITY).isString().toString())){
+			if(Constanst.TRUE.equals(customer.get(CustomerConstanst.VALIDITY).isString().stringValue())){
 				customer_id = Integer.parseInt(customer.get(CustomerConstanst.CUSTOMER_ID).isNumber().toString());
 			}else {
 				continue ;
@@ -174,6 +176,7 @@ public class PBabyData extends OPlatformData {
 			json.put(PBabyConstanst.CUSTOMER_ID, new JSONNumber(customer_id));
 		}
 		json.put(Constanst.TRANS_ID, new JSONNumber(76));
+		json.put(EGoodsConstanst.INFO, new JSONString("IS_OK\":\"false"));
 		return json ;
 	}
 	public String getPhoneNumber() {

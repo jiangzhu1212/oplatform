@@ -8,6 +8,7 @@ import com.risetek.operation.platform.base.client.CardTerminalSink;
 import com.risetek.operation.platform.base.client.control.CardTerminalController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.json.constanst.CardTerminalConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
@@ -34,13 +35,15 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 		addActionPanel(action, descript, CardTerminalSink.Name);
 		setStatisticText(100);
 		grid.addClickHandler(new CardTerminalController.TableEditAction());
-
 	}
 	
 	private HorizontalPanel initPromptGrid(){
 		HorizontalPanel actionPanel = new HorizontalPanel();	
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
+		for (int i = 1; i < columns.length; i++) {
+			actionPanel.add(new Button(Constanst.EDIT_ZH+columns[i],new CardTerminalController.TableEditAction()));
+		}
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;
@@ -73,7 +76,7 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 	}
 
 	public void render(OPlatformData data){
-		for(int index=0;index<rowCount;index++){
+		for(int index=1;index<rowCount;index++){
 			renderLine(grid,data, index);
 		}
 		renderStatistic(data);
