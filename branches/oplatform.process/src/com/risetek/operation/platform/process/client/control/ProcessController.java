@@ -1,7 +1,5 @@
 package com.risetek.operation.platform.process.client.control;
 
-import java.util.ArrayList;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
@@ -60,12 +58,6 @@ public class ProcessController extends AController {
 	@Override
 	public OPlatformTableView getView() {
 		return view;
-	}
-
-	@Override
-	public ArrayList<String> getActionNames() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

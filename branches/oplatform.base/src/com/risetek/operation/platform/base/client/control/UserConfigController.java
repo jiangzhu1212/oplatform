@@ -1,7 +1,5 @@
 package com.risetek.operation.platform.base.client.control;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -16,6 +14,7 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.risetek.operation.platform.base.client.dialog.AddUserDialog;
 import com.risetek.operation.platform.base.client.dialog.ChangUserStatusDialog;
+import com.risetek.operation.platform.base.client.dialog.EditUserInfoDialog;
 import com.risetek.operation.platform.base.client.dialog.ShowUserInfoDialog;
 import com.risetek.operation.platform.base.client.model.RoleConfigData;
 import com.risetek.operation.platform.base.client.model.UserConfigData;
@@ -24,6 +23,7 @@ import com.risetek.operation.platform.base.client.service.RoleServiceAsync;
 import com.risetek.operation.platform.base.client.service.UserService;
 import com.risetek.operation.platform.base.client.service.UserServiceAsync;
 import com.risetek.operation.platform.base.client.view.UserConfigView;
+import com.risetek.operation.platform.launch.client.OplatformLaunch;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.DialogControl;
@@ -36,8 +36,6 @@ import com.risetek.operation.platform.log.client.RLog;
 
 public class UserConfigController extends AController {
 
-	private ArrayList<String> actionNames = new ArrayList<String>();
-	
 	private final static UserServiceAsync us = GWT.create(UserService.class);
 	private final static RoleServiceAsync rs = GWT.create(RoleService.class);
 	
@@ -62,15 +60,6 @@ public class UserConfigController extends AController {
 	
 	public OPlatformData getRoleData() {
 		return roleData;
-	}
-
-	@Override
-	public ArrayList<String> getActionNames() {
-		if(actionNames.isEmpty()){
-			return null;
-		} else {
-			return actionNames;
-		}
 	}
 
 	@Override
@@ -178,16 +167,11 @@ public class UserConfigController extends AController {
 			}
 			switch (index) {
 			case 1:
-				OffUserControl duc = INSTANCE.new OffUserControl(tisp_value, id);
-				duc.dialog.submit.addClickHandler(duc);
-				duc.dialog.show();
-				break;
-			case 6:
-				break;
 			case 2:
 			case 3:
 			case 4:
 			case 5:
+			case 6:
 			case 7:
 			case 8:
 			case 9:
@@ -538,6 +522,67 @@ public class UserConfigController extends AController {
 					public void onFailure(Throwable caught) {}
 				});
 				RLog.writeLog("复位用户\"" + value + "\"的状态。");
+			}
+
+			@Override
+			protected CustomDialog getDialog() {
+				return dialog;
+			}
+			
+		}
+	}
+	
+	public static class ChangUserInfoAction implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			String value = "";
+			String id = "";
+			String role = "";
+			Grid grid = INSTANCE.view.grid;
+			int flag = 0;
+			for(int i=1;i<grid.getRowCount();i++){
+				CheckBox box = (CheckBox)grid.getWidget(i, 0);
+				if(box!=null){
+					if(box.getValue()){
+						value = grid.getText(i, 3);
+						id = grid.getText(i, 2);
+						role = grid.getText(i, 5);
+						flag++;
+					}
+				}
+			}
+			if(flag>1){
+				Window.alert("只允许处理一条记录！");
+				for(int i=1;i<grid.getRowCount();i++){
+					CheckBox box = (CheckBox)grid.getWidget(i, 0);
+					if(box!=null){
+						if(box.getValue()){
+							box.setValue(false);
+						}
+					}
+				}
+				return;
+			} else if(flag==0){
+				Window.alert("未选择任何记录！");
+				return;
+			}
+			ChangUserInfoControl huc = new ChangUserInfoControl(value, id, role, INSTANCE.roleData);
+			huc.dialog.submit.addClickHandler(huc);
+			huc.dialog.show();
+		}
+		
+		public class ChangUserInfoControl extends DialogControl implements ClickHandler {
+			EditUserInfoDialog dialog;
+			String id;
+			String value;
+			public ChangUserInfoControl(String value, String id, String rold, OPlatformData roleData){
+				dialog = new EditUserInfoDialog(value, rold, roleData);
+				this.id = id;
+				this.value = value;
+			}
+			public void onClick(ClickEvent event) {
+				RLog.writeLog(OplatformLaunch.loginUser.getUserName(), "更改用户\"" + value + "\"的信息。");
 			}
 
 			@Override

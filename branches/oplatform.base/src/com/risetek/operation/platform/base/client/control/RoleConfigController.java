@@ -36,6 +36,7 @@ public class RoleConfigController extends AController {
 	public static RoleConfigController INSTANCE = new RoleConfigController();
 	final RoleConfigData data = new RoleConfigData();
 	final RoleConfigData childData = new RoleConfigData();
+	final RoleConfigData allChildData = new RoleConfigData();
 	public final RoleConfigView view = new RoleConfigView();
 	private int pagePoint = 1;
 	private int childPagePoint = 1;
@@ -51,11 +52,6 @@ public class RoleConfigController extends AController {
 	@Override
 	public OPlatformData getData() {
 		return data;
-	}
-
-	@Override
-	public ArrayList<String> getActionNames() {
-		return actionNames;
 	}
 	
 	public void load(){
@@ -106,6 +102,12 @@ public class RoleConfigController extends AController {
 			public void onSuccess(RoleOperation[] result) {
 				INSTANCE.childData.parseChildResult(value, result);
 				INSTANCE.view.renderChild(INSTANCE.childData);
+			}
+			public void onFailure(Throwable caught) {}
+		});
+		rs.getRoleOperationById(id, new AsyncCallback<RoleOperation[]>() {
+			public void onSuccess(RoleOperation[] result) {
+				INSTANCE.allChildData.parseChildResult(value, result);
 			}
 			public void onFailure(Throwable caught) {}
 		});
@@ -318,7 +320,7 @@ public class RoleConfigController extends AController {
 		public void onClick(ClickEvent event) {
 			String name = INSTANCE.view.getChildGridTitle();
 			String id = INSTANCE.view.getSelectRoleId();
-			AddRoleOperationControl addROCont = new AddRoleOperationControl(id, name);
+			AddRoleOperationControl addROCont = new AddRoleOperationControl(id, name, INSTANCE.allChildData.getData());
 			addROCont.dialog.submit.addClickHandler(addROCont);
 			if(name.trim().length()<1){
 				Window.alert("未选择角色，不能执行\"添加角色操作\"");
@@ -329,8 +331,8 @@ public class RoleConfigController extends AController {
 		public class AddRoleOperationControl extends DialogControl implements ClickHandler {
 			AddRoleOperationDialog dialog;
 			private String roleName = "";
-			public AddRoleOperationControl(String id, String roleName){
-				dialog = new AddRoleOperationDialog(id, roleName);
+			public AddRoleOperationControl(String id, String roleName, String[][] childData){
+				dialog = new AddRoleOperationDialog(id, roleName, childData);
 				this.roleName = roleName;
 			}
 			

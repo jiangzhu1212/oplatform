@@ -37,6 +37,7 @@ public abstract class OPlatformTableView extends DockPanel {
 	public VerticalPanel main = new VerticalPanel();
 	public HorizontalPanel page = new HorizontalPanel();
 	public HorizontalPanel actionPanel;
+	public HorizontalPanel childTableActionPanel;// = new HorizontalPanel();
 	
 	public abstract String[] parseRow(Node node);
 	public abstract Grid getGrid();
@@ -105,6 +106,10 @@ public abstract class OPlatformTableView extends DockPanel {
 	
 	public HorizontalPanel getActionPanel(){
 		return actionPanel;
+	}
+	
+	public HorizontalPanel getChildActionPanel(){
+		return childTableActionPanel;
 	}
 	
 	private Widget createPagePanel() {
@@ -418,7 +423,7 @@ public abstract class OPlatformTableView extends DockPanel {
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	private void checkAddAction(HorizontalPanel widget, String name) {

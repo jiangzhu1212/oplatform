@@ -1,8 +1,6 @@
 package com.risetek.operation.platform.base.client.control;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -20,11 +18,11 @@ import com.risetek.operation.platform.base.client.model.PBabyData;
 import com.risetek.operation.platform.base.client.view.PBabyView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
+import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.PBabyConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
-import com.risetek.operation.platform.launch.client.util.Util;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
 public class PBabyController extends AController {
@@ -39,7 +37,7 @@ public class PBabyController extends AController {
 	
 	public static String ACTION_NAME = null ;
 	
-	public static PBabyData queryData = null;
+	public static String packet = null;
 	
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
@@ -54,15 +52,13 @@ public class PBabyController extends AController {
 				pData.parseDataCustomer(ret);
 				pData.setCreate_dateTime(pBabyCreateTime);
 				pData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
-				queryData = pData ;
-				String packet = pData.toHttpPacket();
+				packet = pData.toHttpPacket();
 				remoteRequest.getBill(packet, QueryCaller);
 			}else if(Constanst.ACTION_NAME_EDIT_PBABY.equals(ACTION_NAME)){
 				try{
 					JSONObject o = JSONParser.parse(ret).isObject();
 					String retCode = o.get("flag").isString().stringValue();
 					if("1".equals(retCode)){
-						String packet = queryData.toHttpPacket();
 						remoteRequest.getBill(packet, QueryCaller);
 						Window.alert("出票成功");
 					}else{
@@ -123,8 +119,6 @@ public class PBabyController extends AController {
 		return data;
 	}
 	
-	
-	
 	/**
 	 * @author Amber
 	 * 功能：以下子类分别是该模块事件的实体
@@ -142,21 +136,37 @@ public class PBabyController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			Object obj = event.getSource() ;
-			if(obj == PBabyView.checkTicket){
-				List<Integer> list = Util.getCheckedRow(INSTANCE.view.grid);
-				if(list.size() != 1){
-					Window.alert("请选择一行数据执行操作");
-					return ;
+			
+			HTMLTable table = (HTMLTable)event.getSource();
+			Cell Mycell = table.getCellForEvent(event);
+			if( Mycell == null ) return;
+			int row = Mycell.getRowIndex();
+			int col = Mycell.getCellIndex();
+
+			String tisp_value = table.getText(row, col);
+			if(tisp_value.length() == 1){
+				int tvalue = (int)tisp_value.charAt(0);
+				if(tvalue == 160){
+					tisp_value = "";
 				}
-				int row = list.get(0);
-				
+			}
+			
+			switch (col) {
+			case 1:
+			case 2:	
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:				
 				dialog.makeMainPanel(INSTANCE.view.grid , row);
 				dialog.submit.setVisible(true);
 				dialog.submit.setText("出票");
-				dialog.show();	
-			}
-			
+				dialog.show();
+				break;				
+			default:
+				break;
+			}			
 			
 		}
 	
@@ -194,7 +204,11 @@ public class PBabyController extends AController {
  				String sendData = sb.toString();
  				remoteRequest.getPBaby(sendData, RemoteCaller);
 			}
-				
+			
+			@Override
+			protected CustomDialog getDialog() {
+				return dialog;
+			}			
 		}
 	}
 	
@@ -215,7 +229,7 @@ public class PBabyController extends AController {
 				Date createDateTime = PBabyView.createDataTime.getValue();
 				pBabyData.setPhoneNumber(phone);
 				if(createDateTime != null){
-					String createDate = Util.formatDateToStringByStr2(createDateTime, "yyyyMMdd");
+					String createDate = PBabyView.format.format(createDateTime);
 					pBabyData.setCreate_dateTime(createDate);
 					pBabyCreateTime = createDate;
 				}
@@ -227,8 +241,7 @@ public class PBabyController extends AController {
 					remoteRequest.getBill(packet, RemoteCaller);
 				}else {
 					pBabyData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
-					PBabyController.queryData = pBabyData;
-					String packet = pBabyData.toHttpPacket();
+					packet = pBabyData.toHttpPacket();
 					remoteRequest.getBill(packet, QueryCaller);
 				}
 				
@@ -244,12 +257,6 @@ public class PBabyController extends AController {
 	@Override
 	public OPlatformTableView getView() {
 		return view;
-	}
-
-	@Override
-	public ArrayList<String> getActionNames() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

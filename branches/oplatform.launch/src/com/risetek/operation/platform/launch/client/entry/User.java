@@ -21,6 +21,8 @@ public class User implements Serializable {
 	
 	private Integer role;
 	
+	private String roleName;
+	
 	private String email;
 	
 	private Timestamp lastLoginTime;
@@ -119,6 +121,14 @@ public class User implements Serializable {
 
 	public void setRoleOperation(ArrayList<String> roleOperation) {
 		this.roleOperation = roleOperation;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 }

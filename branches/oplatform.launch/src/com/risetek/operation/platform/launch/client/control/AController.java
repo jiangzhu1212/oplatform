@@ -37,6 +37,9 @@ public abstract class AController {
 	public abstract int getChildPagePoint();
 	
 	public ArrayList<String> getActionNames(){
+		if(!actionNames.isEmpty()){
+			return actionNames;
+		}
 		HorizontalPanel hp = getView().getActionPanel();
 		for(int i=0;i<hp.getWidgetCount();i++){
 			Widget w = hp.getWidget(i);
@@ -44,6 +47,19 @@ public abstract class AController {
 				String name = ((Button)w).getText();
 				actionNames.add(name);
 			}
+		}
+		HorizontalPanel chp = getView().getChildActionPanel();
+		if(chp!=null){
+			for(int i=0;i<chp.getWidgetCount();i++){
+				Widget w = chp.getWidget(i);
+				if(w instanceof Button){
+					String name = ((Button)w).getText();
+					actionNames.add(name);
+				}
+			}
+		}
+		if(actionNames.isEmpty()){
+			return null;
 		}
 		return actionNames;
 	}

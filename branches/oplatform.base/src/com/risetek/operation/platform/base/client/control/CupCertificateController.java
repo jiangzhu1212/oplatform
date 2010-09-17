@@ -1,13 +1,14 @@
 package com.risetek.operation.platform.base.client.control;
 
-import java.util.ArrayList;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.CupCertificateButtonDialog;
+import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.CupCertificateData;
 import com.risetek.operation.platform.base.client.view.CupCertificateView;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -77,19 +78,43 @@ public class CupCertificateController extends AController {
 	public CupCertificateData getData() {
 		return data;
 	}
-	
-	public static class TableEditAction extends BaseTableEditController {
-		
-		@Override
-		public void setGrid() {
-			grid = INSTANCE.view.grid;
-		}
 
-		@Override
-		public void submintHandler() {
-			
+	public static class TableEditAction implements ClickActionHandler {
+		
+		private String actionName = "编辑表格";
+
+		public String getActionName(){
+			return actionName;
 		}
-	
+		
+		public void onClick(ClickEvent event) {
+			
+			HTMLTable table = (HTMLTable)event.getSource();
+			Cell Mycell = table.getCellForEvent(event);
+			if( Mycell == null ) return;
+			int row = Mycell.getRowIndex();
+			int col = Mycell.getCellIndex();
+            
+			String tisp_value = table.getText(row, col);
+			if(tisp_value.length() == 1){
+				int tvalue = (int)tisp_value.charAt(0);
+				if(tvalue == 160){
+					tisp_value = "";
+				}
+			}
+			switch (col) {
+			case 1:
+				//查看详细信息
+				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+				dialog.makeMainPanel(INSTANCE.view.grid , row);
+				dialog.show();
+				break;	
+			
+			default:
+				break;
+			}						
+		}		
+		
 	}
 		
 	
@@ -116,12 +141,6 @@ public class CupCertificateController extends AController {
 	@Override
 	public OPlatformTableView getView() {
 		return view;
-	}
-
-	@Override
-	public ArrayList<String> getActionNames() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

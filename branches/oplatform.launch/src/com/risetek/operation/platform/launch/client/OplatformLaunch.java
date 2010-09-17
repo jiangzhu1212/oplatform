@@ -27,6 +27,7 @@ import com.risetek.operation.platform.launch.client.dialog.NoticeDialog;
 import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
  * @author Amber
@@ -54,6 +55,9 @@ public abstract class OplatformLaunch implements EntryPoint {
 	private SinkInfo curInfo;
 	public static ArrayList<Sink> sinkList = null;
 	public static User loginUser = null;
+	protected Button changUserInfo = new Button("更改个人信息");
+	protected Button logout = new Button("注销登录");
+	protected Button repws = new Button();
 	
 	public abstract void loginAction();
 	
@@ -118,13 +122,11 @@ public abstract class OplatformLaunch implements EntryPoint {
 		titlePanel.add(title);
 		title.setStyleName("h1");
 		VerticalPanel pubAction = new VerticalPanel();
-		Button repws = new Button("更改个人信息");
-		repws.setWidth("90px");
-		Button logout = new Button("注销登录");
+		changUserInfo.setWidth("90px");
 		logout.setWidth("90px");
 		HTML blank = new HTML();
 		blank.setStyleName("blank5");
-		pubAction.add(repws);
+		pubAction.add(changUserInfo);
 		pubAction.add(blank);
 		pubAction.add(logout);
 		pubAction.setWidth("100px");
@@ -138,13 +140,13 @@ public abstract class OplatformLaunch implements EntryPoint {
 		HorizontalPanel userInfoPanel = new HorizontalPanel();
 		Grid userInfoGrid = new Grid(1, 8);
 		userInfoGrid.setText(0, 0, "登录用户:");
-		userInfoGrid.setText(0, 1, "测试");
-		userInfoGrid.setText(0, 2, "权限:");
-		userInfoGrid.setText(0, 3, "值班技术");
+		userInfoGrid.setText(0, 1, loginUser.getUserName());
+		userInfoGrid.setText(0, 2, "角色:");
+		userInfoGrid.setText(0, 3, loginUser.getRoleName());
 		userInfoGrid.setText(0, 4, "上次登录时间:");
-		userInfoGrid.setText(0, 5, "2010-08-24 22:48:30");
+		userInfoGrid.setText(0, 5, Util.formatTimestampToString(loginUser.getLastLoginTime()));
 		userInfoGrid.setText(0, 6, "上次登录地址:");
-		userInfoGrid.setText(0, 7, "125.69.69.135");
+		userInfoGrid.setText(0, 7, loginUser.getLastLoginAddress());
 		for(int i=0;i<userInfoGrid.getColumnCount();i++){
 			if(i%2==0){
 				userInfoGrid.getCellFormatter().setStyleName(0, i, "userinfo-name");
@@ -244,6 +246,9 @@ public abstract class OplatformLaunch implements EntryPoint {
 	 */
 	private void selectDefaultWidget() {
 		TreeItem item = userMenu.getItem(0);
+		if(item==null){
+			return;
+		}
 		item.setState(true);
 		if(item.getChildCount()>0){
 			item = item.getChild(0);

@@ -1,18 +1,21 @@
 package com.risetek.operation.platform.base.client.control;
 
-import java.util.ArrayList;
-
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.risetek.operation.platform.base.client.dialog.ChannelButtonDialog;
+import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
 import com.risetek.operation.platform.base.client.model.ChannelData;
 import com.risetek.operation.platform.base.client.view.ChannelView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
+import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
@@ -87,33 +90,100 @@ public class ChannelController extends AController {
 		return data;
 	}
 	
-	public static class TableEditAction extends BaseTableEditController {
+	/**
+	 * @author Amber
+	 * 功能：以下子类分别是该模块事件的实体
+	 * 2010-8-23 下午11:49:52
+	 */
+	public static class TableEditAction implements ClickActionHandler {
 		
-		@Override
-		public void setGrid() {
-			grid = INSTANCE.view.grid;
+		private String actionName = "编辑表格";
+		private ChannelEditControl edit_control = new ChannelEditControl();
+		public TableEditAction() {			
+			edit_control.setColName(null);	
+			edit_control.dialog.submit.addClickHandler(edit_control);
 		}
-
-		@Override
-		public void submintHandler() {
-			ChannelData editData = new ChannelData() ;
-			editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_CHANNEL_INFO);
-			String row = dialog.rowid;
-			String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
-			editData.setChannel_id(Integer.parseInt(id));
-			String colName = dialog.colName;
-			if(colName == null || "".equals(colName)){
-				
-			}else {
-				String colValue = dialog.getText() ;
-
-				String packet = editData.toHttpPacket(colName,colValue);
-				remoteRequest.getBill(packet, RemoteCaller);
+		public String getActionName(){
+			return actionName;
+		}
+		
+		public void onClick(ClickEvent event) {
+			
+			HTMLTable table = (HTMLTable)event.getSource();
+			Cell Mycell = table.getCellForEvent(event);
+			if( Mycell == null ) return;
+			int row = Mycell.getRowIndex();
+			int col = Mycell.getCellIndex();
+            
+			// 在第一列中的是数据的内部序号，我们的操作都针对这个号码。
+			String rowid = table.getText(row, 1);
+			String colName = table.getText(0, col);
+			String tisp_value = table.getText(row, col);
+			if(tisp_value.length() == 1){
+				int tvalue = (int)tisp_value.charAt(0);
+				if(tvalue == 160){
+					tisp_value = "";
+				}
 			}
-			dialog.hide();
+			
+			switch (col) {
+			case 1:
+				ViewDetailDialog dialog = ViewDetailDialog.INSTANCE;
+				dialog.makeMainPanel(INSTANCE.view.grid , row);
+				dialog.show();
+				break;
+			case 2:
+				// 选择了删除渠道。
+				edit_control.setColName(null);	
+				edit_control.dialog.submit.setText("删除");				
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+
+			case 3:
+			case 4:
+			case 5:
+			case 6:	
+			case 7:
+			case 8:
+				edit_control.setColName(colName);	
+				edit_control.dialog.submit.setText("修改");
+				edit_control.dialog.show(rowid, tisp_value);
+				break;
+			default:
+				break;
+			}			
+			
 		}
-	
+		
+		public class ChannelEditControl extends EditController implements ClickHandler {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				ChannelData editData = new ChannelData() ;
+				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_CHANNEL_INFO);
+				String row = dialog.rowid;
+				String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
+				editData.setChannel_id(Integer.parseInt(id));
+				String colName = dialog.colName;
+				if(colName == null || "".equals(colName)){
+					
+				}else {
+					String colValue = dialog.getText() ;
+
+					String packet = editData.toHttpPacket(colName,colValue);
+					remoteRequest.getBill(packet, RemoteCaller);
+				}
+				dialog.hide();
+			}
+			
+			@Override
+			protected CustomDialog getDialog() {
+				return dialog;
+			}			
+		}
+
 	}
+
 	
 	public static class TableShowAction implements ClickActionHandler {
 		
@@ -142,12 +212,6 @@ public class ChannelController extends AController {
 	@Override
 	public OPlatformTableView getView() {
 		return view;
-	}
-
-	@Override
-	public ArrayList<String> getActionNames() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

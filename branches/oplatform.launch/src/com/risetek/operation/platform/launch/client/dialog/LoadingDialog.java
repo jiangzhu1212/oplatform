@@ -32,6 +32,7 @@ public class LoadingDialog extends DialogBox {
 	public LoadingDialog(String value) {
 		setWidget(uiBinder.createAndBindUi(this));
 		setGlassEnabled(true);
+		setAutoHideEnabled(false);
 		setSize("160px", "60px");
 		setStyleName("dialog");
 		center();
@@ -61,12 +62,12 @@ public class LoadingDialog extends DialogBox {
 	}
 
 	public void run() {
-		super.show();
 		refresh.run();
+		super.show();
 	}
 
 	public void cancel() {
-		super.hide();
 		refresh.cancel();
+		super.hide();
 	}
 }

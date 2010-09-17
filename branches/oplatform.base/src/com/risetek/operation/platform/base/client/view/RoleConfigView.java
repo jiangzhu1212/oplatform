@@ -1,5 +1,7 @@
 package com.risetek.operation.platform.base.client.view;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
@@ -14,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.risetek.operation.platform.base.client.RoleConfigSink;
 import com.risetek.operation.platform.base.client.control.RoleConfigController;
+import com.risetek.operation.platform.launch.client.OplatformLaunch;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.IOPlatformView;
@@ -56,10 +59,17 @@ public class RoleConfigView extends OPlatformTableView implements IOPlatformView
 		childTitle.setStyleName("childtabletitle");
 		childTableTitle.setWidget(0, 0, childTitle);
 		VerticalPanel childPanel = new VerticalPanel();
-		HorizontalPanel childTableActionPanel = new HorizontalPanel();
+		childTableActionPanel = new HorizontalPanel();
 		childTableActionPanel.setStyleName("childtableAction");
+		ArrayList<String> temp = getLocalActionList(OplatformLaunch.loginUser.getRoleOperation(), RoleConfigSink.Name);
 		childTableActionPanel.add(addRoleOperation);
 		childTableActionPanel.add(delManyRoleOperation);
+		if(!checkAction(addRoleOperation, temp)){
+			addRoleOperation.setVisible(false);
+		}
+		if(!checkAction(delManyRoleOperation, temp)){
+			delManyRoleOperation.setVisible(false);
+		}
 		childTableTitle.setWidget(0, 2, childTableActionPanel);
 		childTableTitle.getColumnFormatter().setWidth(0, "25%");
 		childTableTitle.getColumnFormatter().setWidth(1, "25%");
