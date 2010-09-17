@@ -28,8 +28,8 @@ public class CustomerController extends AController {
 	final CustomerData data = new CustomerData();
 	public static CustomerData queryData = new CustomerData() ;
 	public final CustomerView view = new CustomerView();
-	public CustomerButtonDialog customerDialog = new CustomerButtonDialog();
-
+	public CustomerButtonDialog customerDialog = null;
+	private int pagePoint = 1;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -167,14 +167,12 @@ public class CustomerController extends AController {
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override

@@ -29,8 +29,8 @@ public class TransBindController extends AController {
 	
 	public final TransBindView view = new TransBindView();
 	
-	public TransBindButtonDialog transBindButtonDialog = new TransBindButtonDialog();
-	
+	public TransBindButtonDialog transBindButtonDialog = null;
+	private int pagePoint = 1;
 	public static String ACTION_NAME = null ;
 	
 	public static RequestFactory remoteRequest = new RequestFactory();
@@ -170,14 +170,12 @@ public class TransBindController extends AController {
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override

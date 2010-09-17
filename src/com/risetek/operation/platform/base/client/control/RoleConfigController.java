@@ -40,7 +40,6 @@ public class RoleConfigController extends AController {
 	public final RoleConfigView view = new RoleConfigView();
 	private int pagePoint = 1;
 	private int childPagePoint = 1;
-	
 	private RoleConfigController(){
 	}
 	

@@ -32,7 +32,7 @@ public class TdbcController extends AController {
 	public static TdbcData queryData = new TdbcData();
 	public final TdbcView view = new TdbcView();
 	public TdbcButtonDialog transactionDialog = new TdbcButtonDialog();
-	
+	private int pagePoint = 1;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -140,14 +140,12 @@ public class TdbcController extends AController {
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override

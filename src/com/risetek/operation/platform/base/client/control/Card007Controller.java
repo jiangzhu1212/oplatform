@@ -41,7 +41,7 @@ public class Card007Controller extends AController {
 	public final Card007View view = new Card007View();
 
 	public static RequestFactory remoteRequest = new RequestFactory();
-
+	private int pagePoint = 1;
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	/**
 	 * @ClassName: RemoteRequestCallback 
@@ -270,14 +270,12 @@ public class Card007Controller extends AController {
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override

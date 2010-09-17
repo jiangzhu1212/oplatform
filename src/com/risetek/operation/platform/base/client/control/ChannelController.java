@@ -24,7 +24,8 @@ public class ChannelController extends AController {
 	final ChannelData data = new ChannelData();
 	public static ChannelData queryData = new ChannelData();
 	public final ChannelView view = new ChannelView();
-	public ChannelButtonDialog channelButtonDialog = new ChannelButtonDialog();
+	public ChannelButtonDialog channelButtonDialog = null;
+	private int pagePoint = 1;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -160,14 +161,12 @@ public class ChannelController extends AController {
 
 	@Override
 	public void setPagePoint(int point) {
-		// TODO Auto-generated method stub
-		
+		pagePoint = point;
 	}
 
 	@Override
 	public int getPagePoint() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pagePoint;
 	}
 
 	@Override
