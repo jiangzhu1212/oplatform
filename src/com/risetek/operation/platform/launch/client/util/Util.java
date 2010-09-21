@@ -361,20 +361,17 @@ public class Util {
 		if(str2 == null || "".equals(str2.trim())){
 			return true ;
 		}
-		str1 = str1.replaceAll("000000", "");
-		str1 = str1.replaceAll("235959", "");
-		str2 = str2.replaceAll("000000", "");
-		str2 = str2.replaceAll("235959", "");
-		return Integer.parseInt(str1) <= Integer.parseInt(str2) ? true : false ;
+		
+		return Long.parseLong(str1) <= Long.parseLong(str2) ? true : false ;
 	}
 	
 	/**
-	 *  将日期类型转换为JSON发送的yyyyMMdd 类型的字符串 
+	 *  将日期类型转换为JSON发送的yyyyMMddHHmmss 类型的字符串 
 	 */
 	public static String formatDateToJsonString(Date date) {
 		String str = "";
 		if(date != null){
-			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
+			DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMddHHmmss");
 			str = dateFormat.format(date);
 		}		
 		return str;
