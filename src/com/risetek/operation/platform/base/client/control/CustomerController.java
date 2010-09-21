@@ -170,6 +170,7 @@ public class CustomerController extends AController {
 	@Override
 	public void load(int pagePoint) {
 		queryData.setPAGE_POS(pagePoint);
+		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
 		String json = EPay2Packet.listToString(epay2Packet);

@@ -52,8 +52,8 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		actionPanel.add(addButton);
 		actionPanel.add(queryButton);
 		actionPanel.add(balanceButton);
-		Button queryButton = new Button(Constanst.EDIT_ZH+JCardConstanst.STATUS_ZH,new JCardQueryContorller.TableEditAction());
-		actionPanel.add(queryButton);
+		Button editButton = new Button(Constanst.EDIT_ZH+JCardConstanst.STATUS_ZH,new JCardQueryContorller.TableEditAction());
+		actionPanel.add(editButton);
 		
 		actionPanel.setStyleName("aa");		
 		
