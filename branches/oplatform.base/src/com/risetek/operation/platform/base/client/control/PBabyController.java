@@ -169,8 +169,8 @@ public class PBabyController extends AController {
 		}
 	
 		
-		public class TransactionEditControl extends EditController implements ClickHandler {
-			
+		public class TransactionEditControl implements ClickHandler {
+						
 			@Override
 			public void onClick(ClickEvent event) {
 				ACTION_NAME = Constanst.ACTION_NAME_EDIT_PBABY ;

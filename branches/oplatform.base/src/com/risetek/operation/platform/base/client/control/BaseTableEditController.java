@@ -11,22 +11,28 @@ import com.risetek.operation.platform.base.client.dialog.EditDialog;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
+/**
+ * 
+ * @author 杨彬
+ * 2010-9-21
+ * 修改操作的基本弹出窗口
+ */
 public abstract class BaseTableEditController implements ClickHandler {
 	
 	private String actionName = "编辑表格";
-	public ViewEditControl edit_control = new ViewEditControl();
-	protected EditDialog dialog = edit_control.getDialog();
+	EditDialog dialog = null ;
 	protected Grid grid = null;
 	String colName = null ;
 	String optionName = null ;
 	public BaseTableEditController() {
-		edit_control.setColName(null);	
-		edit_control.dialog.submit.addClickHandler(edit_control);
+		
 	}
 	public String getActionName(){
 		return actionName;
 	}
-	
+	/**
+	 * 显示修改窗口
+	 */
 	public void onClick(ClickEvent event) {
 		
 		setGrid();
@@ -42,7 +48,10 @@ public abstract class BaseTableEditController implements ClickHandler {
 			return ;
 		}
 		int row = rowList.get(0);
-		int col = Util.getColumNum(grid, colName);
+		int col = 1 ;
+		if(colName != null){
+			col = Util.getColumNum(grid, colName);
+		}
         
 		// 我们的操作都针对这个号码。
 		String rowid = "" + row ;
@@ -54,15 +63,27 @@ public abstract class BaseTableEditController implements ClickHandler {
 				tisp_value = "";
 			}
 		}
-		
-		edit_control.setColName(colName);	
-		edit_control.dialog.submit.setText(optionName);
-		edit_control.dialog.show(rowid, tisp_value);
+		ViewEditControl edit_control = new ViewEditControl(colName , optionName);
+		dialog = edit_control.dialog;
+//
+//		edit_control.dialog.submit.addClickHandler(edit_control);
+		dialog.show(rowid, tisp_value);
 						
 	}
-	
-	public class ViewEditControl extends EditController implements ClickHandler {
+	/**
+	 * 
+	 * @author 杨彬
+	 * 2010-9-21
+	 * 提交修改窗口的监听
+	 */
+	public class ViewEditControl implements ClickHandler {
 		
+		protected EditDialog dialog = null;
+		public ViewEditControl(String colName , String submitText) {
+			dialog = new EditDialog(colName , submitText);
+			dialog.submit.addClickHandler(this);
+		}
+
 		@Override
 		public void onClick(ClickEvent event) {
 			submintHandler();			
@@ -72,5 +93,8 @@ public abstract class BaseTableEditController implements ClickHandler {
 	
 	public abstract void setGrid();
 	
+	/**
+	 * 填写完成修改操作的监听事件
+	 */
 	public abstract void submintHandler();
  }

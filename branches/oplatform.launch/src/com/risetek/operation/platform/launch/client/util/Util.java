@@ -101,7 +101,7 @@ public class Util {
 		
 		List<Integer> list = new ArrayList<Integer>();
 		int rowCount = grid.getRowCount();
-		for (int i = 1; i < rowCount; i++) {
+		for (int i = 1; i < rowCount-1; i++) {
 			CheckBox cBox = (CheckBox)grid.getWidget(i, 0);
 			if(cBox.getValue()){
 				list.add(i);

@@ -27,25 +27,20 @@ public class EditDialog extends CustomDialog {
 	public TextBox newValueBox = new TextBox();
 	public String rowid;
 	public String colName = null;
-	public ListBox list_status = null;
-	public static EditDialog INSTANCE = new EditDialog();
+	public ListBox list_status = null;	
 	
-	
-	private EditDialog(){
-	//	setWidth("400px");
-		oldValueLabel.setWidth("220px");
-		newValueBox.setWidth("220px");
+	public EditDialog(String colName , String submitText){
+
+//		oldValueLabel.setWidth("220px");
+//		newValueBox.setWidth("220px");
+//		
+		this.colName = colName ;
+		makeMainPanel();
+		submit.setText(submitText);
 	}
 	
-	public void clearPanel(){
-		DATE_BOX.setValue(null);
-		newValueBox.setValue("");
-	}
-	
-	public void makeMainPanel(String colName){
+	public void makeMainPanel(){
 		mainPanel.clear();
-		clearPanel();
-		this.colName = colName;
 		if(colName!=null){			
 			Grid gridFrame = new Grid(2, 2);
 			gridFrame.setStyleName("table");
@@ -72,24 +67,30 @@ public class EditDialog extends CustomDialog {
 			 */
 			DATE_BOX.setFormat(new DateBox.DefaultFormat(format));
 			gridFrame.setWidget(1, 1, DATE_BOX);
+			DATE_BOX.setFocus(true);
 		}else if(JCardConstanst.STATUS_ZH.equals(colName) ){
 			list_status = Util.getJCardStatus();
 			list_status.setSelectedIndex(0);
 			gridFrame.setWidget(1, 1, list_status);
+			list_status.setFocus(true);
 		}else if(Constanst.VALIDITY_ZH.equals(colName)){
 			list_status = Util.getValidity();
 			list_status.setSelectedIndex(0);
 			gridFrame.setWidget(1, 1, list_status);
+			list_status.setFocus(true);
 		}else if(TradeConstanst.STATUS_ZH.equals(colName) || EGoodsConstanst.STATUS_ZH.equals(colName)){
 			list_status = Util.getBillStatus();
 			list_status.setSelectedIndex(0);
 			gridFrame.setWidget(1, 1, list_status);
+			list_status.setFocus(true);
 		}else if(TradeConstanst.THIRD_STATUS_ZH.equals(colName) || EGoodsConstanst.THIRD_STATUS_ZH.equals(colName)){
 			list_status = Util.getThirdStatus();
 			list_status.setSelectedIndex(0);
 			gridFrame.setWidget(1, 1, list_status);
+			list_status.setFocus(true);
 		}else{
 			gridFrame.setWidget(1, 1, newValueBox);
+			newValueBox.setFocus(true);
 		}
 	}
 	
@@ -103,7 +104,6 @@ public class EditDialog extends CustomDialog {
 		}else{
 			setText("修改" + colName);
 			oldValueLabel.setText(tips_imsi);	
-			newValueBox.setFocus(true);
 		}
 		super.show();
 	}

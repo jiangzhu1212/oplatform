@@ -152,40 +152,40 @@ public class JCardData  extends OPlatformData  {
 	}
 	
 	public String toHttpPacket(){
-			String ACTION_NAME = getACTION_NAME();
-			JSONObject packet = new JSONObject();
-			JSONObject actionInfo = null;
-			try {
-				packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
-				if(Constanst.ACTION_NAME_SELECT_JCARD.equals(ACTION_NAME)){
-					actionInfo = packetData();
-					actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber(PAGE_POS * PAGE_SIZE));
-					if(PAGE_SIZE != 0){
-						actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(PAGE_SIZE));
-					}
-				}else if(Constanst.ACTION_NAME_MODIFY_STATUS.equals(ACTION_NAME)){
-					actionInfo = packetData();
-				}else if(Constanst.ACTION_NAME_IMPORT_DATA.equals(ACTION_NAME)){
-					JSONArray array ;
-					array = packetData(uploadData);
-					if(array != null){
-						actionInfo = new JSONObject();
-						actionInfo.put(JCardConstanst.JCARDS_DATA, array);
-					}else {
-						return null;
-					}					
+		String ACTION_NAME = getACTION_NAME();
+		JSONObject packet = new JSONObject();
+		JSONObject actionInfo = null;
+		try {
+			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
+			if(Constanst.ACTION_NAME_SELECT_JCARD.equals(ACTION_NAME)){
+				actionInfo = packetData();
+				actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber((PAGE_POS-1) * PAGE_SIZE));
+				if(PAGE_SIZE != 0){
+					actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(PAGE_SIZE));
 				}
-				packet.put(Constanst.ACTION_INFO,actionInfo);
-			} catch (JSONException e) {			
-				e.printStackTrace();
-				return null;
+			}else if(Constanst.ACTION_NAME_MODIFY_STATUS.equals(ACTION_NAME)){
+				actionInfo = packetData();
+			}else if(Constanst.ACTION_NAME_IMPORT_DATA.equals(ACTION_NAME)){
+				JSONArray array ;
+				array = packetData(uploadData);
+				if(array != null){
+					actionInfo = new JSONObject();
+					actionInfo.put(JCardConstanst.JCARDS_DATA, array);
+				}else {
+					return null;
+				}					
 			}
-			
-			StringBuffer buffer = new StringBuffer();
-			buffer.append(RequestFactory.CTI_PACKET);
-			buffer.append("=");
-			buffer.append(packet.toString());
-			return buffer.toString();
+			packet.put(Constanst.ACTION_INFO,actionInfo);
+		} catch (JSONException e) {			
+			e.printStackTrace();
+			return null;
+		}
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(RequestFactory.CTI_PACKET);
+		buffer.append("=");
+		buffer.append(packet.toString());
+		return buffer.toString();
 	}
 	
 	public void toHttpPacketBl(){
