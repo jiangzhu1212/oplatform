@@ -54,7 +54,7 @@ public class BillView extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public void onLoad(){
-		BillController.load();
+		BillController.INSTANCE.load(1);
 	}
 
 	@Override

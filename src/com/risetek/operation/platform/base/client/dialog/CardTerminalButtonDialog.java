@@ -5,6 +5,8 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.CardTerminalController;
 import com.risetek.operation.platform.base.client.model.CardTerminalData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.CardTerminalConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -91,12 +93,18 @@ public class CardTerminalButtonDialog extends BaseButtonDailog {
 		cardTerminalData.setValidity(validity);
 		
 		if(Constanst.ACTION_NAME_ADD_CARD_TERMINAL.equals(ACTION_NAME)){
-			String packet = cardTerminalData.toHttpPacket();
+			String jsonStr = cardTerminalData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;			
 			request.getBill(packet, CardTerminalController.RemoteCaller);
 			hide();
 		}else if(Constanst.ACTION_NAME_QUERY_CARD_TERMINAL.equals(ACTION_NAME)){
 			CardTerminalController.queryData = cardTerminalData;
-			String packet = cardTerminalData.toHttpPacket();
+			String jsonStr = cardTerminalData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	  
 			request.getBill(packet, CardTerminalController.QueryCaller);
 			hide();
 		}

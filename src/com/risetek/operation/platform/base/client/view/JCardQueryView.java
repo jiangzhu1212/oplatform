@@ -32,7 +32,6 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		JCardConstanst.STATUS_TIMEOUT_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25};
-	public static String descript = "";
 	String banner_tips = "";
 	
 	public void setBannerTips(String tips) {
@@ -44,7 +43,7 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		HorizontalPanel action = initPromptGrid();
 //		setCellHeight(action, "38px");
 		setLocation(JCardQuerySink.Group + " -> " + JCardQuerySink.Name);
-		addActionPanel(action, descript, JCardQuerySink.Name);
+		addActionPanel(action, JCardQuerySink.Desc, JCardQuerySink.Name);
 		setStatisticText(100);
 	}
 	

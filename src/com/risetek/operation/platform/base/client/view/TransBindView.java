@@ -67,6 +67,7 @@ public class TransBindView extends OPlatformTableView implements IOPlatformView 
 	 */
 	public void onLoad(){
 		TransBindController.load();
+		TransBindController.INSTANCE.load(1);
 	}
 
 	/** 

@@ -5,7 +5,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.TradeController;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.base.client.model.TradeData;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TradeConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -169,7 +171,10 @@ public class TradeButtonDialog extends BaseButtonDailog {
 			tradeData.setCreate_time(create_time);
 			tradeData.setBolish_time(bolish_time);
 			
-			String packet = tradeData.toHttpPacket();
+			String jsonStr = tradeData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, TradeController.RemoteCaller);
 			hide();
 		}else if(Constanst.ACTION_NAME_QUERY_TRADE_INFO.equals(ACTION_NAME)){
@@ -196,7 +201,10 @@ public class TradeButtonDialog extends BaseButtonDailog {
 			tradeData.setBolish_time_min(bolish_time_min);
 			tradeData.setBolish_time_max(bolish_time_max);
 			TradeController.queryData = tradeData ;
-			String packet = tradeData.toHttpPacket();
+			String jsonStr = tradeData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, TradeController.QueryCaller);
 			
 			hide();

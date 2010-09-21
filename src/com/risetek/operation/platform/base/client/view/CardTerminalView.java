@@ -50,7 +50,7 @@ public class CardTerminalView extends OPlatformTableView implements IOPlatformVi
 	}
 	
 	public void onLoad(){
-		CardTerminalController.load();
+		CardTerminalController.INSTANCE.load(1);
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class EGoodsView extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public void onLoad(){
-		EGoodsController.load();
+		EGoodsController.INSTANCE.load(1);
 	}
 
 	@Override

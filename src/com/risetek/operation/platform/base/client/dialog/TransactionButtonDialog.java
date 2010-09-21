@@ -5,7 +5,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TransactionController;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.base.client.model.TransactionData;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -148,11 +150,17 @@ public class TransactionButtonDialog extends BaseButtonDailog {
 				setMessage("业务名称不能为空");
 				return ;
 			}
-			String packet = transaction.toHttpPacket();
+			String jsonStr = transaction.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, TransactionController.RemoteCaller);
 		}else if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
 			TransactionController.queryData = transaction ;
-			String packet = transaction.toHttpPacket();
+			String jsonStr = transaction.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, TransactionController.QueryCaller);
 		}
 		

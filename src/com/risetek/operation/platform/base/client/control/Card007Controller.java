@@ -265,7 +265,7 @@ public class Card007Controller extends AController {
 
 	@Override
 	public void load(int pagePoint) {
-		// TODO Auto-generated method stub
+		INSTANCE.data.new PacketParser().initializedata(remoteRequest, RemoteCaller, Constanst.ACTION_NAME_SELECT_CARD_007);
 	}
 
 	@Override

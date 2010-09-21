@@ -5,6 +5,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.CupCertificateController;
 import com.risetek.operation.platform.base.client.model.CupCertificateData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CupCertificateConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -119,12 +121,15 @@ public class CupCertificateButtonDialog extends BaseButtonDailog {
 				return ;
 			}
 			cupCertificateData.setTime(time);
-			String packet = cupCertificateData.toHttpPacket();
+			String jsonStr = cupCertificateData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, CupCertificateController.RemoteCaller);
 		}else if(Constanst.ACTION_NAME_QUERY_CERTIFICATE_INFO.equals(ACTION_NAME)){
 			String time_min = Util.formatDateToJsonString(TIME_MIN.getValue());
 			String time_max = Util.formatDateToJsonString(TIME_MAX.getValue());
-			if(Util.checkStringBulk(time_min, time_max)){
+			if(!Util.checkStringBulk(time_min, time_max)){
 				setMessage("支付时间最小值不能大于最大值");
 				return ;
 			}
@@ -134,7 +139,10 @@ public class CupCertificateButtonDialog extends BaseButtonDailog {
 			}
 			
 			CupCertificateController.queryData = cupCertificateData;
-			String packet = cupCertificateData.toHttpPacket();
+			String jsonStr = cupCertificateData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, CupCertificateController.QueryCaller);
 		}
 	

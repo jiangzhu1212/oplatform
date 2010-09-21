@@ -5,6 +5,8 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.ChannelController;
 import com.risetek.operation.platform.base.client.model.ChannelData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.ChannelConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
@@ -125,12 +127,18 @@ public class ChannelButtonDialog extends BaseButtonDailog {
 				setMessage("渠道描述不能为空");
 				return ;
 			}
-			String packet = channelData.toHttpPacket();
+			String jsonStr = channelData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, ChannelController.RemoteCaller);
 			hide() ;
 		}else if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
 			ChannelController.queryData = channelData;
-			String packet = channelData.toHttpPacket();
+			String jsonStr = channelData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, ChannelController.QueryCaller);
 			hide() ;
 		}

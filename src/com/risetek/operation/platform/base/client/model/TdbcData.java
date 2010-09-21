@@ -6,7 +6,6 @@ import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
-import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TdbcConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
@@ -76,16 +75,14 @@ public class TdbcData extends OPlatformData {
 				actionInfo = packetData();
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
+			packet.put(Constanst.ACTION_INVOKER,new JSONString(Constanst.ACTION_INVOKER_WEB_CLIENT));
+			packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_MY_SETTLEMENT_SERVICE));
 		} catch (JSONException e) {			
 			e.printStackTrace();
 			return null;
 		}
 		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(RequestFactory.PACKET);
-		buffer.append("=");
-		buffer.append(packet.toString());
-		return buffer.toString();
+		return packet.toString();
 	}
 	
 	private JSONObject packetData(){

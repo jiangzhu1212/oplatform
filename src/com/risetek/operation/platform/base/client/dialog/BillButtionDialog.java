@@ -5,6 +5,8 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.BillController;
 import com.risetek.operation.platform.base.client.model.BillData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.BillConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -89,7 +91,10 @@ public class BillButtionDialog extends BaseButtonDailog {
 				setMessage("用户编号不能为空");
 				return ;
 			}
-			String packet = billData.toHttpPacket();
+			String jsonStr = billData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;
 			request.getBill(packet, BillController.RemoteCaller);
 			hide();
 		}else if(Constanst.ACTION_NAME_QUERY_BILL_INFO.equals(ACTION_NAME)){
@@ -98,7 +103,10 @@ public class BillButtionDialog extends BaseButtonDailog {
 				billData.setBill_id(Integer.parseInt(bill_id));
 			}
 			BillController.queryData = billData;
-			String packet = billData.toHttpPacket();
+			String jsonStr = billData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;
 			request.getBill(packet, BillController.QueryCaller);
 			hide();
 		}

@@ -57,7 +57,7 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public void onLoad(){
-		CustomerController.load();
+		CustomerController.INSTANCE.load(1);
 	}
 
 	@Override

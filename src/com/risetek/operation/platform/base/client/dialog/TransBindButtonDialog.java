@@ -6,7 +6,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TransBindController;
 import com.risetek.operation.platform.base.client.control.TransEnableController;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.base.client.model.TransBindData;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransBindConstanst;
 
@@ -88,10 +90,16 @@ public class TransBindButtonDialog  extends BaseButtonDailog {
 				setMessage(TransBindConstanst.TRANS_ID_ZH+"不能为空");
 				return ;
 			}
-			String packet = transBindData.toHttpPacket();
+			String jsonStr = transBindData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, TransBindController.RemoteCaller);
 		}else if(Constanst.ACTION_NAME_QUERY_TRANS_BIND.equals(ACTION_NAME)){	
-			String packet = transBindData.toHttpPacket();
+			String jsonStr = transBindData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			TransBindController.queryData = transBindData;
 			request.getBill(packet, TransBindController.QueryCaller);
 		}

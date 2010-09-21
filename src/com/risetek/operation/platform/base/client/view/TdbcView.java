@@ -69,7 +69,7 @@ public class TdbcView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void onLoad(){
-		TdbcController.load();
+		TdbcController.INSTANCE.load(1);
 	}
 
 	/**

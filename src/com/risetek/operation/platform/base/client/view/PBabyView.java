@@ -4,6 +4,8 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.xml.client.Node;
@@ -60,10 +62,16 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 		createDataTime.setFormat(new DateBox.DefaultFormat(format));
 		
 		HorizontalPanel actionPanel = new HorizontalPanel();
-		actionPanel.add(phoneNumber);
-		actionPanel.add(createDataTime);
-		actionPanel.add(queryButton);
-		actionPanel.add(checkTicket);
+		Panel searchPanel = new HorizontalPanel();
+		searchPanel.setStyleName("tableMessagePanel-content");
+		phoneNumber.setWidth("180px");
+		searchPanel.add(new Label("用户电话号码"));
+		searchPanel.add(phoneNumber);
+		searchPanel.add(new Label("生成日期"));
+		searchPanel.add(createDataTime);
+		searchPanel.add(queryButton);
+		searchPanel.add(checkTicket);
+		actionPanel.add(searchPanel);
 		actionPanel.setStyleName("aa");		
 		
 		return actionPanel;
@@ -72,7 +80,7 @@ public class PBabyView  extends OPlatformTableView implements IOPlatformView {
 	public void onLoad(){
 		phoneNumber.setText("");
 		createDataTime.setValue(null);
-		PBabyController.load();
+		PBabyController.INSTANCE.load(1);
 	}
 
 	@Override

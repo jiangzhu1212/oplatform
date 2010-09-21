@@ -1,18 +1,21 @@
 package com.risetek.operation.platform.base.client.control;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.Window;
 import com.risetek.operation.platform.base.client.dialog.AcountButtonDialog;
 import com.risetek.operation.platform.base.client.model.AcountData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.base.client.view.AcountView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
-import com.risetek.operation.platform.launch.client.control.ResolveResponseInfo;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.AcountConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -42,12 +45,15 @@ public class AcountController extends AController {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
-			ResolveResponseInfo opRetinfo = (ResolveResponseInfo)data.retInfo(ret);
-			if (opRetinfo.getReturnCode()!=Constanst.OP_TRUE)  {
-				Window.alert(opRetinfo.getReturnMessage());
+			List<EPay2Packet> list = EPay2Packet.listfromString(ret);
+			if (list.get(0).getActionReturnCode()!=Constanst.OP_TRUE)  {
+				Window.alert(Constanst.FAIL+"\n"+list.get(0).getActionReturnMessage());
 			}else{
 				queryData.setACTION_NAME(Constanst.ACTION_NAME_SELECT_JCARD);
-				String packet = queryData.toHttpPacket();				
+				String jsonStr = queryData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+				String json = EPay2Packet.listToString(epay2Packet);
+				String packet = RequestFactory.PACKET + "="+ json ;
 				remoteRequest.getBill(packet, QueryCaller);
 			}
 		}
@@ -62,7 +68,9 @@ public class AcountController extends AController {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			data.parseData(response.getText());
+			String ret = response.getText();
+			JSONArray jsa = JSONParser.parse(ret).isArray();
+			data.parseData(jsa.get(0).isString().stringValue());
 			view.render(data);
 		}
 
@@ -111,7 +119,10 @@ public class AcountController extends AController {
 					}else{
 						colValue = dialog.getText();
 					}
-					String packet = editData.toHttpPacket(colName,colValue);
+					String jsonStr = editData.toHttpPacket(colName,colValue);
+					EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+	 				String json = EPay2Packet.listToString(epay2Packet);
+	 				String packet = RequestFactory.PACKET + "="+ json ;
 					remoteRequest.getBill(packet, RemoteCaller);
 				}
 		}
@@ -154,8 +165,11 @@ public class AcountController extends AController {
 	public void load(int pagePoint) {
 		// TODO Auto-generated method stub
 		queryData.setPAGE_POS(pagePoint);
-		String paceket = queryData.toHttpPacket();
-		remoteRequest.getBill(paceket, QueryCaller);
+		String jsonStr = queryData.toHttpPacket();
+		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+		String json = EPay2Packet.listToString(epay2Packet);
+		String packet = RequestFactory.PACKET + "="+ json ;
+		remoteRequest.getBill(packet, QueryCaller);
 	}
 
 	@Override

@@ -55,7 +55,7 @@ public class TradeView extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public void onLoad(){
-		TradeController.load();
+		TradeController.INSTANCE.load(1);
 	}
 
 	@Override
