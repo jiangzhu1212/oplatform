@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.EGoodsController;
 import com.risetek.operation.platform.base.client.model.EGoodsData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -226,7 +228,10 @@ public class EGoodsButtonDialog extends BaseButtonDailog {
 			egoodsdata.setCreate_time(create_time);
 			egoodsdata.setBolish_time(bolish_time);
 			egoodsdata.setUsed_time(used_time);
-			String packet = egoodsdata.toHttpPacket();
+			String jsonStr = egoodsdata.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, EGoodsController.RemoteCaller);
 			hide();
 		}else if(Constanst.ACTION_NAME_QUERY_GOODS_INFO.equals(ACTION_NAME)){
@@ -260,7 +265,10 @@ public class EGoodsButtonDialog extends BaseButtonDailog {
 			egoodsdata.setUsed_time_max(used_time_max);
 			
 			EGoodsController.queryData = egoodsdata;
-			String packet = egoodsdata.toHttpPacket();
+			String jsonStr = egoodsdata.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, EGoodsController.QueryCaller);
 			hide();
 		}

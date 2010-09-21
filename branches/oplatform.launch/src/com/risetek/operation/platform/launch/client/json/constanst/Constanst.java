@@ -1,6 +1,8 @@
 package com.risetek.operation.platform.launch.client.json.constanst;
 
 public interface Constanst {
+	
+	final String FAIL = "FAIL" ;
 
 	final String TRANS_ID = "TRANS_ID";
 	
@@ -15,6 +17,14 @@ public interface Constanst {
 	final String TRUE = "TRUE";
 	
 	final String FALSE = "FALSE" ;
+	
+	final String ACTION_INVOKER = "ACTION_INVOKER" ;
+	
+	final String ACTION_INVOKER_WEB_CLIENT = "ACTION_INVOKER_WEB_CLIENT" ;
+	
+	final String ACTION_MODULE = "ACTION_MODULE" ;
+	
+	final String ACTION_MODULE_MY_SETTLEMENT_SERVICE = "ACTION_MODULE_MY_SETTLEMENT_SERVICE" ;
 	
 	/**
 	 * 修改数据的名字

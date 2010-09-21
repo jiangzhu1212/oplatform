@@ -108,6 +108,7 @@ public class JCardQueryContorller extends AController {
 
 		@Override
 		public void submintHandler() {
+			Window.confirm("你好");
 			int statusIndex = dialog.list_status.getSelectedIndex();
 			String newStatusName = dialog.list_status.getItemText(statusIndex);
 			String oldStatusName = dialog.oldValueLabel.getText();
@@ -182,10 +183,9 @@ public class JCardQueryContorller extends AController {
 
 	@Override
 	public void load(int pagePoint) {
-		// TODO Auto-generated method stub
 		queryData.setPAGE_POS(pagePoint);
-		String paceket = queryData.toHttpPacket();
-		remoteRequest.getJCard(paceket, QueryCaller);
+		String packet = queryData.toHttpPacket();
+		remoteRequest.getBill(packet, QueryCaller);
 	}
 
 	@Override

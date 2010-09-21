@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.AnnoucementController;
 import com.risetek.operation.platform.base.client.model.AnnoucementData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.AnnoucementConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -193,7 +194,10 @@ public class AnnoucementButtonDialog extends BaseDialog {
 				}
 				annoucementData.setCreate_time(start_date);
 				annoucementData.setStop_time(end_date);
-				String packet = annoucementData.toHttpPacket();
+				String jsonStr = annoucementData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+ 				String json = EPay2Packet.listToString(epay2Packet);
+ 				String packet = RequestFactory.PACKET + "="+ json ;
 				factory.getBill(packet, AnnoucementController.RemoteCaller);
 				hide() ;
 			}else if(Constanst.ACTION_NAME_QUERY_ANNOUCEMENT_INFO.equals(ACTION_NAME)){				
@@ -223,7 +227,10 @@ public class AnnoucementButtonDialog extends BaseDialog {
 				annoucementData.setStop_time_max(stop_endtime);
 				
 				AnnoucementController.queryData = annoucementData ;
-				String packet = annoucementData.toHttpPacket();
+				String jsonStr = annoucementData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+ 				String json = EPay2Packet.listToString(epay2Packet);
+ 				String packet = RequestFactory.PACKET + "="+ json ;
 				factory.getBill(packet, AnnoucementController.RemoteCaller);
 				hide() ;
 			}

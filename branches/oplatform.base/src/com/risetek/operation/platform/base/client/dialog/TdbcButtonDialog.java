@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TdbcController;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.base.client.model.TdbcData;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -99,11 +100,17 @@ public class TdbcButtonDialog extends BaseDialog {
 			tdbcData.setImage(image);
 			
 			if(Constanst.ACTION_NAME_ADD_TDBC_INFO.equals(ACTION_NAME)){
-				String packet = tdbcData.toHttpPacket();
+				String jsonStr = tdbcData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+				String json = EPay2Packet.listToString(epay2Packet);
+				String packet = RequestFactory.PACKET + "="+ json ;	
 				request.getBill(packet, TdbcController.RemoteCaller);
 			}else if(Constanst.ACTION_NAME_ADD_TDBC_INFO.equals(ACTION_NAME)){
 				TdbcController.queryData = tdbcData ;
-				String packet = tdbcData.toHttpPacket();
+				String jsonStr = tdbcData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+				String json = EPay2Packet.listToString(epay2Packet);
+				String packet = RequestFactory.PACKET + "="+ json ;	
 				request.getBill(packet, TdbcController.QueryCaller);
 			}
 			

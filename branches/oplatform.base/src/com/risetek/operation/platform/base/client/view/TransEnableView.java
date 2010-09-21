@@ -75,6 +75,7 @@ public class TransEnableView  extends OPlatformTableView implements IOPlatformVi
 	 */
 	public void onLoad(){
 		TransEnableController.load();
+		TransEnableController.INSTANCE.load(1);
 	}
 
 	/** 

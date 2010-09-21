@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.BankController;
 import com.risetek.operation.platform.base.client.model.BankData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.BankConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -119,11 +120,17 @@ public class BankButtonDialog extends BaseDialog {
 					setMessage("银行卡卡号前缀不能为空");
 					return ;
 				}
-				String packet = bankData.toHttpPacket();
+				String jsonStr = bankData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+ 				String json = EPay2Packet.listToString(epay2Packet);
+ 				String packet = RequestFactory.PACKET + "="+ json ;
 				factory.getBill(packet, BankController.RemoteCaller);
 			}else if(Constanst.ACTION_NAME_QUERY_BANK_INFO.equals(ACTION_NAME)){
 				BankController.queryData = bankData;
-				String packet = bankData.toHttpPacket();
+				String jsonStr = bankData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+ 				String json = EPay2Packet.listToString(epay2Packet);
+ 				String packet = RequestFactory.PACKET + "="+ json ;
 				factory.getBill(packet, BankController.RemoteCaller);
 			}
 			hide();

@@ -110,6 +110,7 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 		searchPanel.add(new Label(Card007Constanst.PAY_DATETIME_ZH+":"));
 		searchPanel.add(dateBox);
 		searchPanel.add(new Label(Card007Constanst.STATUS_ZH+":"));
+		listBox.setWidth("100px");
 		searchPanel.add(listBox);
 		return searchPanel;
 	}
@@ -122,7 +123,7 @@ public class Card007View extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void onLoad(){
-		Card007Controller.load();
+		Card007Controller.INSTANCE.load(1);
 	}
 
 	/**

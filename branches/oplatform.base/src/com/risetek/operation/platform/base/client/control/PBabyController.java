@@ -9,11 +9,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.risetek.operation.platform.base.client.dialog.ViewDetailDialog;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.base.client.model.PBabyData;
 import com.risetek.operation.platform.base.client.view.PBabyView;
 import com.risetek.operation.platform.launch.client.control.AController;
@@ -49,18 +51,25 @@ public class PBabyController extends AController {
 			String ret = response.getText();
 			if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
 				PBabyData pData = new PBabyData();
-				pData.parseDataCustomer(ret);
+				JSONArray jsa = JSONParser.parse(ret).isArray();
+				pData.parseDataCustomer(jsa.get(0).isString().stringValue());
 				pData.setCreate_dateTime(pBabyCreateTime);
 				pData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
 				queryData = pData ;
-				String packet = pData.toHttpPacket();
+				String jsonStr = queryData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+				String json = EPay2Packet.listToString(epay2Packet);
+				String packet = RequestFactory.PACKET + "="+ json ;
 				remoteRequest.getBill(packet, QueryCaller);
 			}else if(Constanst.ACTION_NAME_EDIT_PBABY.equals(ACTION_NAME)){
 				try{
 					JSONObject o = JSONParser.parse(ret).isObject();
 					String retCode = o.get("flag").isString().stringValue();
 					if("1".equals(retCode)){
-						String packet = queryData.toHttpPacket();
+						String jsonStr = queryData.toHttpPacket();
+						EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+						String json = EPay2Packet.listToString(epay2Packet);
+						String packet = RequestFactory.PACKET + "="+ json ;
 						remoteRequest.getBill(packet, QueryCaller);
 						Window.alert("出票成功");
 					}else{
@@ -84,8 +93,9 @@ public class PBabyController extends AController {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			String ret = response.getText();			
-			data.parseData(ret);
+			String ret = response.getText();
+			JSONArray jsa = JSONParser.parse(ret).isArray();
+			data.parseData(jsa.get(0).isString().stringValue());
 			view.render(data);
 		}
 		
@@ -221,12 +231,18 @@ public class PBabyController extends AController {
 				if(phone != null && !"".equals(pBabyData)){
 					ACTION_NAME = Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO;
 					pBabyData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO);
-					String packet = pBabyData.toHttpPacket();
+					String jsonStr = pBabyData.toHttpPacket();
+					EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+	 				String json = EPay2Packet.listToString(epay2Packet);
+	 				String packet = RequestFactory.PACKET + "="+ json ;
 					remoteRequest.getBill(packet, RemoteCaller);
 				}else {
 					pBabyData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
 					PBabyController.queryData = pBabyData;
-					String packet = pBabyData.toHttpPacket();
+					String jsonStr = pBabyData.toHttpPacket();
+					EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+	 				String json = EPay2Packet.listToString(epay2Packet);
+	 				String packet = RequestFactory.PACKET + "="+ json ;
 					remoteRequest.getBill(packet, QueryCaller);
 				}
 				
@@ -258,10 +274,12 @@ public class PBabyController extends AController {
 
 	@Override
 	public void load(int pagePoint) {
-		// TODO Auto-generated method stub
 		queryData.setPAGE_POS(pagePoint);
-		String paceket = queryData.toHttpPacket();
-		remoteRequest.getBill(paceket, QueryCaller);
+		String jsonStr = queryData.toHttpPacket();
+		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+		String json = EPay2Packet.listToString(epay2Packet);
+		String packet = RequestFactory.PACKET + "="+ json ;
+		remoteRequest.getBill(packet, QueryCaller);
 	}
 
 	@Override

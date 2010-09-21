@@ -4,6 +4,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.CardBatchController;
 import com.risetek.operation.platform.base.client.model.CardBatchData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.CardBatchConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -104,12 +106,18 @@ public class CardBatchButtonDialog extends BaseButtonDailog {
 				setMessage("批次号不能为空");
 				return ;
 			}
-			String packet = cardBatchData.toHttpPacket();
+			String jsonStr = cardBatchData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;
 			request.getBill(packet, CardBatchController.RemoteCaller);
 			hide();
 		}else if(Constanst.ACTION_NAME_QUERY_CARD_BATCH.equals(ACTION_NAME)){
 			CardBatchController.queryData = cardBatchData;
-			String packet = cardBatchData.toHttpPacket();
+			String jsonStr = cardBatchData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;
 			request.getBill(packet, CardBatchController.QueryCaller);
 			hide();
 		}

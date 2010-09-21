@@ -51,7 +51,7 @@ public class CupCertificateView extends OPlatformTableView implements IOPlatform
 	}
 	
 	public void onLoad(){
-		CupCertificateController.load();
+		CupCertificateController.INSTANCE.load(1);
 	}
 
 	@Override

@@ -66,7 +66,7 @@ public class TransactionView  extends OPlatformTableView implements IOPlatformVi
 	 * @see com.google.gwt.user.client.ui.Panel#onLoad()
 	 */
 	public void onLoad(){
-		TransactionController.load();
+		TransactionController.INSTANCE.load(1);
 	}
 
 	/** 

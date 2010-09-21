@@ -51,7 +51,7 @@ public class CardBatchView extends OPlatformTableView implements IOPlatformView 
 	}
 	
 	public void onLoad(){
-		CardBatchController.load();
+		CardBatchController.INSTANCE.load(1);
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Window;
-import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
@@ -158,11 +157,10 @@ public class PBabyData extends OPlatformData {
 		} catch (Exception e) {			
 		}
 		packet.put(Constanst.ACTION_INFO,actionInfo);
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(RequestFactory.PACKET);
-		buffer.append("=");
-		buffer.append(packet.toString());
-		return buffer.toString();
+		packet.put(Constanst.ACTION_INVOKER,new JSONString(Constanst.ACTION_INVOKER_WEB_CLIENT));
+		packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_MY_SETTLEMENT_SERVICE));
+		
+		return packet.toString();
 	}
 	private JSONObject packetData(){
 		JSONObject json = new JSONObject();

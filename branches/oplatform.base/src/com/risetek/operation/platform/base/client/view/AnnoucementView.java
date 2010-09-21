@@ -84,7 +84,7 @@ public class AnnoucementView extends OPlatformTableView implements IOPlatformVie
 	 */
 	@Override
 	public void onLoad(){
-		AnnoucementController.load();
+		AnnoucementController.INSTANCE.load(1);
 	}
 
 	/**

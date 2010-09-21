@@ -50,7 +50,7 @@ public class ChannelView  extends OPlatformTableView implements IOPlatformView {
 	}
 	
 	public void onLoad(){
-		ChannelController.load();
+		ChannelController.INSTANCE.load(1);
 	}
 
 	@Override

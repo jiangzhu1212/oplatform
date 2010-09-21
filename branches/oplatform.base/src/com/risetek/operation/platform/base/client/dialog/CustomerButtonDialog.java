@@ -8,6 +8,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.CustomerController;
 import com.risetek.operation.platform.base.client.model.CustomerData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -153,7 +155,10 @@ public class CustomerButtonDialog  extends BaseButtonDailog {
 			}
 			Date createTime = CREATE_TIME.getValue();
 			customer.setCreate_time(Util.formatDateToJsonString(createTime));
-			String packet = customer.toHttpPacket();
+			String jsonStr = customer.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, CustomerController.RemoteCaller);
 			hide();
 		}else if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
@@ -164,7 +169,10 @@ public class CustomerButtonDialog  extends BaseButtonDailog {
 				return ;
 			}			
 			CustomerController.queryData = customer;
-			String packet = customer.toHttpPacket();
+			String jsonStr = customer.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, CustomerController.QueryCaller);
 			hide();
 		}

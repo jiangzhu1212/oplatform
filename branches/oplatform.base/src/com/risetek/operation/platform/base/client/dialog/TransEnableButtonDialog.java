@@ -5,7 +5,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TransEnableController;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.base.client.model.TransEnableData;
+import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TransEnableConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
@@ -121,7 +123,10 @@ public class TransEnableButtonDialog  extends BaseButtonDailog {
 		transEnableData.setChannel_id(channelId);
 		transEnableData.setEnable(enable);
 		transEnableData.setDescription(description);
-		String packet = transEnableData.toHttpPacket();
+		String jsonStr = transEnableData.toHttpPacket();
+		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+		String json = EPay2Packet.listToString(epay2Packet);
+		String packet = RequestFactory.PACKET + "="+ json ;	
 		
 		if(Constanst.ACTION_NAME_QUERY_TRANS_ENABLE.equals(ACTION_NAME)){
 			request.getBill(packet, TransEnableController.QueryCaller);

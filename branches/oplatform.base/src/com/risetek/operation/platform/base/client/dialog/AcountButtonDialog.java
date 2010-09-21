@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.AcountController;
 import com.risetek.operation.platform.base.client.model.AcountData;
+import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.AcountConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
@@ -122,11 +123,17 @@ public class AcountButtonDialog extends BaseDialog {
 					setMessage("账户号不能为空");
 					return ;
 				}
-				String packet = acountData.toHttpPacket();
+				String jsonStr = acountData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+ 				String json = EPay2Packet.listToString(epay2Packet);
+ 				String packet = RequestFactory.PACKET + "="+ json ;
 				factory.getBill(packet, AcountController.RemoteCaller);
 			}else if(Constanst.ACTION_NAME_QUERY_ACCOUNT_INFO.equals(ACTION_NAME)){
 				AcountController.queryData = acountData ;
-				String packet = acountData.toHttpPacket();
+				String jsonStr = acountData.toHttpPacket();
+				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+ 				String json = EPay2Packet.listToString(epay2Packet);
+ 				String packet = RequestFactory.PACKET + "="+ json ;
 				factory.getBill(packet, AcountController.QueryCaller);
 			}
 		}

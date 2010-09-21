@@ -77,7 +77,7 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	 */
 	@Override
 	public void onLoad(){
-		BankController.load();
+		BankController.INSTANCE.load(1);
 	}
 
 	/**
