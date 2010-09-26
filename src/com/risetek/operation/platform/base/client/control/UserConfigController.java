@@ -545,7 +545,7 @@ public class UserConfigController extends AController {
 				CheckBox box = (CheckBox)grid.getWidget(i, 0);
 				if(box!=null){
 					if(box.getValue()){
-						value = grid.getText(i, 3);
+						value = grid.getText(i, 6);
 						id = grid.getText(i, 2);
 						role = grid.getText(i, 5);
 						flag++;
@@ -582,7 +582,20 @@ public class UserConfigController extends AController {
 				this.value = value;
 			}
 			public void onClick(ClickEvent event) {
-				RLog.writeLog(OplatformLaunch.loginUser.getUserName(), "更改用户\"" + value + "\"的信息。");
+				if(dialog.isViald()){
+					dialog.hide();
+					User user = dialog.getValue();
+					user.setId(Integer.parseInt(id));
+					us.editUserInfo(user, new AsyncCallback<Void>() {
+						public void onSuccess(Void result) {
+							INSTANCE.load(INSTANCE.getPagePoint());
+						}
+						public void onFailure(Throwable caught) {}
+					});
+					RLog.writeLog(OplatformLaunch.loginUser.getUserName(), "更改用户\"" + value + "\"的信息。");
+				} else {
+					dialog.submit.setEnabled(false);
+				}
 			}
 
 			@Override

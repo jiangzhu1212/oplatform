@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/oplatform.launch"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/mail.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/oplatform.log"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
