@@ -54,7 +54,7 @@ public abstract class OplatformLaunch implements EntryPoint {
 	Tree userMenu = new Tree();
 	private SinkInfo curInfo;
 	public static ArrayList<Sink> sinkList = null;
-	public static User loginUser = null;
+	public static User loginUser = new User();
 	protected Button changUserInfo = new Button("更改个人信息");
 	protected Button logout = new Button("注销登录");
 	protected Button repws = new Button();
