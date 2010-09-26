@@ -58,6 +58,10 @@ public class Card007Controller extends AController {
 		@Override
 		public void onResponseReceived(Request request, Response response) {
 			String ret = response.getText();
+			if("".equals(ret)){
+				Window.alert("无返回数据");
+				return ;
+			}
 			System.out.println("return code:  "+ response.getStatusCode());
 			if (response.getStatusCode() == Response.SC_OK) {
 				PacketParser parser = data.new PacketParser();

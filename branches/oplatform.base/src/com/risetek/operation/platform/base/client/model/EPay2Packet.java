@@ -78,15 +78,17 @@ public class EPay2Packet {
 	 * @throws JSONException
 	 */
 	public static List<EPay2Packet> listfromString(String jsonStr) throws JSONException {
-		List<EPay2Packet> lst = new ArrayList<EPay2Packet>();
-		JSONArray jsa = JSONParser.parse(jsonStr).isArray();
-		
-		for (int i = 0; i < jsa.size(); i++) {
-			EPay2Packet epp = new EPay2Packet(jsa.get(i).toString());
-			lst.add(epp);
+		try {
+			List<EPay2Packet> lst = new ArrayList<EPay2Packet>();
+			JSONArray jsa = JSONParser.parse(jsonStr).isArray();
+			for (int i = 0; i < jsa.size(); i++) {
+				EPay2Packet epp = new EPay2Packet(jsa.get(i).toString());
+				lst.add(epp);
+			}
+			return lst;
+		} catch (Exception e) {
 		}
-		
-		return lst;
+		return null ;
 	}
 	
 	/**
@@ -96,12 +98,16 @@ public class EPay2Packet {
 	 * @throws JSONException 
 	 */
 	public static String listToString(List<EPay2Packet> acLst) throws JSONException{
-		JSONArray jsa = new JSONArray();
-		for (int i = 0; i < acLst.size(); i++) {
-			EPay2Packet epp = acLst.get(i);
-			jsa.set(i,epp.toJsonObject());
+		try {
+			JSONArray jsa = new JSONArray();
+			for (int i = 0; i < acLst.size(); i++) {
+				EPay2Packet epp = acLst.get(i);
+				jsa.set(i, epp.toJsonObject());
+			}
+			return jsa.toString();
+		} catch (Exception e) {
 		}
-		return jsa.toString();
+		return null ;
 	}
 	
 	/**

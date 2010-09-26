@@ -32,18 +32,22 @@ public class TransEnableController extends AController {
 	public final TransEnableView view = new TransEnableView();
 	public TransEnableButtonDialog transEnableButtonDialog = null; 
 	private int pagePoint = 1;
+	public ListBox trans_list = null ;
+	public ListBox channel_list = null ;
 	
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
-	public ListBox trans_list = null ;
-	public ListBox channel_list = null ;
-	public static String ACTION_NAME = null ;
+
 	//修改操作的回调
 	class RemoteRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
+			if("".equals(ret)){
+				Window.alert("无返回数据");
+				return ;
+			}
 			List<EPay2Packet> list = EPay2Packet.listfromString(ret);
 			if (list.get(0).getActionReturnCode()!=Constanst.OP_TRUE)  {
 				Window.alert(Constanst.FAIL+"\n"+list.get(0).getActionReturnMessage());
@@ -62,38 +66,22 @@ public class TransEnableController extends AController {
 		}
 	}
 	//查询的回调
-	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	public static final RequestCallback QueryCaller = INSTANCE.new QueryRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
-			if(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO.equals(ACTION_NAME)){
-				String ret = response.getText();
-				TransactionData transData = new TransactionData();
-				ListBox trans_list = new ListBox() ;
-				trans_list.addItem("","");
-				JSONArray jsa = JSONParser.parse(ret).isArray();
-				transData.parseData(jsa.get(0).isString().stringValue());
-				String[][]  data = transData.getData();
-				for(int i = 0 ; i< data.length ; i ++){
-					trans_list.addItem(data[i][0],data[i][2]);
-				}
-			}else if(Constanst.ACTION_NAME_QUERY_CHANNEL_INFO.equals(ACTION_NAME)){
-				String ret = response.getText();
-				ChannelData channelData = new ChannelData();
-				ListBox channel_list = new ListBox() ;
-				channel_list.addItem("","");
-				JSONArray jsa = JSONParser.parse(ret).isArray();
-				channelData.parseData(jsa.get(0).isString().stringValue());
-				String[][]  data = channelData.getData();
-				for(int i = 0 ; i< data.length ; i ++){
-					channel_list.addItem(data[i][0],data[i][2]);
-				}
-			}else {
-				String ret = response.getText();
+
+			String ret = response.getText();
+			if("".equals(ret)){
+				Window.alert("无返回数据");
+				return ;
+			}
+			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
 				data.parseData(jsa.get(0).isString().stringValue());
 				view.render(data);
+			} catch (Exception e) {
 			}			
 		}
 
@@ -101,6 +89,52 @@ public class TransEnableController extends AController {
 			
 		}
 	}
+	
+	public static final RequestCallback QueryTransCaller = INSTANCE.new QueryTransRequestCallback();
+
+	//查询transList和channelList的回调
+	class QueryTransRequestCallback implements RequestCallback {
+		public void onResponseReceived(Request request, Response response) {
+			
+				String ret = response.getText();
+				if("".equals(ret)){
+					Window.alert("无返回数据");
+					return ;
+				}
+				TransactionData transData = new TransactionData();
+				trans_list = new ListBox() ;
+				trans_list.addItem("","");
+				JSONArray jsa = null;
+				try {
+					jsa = JSONParser.parse(ret).isArray();
+				} catch (Exception e) {
+					Window.alert("返回数据解析异常");
+					return ;
+				}
+				
+				transData.parseData(jsa.get(0).isString().stringValue());
+				String[][]  data0 = transData.getData();
+				for(int i = 0 ; i< data0.length ; i ++){
+					trans_list.addItem(data0[i][0],data0[i][2]);
+				}
+		
+				ChannelData channelData = new ChannelData();
+				channel_list = new ListBox() ;
+				channel_list.addItem("","");
+				
+				channelData.parseData(jsa.get(1).isString().stringValue());
+				String[][]  data1 = channelData.getData();
+				for(int i = 0 ; i< data1.length ; i ++){
+					channel_list.addItem(data1[i][0],data1[i][2]);
+				}
+			
+		}
+
+		public void onError(Request request, Throwable exception) {
+			
+		}
+	}
+	
 	private TransEnableController(){
 		
 	}
@@ -111,18 +145,28 @@ public class TransEnableController extends AController {
 	 * void
 	 */
 	public static void load(){
-		INSTANCE.data.setSum(10);
-		INSTANCE.view.render(INSTANCE.data);
+
 		TransactionData transData = new TransactionData();
 		transData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO);
-		String transPacket = transData.toHttpPacket();
-		ACTION_NAME = Constanst.ACTION_NAME_QUERY_BILL_INFO;
-		remoteRequest.getBill(transPacket, QueryCaller);
+		transData.setPAGE_POS(0);
+		transData.setPAGE_SIZE(1000);
+		String jsonStr = transData.toHttpPacket();
+		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+	
 		ChannelData channelData = new ChannelData();
 		channelData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_CHANNEL_INFO);
-		String channelPacket = channelData.toHttpPacket();
-		ACTION_NAME = Constanst.ACTION_NAME_QUERY_CHANNEL_INFO;
-		remoteRequest.getBill(channelPacket, QueryCaller);
+		channelData.setPAGE_POS(0);
+		channelData.setPAGE_SIZE(1000);
+		String jsonStr1 = channelData.toHttpPacket();
+		
+		EPay2Packet epay2Packet1 = new EPay2Packet(jsonStr1);
+		List<EPay2Packet> acList = new ArrayList<EPay2Packet>();
+		acList.add(epay2Packet);
+		acList.add(epay2Packet1);
+		
+		String json = EPay2Packet.listToString(acList);
+		String packet = RequestFactory.PACKET + "="+ json ;
+		remoteRequest.getBill(packet, QueryTransCaller);
 	}
 	
 	/**
@@ -187,7 +231,8 @@ public class TransEnableController extends AController {
 	@Override
 	public void load(int pagePoint) {
 		queryData.setPAGE_POS(pagePoint);
-		String jsonStr = queryData.toHttpPacket();
+		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRANS_ENABLE);
+		String jsonStr = queryData.toHttpPacket();		
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
 		String json = EPay2Packet.listToString(epay2Packet);
 		String packet = RequestFactory.PACKET + "="+ json ;

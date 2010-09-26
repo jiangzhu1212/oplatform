@@ -2,13 +2,16 @@ package com.risetek.operation.platform.base.client.dialog;
 
 import java.util.Date;
 
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.risetek.operation.platform.base.client.control.CustomerController;
+import com.risetek.operation.platform.base.client.control.TransBindController;
 import com.risetek.operation.platform.base.client.model.CustomerData;
 import com.risetek.operation.platform.base.client.model.EPay2Packet;
+import com.risetek.operation.platform.base.client.model.TransBindData;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
 import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
@@ -34,7 +37,7 @@ public class CustomerButtonDialog  extends BaseButtonDailog {
 	private final Label CREATE_TIME_MIN_ZH = new Label(CustomerConstanst.CREATE_TIME_MIN_ZH);
 	private final Label CREATE_TIME_MAX_ZH = new Label(CustomerConstanst.CREATE_TIME_MAX_ZH);
 	
-	private final TextBox CUSTOMER_ID = new TextBox();
+	public final TextBox CUSTOMER_ID = new TextBox();
 	private final TextBox NAME = new TextBox();
 	private final TextBox PHONE = new TextBox();
 	private final TextBox ADDRESS = new TextBox();
@@ -47,7 +50,21 @@ public class CustomerButtonDialog  extends BaseButtonDailog {
 	private final DateBox CREATE_TIME_MIN = new DateBox();
 	private final DateBox CREATE_TIME_MAX = new DateBox();
 	
+	private ListBox TRANS_ID = new ListBox() ;
+	
 	ListBox VALIDITY = Util.getValidity();
+	
+	Timer trans_timer = new Timer(){
+		@Override
+		public void run() {
+			if(TransBindController.INSTANCE.trans_list != null){
+				TRANS_ID = TransBindController.INSTANCE.trans_list;
+				gridFrame.setWidget(0, 1, TRANS_ID);
+				cancel() ;
+			}
+			
+		}
+	};
 	
 	/**
 	 * 添加用户中mainPanel的具体显示
@@ -113,8 +130,27 @@ public class CustomerButtonDialog  extends BaseButtonDailog {
 		mainPanel.add(gridFrame);
 		submit.setText("查询");
 		show();
-	}	
-
+	}
+	
+	/**
+	 * 绑定客户
+	 */
+	public void bindMainPanel(){
+		ACTION_NAME = Constanst.ACTION_NAME_ADD_TRANS_BIND ;
+		trans_timer.scheduleRepeating(1000) ;
+		setText("添加业务绑定");
+		mainPanel.clear();
+		gridFrame.resize(2, 2);
+		gridFrame.setWidget(1, 0, CUSTOMER_ID_ZH);
+		gridFrame.setWidget(1, 1, CUSTOMER_ID);	
+		gridFrame.setWidget(0, 0, new Label("待绑定业务"));
+		gridFrame.setWidget(0, 1, TRANS_ID);
+		
+		mainPanel.add(gridFrame);
+		submit.setText("绑定");
+		show();
+	}
+	
 	@Override
 	public void subminHandler() {
 		
@@ -175,6 +211,27 @@ public class CustomerButtonDialog  extends BaseButtonDailog {
 			String packet = RequestFactory.PACKET + "="+ json ;	
 			request.getBill(packet, CustomerController.QueryCaller);
 			hide();
+		}else if(Constanst.ACTION_NAME_ADD_TRANS_BIND.equals(ACTION_NAME)){
+			TransBindData transBindData = new TransBindData();
+			if(id == null || "".equals(id)){
+				setMessage("用户索引不能为空");
+				return ;				
+			}else{
+				transBindData.setCustomer_id(Integer.parseInt(id));
+			}
+			int transIndex = TRANS_ID.getSelectedIndex() ;
+			String trans_id = TRANS_ID.getValue(transIndex);
+			if(trans_id == null || "".equals(trans_id)){
+				setMessage("绑定业务不能为空");
+				return ;				
+			}else{
+				transBindData.setTrans_id(Integer.parseInt(trans_id));
+			}
+			String jsonStr = transBindData.toHttpPacket();
+			EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+			String json = EPay2Packet.listToString(epay2Packet);
+			String packet = RequestFactory.PACKET + "="+ json ;	
+			request.getBill(packet, CustomerController.RemoteCaller);
 		}
 	}
 

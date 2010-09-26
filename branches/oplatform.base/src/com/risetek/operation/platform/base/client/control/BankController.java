@@ -45,6 +45,10 @@ public class BankController extends AController {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
+			if("".equals(ret)){
+				Window.alert("无返回数据");
+				return ;
+			}
 			List<EPay2Packet> list = EPay2Packet.listfromString(ret);
 			if (list.get(0).getActionReturnCode()!=Constanst.OP_TRUE)  {
 				Window.alert(Constanst.FAIL+"\n"+list.get(0).getActionReturnMessage());
@@ -63,15 +67,23 @@ public class BankController extends AController {
 		}
 	}
 	//查询的回调
-	public static final RequestCallback QueryCaller = INSTANCE.new RemoteRequestCallback();
+	public static final RequestCallback QueryCaller = INSTANCE.new QueryRequestCallback();
 	class QueryRequestCallback implements RequestCallback {
 		public void onResponseReceived(Request request, Response response) {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
-			JSONArray jsa = JSONParser.parse(ret).isArray();
-			data.parseData(jsa.get(0).isString().stringValue());
-			view.render(data);
+			if("".equals(ret)){
+				Window.alert("无返回数据");
+				return ;
+			}
+			try {
+				JSONArray jsa = JSONParser.parse(ret).isArray();
+				data.parseData(jsa.get(0).isString().stringValue());
+				view.render(data);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 
 		public void onError(Request request, Throwable exception) {
@@ -85,9 +97,6 @@ public class BankController extends AController {
 	}
 	
 	public static void load(){
-		INSTANCE.data.setSum(100);
-		INSTANCE.view.render(INSTANCE.data);
-		//remoteRequest.get("", "", RemoteCaller);
 	}
 	
 	public BankData getData() {
@@ -164,6 +173,8 @@ public class BankController extends AController {
 	@Override
 	public void load(int pagePoint) {
 		// TODO Auto-generated method stub
+		queryData.setPAGE_POS(pagePoint);
+		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_BANK_INFO);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
 		String json = EPay2Packet.listToString(epay2Packet);

@@ -24,6 +24,7 @@ public abstract class BaseTableEditController implements ClickHandler {
 	protected Grid grid = null;
 	String colName = null ;
 	String optionName = null ;
+	ViewEditControl edit_control =  null ;
 	public BaseTableEditController() {
 		
 	}
@@ -63,10 +64,11 @@ public abstract class BaseTableEditController implements ClickHandler {
 				tisp_value = "";
 			}
 		}
-		ViewEditControl edit_control = new ViewEditControl(colName , optionName);
+		if(edit_control == null){
+			edit_control = new ViewEditControl(colName , optionName);
+		}
 		dialog = edit_control.dialog;
-//
-//		edit_control.dialog.submit.addClickHandler(edit_control);
+
 		dialog.show(rowid, tisp_value);
 						
 	}
