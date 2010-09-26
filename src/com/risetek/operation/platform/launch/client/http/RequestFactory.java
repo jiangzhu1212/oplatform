@@ -29,8 +29,8 @@ public class RequestFactory {
 	private final String commandPBaby = "xface/changeToPay.aspx";
 	
 	public RequestFactory(){
-//		this.baseUrl = "http://192.168.6.9:8089";
-		this.baseUrl = "http://125.69.69.135:8089";
+		this.baseUrl = "http://192.168.6.9:8089";
+//		this.baseUrl = "http://125.69.69.135:8089";
 	}
 	
 	
@@ -75,7 +75,7 @@ public class RequestFactory {
 	 * 账单请求
 	 */
 	public void getBill(String text, RequestCallback callback) {
-		get(command, Util.string2unicode(text), callback);
+		post(command, Util.string2unicode(text), callback);
 	}
 	/**
 	 * 骏网请求
@@ -89,12 +89,12 @@ public class RequestFactory {
 	}
 	
 	public void get(String text, RequestCallback callback) {
-		get(command, Util.string2unicode(text), callback);
+		post(command, Util.string2unicode(text), callback);
 	}
 	
 	//********************007card*************************************//
 	public void send007(String text, RequestCallback callback){
-		get(command007Card, Util.string2unicode(text), callback);
+		post(command007Card, Util.string2unicode(text), callback);
 	}
 	/**
 	 * 票宝宝异常处理
