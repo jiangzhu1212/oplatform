@@ -6,14 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.risetek.operation.platform.base.client.service.UserService;
@@ -146,8 +138,15 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 
 	@Override
 	public void editUserInfo(User user) {
-		// TODO Auto-generated method stub
-
+		try {
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			String SQL = "update RISETEK_USER set email = '"+ user.getEmail() + "', ROLE = " + user.getRole() + " where ID = " + user.getId();
+			statement.execute(SQL);
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -241,41 +240,41 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 	}
 	
 	 
-	public static void sendEmail(User user) throws MessagingException {
-		String host = "smtp.gmail.com";
-		String from = "epay.operation@gmail.com";
-		String pass = "risetekpass";
-		Properties props = System.getProperties();
-		props.put("mail.smtp.starttls.enable", "true"); // 在本行添加
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.user", from);
-		props.put("mail.smtp.password", pass);
-		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.auth", "true");
-		String[] to = { user.getEmail() }; // 在本行添加
-		Session session = Session.getDefaultInstance(props, null);
-		MimeMessage message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(from));
-		InternetAddress[] toAddress = new InternetAddress[to.length]; // 获取地址的array
-		for (int i = 0; i < to.length; i++) { // 从while循环更改而成
-			toAddress[i] = new InternetAddress(to[i]);
-		}
-		for (int i = 0; i < toAddress.length; i++) { // 从while循环更改而成
-			message.addRecipient(Message.RecipientType.TO, toAddress[i]);
-		}
-		message.setSubject("运维平台密码告知[系统自动发送]");
-		String msg = "用户：" + user.getUserName() + "您好！\n\t欢迎使用手机支付运维平台。\n\t" +
-				"请在使用过程中严格按照公司要求操作，如有问题请及时联系运维中心负责人。\n\t" +
-				"以下为您的登录密码，为了使用方便请登录后修改为容易记忆的密码。\n\t\t" +
-				user.getUserPassword() + "\n\t" +
-						"运维中心联系电话：028-83202011\n\t" +
-						"此邮件为系统自动发出，请勿回复。";
-		message.setText(msg);
-		Transport transport = session.getTransport("smtp");
-		transport.connect(host, from, pass);
-		transport.sendMessage(message, message.getAllRecipients());
-		transport.close();
-	}
+//	public static void sendEmail(User user) throws MessagingException {
+//		String host = "smtp.gmail.com";
+//		String from = "epay.operation@gmail.com";
+//		String pass = "risetekpass";
+//		Properties props = System.getProperties();
+//		props.put("mail.smtp.starttls.enable", "true"); // 在本行添加
+//		props.put("mail.smtp.host", host);
+//		props.put("mail.smtp.user", from);
+//		props.put("mail.smtp.password", pass);
+//		props.put("mail.smtp.port", "587");
+//		props.put("mail.smtp.auth", "true");
+//		String[] to = { user.getEmail() }; // 在本行添加
+//		Session session = Session.getDefaultInstance(props, null);
+//		MimeMessage message = new MimeMessage(session);
+//		message.setFrom(new InternetAddress(from));
+//		InternetAddress[] toAddress = new InternetAddress[to.length]; // 获取地址的array
+//		for (int i = 0; i < to.length; i++) { // 从while循环更改而成
+//			toAddress[i] = new InternetAddress(to[i]);
+//		}
+//		for (int i = 0; i < toAddress.length; i++) { // 从while循环更改而成
+//			message.addRecipient(Message.RecipientType.TO, toAddress[i]);
+//		}
+//		message.setSubject("运维平台密码告知[系统自动发送]");
+//		String msg = "用户：" + user.getUserName() + "您好！\n\t欢迎使用手机支付运维平台。\n\t" +
+//				"请在使用过程中严格按照公司要求操作，如有问题请及时联系运维中心负责人。\n\t" +
+//				"以下为您的登录密码，为了使用方便请登录后修改为容易记忆的密码。\n\t\t" +
+//				user.getUserPassword() + "\n\t" +
+//						"运维中心联系电话：028-83202011\n\t" +
+//						"此邮件为系统自动发出，请勿回复。";
+//		message.setText(msg);
+//		Transport transport = session.getTransport("smtp");
+//		transport.connect(host, from, pass);
+//		transport.sendMessage(message, message.getAllRecipients());
+//		transport.close();
+//	}
 
 	@Override
 	public void offUser(String id) {

@@ -192,11 +192,11 @@ public abstract class OPlatformTableView extends DockPanel {
 	 */
 	public void formatGrid(Grid grid, int rowCount, String[] columns, int[] columnsWidth){
 		grid.resize(rowCount+1, columns.length+2);
-		double total = 0.0000;
-		for(int i=0;i<columnsWidth.length;i++){
-			double temp = Double.parseDouble(Integer.toString(columnsWidth[i]));
-			total += temp;
-		}
+		double maxWidth = 0;
+    	for(int i=0;i<columns.length;i++){
+    		int width = columnsWidth[i];
+    		maxWidth = maxWidth + width;
+    	}
 		for(int i=0;i<grid.getColumnCount();i++){
 			if(i<2){
 				if(i==1){
@@ -207,15 +207,25 @@ public abstract class OPlatformTableView extends DockPanel {
 				}
 				grid.getCellFormatter().setStyleName(0, i, "optable-title");
 			} else {
+				double width = columnsWidth[i-2];
+				double temp = width/maxWidth * 100;
+	    		String per = Double.toString(temp);
+	    		if(per.length()<8) {
+	    			per = per + "0000";
+	    		}
+	    		int dot = per.indexOf(".");
+	    		String miu = per.substring(dot+ 1, dot+5);
+	    		int tmiu = Integer.parseInt(miu);
+	    		if(tmiu>4445){
+	    			temp = temp + 1;
+	    		}
+	    		per = Double.toString(temp);
+	    		if(per.indexOf(".")!=-1){
+	    			per = per.substring(0, per.indexOf("."));
+	    		}
 				grid.setText(0, i, columns[i-2]);
 				grid.getCellFormatter().setStyleName(0, i, "optable-title");
-				double temp = Double.parseDouble(Integer.toString(columnsWidth[i-2]));
-				double percent = temp/total;
-				percent *= 100;
-				String p = Double.toString(percent);
-				int index = p.indexOf(".");
-				p = p.substring(0, index);
-				grid.getCellFormatter().setWidth(0, i, p + "%");
+				grid.getCellFormatter().setWidth(0, i, per + "%");
 			}
 		}
 	}
