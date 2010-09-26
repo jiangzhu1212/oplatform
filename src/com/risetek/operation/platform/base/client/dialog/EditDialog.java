@@ -31,16 +31,20 @@ public class EditDialog extends CustomDialog {
 	
 	public EditDialog(String colName , String submitText){
 
-//		oldValueLabel.setWidth("220px");
-//		newValueBox.setWidth("220px");
-//		
 		this.colName = colName ;
 		makeMainPanel();
 		submit.setText(submitText);
 	}
 	
+	public void clearPanel(){
+		DATE_BOX.setValue(null);
+		newValueBox.setText("");
+		if(list_status != null){
+			list_status.setSelectedIndex(0);
+		}
+	}
+	
 	public void makeMainPanel(){
-		mainPanel.clear();
 		if(colName!=null){			
 			Grid gridFrame = new Grid(2, 2);
 			gridFrame.setStyleName("table");
@@ -105,6 +109,7 @@ public class EditDialog extends CustomDialog {
 			setText("修改" + colName);
 			oldValueLabel.setText(tips_imsi);	
 		}
+		clearPanel();
 		super.show();
 	}
 	

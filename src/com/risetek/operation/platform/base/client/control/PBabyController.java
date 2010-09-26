@@ -39,7 +39,7 @@ public class PBabyController extends AController {
 	
 	public static String ACTION_NAME = null ;
 	
-	public static PBabyData queryData = null;
+	public static PBabyData queryData = new PBabyData();
 	private int pagePoint = 1;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
@@ -49,6 +49,10 @@ public class PBabyController extends AController {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
+			if("".equals(ret)){
+				Window.alert("无返回数据");
+				return ;
+			}
 			if(Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO.equals(ACTION_NAME)){
 				PBabyData pData = new PBabyData();
 				JSONArray jsa = JSONParser.parse(ret).isArray();
@@ -94,9 +98,17 @@ public class PBabyController extends AController {
 			int code = response.getStatusCode();
 			System.out.println(code);
 			String ret = response.getText();
-			JSONArray jsa = JSONParser.parse(ret).isArray();
-			data.parseData(jsa.get(0).isString().stringValue());
-			view.render(data);
+			if("".equals(ret)){
+				Window.alert("无返回数据");
+				return ;
+			}
+			try {
+				JSONArray jsa = JSONParser.parse(ret).isArray();
+				data.parseData(jsa.get(0).isString().stringValue());
+				view.render(data);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 		
 		public void onError(Request request, Throwable exception) {
@@ -116,9 +128,7 @@ public class PBabyController extends AController {
 	 * void
 	 */
 	public static void load(){
-		INSTANCE.data.setSum(10);
-		INSTANCE.view.render(INSTANCE.data);
-//		remoteRequest.get("", "", RemoteCaller);
+
 	}
 	
 	/**
@@ -275,6 +285,7 @@ public class PBabyController extends AController {
 	@Override
 	public void load(int pagePoint) {
 		queryData.setPAGE_POS(pagePoint);
+		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
 		String json = EPay2Packet.listToString(epay2Packet);

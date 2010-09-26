@@ -19,9 +19,9 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 
 
 	public final static Button queryButton = new Button("查询客户",new CustomerController.TableShowAction());
-	public final static Button bindCustomer = new Button("绑定客户",new CustomerController.TableShowAction());
+	public final static Button bindCustomer = new Button("业务绑定",new CustomerController.TableShowAction());
 	public final static Button addButton = new Button("添加客户",new CustomerController.TableShowAction());
-
+	
 	public final static String[] columns = {CustomerConstanst.CUSTOMER_ID_ZH, CustomerConstanst.NAME_ZH, CustomerConstanst.PHONE_ZH, CustomerConstanst.ADDRESS_ZH,CustomerConstanst.ADDRESS_2_ZH,CustomerConstanst.EMAIL_ZH,CustomerConstanst.ID_CARD_ZH,CustomerConstanst.CREATE_TIME_ZH,CustomerConstanst.VALIDITY_ZH,CustomerConstanst.ADDITION_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};

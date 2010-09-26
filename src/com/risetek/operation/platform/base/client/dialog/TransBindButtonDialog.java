@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.base.client.control.TransBindController;
-import com.risetek.operation.platform.base.client.control.TransEnableController;
 import com.risetek.operation.platform.base.client.model.EPay2Packet;
 import com.risetek.operation.platform.base.client.model.TransBindData;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
@@ -25,8 +24,8 @@ public class TransBindButtonDialog  extends BaseButtonDailog {
 	Timer trans_timer = new Timer(){
 		@Override
 		public void run() {
-			if(TransEnableController.INSTANCE.trans_list != null){
-				TRANS_ID = TransEnableController.INSTANCE.trans_list;
+			if(TransBindController.INSTANCE.trans_list != null){
+				TRANS_ID = TransBindController.INSTANCE.trans_list;
 				gridFrame.setWidget(0, 1, TRANS_ID);
 				cancel() ;
 			}
@@ -37,7 +36,7 @@ public class TransBindButtonDialog  extends BaseButtonDailog {
 	public void addMainPanel(){
 		ACTION_NAME = Constanst.ACTION_NAME_ADD_TRANS_BIND ;
 		trans_timer.scheduleRepeating(1000) ;
-		setText("添加业务使能");
+		setText("添加业务绑定");
 		mainPanel.clear();
 		gridFrame.resize(2, 2);
 		gridFrame.setWidget(0, 0, TRANS_ID_ZH);
@@ -52,7 +51,7 @@ public class TransBindButtonDialog  extends BaseButtonDailog {
 	public void queryMainPanel(){
 		ACTION_NAME = Constanst.ACTION_NAME_QUERY_TRANS_BIND ;
 		trans_timer.scheduleRepeating(1000) ;
-		setText("查询业务使能");
+		setText("查询业务绑定");
 		mainPanel.clear();
 		gridFrame.resize(3, 2);
 		gridFrame.setWidget(0, 0, TRANS_ID_ZH);
@@ -76,8 +75,16 @@ public class TransBindButtonDialog  extends BaseButtonDailog {
 			trans_id = Integer.parseInt(TRANS_ID.getValue(transIndex));
 		} catch (Exception e) {
 		}
-		int trans_bind_id = Integer.parseInt(TRANS_BIND_ID.getText());
-		int customer_id = Integer.parseInt(CUSTOMER_ID.getText());
+		int trans_bind_id = 0;
+		try {
+			trans_bind_id = Integer.parseInt(TRANS_BIND_ID.getText());
+		} catch (Exception e) {
+		}
+		int customer_id = 0;
+		try {
+			customer_id = Integer.parseInt(CUSTOMER_ID.getText());
+		} catch (Exception e) {
+		}
 		transBindData.setCustomer_id(customer_id);
 		transBindData.setTrans_bind_id(trans_bind_id);
 		transBindData.setTrans_id(trans_id);
@@ -105,5 +112,11 @@ public class TransBindButtonDialog  extends BaseButtonDailog {
 		}
 		
 		hide();
+	}
+	
+	@Override
+	public void hide() {
+		trans_timer.cancel() ;
+		super.hide();
 	}
 }
