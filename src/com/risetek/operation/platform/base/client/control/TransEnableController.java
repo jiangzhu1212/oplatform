@@ -31,7 +31,7 @@ public class TransEnableController extends AController {
 	public static TransEnableData queryData = new TransEnableData();
 	public final TransEnableView view = new TransEnableView();
 	public TransEnableButtonDialog transEnableButtonDialog = null; 
-	private int pagePoint = 1;
+	private int pagePoint = 0;
 	public ListBox trans_list = null ;
 	public ListBox channel_list = null ;
 	
@@ -229,8 +229,11 @@ public class TransEnableController extends AController {
 	}
 
 	@Override
-	public void load(int pagePoint) {
-		queryData.setPAGE_POS(pagePoint);
+	public void load(int page) {
+		if(pagePoint == 0){
+			return ;
+		}
+		queryData.setPAGE_POS(page);
 		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_TRANS_ENABLE);
 		String jsonStr = queryData.toHttpPacket();		
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

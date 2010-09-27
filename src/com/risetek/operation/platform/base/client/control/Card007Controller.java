@@ -41,7 +41,7 @@ public class Card007Controller extends AController {
 	public final Card007View view = new Card007View();
 
 	public static RequestFactory remoteRequest = new RequestFactory();
-	private int pagePoint = 1;
+	private int pagePoint = 0;
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	/**
 	 * @ClassName: RemoteRequestCallback 

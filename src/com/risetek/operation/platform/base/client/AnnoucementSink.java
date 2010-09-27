@@ -43,14 +43,6 @@ public class AnnoucementSink extends Sink {
 	}
 
 	/**
-	 * @Description: 得到模块事件列表
-	 * @return void 返回类型
-	 */
-	public void getActionList() {
-		// AcountController.INSTANCE.
-	}
-
-	/**
 	 * (非 Javadoc) Description: 得到模块视图对象
 	 * @return
 	 * @see com.risetek.operation.platform.launch.client.sink.Sink#getWidget()

@@ -40,7 +40,7 @@ public class PBabyController extends AController {
 	public static String ACTION_NAME = null ;
 	
 	public static PBabyData queryData = new PBabyData();
-	private int pagePoint = 1;
+	private int pagePoint = 0;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//操作的回调  查询电子货物还需要设已支付 现在还没设
@@ -283,8 +283,11 @@ public class PBabyController extends AController {
 	}
 
 	@Override
-	public void load(int pagePoint) {
-		queryData.setPAGE_POS(pagePoint);
+	public void load(int page) {
+		if(pagePoint == 0){
+			return ;
+		}
+		queryData.setPAGE_POS(page);
 		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

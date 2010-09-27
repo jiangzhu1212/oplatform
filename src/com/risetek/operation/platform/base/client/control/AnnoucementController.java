@@ -37,7 +37,7 @@ public class AnnoucementController extends AController {
 	public static AnnoucementData queryData = new AnnoucementData() ;
 	public final AnnoucementView view = new AnnoucementView();
 	public AnnoucementButtonDialog acountmentButtonDialog = new AnnoucementButtonDialog();
-	private int pagePoint = 1;
+	private int pagePoint = 0;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -175,8 +175,12 @@ public class AnnoucementController extends AController {
 	}
 
 	@Override
-	public void load(int pagePoint) {
+	public void load(int page) {
 		// TODO Auto-generated method stub
+		if(pagePoint == 0){
+			return ;
+		}
+		queryData.setPAGE_POS(page);
 		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_ANNOUCEMENT_INFO);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

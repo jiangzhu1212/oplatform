@@ -159,7 +159,7 @@ public class JCardData  extends OPlatformData  {
 			packet.put(Constanst.ACTION_NAME, new JSONString(ACTION_NAME));	
 			if(Constanst.ACTION_NAME_SELECT_JCARD.equals(ACTION_NAME)){
 				actionInfo = packetData();
-				actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber((PAGE_POS-1) * PAGE_SIZE));
+				actionInfo.put(Constanst.PAGE_INDEX,new JSONNumber(PAGE_POS * PAGE_SIZE));
 				if(PAGE_SIZE != 0){
 					actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(PAGE_SIZE));
 				}

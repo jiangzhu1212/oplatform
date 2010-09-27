@@ -5,7 +5,6 @@ import com.risetek.operation.platform.base.client.control.CardBatchController;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
-import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 
 public class CardBatchSink extends Sink {
 	public static final String Group = "后台管理";
@@ -21,18 +20,12 @@ public class CardBatchSink extends Sink {
 		};
 	}
 	
-	public static IOPlatformView getView(){
-		return CardBatchController.INSTANCE.view;
-	}
 	
 	@Override
 	public AController getController() {
 		return CardBatchController.INSTANCE;
 	}
-	
-	public void getActionList(){
-	//	BaseController.INSTANCE.
-	}
+
 	
 	public Widget getWidget(){
 		return CardBatchController.INSTANCE.view;

@@ -39,14 +39,6 @@ public class CardTerminalSink extends Sink {
 		return CardTerminalController.INSTANCE;
 	}
 
-	/**
-	 * 功能：得到模块事件列表
-	 *
-	 * void
-	 */
-	public void getActionList(){
-//		BaseController.INSTANCE.
-	}
 	
 	/** 
 	 * 功能： 得到模块视图对象

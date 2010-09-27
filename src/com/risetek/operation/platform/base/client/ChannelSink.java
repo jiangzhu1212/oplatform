@@ -5,7 +5,6 @@ import com.risetek.operation.platform.base.client.control.ChannelController;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
-import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 
 public class ChannelSink extends Sink {
 	public static final String Group = "后台管理";
@@ -20,18 +19,10 @@ public class ChannelSink extends Sink {
 			}
 		};
 	}
-	
-	public static IOPlatformView getView(){
-		return ChannelController.INSTANCE.view;
-	}
-	
+
 	@Override
 	public AController getController() {
 		return ChannelController.INSTANCE;
-	}
-	
-	public void getActionList(){
-	//	BaseController.INSTANCE.
 	}
 	
 	public Widget getWidget(){
