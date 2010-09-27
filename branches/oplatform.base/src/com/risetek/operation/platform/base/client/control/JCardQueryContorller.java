@@ -27,7 +27,7 @@ public class JCardQueryContorller extends AController {
 	final JCardData data = new JCardData();
 	public static JCardData queryData = new JCardData();
 	public final JCardQueryView view = new JCardQueryView();
-	private int pagePoint = 1;
+	private int pagePoint = 0;
 	public JCardQueryButtonDialog jCardQueryDialog = null;
 	
 	public static RequestFactory remoteRequest = new RequestFactory();
@@ -71,7 +71,6 @@ public class JCardQueryContorller extends AController {
 	}
 	
 	private JCardQueryContorller(){
-		
 	}
 	
 	/**
@@ -181,11 +180,16 @@ public class JCardQueryContorller extends AController {
 	}
 
 	@Override
-	public void load(int pagePoint) {
-		queryData.setPAGE_POS(pagePoint);
+	public void load(int page) {
+		if(pagePoint == 0){
+			return ;
+		}
+		
+		queryData.setPAGE_POS(page);
 		queryData.setACTION_NAME(Constanst.ACTION_NAME_SELECT_JCARD);
 		String packet = queryData.toHttpPacket();
 		remoteRequest.getJCard(packet, QueryCaller);
+		
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class CardTerminalController extends AController {
 	public static CardTerminalData queryData = new CardTerminalData();
 	public final CardTerminalView view = new CardTerminalView();
 	public CardTerminalButtonDialog cardTerminalButtonDialog = null;
-	private int pagePoint = 1;
+	private int pagePoint = 0;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -182,8 +182,11 @@ public class CardTerminalController extends AController {
 	}
 
 	@Override
-	public void load(int pagePoint) {
-		queryData.setPAGE_POS(pagePoint);
+	public void load(int page) {
+		if(pagePoint == 0){
+			return ;
+		}
+		queryData.setPAGE_POS(page);
 		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_CARD_TERMINAL);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

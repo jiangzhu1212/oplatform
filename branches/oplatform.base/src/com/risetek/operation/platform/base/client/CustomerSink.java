@@ -5,7 +5,6 @@ import com.risetek.operation.platform.base.client.control.CustomerController;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
-import com.risetek.operation.platform.launch.client.view.IOPlatformView;
 
 public class CustomerSink extends Sink {
 	public static final String Group = "基本功能";
@@ -21,17 +20,9 @@ public class CustomerSink extends Sink {
 		};
 	}
 	
-	public static IOPlatformView getView(){
-		return CustomerController.INSTANCE.view;
-	}
-	
 	@Override
 	public AController getController() {
 		return CustomerController.INSTANCE;
-	}
-	
-	public void getActionList(){
-	//	BaseController.INSTANCE.
 	}
 	
 	public Widget getWidget(){

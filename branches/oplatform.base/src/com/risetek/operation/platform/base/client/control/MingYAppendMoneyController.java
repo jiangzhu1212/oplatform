@@ -10,32 +10,26 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.Window;
-import com.risetek.operation.platform.base.client.dialog.BankButtonDialog;
-import com.risetek.operation.platform.base.client.model.BankData;
+import com.risetek.operation.platform.base.client.dialog.AcountButtonDialog;
+import com.risetek.operation.platform.base.client.model.AcountData;
 import com.risetek.operation.platform.base.client.model.EPay2Packet;
-import com.risetek.operation.platform.base.client.view.BankView;
+import com.risetek.operation.platform.base.client.model.MingYAppendMoneyData;
+import com.risetek.operation.platform.base.client.view.MingYAppendMoneyView;
 import com.risetek.operation.platform.launch.client.control.AController;
 import com.risetek.operation.platform.launch.client.control.ClickActionHandler;
 import com.risetek.operation.platform.launch.client.http.RequestFactory;
+import com.risetek.operation.platform.launch.client.json.constanst.AcountConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
-import com.risetek.operation.platform.launch.client.json.constanst.CustomerConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.view.OPlatformTableView;
 
-/**
- * @ClassName: BankController 
- * @Description: 发卡行模块控制器实体 
- * @author JZJ 
- * @date 2010-8-26 下午02:02:30 
- * @version 1.0
- */
-public class BankController extends AController {
+public class MingYAppendMoneyController extends AController {
 
-	public static BankController INSTANCE = new BankController();
-	final BankData data = new BankData();
-	public static BankData queryData = new BankData() ;
-	public final BankView view = new BankView();
-	public BankButtonDialog bankDialog = null;
+	public static MingYAppendMoneyController INSTANCE = new MingYAppendMoneyController();
+	final MingYAppendMoneyData data = new MingYAppendMoneyData();
+	public static MingYAppendMoneyData queryData = new MingYAppendMoneyData() ;
+	public final MingYAppendMoneyView view = new MingYAppendMoneyView();
+	public AcountButtonDialog acountButtonDialog = new AcountButtonDialog();
 	private int pagePoint = 0;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
@@ -53,7 +47,7 @@ public class BankController extends AController {
 			if (list.get(0).getActionReturnCode()!=Constanst.OP_TRUE)  {
 				Window.alert(Constanst.FAIL+"\n"+list.get(0).getActionReturnMessage());
 			}else{
-				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_ANNOUCEMENT_INFO);
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_SELECT_JCARD);
 				String jsonStr = queryData.toHttpPacket();
 				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
 				String json = EPay2Packet.listToString(epay2Packet);
@@ -91,7 +85,7 @@ public class BankController extends AController {
 		}
 	}
 	
-	private BankController(){
+	private MingYAppendMoneyController(){
 //		String name = new TableEditAction().getActionName();
 //		System.out.println(name);
 	}
@@ -99,43 +93,43 @@ public class BankController extends AController {
 	public static void load(){
 	}
 	
-	public BankData getData() {
+	public MingYAppendMoneyData getData() {
 		return data;
 	}
-	
+
 	public static class TableEditAction extends BaseTableEditController {
-			
-			@Override
-			public void setGrid() {
-				grid = INSTANCE.view.grid;
-			}
-	
-			@Override
-			public void submintHandler() {
-				BankData editData = new BankData() ;
-				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_CUSTOMER_INFO);
-				String row = dialog.rowid;
-				String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
-				editData.setBank_id(Integer.parseInt(id));
-					String colName = dialog.colName;
-					if(colName == null || "".equals(colName)){
-						
-					}else {
-						String colValue = null ;
-						if(CustomerConstanst.VALIDITY_ZH.equals(colName)){
-							int selectIndex = dialog.list_status.getSelectedIndex();
-							colValue = dialog.list_status.getValue(selectIndex);
-						}else{
-							colValue = dialog.getText();
-						}
-						String jsonStr = editData.toHttpPacket(colName,colValue);
-						EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
-		 				String json = EPay2Packet.listToString(epay2Packet);
-		 				String packet = RequestFactory.PACKET + "="+ json ;
-						remoteRequest.getBill(packet, RemoteCaller);
-					}
-			}
 		
+		@Override
+		public void setGrid() {
+			grid = INSTANCE.view.grid;
+		}
+		
+		@Override
+		public void submintHandler() {
+			AcountData editData = new AcountData() ;
+			editData.setACTION_NAME(Constanst.ACTION_NAME_NOTICE_REQUEST);
+			String row = dialog.rowid;
+			String account_number = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
+			editData.setAccount_number(account_number);
+				String colName = dialog.colName;
+				if(colName == null || "".equals(colName)){
+					
+				}else {
+					String colValue = null ;
+					if(AcountConstanst.VALIDITY_ZH.equals(colName)){
+						int selectIndex = dialog.list_status.getSelectedIndex();
+						colValue = dialog.list_status.getValue(selectIndex);
+					}else{
+						colValue = dialog.getText();
+					}
+					String jsonStr = editData.toHttpPacket(colName,colValue);
+					EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
+	 				String json = EPay2Packet.listToString(epay2Packet);
+	 				String packet = RequestFactory.PACKET + "="+ json ;
+					remoteRequest.getBill(packet, RemoteCaller);
+				}
+		}
+	
 	}
 		
 	
@@ -148,13 +142,13 @@ public class BankController extends AController {
 		}
 		
 		public void onClick(ClickEvent event) {
-			INSTANCE.bankDialog = new BankButtonDialog();
+			INSTANCE.acountButtonDialog = new AcountButtonDialog();
 			Object obj = event.getSource();
-			if(obj == BankView.addButton){
-				INSTANCE.bankDialog.addMainPanel();
-			}else if(obj == BankView.queryButton){
-				INSTANCE.bankDialog.queryMainPanel();
-			}
+//			if(obj == AcountView.addButton){
+//				INSTANCE.acountButtonDialog.addMainPanel();
+//			}else if(obj == AcountView.queryButton){
+//				INSTANCE.acountButtonDialog.queryMainPanel();
+//			}
 		}
 		
 	}
@@ -177,7 +171,7 @@ public class BankController extends AController {
 			return ;
 		}
 		queryData.setPAGE_POS(page);
-		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_BANK_INFO);
+		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
 		String json = EPay2Packet.listToString(epay2Packet);

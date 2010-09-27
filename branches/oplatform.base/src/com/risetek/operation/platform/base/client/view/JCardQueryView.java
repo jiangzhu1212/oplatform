@@ -29,7 +29,8 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		JCardConstanst.STATUS_ZH,
 		JCardConstanst.PAR_VALUE_ZH,
 		JCardConstanst.CREATE_DATE_ZH,
-		JCardConstanst.STATUS_TIMEOUT_ZH};
+		JCardConstanst.STATUS_TIMEOUT_ZH
+		};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25};
 	String banner_tips = "";
@@ -55,7 +56,7 @@ public class JCardQueryView  extends OPlatformTableView implements IOPlatformVie
 		Button editButton = new Button(Constanst.EDIT_ZH+JCardConstanst.STATUS_ZH,new JCardQueryContorller.TableEditAction());
 		actionPanel.add(editButton);
 		
-		actionPanel.setStyleName("aa");		
+		actionPanel.setStyleName("aa");
 		
 		return actionPanel;
 	}

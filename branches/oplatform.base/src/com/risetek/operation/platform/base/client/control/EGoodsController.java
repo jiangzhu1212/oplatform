@@ -31,7 +31,7 @@ public class EGoodsController extends AController {
 	public static EGoodsData queryData = new EGoodsData() ;
 	public final EGoodsView view = new EGoodsView();
 	public EGoodsButtonDialog buttonDialog = null;
-	private int pagePoint = 1;
+	private int pagePoint = 0;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -174,8 +174,11 @@ public class EGoodsController extends AController {
 	}
 
 	@Override
-	public void load(int pagePoint) {
-		queryData.setPAGE_POS(pagePoint);
+	public void load(int page) {
+		if(pagePoint == 0){
+			return ;
+		}
+		queryData.setPAGE_POS(page);
 		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_GOODS_INFO);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

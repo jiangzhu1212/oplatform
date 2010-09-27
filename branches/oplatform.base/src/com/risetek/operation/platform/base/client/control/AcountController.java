@@ -36,7 +36,7 @@ public class AcountController extends AController {
 	public static AcountData queryData = new AcountData() ;
 	public final AcountView view = new AcountView();
 	public AcountButtonDialog acountButtonDialog = new AcountButtonDialog();
-	private int pagePoint = 1;
+	private int pagePoint = 0;
 	public static RequestFactory remoteRequest = new RequestFactory();
 	public static final RequestCallback RemoteCaller = INSTANCE.new RemoteRequestCallback();
 	//修改操作的回调
@@ -82,7 +82,6 @@ public class AcountController extends AController {
 				data.parseData(jsa.get(0).isString().stringValue());
 				view.render(data);
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 
@@ -92,8 +91,6 @@ public class AcountController extends AController {
 	}
 	
 	private AcountController(){
-//		String name = new TableEditAction().getActionName();
-//		System.out.println(name);
 	}
 	
 	public static void load(){
@@ -171,9 +168,12 @@ public class AcountController extends AController {
 	}
 
 	@Override
-	public void load(int pagePoint) {
+	public void load(int page) {
 		// TODO Auto-generated method stub
-		queryData.setPAGE_POS(pagePoint);
+		if(pagePoint == 0){
+			return ;
+		}
+		queryData.setPAGE_POS(page);
 		queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_ACCOUNT_INFO);
 		String jsonStr = queryData.toHttpPacket();
 		EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
