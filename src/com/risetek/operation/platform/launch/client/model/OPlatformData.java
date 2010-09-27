@@ -78,7 +78,9 @@ public abstract class OPlatformData {
 	}
 
 	public void setPAGE_POS(int pAGE_POS) {
-		PAGE_POS = pAGE_POS;
+		if(pAGE_POS > 0){
+			PAGE_POS = pAGE_POS-1;
+		}		
 	}
 
 	public void setData(String data[][]) {

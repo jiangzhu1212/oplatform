@@ -20,11 +20,11 @@ public interface Constanst {
 	
 	final String ACTION_INVOKER = "ACTION_INVOKER" ;
 	
-	final String ACTION_INVOKER_WEB_CLIENT = "ACTION_INVOKER_WEB_CLIENT" ;
+	final String ACTION_INVOKER_WEB_CLIENT = "WEB_CLIENT" ;
 	
 	final String ACTION_MODULE = "ACTION_MODULE" ;
 	
-	final String ACTION_MODULE_MY_SETTLEMENT_SERVICE = "ACTION_MODULE_MY_SETTLEMENT_SERVICE" ;
+	final String ACTION_MODULE_MY_SETTLEMENT_SERVICE = "MY_SETTLEMENT_SERVICE" ;
 	
 	/**
 	 * 修改数据的名字
@@ -322,4 +322,8 @@ public interface Constanst {
 	 * 票宝宝出票
 	 */
 	final String ACTION_NAME_EDIT_PBABY = "ACTION_NAME_EDIT_PBABY";
+	/**
+	 * 民扬充值通知
+	 */
+	final String ACTION_NAME_NOTICE_REQUEST = "NOTICE_REQUEST";
 }
