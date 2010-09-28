@@ -108,7 +108,7 @@ public class TransEnableController extends AController {
 				try {
 					jsa = JSONParser.parse(ret).isArray();
 				} catch (Exception e) {
-					Window.alert("返回数据解析异常");
+//					Window.alert("返回数据解析异常");
 					return ;
 				}
 				

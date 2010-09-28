@@ -14,6 +14,7 @@ import com.risetek.operation.platform.base.client.CupCertificateSink;
 import com.risetek.operation.platform.base.client.CustomerSink;
 import com.risetek.operation.platform.base.client.EGoodsSink;
 import com.risetek.operation.platform.base.client.JCardQuerySink;
+import com.risetek.operation.platform.base.client.MingYAppendMoneySink;
 import com.risetek.operation.platform.base.client.PBabySink;
 import com.risetek.operation.platform.base.client.RoleConfigSink;
 import com.risetek.operation.platform.base.client.TdbcSink;
@@ -63,6 +64,7 @@ public class SinkList {
 		sinkList.add(new TradeSink());
 		sinkList.add(new CupCertificateSink());
 		sinkList.add(new LogSink());
+		sinkList.add(new MingYAppendMoneySink());
 		return sinkList;
 	}
 	

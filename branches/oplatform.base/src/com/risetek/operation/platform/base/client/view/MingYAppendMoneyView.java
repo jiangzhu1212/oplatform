@@ -1,14 +1,17 @@
 package com.risetek.operation.platform.base.client.view;
 
+import java.util.Date;
+
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.xml.client.Node;
-import com.risetek.operation.platform.base.client.AcountSink;
+import com.risetek.operation.platform.base.client.MingYAppendMoneySink;
 import com.risetek.operation.platform.base.client.control.AcountController;
 import com.risetek.operation.platform.base.client.control.MingYAppendMoneyController;
 import com.risetek.operation.platform.launch.client.config.UIConfig;
@@ -28,7 +31,7 @@ public class MingYAppendMoneyView extends OPlatformTableView implements IOPlatfo
 	
 	public final static ListBox noticeStatus = new ListBox();
 	
-	public final static int[] columnsWidth = {25, 25, 25, 25, 25};
+	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	String banner_tips = "";
 	
@@ -58,8 +61,8 @@ public class MingYAppendMoneyView extends OPlatformTableView implements IOPlatfo
 	 */
 	public MingYAppendMoneyView(){
 		HorizontalPanel action = initPromptGrid();
-		setLocation(AcountSink.Group + " -> " + AcountSink.Name);
-		addActionPanel(action, AcountSink.Desc, AcountSink.Name);
+		setLocation(MingYAppendMoneySink.Group + " -> " + MingYAppendMoneySink.Name);
+		addActionPanel(action, MingYAppendMoneySink.Desc, MingYAppendMoneySink.Name);
 	}
 	
 	/**
@@ -68,13 +71,22 @@ public class MingYAppendMoneyView extends OPlatformTableView implements IOPlatfo
 	 * @return Widget 返回类型 
 	 */
 	private HorizontalPanel initPromptGrid(){
-		noticeStatus.addItem("", "全选");
-		noticeStatus.addItem("failed", "通知失败");
-		noticeStatus.addItem("notNoticed", "未通知");
-		noticeStatus.addItem("noticed", "已通知");
+		noticeStatus.addItem("全选" , "");
+		noticeStatus.addItem("通知失败","failed");
+		noticeStatus.addItem("未通知","notNoticed");
+		noticeStatus.addItem("已通知","noticed");
+		noticeStatus.setWidth("100px");
 		payDataTime.setFormat(new DateBox.DefaultFormat(format));
-		HorizontalPanel actionPanel = new HorizontalPanel();
-		actionPanel.add(new Label("通知时间"));
+		
+		HorizontalPanel actionPanel = new HorizontalPanel();		
+		Panel searchPanel = new HorizontalPanel();
+		
+		searchPanel.setStyleName("tableMessagePanel-content");
+		searchPanel.add(new Label("通知时间"));
+		searchPanel.add(payDataTime);
+		searchPanel.add(new Label("通知状态"));
+		searchPanel.add(noticeStatus);
+		actionPanel.add(searchPanel);
 		actionPanel.add(queryButton);
 		actionPanel.add(noticeButton);
 		return actionPanel;
@@ -87,6 +99,8 @@ public class MingYAppendMoneyView extends OPlatformTableView implements IOPlatfo
 	 */
 	@Override
 	public void onLoad(){
+		payDataTime.setValue(new Date());
+		noticeStatus.setSelectedIndex(1);
 		AcountController.INSTANCE.load(1);
 	}
 
