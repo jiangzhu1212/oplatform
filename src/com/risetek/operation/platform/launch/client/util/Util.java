@@ -24,6 +24,9 @@ public class Util {
 	 * @return
 	 */
 	public static String formatMoney(String a){
+		if(a == null || "".equals(a.trim())){
+			return a;
+		}
 		StringBuffer amount = new StringBuffer();
 		if(!a.startsWith("-")){
 			if(a.length() > 2){
@@ -394,6 +397,7 @@ public class Util {
 	
 	/**
 	 * 根据需要转换日期
+	 * str2 转化的日期格式
 	 */
 	public static String formatDateToStringByStr2(Date date , String str2){
 		String str = "";
