@@ -54,7 +54,7 @@ public class AnnoucementController extends AController {
 			if (list.get(0).getActionReturnCode()!=Constanst.OP_TRUE)  {
 				Window.alert(Constanst.FAIL+"\n"+list.get(0).getActionReturnMessage());
 			}else{
-				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_ACCOUNT_INFO);
+				queryData.setACTION_NAME(Constanst.ACTION_NAME_QUERY_ANNOUCEMENT_INFO);
 				String jsonStr = queryData.toHttpPacket();
 				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
 				String json = EPay2Packet.listToString(epay2Packet);

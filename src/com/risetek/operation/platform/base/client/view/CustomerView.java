@@ -25,7 +25,6 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 	public final static String[] columns = {CustomerConstanst.CUSTOMER_ID_ZH, CustomerConstanst.NAME_ZH, CustomerConstanst.PHONE_ZH, CustomerConstanst.ADDRESS_ZH,CustomerConstanst.ADDRESS_2_ZH,CustomerConstanst.EMAIL_ZH,CustomerConstanst.ID_CARD_ZH,CustomerConstanst.CREATE_TIME_ZH,CustomerConstanst.VALIDITY_ZH,CustomerConstanst.ADDITION_ZH};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	public final static int[] columnsWidth = {25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
-	public static String descript = "";
 	String banner_tips = "";
 		
 	public void setBannerTips(String tips) {
@@ -37,10 +36,8 @@ public class CustomerView extends OPlatformTableView implements IOPlatformView {
 		HorizontalPanel action = initPromptGrid();
 //		setCellHeight(action, "38px");
 		setLocation(CustomerSink.Group + " -> " + CustomerSink.Name);
-		addActionPanel(action, descript, CustomerSink.Name);
+		addActionPanel(action, CustomerSink.Desc, CustomerSink.Name);
 		setStatisticText(100);
-		grid.addClickHandler(new CustomerController.TableEditAction());
-
 	}
 	
 	private HorizontalPanel initPromptGrid(){

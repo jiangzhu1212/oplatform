@@ -50,12 +50,8 @@ public class PBabyData extends OPlatformData {
 		List<String[]> list = new ArrayList<String[]>();
 		String[] PBabyData = new String[6];
 		for(int i = 0 ; i < goodsArr.size() ; i ++){
-			String info = goodsArr.get(i).isObject().get(PBabyConstanst.BILL_INFO).isString().stringValue();
-			if(info == null || "".equals(info)){
-				continue ;
-			}
 			
-			JSONObject pBabyInfo = JSONParser.parse(info).isObject();
+			JSONObject pBabyInfo = goodsArr.get(i).isObject();
 			try {
 				JSONArray arr = null;
 				arr = pBabyInfo.get(PBabyConstanst.TICKETS).isArray();				

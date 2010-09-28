@@ -1,10 +1,15 @@
 package com.risetek.operation.platform.base.client.model;
 
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.risetek.operation.platform.launch.client.json.constanst.Constanst;
+import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.MINGYAppendMoneryConstanst;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
+import com.risetek.operation.platform.launch.client.util.Util;
 
 public class MingYAppendMoneyData extends OPlatformData {
 	
@@ -41,8 +46,71 @@ public class MingYAppendMoneyData extends OPlatformData {
 	 */
 	private String bill_info = null ;
 	
-	public void parseData(String ret){
+	public void parseData(String text){
+		JSONObject jo = JSONParser.parse(text).isObject();
+		try {
+			JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+			setSum(Integer.parseInt(item_total.toString()));
+			JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
+			JSONArray goodsArr = actionInfo.get(Constanst.ITEMS).isArray();
+			String[][] data = new String[goodsArr.size()][10];
+			for(int i = 0 ; i < goodsArr.size() ; i ++){
+				
+				JSONObject myAppent = goodsArr.get(i).isObject();
+				JSONObject bill_info = myAppent.get(EGoodsConstanst.INFO).isObject();	
+					try {
+						data[i][0] = myAppent.get(EGoodsConstanst.E_GOODS_ID).isNumber().toString();
+					} catch (Exception e) {
+					}
+					try {
+						data[i][1] = myAppent.get("").isString().stringValue();
+					} catch (Exception e) {
+					}
+					
+					try {
+						data[i][2] = bill_info.get(MINGYAppendMoneryConstanst.SETTLEMENT_ACCOUNT).isString().stringValue();
+					} catch (Exception e) {
+					}
+					
+					try {
+						String money = bill_info.get(MINGYAppendMoneryConstanst.AMOUNT).isString().toString();
+						data[i][3] = Util.formatMoney(money);
+					} catch (Exception e) {
+					}
+					try {
+						data[i][4] = myAppent.get(EGoodsConstanst.CREATE_TIME).isString().stringValue() ;
+					} catch (Exception e) {
+					}
+					try {
+						data[i][5] = bill_info.get(MINGYAppendMoneryConstanst.USER_NAME).isString().toString() ;
+					} catch (Exception e) {
+					}
+					try {
+						data[i][6] = bill_info.get(checkStatusValue(MINGYAppendMoneryConstanst.STATUS)).isString().toString() ;
+					} catch (Exception e) {
+					}
+					try {
+						data[i][7] = bill_info.toString() ;
+					} catch (Exception e) {
+					}
+			
+			}
+			setData(data);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
+	}
+	
+	private String checkStatusValue(String name){
+		if("failed".equals(name)){
+			return "通知失败";
+		}else if("noticed".equals(name)){
+			return "已通知";
+		}else if("notNoticed".equals(name)){
+			return "未通知";
+		}
+		return 	name ;
 	}
 	
 	public String toHttpPacket(){

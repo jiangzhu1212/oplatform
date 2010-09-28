@@ -111,7 +111,8 @@ public class TransBindController extends AController {
 					trans_list.addItem(data0[i][0], data0[i][2]);
 				}
 			} catch (Exception e) {
-				Window.alert("返回数据解析异常");
+//				Window.alert("返回数据解析异常");
+				return ;
 			}
 		}
 
