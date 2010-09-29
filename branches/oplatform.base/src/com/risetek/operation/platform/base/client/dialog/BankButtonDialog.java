@@ -64,6 +64,7 @@ public class BankButtonDialog extends BaseDialog {
 		setText("增加发卡行信息");
 		setDescript("请输入新的发卡行信息");
 		mainPanel.add(gridFrame);
+		submit.setText("添加");
 		show();
 	}
 	/**
@@ -81,6 +82,7 @@ public class BankButtonDialog extends BaseDialog {
 		setText("查询发卡行信息");
 		setDescript("请输入查询信息");
 		mainPanel.add(gridFrame);
+		submit.setText("查看");
 		show();
 	}
 
@@ -103,7 +105,7 @@ public class BankButtonDialog extends BaseDialog {
 			BankData bankData = new BankData();
 			bankData.setACTION_NAME(ACTION_NAME);
 			
-			if(id == null || "".equals(id.trim())){
+			if(id != null && !"".equals(id.trim())){
 				if(!Util.isNum(id)){
 					setMessage("银行卡索引必须为数字");
 					return ;

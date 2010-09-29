@@ -104,10 +104,14 @@ public class Util {
 		
 		List<Integer> list = new ArrayList<Integer>();
 		int rowCount = grid.getRowCount();
-		for (int i = 1; i < rowCount-1; i++) {
+		for (int i = 1; i < rowCount-1; i++) {			
 			CheckBox cBox = (CheckBox)grid.getWidget(i, 0);
-			if(cBox.getValue()){
-				list.add(i);
+			try {
+				if (cBox.getValue()) {
+					list.add(i);
+				}
+			} catch (Exception e) {
+				return list;
 			}
 		}
 		return list;
@@ -282,9 +286,9 @@ public class Util {
 		
 		ListBox list_bindAble = new ListBox();
 		
-		list_bindAble.addItem( "否" , Constanst.FALSE );
+		list_bindAble.addItem( "" , "");
 		list_bindAble.addItem( "是" , Constanst.TRUE );
-				
+		list_bindAble.addItem( "否" , Constanst.FALSE );		
 		return list_bindAble;
 	}
 	

@@ -27,7 +27,7 @@ public class BaseDialog extends CustomDialog {
 
 	public TextBox newValueBox = new TextBox();
 
-	protected Grid gridFrame = new Grid();
+	protected Grid gridFrame = new Grid(1,2);
 	
 	protected String processTag;// search 表示查询，null 表示增加
 	
@@ -41,9 +41,9 @@ public class BaseDialog extends CustomDialog {
 			
 	
 	public BaseDialog() {
-		gridFrame.setStyleName(styleName);	
-		oldValueLabel.setWidth("200px");
-		newValueBox.setWidth("200px");
+		gridFrame.setStyleName("table");	
+		gridFrame.getColumnFormatter().setWidth(0, "80px");
+		gridFrame.getColumnFormatter().setWidth(1, "220px");
 	}
 	
 	/**

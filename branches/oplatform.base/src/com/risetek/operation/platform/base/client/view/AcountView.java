@@ -33,9 +33,9 @@ public class AcountView extends OPlatformTableView implements IOPlatformView {
 	public final static String[] columns = {
 			AcountConstanst.ACCOUNT_NUMBER_ZH, 
 			AcountConstanst.BANK_ID_ZH,
-			AcountConstanst.VALIDITY_ZH,
-			AcountConstanst.ADDITION_ZH,
-			AcountConstanst.DESCRIPTION_ZH 
+			AcountConstanst.DESCRIPTION_ZH,
+			AcountConstanst.ADDITION_ZH,			 
+			AcountConstanst.VALIDITY_ZH
 	};
 	
 	/**

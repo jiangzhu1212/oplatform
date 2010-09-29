@@ -1,6 +1,5 @@
 package com.risetek.operation.platform.base.client.dialog;
 
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -48,7 +47,8 @@ public class TransactionButtonDialog extends BaseButtonDailog {
 		mainPanel.clear();
 		ACTION_NAME = Constanst.ACTION_NAME_ADD_TRANSACTION_INFO;
 		setText("添加商户");
-		Grid gridFrame = new Grid(10, 2);
+		gridFrame.resize(10, 2) ;
+		gridFrame.setStyleName("table");
 		gridFrame.setWidget(0, 0, ALIAS_ZH);
 		gridFrame.setWidget(0, 1, ALIAS);
 		gridFrame.setWidget(1, 0, NAME_ZH);
@@ -71,13 +71,14 @@ public class TransactionButtonDialog extends BaseButtonDailog {
 		gridFrame.setWidget(9, 1, VALIDITY);
 		mainPanel.add(gridFrame);
 		submit.setText("添加");
+		show() ;
 	}
 	
 	public void queryMainPanel(){
 		mainPanel.clear();
 		ACTION_NAME = Constanst.ACTION_NAME_QUERY_TRANSACTION_INFO;
 		setText("查询商户");
-		Grid gridFrame = new Grid(11, 2);
+		gridFrame.resize(11, 2) ;
 		gridFrame.setWidget(0, 0, TRANS_ID_ZH);
 		gridFrame.setWidget(0, 1, TRANS_ID);
 		gridFrame.setWidget(1, 0, ALIAS_ZH);
@@ -102,6 +103,7 @@ public class TransactionButtonDialog extends BaseButtonDailog {
 		gridFrame.setWidget(10, 1, VALIDITY);
 		mainPanel.add(gridFrame);
 		submit.setText("查询");
+		show() ;
 	}
 
 	@Override
@@ -133,7 +135,7 @@ public class TransactionButtonDialog extends BaseButtonDailog {
 			}
 			transaction.setTrans_id(Integer.parseInt(id));
 		}
-		transaction.setAlias(alias);
+		transaction.setTrans_alias(alias);
 		transaction.setName(name);
 		transaction.setDescription(description);
 		transaction.setUrl(url);

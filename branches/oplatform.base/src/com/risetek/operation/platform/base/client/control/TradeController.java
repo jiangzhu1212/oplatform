@@ -73,7 +73,7 @@ public class TradeController extends AController {
 			}
 			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
-				data.parseData(jsa.get(0).isString().stringValue());
+				data.parseData(jsa.get(0).isObject().toString());
 				view.render(data);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -133,7 +133,7 @@ public class TradeController extends AController {
 					int selectIndex = dialog.list_status.getSelectedIndex();
 					colValue = dialog.list_status.getValue(selectIndex);
 				}else{
-					colValue = dialog.getText();
+					colValue = dialog.newValueBox.getText();
 				}
 				String jsonStr = editData.toHttpPacket(colName,colValue);
 				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

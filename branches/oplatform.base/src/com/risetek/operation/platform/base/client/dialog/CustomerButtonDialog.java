@@ -70,7 +70,7 @@ public class CustomerButtonDialog  extends BaseButtonDailog {
 	 * 添加用户中mainPanel的具体显示
 	 */
 	public void addMainPanel(){
-		ACTION_NAME = Constanst.ACTION_NAME_QUERY_CUSTOMER_INFO ;
+		ACTION_NAME = Constanst.ACTION_NAME_ADD_CUSTOMER_INFO ;
 		mainPanel.clear();
 		setText("添加用户");
 		gridFrame.resize(9, 2);
@@ -185,7 +185,7 @@ public class CustomerButtonDialog  extends BaseButtonDailog {
 		customer.setAddition(addition);
 	
 		if(Constanst.ACTION_NAME_ADD_CUSTOMER_INFO.equals(ACTION_NAME)){				
-			if(phone == null || !"".equals(phone.trim())){
+			if(phone == null || "".equals(phone.trim())){
 				setMessage("电话号码不能为空");
 				return ;
 			}

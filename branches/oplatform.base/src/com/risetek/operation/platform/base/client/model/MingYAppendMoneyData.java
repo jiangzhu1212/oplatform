@@ -49,10 +49,11 @@ public class MingYAppendMoneyData extends OPlatformData {
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
 		try {
-			JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+			String jsonStr = jo.get(Constanst.ACTION_INFO).isString().stringValue();
+			JSONObject actionInfo = JSONParser.parse(jsonStr).isObject();
+			JSONNumber item_total = (JSONNumber)actionInfo.get(Constanst.QUERY_TOTAL);
 			setSum(Integer.parseInt(item_total.toString()));
-			JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
-			JSONArray goodsArr = actionInfo.get(Constanst.ITEMS).isArray();
+			JSONArray goodsArr = actionInfo.get(Constanst.QUERY_DATA).isArray();
 			String[][] data = new String[goodsArr.size()][10];
 			for(int i = 0 ; i < goodsArr.size() ; i ++){
 				

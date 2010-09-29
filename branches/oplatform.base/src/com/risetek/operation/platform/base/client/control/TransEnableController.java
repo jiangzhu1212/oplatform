@@ -79,7 +79,7 @@ public class TransEnableController extends AController {
 			}
 			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
-				data.parseData(jsa.get(0).isString().stringValue());
+				data.parseData(jsa.get(0).isObject().toString());
 				view.render(data);
 			} catch (Exception e) {
 			}			
@@ -112,7 +112,7 @@ public class TransEnableController extends AController {
 					return ;
 				}
 				
-				transData.parseData(jsa.get(0).isString().stringValue());
+				transData.parseData(jsa.get(0).isObject().toString());
 				String[][]  data0 = transData.getData();
 				for(int i = 0 ; i< data0.length ; i ++){
 					trans_list.addItem(data0[i][0],data0[i][2]);
@@ -122,7 +122,7 @@ public class TransEnableController extends AController {
 				channel_list = new ListBox() ;
 				channel_list.addItem("","");
 				
-				channelData.parseData(jsa.get(1).isString().stringValue());
+				channelData.parseData(jsa.get(1).isObject().toString());
 				String[][]  data1 = channelData.getData();
 				for(int i = 0 ; i< data1.length ; i ++){
 					channel_list.addItem(data1[i][0],data1[i][2]);

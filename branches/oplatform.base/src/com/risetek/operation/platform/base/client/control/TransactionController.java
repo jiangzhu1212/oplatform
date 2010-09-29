@@ -72,7 +72,7 @@ public class TransactionController extends AController {
 			}
 			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
-				data.parseData(jsa.get(0).isString().stringValue());
+				data.parseData(jsa.get(0).isObject().toString());
 				view.render(data);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -119,18 +119,18 @@ public class TransactionController extends AController {
 			TransactionData editData = new TransactionData() ;
 			editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_TRANSACTION_INFO);
 			String row = dialog.rowid;
-			String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
+			String id = grid.getText(Integer.parseInt(row), 2);
 			editData.setTrans_id(Integer.parseInt(id));
 			String colName = dialog.colName;
 			if(colName == null || "".equals(colName)){
 				
 			}else {
 				String colValue = null ;
-				if(TransactionConstanst.VALIDITY_ZH.equals(colName) || TransactionConstanst.BINDABLE_ZH.equals(colName)){
+				if(TransactionConstanst.BINDABLE_ZH.equals(colName)){
 					int selectIndex = dialog.list_status.getSelectedIndex();
 					colValue = dialog.list_status.getValue(selectIndex);
 				}else{
-					colValue = dialog.getText();
+					colValue = dialog.newValueBox.getText();
 				}
 				String jsonStr = editData.toHttpPacket(colName,colValue);
 				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
@@ -155,10 +155,8 @@ public class TransactionController extends AController {
 			Object obj = event.getSource();			
 			if(obj == TransactionView.addButton){
 				INSTANCE.transactionDialog.addMainPanel();
-				INSTANCE.transactionDialog.show();
 			}else if(obj == TransactionView.queryButton){
 				INSTANCE.transactionDialog.queryMainPanel();
-				INSTANCE.transactionDialog.show();
 			}
 		}
 	}

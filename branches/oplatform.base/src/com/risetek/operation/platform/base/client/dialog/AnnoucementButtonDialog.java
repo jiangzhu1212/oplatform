@@ -28,7 +28,7 @@ public class AnnoucementButtonDialog extends BaseDialog {
 	public final TextBox TYPE = new TextBox();
 	public final TextBox DATA = new TextBox();
 	public final TextBox ADDTION = new TextBox();
-	public final DateBox STOP_TIME = new DateBox();
+
 	public final TextBox TARGET_TYPE = new TextBox();
 	public final TextBox TARGET_ID = new TextBox();
 	public final TextBox DESCRIPTION = new TextBox();
@@ -63,6 +63,7 @@ public class AnnoucementButtonDialog extends BaseDialog {
 		AnnoucementConstanst.TYPE_ZH,
 		AnnoucementConstanst.DATA_ZH,
 		AnnoucementConstanst.ADDITION_ZH,
+		AnnoucementConstanst.CREATE_TIME_ZH,
 		AnnoucementConstanst.STOP_TIME_ZH,
 		AnnoucementConstanst.TARGET_TYPE_ZH,
 		AnnoucementConstanst.TARGET_ID_ZH,
@@ -74,7 +75,6 @@ public class AnnoucementButtonDialog extends BaseDialog {
 	 * Description: 构造器
 	 */
 	public AnnoucementButtonDialog(){
-		init();
 		ClickHandler handler = new SubmitButtonClickHandler();
 		submit.addClickHandler(handler);
 	}
@@ -86,19 +86,18 @@ public class AnnoucementButtonDialog extends BaseDialog {
 	 */
 	public void addMainPanel(){	
 		ACTION_NAME = Constanst.ACTION_NAME_ADD_ANNOUCEMENT_INFO ;
-		gridFrame.resize(8, 2);
+		gridFrame.resize(9, 2);
 		gridFrame.setStyleName("table");
-		gridFrame.getColumnFormatter().setWidth(0, "80px");
-		gridFrame.getColumnFormatter().setWidth(1, "220px");
 		formatGrid(gridFrame, addColumns);
 		gridFrame.setWidget(0,1,TYPE);
 		gridFrame.setWidget(1,1,DATA);
 		gridFrame.setWidget(2,1,ADDTION);
-		gridFrame.setWidget(3,1,STOP_TIME);
-		gridFrame.setWidget(4,1,TARGET_TYPE);
-		gridFrame.setWidget(5,1,TARGET_ID);
-		gridFrame.setWidget(6,1,DESCRIPTION);
-		gridFrame.setWidget(7,1,VALIDITY);
+		gridFrame.setWidget(3,1,START_DATE);
+		gridFrame.setWidget(4,1,END_DATE);
+		gridFrame.setWidget(5,1,TARGET_TYPE);
+		gridFrame.setWidget(6,1,TARGET_ID);
+		gridFrame.setWidget(7,1,DESCRIPTION);
+		gridFrame.setWidget(8,1,VALIDITY);
 		setText("增加公告信息");
 		setDescript("请输入新的公告信息");
 		mainPanel.add(gridFrame);
@@ -114,8 +113,6 @@ public class AnnoucementButtonDialog extends BaseDialog {
 		ACTION_NAME = Constanst.ACTION_NAME_QUERY_ANNOUCEMENT_INFO ;
 		gridFrame.resize(8, 2);
 		gridFrame.setStyleName("table");
-		gridFrame.getColumnFormatter().setWidth(0, "80px");
-		gridFrame.getColumnFormatter().setWidth(1, "220px");
 		formatGrid(gridFrame, searchColumns);
 		gridFrame.setWidget(0,1,ACE_ID);
 		gridFrame.setWidget(1,1,TYPE);
@@ -132,21 +129,6 @@ public class AnnoucementButtonDialog extends BaseDialog {
 		show();
 	}
 	
-	/**
-	 * @Description: 设置文本框宽度以及日期格式化
-	 * @return void 返回类型
-	 */
-	private void init(){
-		
-		STOP_TIME.setFormat(new DateBox.DefaultFormat(BaseDialog.format));
-		START_DATE.setFormat(new DateBox.DefaultFormat(BaseDialog.format));
-		END_DATE.setFormat(new DateBox.DefaultFormat(BaseDialog.format));
-		CREATE_STARTTIME.setFormat(new DateBox.DefaultFormat(BaseDialog.format));
-		CREATE_ENDTIME.setFormat(new DateBox.DefaultFormat(BaseDialog.format));
-		STOP_STARTTIME.setFormat(new DateBox.DefaultFormat(BaseDialog.format));
-		STOP_ENDTIME.setFormat(new DateBox.DefaultFormat(BaseDialog.format));
-
-	}
 	
 	public void show(){
 		super.show();
@@ -186,7 +168,7 @@ public class AnnoucementButtonDialog extends BaseDialog {
 				Date start_time = START_DATE.getValue();
 				String start_date = Util.formatDateToJsonString(start_time);
 				
-				Date end_time = START_DATE.getValue();
+				Date end_time = END_DATE.getValue();
 				String end_date = Util.formatDateToJsonString(end_time);		
 				if(!Util.checkStringBulk(start_date, end_date)){
 					setMessage("公告创建时间不能超过停止时间");

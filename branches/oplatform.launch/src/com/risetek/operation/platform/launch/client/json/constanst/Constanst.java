@@ -14,9 +14,9 @@ public interface Constanst {
 	
 	final String VALIDITY_ZH = "是否有效";
 	
-	final String TRUE = "TRUE";
+	final String TRUE = "true";
 	
-	final String FALSE = "FALSE" ;
+	final String FALSE = "false" ;
 	
 	/**
 	 * 修改数据的名字
@@ -41,6 +41,8 @@ public interface Constanst {
 	
 	final String ACTION_MODULE = "ACTION_MODULE" ;
 	
+	final String ACTION_MODULE_DATABASE = "DATABASE" ;
+	
 	final String ACTION_MODULE_MY_SETTLEMENT_SERVICE = "MY_SETTLEMENT_SERVICE" ;
 	
 	final String ACTION_NAME = "ACTION_NAME";
@@ -50,8 +52,6 @@ public interface Constanst {
 	final String ACTION_RETRUN_MESSAGE = "ACTION_RETRUN_MESSAGE";
 
 	final String ACTION_INFO = "ACTION_INFO";
-	
-	final String QUERY_DATA = "QUERY_DATA";
 	/**
 	 * 2.0开始页码
 	 */
@@ -63,11 +63,11 @@ public interface Constanst {
 	/**
 	 * 2.0数据项总数
 	 */
-	final String ITEM_TOTAL = "ITEM_TOTAL" ;
+	final String QUERY_TOTAL = "QUERY_TOTAL" ;
 	/**
 	 * 2.0返回的查询数据项
 	 */
-	final String ITEMS = "ITEMS" ;
+	final String QUERY_DATA = "QUERY_DATA" ;
 	/**
 	 * 每页数量
 	 */
@@ -82,8 +82,6 @@ public interface Constanst {
 	final String MAX_COUNT = "MAX_COUNT";
 	
 	final String START_POS = "START_POS";
-	
-	final String QUERY_TOTAL = "QUERY_TOTAL";
 	
 	final String STATUS = "STATUS";
 

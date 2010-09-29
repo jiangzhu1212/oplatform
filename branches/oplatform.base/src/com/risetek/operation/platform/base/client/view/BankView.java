@@ -26,15 +26,16 @@ public class BankView extends OPlatformTableView implements IOPlatformView {
 	public final static Button addButton = new Button("增加发卡行", new BankController.TableShowAction());
 	public final static Button queryButton = new Button("查询发卡行", new BankController.TableShowAction());
 	
-	public final static int[] columnsWidth = {25, 25, 25, 25};
+	public final static int[] columnsWidth = {5, 25, 25, 25,10};
 	public final static int rowCount = UIConfig.TABLE_ROW_NORMAL;
 	String banner_tips = "";
 	
 	public final static String[] columns = { 
 			BankConstanst.BANK_ID_ZH,
-			BankConstanst.NAME_ZH, 
-			BankConstanst.VALIDITY_ZH,
-			BankConstanst.DESCRIPTION_ZH 
+			BankConstanst.PREFIX_ZH, 
+			BankConstanst.NAME_ZH,
+			BankConstanst.DESCRIPTION_ZH ,
+			BankConstanst.VALIDITY_ZH
 	};
 		
 	/**	

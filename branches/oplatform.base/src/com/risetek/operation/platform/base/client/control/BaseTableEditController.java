@@ -88,7 +88,8 @@ public abstract class BaseTableEditController implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			submintHandler();			
+			submintHandler();
+			dialog.hide() ;
 		}
 			
 	}
