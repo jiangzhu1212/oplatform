@@ -15,14 +15,14 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.util.Util;
 
-public class AddUserDialog extends CustomDialog {
+public class UserAddDialog extends CustomDialog {
 
 	TextBox userName = new TextBox();
 	ListBox role = new ListBox();
 	TextBox email = new TextBox();
 	TextArea notes = new TextArea();
 	
-	public AddUserDialog(RoleConfigData roleData) {
+	public UserAddDialog(RoleConfigData roleData) {
 		setText("添加用户");
 		setTitle("添加用户");
 		setDescript("添加一个平台用户");

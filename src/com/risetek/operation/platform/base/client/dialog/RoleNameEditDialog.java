@@ -7,11 +7,11 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 
-public class EditRoleNameDialog extends CustomDialog {
+public class RoleNameEditDialog extends CustomDialog {
 
 	private TextBox newValue = new TextBox();
 	
-	public EditRoleNameDialog(String value){
+	public RoleNameEditDialog(String value){
 		Grid grid = new Grid(2, 2);
 		grid.setStyleName("table");
 		grid.setText(0, 0, "原名称：");

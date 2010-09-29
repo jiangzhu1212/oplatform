@@ -92,7 +92,7 @@ public class UserConfigView extends OPlatformTableView implements IOPlatformView
 					} else if (i==1){
 						grid.setText(index, i, Integer.toString(index));
 						grid.getCellFormatter().setHorizontalAlignment(index, i, HasHorizontalAlignment.ALIGN_CENTER);
-					} else if (i == 4){
+					} else if (i==4){
 						String status = data.getData()[index-1][i-2];
 						int stat = Integer.parseInt(status);
 						String style = "";

@@ -7,11 +7,11 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.TextBox;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 
-public class AddRoleDialog extends CustomDialog {
+public class RoleAddDialog extends CustomDialog {
 
 	TextBox newValue = new TextBox();
 	
-	public AddRoleDialog() {
+	public RoleAddDialog() {
 		setTitle("添加角色");
 		setText("添加角色");
 		setDescript("添加一条用户角色");

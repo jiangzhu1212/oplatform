@@ -12,9 +12,9 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.risetek.operation.platform.base.client.dialog.AddUserDialog;
+import com.risetek.operation.platform.base.client.dialog.UserAddDialog;
 import com.risetek.operation.platform.base.client.dialog.ChangUserStatusDialog;
-import com.risetek.operation.platform.base.client.dialog.EditUserInfoDialog;
+import com.risetek.operation.platform.base.client.dialog.UserInfoEditDialog;
 import com.risetek.operation.platform.base.client.dialog.ShowUserInfoDialog;
 import com.risetek.operation.platform.base.client.model.RoleConfigData;
 import com.risetek.operation.platform.base.client.model.UserConfigData;
@@ -105,7 +105,7 @@ public class UserConfigController extends AController {
 		}
 		
 		public class AddUserControl extends DialogControl implements ClickHandler{
-			AddUserDialog dialog = new AddUserDialog(INSTANCE.roleData);
+			UserAddDialog dialog = new UserAddDialog(INSTANCE.roleData);
 			public void onClick(ClickEvent event) {
 				if(dialog.isValid()){
 					User user = dialog.getNewValue();
@@ -573,11 +573,11 @@ public class UserConfigController extends AController {
 		}
 		
 		public class ChangUserInfoControl extends DialogControl implements ClickHandler {
-			EditUserInfoDialog dialog;
+			UserInfoEditDialog dialog;
 			String id;
 			String value;
 			public ChangUserInfoControl(String value, String id, String rold, OPlatformData roleData){
-				dialog = new EditUserInfoDialog(value, rold, roleData);
+				dialog = new UserInfoEditDialog(value, rold, roleData);
 				this.id = id;
 				this.value = value;
 			}

@@ -3,11 +3,11 @@ package com.risetek.operation.platform.base.client.dialog;
 import com.google.gwt.user.client.ui.Label;
 import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 
-public class DeleteRoleOperationDialog extends CustomDialog {
+public class RoleOperationDeleteDialog extends CustomDialog {
 
 	public String id;
 	
-	public DeleteRoleOperationDialog(String value, String msg){
+	public RoleOperationDeleteDialog(String value, String msg){
 		Label info = new Label("确定删除" + msg);
 		info.setWidth("240px");
 		mainPanel.add(info);
@@ -15,7 +15,7 @@ public class DeleteRoleOperationDialog extends CustomDialog {
 		setDescript("删除角色\"" + value + "\"下选中的操作");
 	}
 	
-	public DeleteRoleOperationDialog(String value, int count){
+	public RoleOperationDeleteDialog(String value, int count){
 		
 		Label info = new Label("确定删除这" + count + "条操作？");
 		info.setWidth("240px");

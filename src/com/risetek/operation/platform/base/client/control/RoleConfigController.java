@@ -11,11 +11,11 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
-import com.risetek.operation.platform.base.client.dialog.AddRoleDialog;
-import com.risetek.operation.platform.base.client.dialog.AddRoleOperationDialog;
-import com.risetek.operation.platform.base.client.dialog.DeleteRoleDialog;
-import com.risetek.operation.platform.base.client.dialog.DeleteRoleOperationDialog;
-import com.risetek.operation.platform.base.client.dialog.EditRoleNameDialog;
+import com.risetek.operation.platform.base.client.dialog.RoleAddDialog;
+import com.risetek.operation.platform.base.client.dialog.RoleOperationAddDialog;
+import com.risetek.operation.platform.base.client.dialog.RoleDeleteDialog;
+import com.risetek.operation.platform.base.client.dialog.RoleOperationDeleteDialog;
+import com.risetek.operation.platform.base.client.dialog.RoleNameEditDialog;
 import com.risetek.operation.platform.base.client.model.RoleConfigData;
 import com.risetek.operation.platform.base.client.service.RoleService;
 import com.risetek.operation.platform.base.client.service.RoleServiceAsync;
@@ -40,6 +40,7 @@ public class RoleConfigController extends AController {
 	public final RoleConfigView view = new RoleConfigView();
 	private int pagePoint = 1;
 	private int childPagePoint = 1;
+	
 	private RoleConfigController(){
 	}
 	
@@ -154,9 +155,9 @@ public class RoleConfigController extends AController {
 		}
 		
 		public class DeleteRoleControl extends DialogControl implements ClickHandler {
-			public DeleteRoleDialog dialog;
+			public RoleDeleteDialog dialog;
 			public DeleteRoleControl(String value){
-				dialog = new DeleteRoleDialog(value);
+				dialog = new RoleDeleteDialog(value);
 			}
 			public void onClick(ClickEvent event) {
 				rs.deleteRole(id, new AsyncCallback<Void>() {
@@ -179,9 +180,9 @@ public class RoleConfigController extends AController {
 		}
 		
 		public class EditRoleNameControl extends DialogControl implements ClickHandler {
-			EditRoleNameDialog dialog;
+			RoleNameEditDialog dialog;
 			public EditRoleNameControl(String value){
-				dialog = new EditRoleNameDialog(value);
+				dialog = new RoleNameEditDialog(value);
 			}
 			public void onClick(ClickEvent event) {
 				if(dialog.isValid()){
@@ -246,11 +247,11 @@ public class RoleConfigController extends AController {
 		}
 		
 		public class DeleteOneRoleOperationControl extends DialogControl implements ClickHandler {
-			DeleteRoleOperationDialog dialog;
+			RoleOperationDeleteDialog dialog;
 			String id = "";
 			RoleOperation ro = new RoleOperation();
 			public DeleteOneRoleOperationControl (String id, String value, String msg){
-				dialog = new DeleteRoleOperationDialog(value, msg);
+				dialog = new RoleOperationDeleteDialog(value, msg);
 				String tid = INSTANCE.view.getSelectRoleId();
 				int rid = Integer.parseInt(tid);
 				ro.setId(Integer.parseInt(id));
@@ -286,7 +287,7 @@ public class RoleConfigController extends AController {
 		}
 		
 		public class AddRoleControl extends DialogControl implements ClickHandler {
-			AddRoleDialog dialog = new AddRoleDialog();
+			RoleAddDialog dialog = new RoleAddDialog();
 			public void onClick(ClickEvent event) {
 				if(dialog.isValid()){
 					String roleName = dialog.getNewValue();
@@ -328,10 +329,10 @@ public class RoleConfigController extends AController {
 			addROCont.dialog.show();
 		}
 		public class AddRoleOperationControl extends DialogControl implements ClickHandler {
-			AddRoleOperationDialog dialog;
+			RoleOperationAddDialog dialog;
 			private String roleName = "";
 			public AddRoleOperationControl(String id, String roleName, String[][] childData){
-				dialog = new AddRoleOperationDialog(id, roleName, childData);
+				dialog = new RoleOperationAddDialog(id, roleName, childData);
 				this.roleName = roleName;
 			}
 			
@@ -366,7 +367,7 @@ public class RoleConfigController extends AController {
 		}
 		
 		public class DeleteManyRoleOperationControl extends DialogControl implements ClickHandler {
-			DeleteRoleOperationDialog dialog;
+			RoleOperationDeleteDialog dialog;
 			ArrayList<RoleOperation> list = new ArrayList<RoleOperation>();
 			String roleName = "";
 			String tid = "";
@@ -387,7 +388,7 @@ public class RoleConfigController extends AController {
 					}
 				}
 				String value = INSTANCE.view.getChildGridTitle();
-				dialog = new DeleteRoleOperationDialog(value, list.size());
+				dialog = new RoleOperationDeleteDialog(value, list.size());
 			}
 			public void onClick(ClickEvent event) {
 				RoleOperation[] ros = new RoleOperation[list.size()];
@@ -439,7 +440,7 @@ public class RoleConfigController extends AController {
 		}
 		
 		public class DeleteManyRoleControl extends DialogControl implements ClickHandler {
-			DeleteRoleDialog dialog;
+			RoleDeleteDialog dialog;
 			ArrayList<Role> list = new ArrayList<Role>();
 			String roleName = "";
 			String tid = "";
@@ -459,7 +460,7 @@ public class RoleConfigController extends AController {
 					}
 				}
 				String value = INSTANCE.view.getChildGridTitle();
-				dialog = new DeleteRoleDialog(value, list.size());
+				dialog = new RoleDeleteDialog(value, list.size());
 			}
 			public void onClick(ClickEvent event) {
 				Role[] ros = new Role[list.size()];
