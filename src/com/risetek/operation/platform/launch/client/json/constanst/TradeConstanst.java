@@ -6,6 +6,10 @@ public interface TradeConstanst extends Constanst {
 	
 	final String TRADE_ID_ZH = "交易索引" ;
 	
+	final String THIRD_ID = "TRADE_ID" ;
+	
+	final String THIRD_ID_ZH = "第三方账单号" ;
+	
 	final String CUSTOMER_ID = "CUSTOMER_ID" ;
 	
 	final String CUSTOMER_ID_ZH = "用户编号" ;

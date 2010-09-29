@@ -2,11 +2,11 @@ package com.risetek.operation.platform.launch.client.json.constanst;
 
 public interface TransactionConstanst extends Constanst {
 	
-	final String TRANS_ID = "TANS_ID" ;
+	final String TRANS_ID = "TRANS_ID" ;
 	
 	final String TRANS_ID_ZH = "业务编号" ;
 	
-	final String ALIAS = "ALIAS" ;
+	final String TRANS_ALIAS = "TRANS_ALIAS" ;
 	
 	final String ALIAS_ZH = "业务别名" ;
 	

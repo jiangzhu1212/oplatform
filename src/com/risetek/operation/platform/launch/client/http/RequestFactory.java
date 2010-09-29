@@ -22,14 +22,14 @@ public class RequestFactory {
 	
 	private final String command007Card = "007ka/kaServer!process.do";
 
-	private final String command = "billServer/billCenter!request.do";
+	private final String command = "epay2dbserver/webApp.do";
 	
 	private static  String pBabyUrl = "http://xface.piaobaobao.cn:8383";
 	
 	private final String commandPBaby = "xface/changeToPay.aspx";
-	
+
 	public RequestFactory(){
-		this.baseUrl = "http://192.168.6.9:8089";
+		this.baseUrl = "http://192.168.9.124:8088";
 //		this.baseUrl = "http://125.69.69.135:8089";
 	}
 	
