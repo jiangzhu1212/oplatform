@@ -13,13 +13,13 @@ import com.risetek.operation.platform.launch.client.dialog.CustomDialog;
 import com.risetek.operation.platform.launch.client.entry.RoleOperation;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 
-public class AddRoleOperationDialog extends CustomDialog {
+public class RoleOperationAddDialog extends CustomDialog {
 
 	private Tree tree;
 	private String id;
 	private String[][] childData;
 	
-	public AddRoleOperationDialog(String id, String roleName, String[][] childData){
+	public RoleOperationAddDialog(String id, String roleName, String[][] childData){
 		this.childData = childData;
 		this.id = id;
 		setText("向角色\"" + roleName + "\"添加模块和操作");

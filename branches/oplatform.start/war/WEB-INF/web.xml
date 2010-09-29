@@ -44,6 +44,16 @@
 		<url-pattern>/oplatform/login</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>notice</servlet-name>
+		<servlet-class>com.risetek.operation.platform.base.server.NoticeServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>notice</servlet-name>
+		<url-pattern>/oplatform/notice</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>oplatform/index.html</welcome-file>
 	</welcome-file-list>

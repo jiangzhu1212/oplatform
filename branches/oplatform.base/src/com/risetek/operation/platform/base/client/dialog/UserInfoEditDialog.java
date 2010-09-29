@@ -13,12 +13,12 @@ import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.model.OPlatformData;
 import com.risetek.operation.platform.launch.client.util.Util;
 
-public class EditUserInfoDialog extends CustomDialog {
+public class UserInfoEditDialog extends CustomDialog {
 
 	private TextBox email = new TextBox();
 	private ListBox role = new ListBox();
 	
-	public EditUserInfoDialog(String value, String rold, OPlatformData roleData) {
+	public UserInfoEditDialog(String value, String rold, OPlatformData roleData) {
 		setText("修改用户信息");
 		setDescript("修改选中用户的角色和邮箱地址");
 		submit.setText("修改");

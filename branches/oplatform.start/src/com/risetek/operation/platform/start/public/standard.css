@@ -68,6 +68,8 @@ a, a:visited, a:hover {
 }
 
 .gwt-CheckBox {
+	font-size: 13px;
+	color: #404040;
 }
 .gwt-CheckBox-disabled {
   color: #888;
@@ -253,6 +255,7 @@ a, a:visited, a:hover {
 
 .gwt-ListBox {
 	border: 1px solid #B3B3B3;
+	height: 18px;
 	width: 100%;
 }
 
@@ -1003,9 +1006,15 @@ a, a:visited, a:hover {
 * html .gwt-TreeItem .gwt-CheckBox input {
   margin-left: -4px;
 }
-
+.gwt-DateBox {
+  border: 1px solid #B3B3B3;
+  height: 18px;
+  width: 100%;
+}
 .gwt-DateBox input {
-  width: 8em;
+  border: 1px solid #B3B3B3;
+  height: 18px;
+  width: 100%;
 }
 .dateBoxFormatError {
   background: #ffcccc;

@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.risetek.operation.platform.launch.client.entry.Notice;
 import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.server.core.ConnectDataBase;
 import com.risetek.operation.platform.start.client.service.LoginService;
@@ -141,7 +144,56 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 
 	@Override
 	public User updateUserInfo(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			String SQL = "update RISETEK_USER set USERPASSWORD = '" + user.getUserPassword() + "', EMAIL = '" + user.getEmail() + "' where ID = " + user.getId();
+			statement.execute(SQL);
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		setLoginUser(user);
+		return user;
+	}
+
+	@Override
+	public Notice[] getNotices(String roleName) {
+		ArrayList<Notice> list = new ArrayList<Notice>();
+		try{
+			Connection conn = ConnectDataBase.CONNDB.getConnection();
+			Statement statement = conn.createStatement();
+			String SQL = "select * from RISETEK_NOTICE where ROLES like '%" + roleName + "%'";
+			ResultSet result = statement.executeQuery(SQL);
+			while(result.next()){
+				Notice no = new Notice();
+				no.setId(result.getInt(1));
+				no.setContent(result.getString(2));
+				no.setRoles(result.getString(3));
+				Timestamp eff = result.getTimestamp(5);
+				Timestamp fail = result.getTimestamp(6);
+				Date now = new Date();
+				if((eff.compareTo(now))*(now.compareTo(fail))<0){
+					continue;
+				}
+				no.setEffectTime(eff);
+				no.setFailureTime(fail);
+				no.setAddTime(result.getTimestamp(4));
+				list.add(no);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Notice[] notices;
+		if(list.isEmpty()){
+			notices = new Notice[0];
+		} else {
+			notices = new Notice[list.size()];
+			for(int i=0;i<list.size();i++){
+				notices[i] = list.get(i);
+			}
+		}
+		return notices;
 	}
 }

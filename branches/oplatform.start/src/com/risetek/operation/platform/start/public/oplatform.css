@@ -174,7 +174,7 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	font-weight: bold;
 	text-align: center;
 	line-height: 25px;
-	font-size: 15px;
+	font-size: 13px;
 }
 
 .optable-line {
@@ -255,6 +255,20 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 	line-height: 20px;
 }
 
+.notice-table {
+	table-layout:fixed;
+}
+
+.notice-table td {
+	color: #404040;
+	font-size: 13px;
+	line-height: 20px;
+	overflow: hidden;
+	padding: 0px 5px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .descript {
 	color:#006acd;
 	font-size: 13px;
@@ -294,6 +308,11 @@ body{background:#fff; font-size:12px; font-family:"宋体",Verdana, Arial; line-
 
 .dialog .main {
 	padding: 5px 5px 0px 5px;
+	font-size: 13px;
+	color: #006acd;
+}
+
+.dialog-table {
 	font-size: 13px;
 	color: #006acd;
 }

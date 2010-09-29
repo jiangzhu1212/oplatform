@@ -2,6 +2,7 @@ package com.risetek.operation.platform.start.client.service;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.risetek.operation.platform.launch.client.entry.Notice;
 import com.risetek.operation.platform.launch.client.entry.User;
 
 @RemoteServiceRelativePath("login")
@@ -18,5 +19,7 @@ public interface LoginService extends RemoteService {
 	public void setUserLogout(User user);
 	
 	public User updateUserInfo(User user);
+	
+	public Notice[] getNotices(String roleName);
 	
 }

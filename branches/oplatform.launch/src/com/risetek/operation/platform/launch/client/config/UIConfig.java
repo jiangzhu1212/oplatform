@@ -22,4 +22,10 @@ public interface UIConfig {
 	public final int CHANG_USER_STATUS_TYPE_KICK = 2;
 	
 	public final int CHANG_USER_STATUS_TYPE_RESET = 3;
+	
+	public final String DEFAULT_TIME_FORMAT = "yyyy-MM-dd  00:00:00";
+	
+	public final String NOW_TIME_FORMAT = "yyyy-MM-dd  HH:mm:ss";
+	
+	public final String DATE_TIME_FORMAT = "yyyy-MM-dd";
 }

@@ -11,12 +11,17 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.risetek.operation.platform.launch.client.OplatformLaunch;
 import com.risetek.operation.platform.launch.client.dialog.LoadingDialog;
+import com.risetek.operation.platform.launch.client.dialog.NoticeDialog;
+import com.risetek.operation.platform.launch.client.entry.Notice;
 import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
@@ -35,7 +40,7 @@ public class StartUp extends OplatformLaunch {
 	private final static LoginServiceAsync ls = GWT.create(LoginService.class);
 	
 	public StartUp(){
-		changUserInfo.addClickHandler(new LoginController.ChangUserInfoAction(loginUser));
+		changUserInfo.addClickHandler(new LoginController.ChangUserInfoAction());
 		logout.addClickHandler(new LoginController.LogoutAction());
 		repws.addClickHandler(new LoginController.ChangUserPasswordAction(loginUser));
 	}
@@ -224,5 +229,50 @@ public class StartUp extends OplatformLaunch {
 		} else {
 			showInfo();
 		}
+		ls.getNotices(loginUser.getRoleName(), new AsyncCallback<Notice[]>() {
+			public void onSuccess(Notice[] result) {
+				notices = result;
+				if(notices.length==0){
+					noticeHtml.setText("当前没有通知公告");
+					noticeHtml.setStyleName("notice");
+//					noticeHtml.setTitle("点击查看详情");
+//					noticeHtml.addClickHandler(new ClickHandler() {
+//						public void onClick(ClickEvent event) {
+//							NoticeDialog nd = new NoticeDialog(noticeHtml.getText());
+//							nd.show();
+//						}
+//					});
+					ng.setWidget(0, 0, noticeHtml);
+				} else {
+					Grid noticeGrid = new Grid();
+					if(notices.length>3){
+						noticeGrid.resize(4, 1);
+						Label more = new Label("点击查看更多...");
+						more.getElement().setAttribute("style", "color: #006AD0;");
+						noticeGrid.setWidget(3, 0, more);
+						noticeGrid.getCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+					} else {
+						noticeGrid.resize(notices.length, 1);
+					}
+					noticeGrid.setWidth("176px");
+					noticeGrid.setStyleName("notice-table");
+					for(int i=0;i<notices.length;i++){
+						if(i>2){
+							break;
+						}
+						noticeGrid.setText(i, 0, (i+1) + "、" + notices[i].getContent());
+					}
+					ng.setWidget(0, 0, noticeGrid);
+					noticeGrid.addClickHandler(new ClickHandler() {
+						@Override
+						public void onClick(ClickEvent event) {
+							NoticeDialog nd = new NoticeDialog(notices);
+							nd.show();
+						}
+					});
+				}
+			}
+			public void onFailure(Throwable caught) {}
+		});
 	}
 }
