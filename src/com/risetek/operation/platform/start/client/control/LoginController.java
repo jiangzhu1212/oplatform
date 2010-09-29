@@ -42,31 +42,38 @@ public class LoginController extends AController {
 	}
 	
 	public static class ChangUserInfoAction implements ClickHandler {
-		User user;
-		public ChangUserInfoAction(User user){
-			this.user = user;
-		}
 		
 		public void onClick(ClickEvent event) {
-			ChangUserInfoControl cuif = new ChangUserInfoControl(user);
+			ChangUserInfoControl cuif = new ChangUserInfoControl();
 			cuif.dialog.submit.addClickHandler(cuif);
 			cuif.dialog.show();
 		}
 		
 		public class ChangUserInfoControl extends DialogControl implements ClickHandler {
 			ChangUserInfoDialog dialog;
-			public ChangUserInfoControl(User user){
-				dialog = new ChangUserInfoDialog(user);
+			public ChangUserInfoControl(){
+				dialog = new ChangUserInfoDialog(OplatformLaunch.loginUser);
 			}
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
+				if(dialog.isVaild()){
+					dialog.hide();
+					User user = dialog.getValue();
+					ls.updateUserInfo(user, new AsyncCallback<User>() {
+						public void onSuccess(User result) {
+							OplatformLaunch.loginUser = result;
+							Window.alert("修改成功！");
+						}
+						public void onFailure(Throwable caught) {}
+					});
+				} else {
+					dialog.submit.setEnabled(false);
+				}
 			}
 
 			@Override
 			protected CustomDialog getDialog() {
-				return null;
+				return dialog;
 			}
 			
 		}
