@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -23,7 +21,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.risetek.operation.platform.launch.client.dialog.NoticeDialog;
+import com.risetek.operation.platform.launch.client.entry.Notice;
 import com.risetek.operation.platform.launch.client.entry.User;
 import com.risetek.operation.platform.launch.client.sink.Sink;
 import com.risetek.operation.platform.launch.client.sink.SinkInfo;
@@ -49,12 +47,14 @@ public abstract class OplatformLaunch implements EntryPoint {
 	 * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
 	 */
 	
-	private HTML noticeHtml = new HTML();
+	public HTML noticeHtml = new HTML();
+	public Grid ng = new Grid(1, 1);
 	final VerticalPanel body = new VerticalPanel();
 	Tree userMenu = new Tree();
 	private SinkInfo curInfo;
 	public static ArrayList<Sink> sinkList = null;
 	public static User loginUser = new User();
+	public static Notice[] notices;
 	protected Button changUserInfo = new Button("更改个人信息");
 	protected Button logout = new Button("注销登录");
 	protected Button repws = new Button();
@@ -209,18 +209,6 @@ public abstract class OplatformLaunch implements EntryPoint {
 		menuList.setWidth("180px");
 		menuList.setHeight("100%");
 		
-		Grid ng = new Grid(1, 1);
-		noticeHtml.setText("1目前没有通知公告2目前没有通知公告3目前没有通知公告4目前没有通知公告5目前没有通知公告6目前没有通知公告7目前没有通知公告8目前没有通知公告9目前没有通知公告10目前没有通知公告");
-		noticeHtml.setStyleName("notice");
-		noticeHtml.setTitle("点击查看详情");
-		noticeHtml.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				NoticeDialog nd = new NoticeDialog(noticeHtml.getText());
-				nd.show();
-			}
-		});
-		ng.setWidget(0, 0, noticeHtml);
-		
 		HorizontalPanel blank = new HorizontalPanel();
 		blank.setStyleName("blank5");
 		
@@ -296,6 +284,8 @@ public abstract class OplatformLaunch implements EntryPoint {
 		stack.add(w);
 		stack.setCellHeight(grid, "30px");
 		stack.setCellHeight(w, "100%");
+		w.setWidth("178px");
+		stack.setWidth("100%");
 		return stack;
 	}
 	
