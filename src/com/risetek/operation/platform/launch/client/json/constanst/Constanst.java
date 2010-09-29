@@ -18,6 +18,23 @@ public interface Constanst {
 	
 	final String FALSE = "FALSE" ;
 	
+	/**
+	 * 修改数据的名字
+	 */
+	final String EDIT_ZH = "修改";
+	
+	/**
+	 * 民扬充值业务编号
+	 */
+	final int MINGY_APPEND_MONEY = 81 ;
+
+	
+	
+	/******************************************* JSON信息结构 *****************************************************************************/
+	final String BILLS_WEB_CLIENT="BILLS_REQUEST";
+	
+	final String CTI_PACKET="CTI_PACKET";
+	
 	final String ACTION_INVOKER = "ACTION_INVOKER" ;
 	
 	final String ACTION_INVOKER_WEB_CLIENT = "WEB_CLIENT" ;
@@ -25,17 +42,6 @@ public interface Constanst {
 	final String ACTION_MODULE = "ACTION_MODULE" ;
 	
 	final String ACTION_MODULE_MY_SETTLEMENT_SERVICE = "MY_SETTLEMENT_SERVICE" ;
-	
-	/**
-	 * 修改数据的名字
-	 */
-	final String EDIT_ZH = "修改";
-
-	public static final String BILLS_WEB_CLIENT="BILLS_REQUEST";
-	
-	public static final String CTI_PACKET="CTI_PACKET";
-	
-	/******************************************* JSON信息结构 *****************************************************************************/
 	
 	final String ACTION_NAME = "ACTION_NAME";
 	
