@@ -12,6 +12,7 @@ import com.risetek.operation.platform.launch.client.json.constanst.CustomerConst
 import com.risetek.operation.platform.launch.client.json.constanst.EGoodsConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.JCardConstanst;
 import com.risetek.operation.platform.launch.client.json.constanst.TradeConstanst;
+import com.risetek.operation.platform.launch.client.json.constanst.TransactionConstanst;
 import com.risetek.operation.platform.launch.client.util.Util;
 
 /**
@@ -74,6 +75,11 @@ public class EditDialog extends CustomDialog {
 			DATE_BOX.setFocus(true);
 		}else if(JCardConstanst.STATUS_ZH.equals(colName) ){
 			list_status = Util.getJCardStatus();
+			list_status.setSelectedIndex(0);
+			gridFrame.setWidget(1, 1, list_status);
+			list_status.setFocus(true);
+		}else if(TransactionConstanst.BINDABLE_ZH.equals(colName) ){
+			list_status = Util.getBindAble() ;
 			list_status.setSelectedIndex(0);
 			gridFrame.setWidget(1, 1, list_status);
 			list_status.setFocus(true);

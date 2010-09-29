@@ -72,10 +72,9 @@ public class CardBatchController extends AController{
 			}
 			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
-				data.parseData(jsa.get(0).isString().stringValue());
+				data.parseData(jsa.get(0).isObject().toString());
 				view.render(data);
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 
@@ -127,7 +126,7 @@ public class CardBatchController extends AController{
 			if(colName == null || "".equals(colName)){
 				
 			}else {
-				String colValue = dialog.getText();
+				String colValue = dialog.newValueBox.getText();
 				String jsonStr = editData.toHttpPacket(colName,colValue);
 				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);
  				String json = EPay2Packet.listToString(epay2Packet);

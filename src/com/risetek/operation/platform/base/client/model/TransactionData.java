@@ -20,7 +20,7 @@ public class TransactionData extends OPlatformData {
 	/**
 	 * 业务别名
 	 */
-	private String alias = null;
+	private String trans_alias = null;
 	
 	/**
 	 * 业务名
@@ -69,10 +69,11 @@ public class TransactionData extends OPlatformData {
 	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
-		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		String jsonStr = jo.get(Constanst.ACTION_INFO).isString().stringValue();
+		JSONObject actionInfo = JSONParser.parse(jsonStr).isObject();
+		JSONNumber item_total = (JSONNumber)actionInfo.get(Constanst.QUERY_TOTAL);
 		setSum(Integer.parseInt(item_total.toString()));
-		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
-		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
+		JSONArray arr = actionInfo.get(Constanst.QUERY_DATA).isArray();
 		String[][] data = new String[arr.size()][10];
 		for(int i = 0 ; i < arr.size() ; i ++){
 			JSONObject transaction = arr.get(i).isObject();
@@ -81,7 +82,7 @@ public class TransactionData extends OPlatformData {
 			} catch (Exception e) {
 			}
 			try {
-				data[i][1] = transaction.get(TransactionConstanst.ALIAS).isString().stringValue();
+				data[i][1] = transaction.get(TransactionConstanst.TRANS_ALIAS).isString().stringValue();
 			} catch (Exception e) {
 			}
 			try {
@@ -136,12 +137,12 @@ public class TransactionData extends OPlatformData {
 				actionInfo.put(Constanst.PAGE_SIZE,new JSONNumber(PAGE_SIZE));
 			}else if(Constanst.ACTION_NAME_MODIFY_TRANSACTION_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData(col[0],col[1]);
-			}else if(Constanst.ACTION_NAME_ADD_TRADE_INFO.equals(ACTION_NAME)){
+			}else if(Constanst.ACTION_NAME_ADD_TRANSACTION_INFO.equals(ACTION_NAME)){
 				actionInfo = packetData();
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
 			packet.put(Constanst.ACTION_INVOKER,new JSONString(Constanst.ACTION_INVOKER_WEB_CLIENT));
-			packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_MY_SETTLEMENT_SERVICE));
+			packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_DATABASE));
 		} catch (JSONException e) {			
 			e.printStackTrace();
 			return null;
@@ -155,8 +156,8 @@ public class TransactionData extends OPlatformData {
 		if( trans_id != 0){
 			json.put(TransactionConstanst.TRANS_ID, new JSONNumber(trans_id));
 		}
-		if(alias != null && !alias.equals("")){
-			json.put(TransactionConstanst.ALIAS, new JSONString(alias));
+		if(trans_alias != null && !trans_alias.equals("")){
+			json.put(TransactionConstanst.TRANS_ALIAS, new JSONString(trans_alias));
 		}
 		if(name != null && !name.equals("")){
 			json.put(TransactionConstanst.NAME, new JSONString(name));
@@ -192,7 +193,7 @@ public class TransactionData extends OPlatformData {
 		JSONObject json = new JSONObject();
 		json.put(TransactionConstanst.TRANS_ID, new JSONNumber(trans_id));
 		if(TransactionConstanst.ALIAS_ZH.equals(colName)){
-			json.put(TransactionConstanst.ALIAS, new JSONString(colValue));
+			json.put(TransactionConstanst.TRANS_ALIAS, new JSONString(colValue));
 		}else if(TransactionConstanst.NAME_ZH.equals(colName)){
 			json.put(TransactionConstanst.NAME, new JSONString(colValue));
 		}else if(TransactionConstanst.DESCRIPTION_ZH.equals(colName)){
@@ -222,13 +223,13 @@ public class TransactionData extends OPlatformData {
 	public void setTrans_id(int trans_id) {
 		this.trans_id = trans_id;
 	}
-
-	public String getAlias() {
-		return alias;
+	
+	public String getTrans_alias() {
+		return trans_alias;
 	}
 
-	public void setAlias(String alias) {
-		this.alias = alias;
+	public void setTrans_alias(String trans_alias) {
+		this.trans_alias = trans_alias;
 	}
 
 	public String getName() {

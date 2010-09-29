@@ -78,7 +78,7 @@ public class TransBindController extends AController {
 			}
 			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
-				data.parseData(jsa.get(0).isString().stringValue());
+				data.parseData(jsa.get(0).isObject().toString());
 				view.render(data);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -105,7 +105,7 @@ public class TransBindController extends AController {
 			trans_list.addItem("","");
 			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
-				transData.parseData(jsa.get(0).isString().stringValue());
+				transData.parseData(jsa.get(0).isObject().toString());
 				String[][] data0 = transData.getData();
 				for (int i = 0; i < data0.length; i++) {
 					trans_list.addItem(data0[i][0], data0[i][2]);

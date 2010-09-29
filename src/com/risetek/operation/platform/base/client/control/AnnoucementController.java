@@ -80,7 +80,7 @@ public class AnnoucementController extends AController {
 			}
 			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
-				data.parseData(jsa.get(0).isString().stringValue());
+				data.parseData(jsa.get(0).isObject().toString());
 				view.render(data);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -130,7 +130,7 @@ public class AnnoucementController extends AController {
 					}else if(AnnoucementConstanst.CREATE_TIME_ZH.equals(colName) || AnnoucementConstanst.STOP_TIME_ZH.equals(colName)){
 						colValue = Util.formatDateToJsonString(dialog.DATE_BOX.getValue());
 					}else{
-						colValue = dialog.getText();
+						colValue = dialog.newValueBox.getText();
 					}
 					String jsonStr = editData.toHttpPacket(colName,colValue);
 					EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

@@ -64,8 +64,8 @@ public class AcountButtonDialog extends BaseDialog {
 		gridFrame.setWidget(2,1,ADDITION);
 		gridFrame.setWidget(3,1,DESCRIPTION);
 		gridFrame.setWidget(4,1,VALIDITY);
-		setText("增加银行卡信息");
-		setDescript("请输入新的银行卡信息");
+		setText("增加账户信息");
+		setDescript("请输入新的账户信息");
 		mainPanel.add(gridFrame);
 		submit.setText("添加");
 		show();
@@ -81,7 +81,7 @@ public class AcountButtonDialog extends BaseDialog {
 		gridFrame.setWidget(2,1,ADDITION);
 		gridFrame.setWidget(3,1,DESCRIPTION);
 		gridFrame.setWidget(4,1,VALIDITY);
-		setText("查询银行卡信息");
+		setText("查询账户信息");
 		setDescript("请输入查询信息");
 		mainPanel.add(gridFrame);
 		submit.setText("查询");
@@ -136,6 +136,7 @@ public class AcountButtonDialog extends BaseDialog {
  				String packet = RequestFactory.PACKET + "="+ json ;
 				factory.getBill(packet, AcountController.QueryCaller);
 			}
+			hide() ;
 		}
 	}
 

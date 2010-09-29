@@ -8,7 +8,7 @@ import com.risetek.operation.platform.launch.client.sink.SinkInfo;
 
 public class PBabySink extends Sink{
 
-	public static final String Group = "基础管理";
+	public static final String Group = "基本功能";
 	public static final String Tag = "pBaby";
 	public static final String Name = "票宝宝异常管理";
 	public static final String Desc = "票宝宝异常出票管理";

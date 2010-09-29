@@ -43,10 +43,11 @@ public class PBabyData extends OPlatformData {
 	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
-		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		String jsonStr = jo.get(Constanst.ACTION_INFO).isString().stringValue();
+		JSONObject actionInfo = JSONParser.parse(jsonStr).isObject();
+		JSONNumber item_total = (JSONNumber)actionInfo.get(Constanst.QUERY_TOTAL);
 		setSum(Integer.parseInt(item_total.toString()));
-		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
-		JSONArray goodsArr = actionInfo.get(Constanst.ITEMS).isArray();
+		JSONArray goodsArr = actionInfo.get(Constanst.QUERY_DATA).isArray();
 		List<String[]> list = new ArrayList<String[]>();
 		String[] PBabyData = new String[6];
 		for(int i = 0 ; i < goodsArr.size() ; i ++){
@@ -123,12 +124,12 @@ public class PBabyData extends OPlatformData {
 		}
 		JSONObject jo = JSONParser.parse(text).isObject();
 		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
-		JSONNumber item_total = (JSONNumber)actionInfo.get(Constanst.ITEM_TOTAL);
+		JSONNumber item_total = (JSONNumber)actionInfo.get(Constanst.QUERY_TOTAL);
 		if(Integer.parseInt(item_total.toString()) == 0){
 			Window.alert("无此电话号码的用户");
 			return ;
 		}
-		JSONArray customerArr = actionInfo.get(Constanst.ITEMS).isArray();
+		JSONArray customerArr = actionInfo.get(Constanst.QUERY_DATA).isArray();
 		for(int i = 0 ; i < customerArr.size() ; i ++){
 			JSONObject customer = (customerArr.get(i)).isObject();
 			if(Constanst.TRUE.equals(customer.get(CustomerConstanst.VALIDITY).isString().stringValue())){
@@ -154,7 +155,7 @@ public class PBabyData extends OPlatformData {
 		}
 		packet.put(Constanst.ACTION_INFO,actionInfo);
 		packet.put(Constanst.ACTION_INVOKER,new JSONString(Constanst.ACTION_INVOKER_WEB_CLIENT));
-		packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_MY_SETTLEMENT_SERVICE));
+		packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_DATABASE));
 		
 		return packet.toString();
 	}

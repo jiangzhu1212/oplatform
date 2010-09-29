@@ -79,7 +79,7 @@ public class BankController extends AController {
 			}
 			try {
 				JSONArray jsa = JSONParser.parse(ret).isArray();
-				data.parseData(jsa.get(0).isString().stringValue());
+				data.parseData(jsa.get(0).isObject().toString());
 				view.render(data);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -113,7 +113,7 @@ public class BankController extends AController {
 			@Override
 			public void submintHandler() {
 				BankData editData = new BankData() ;
-				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_CUSTOMER_INFO);
+				editData.setACTION_NAME(Constanst.ACTION_NAME_MODIFY_BANK_INFO);
 				String row = dialog.rowid;
 				String id = INSTANCE.view.grid.getText(Integer.parseInt(row), 2);
 				editData.setBank_id(Integer.parseInt(id));
@@ -126,7 +126,7 @@ public class BankController extends AController {
 							int selectIndex = dialog.list_status.getSelectedIndex();
 							colValue = dialog.list_status.getValue(selectIndex);
 						}else{
-							colValue = dialog.getText();
+							colValue = dialog.newValueBox.getText();
 						}
 						String jsonStr = editData.toHttpPacket(colName,colValue);
 						EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

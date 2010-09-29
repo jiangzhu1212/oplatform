@@ -18,6 +18,8 @@ public class TradeData extends OPlatformData {
 	
 	private int trans_id = 0 ;
 	
+	private String third_id = null ;
+	
 	private String amount = null ;
 	
 	private String status = null ;
@@ -44,10 +46,11 @@ public class TradeData extends OPlatformData {
 	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
-		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		String jsonStr = jo.get(Constanst.ACTION_INFO).isString().stringValue();
+		JSONObject actionInfo = JSONParser.parse(jsonStr).isObject();
+		JSONNumber item_total = (JSONNumber)actionInfo.get(Constanst.QUERY_TOTAL);
 		setSum(Integer.parseInt(item_total.toString()));
-		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
-		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
+		JSONArray arr = actionInfo.get(Constanst.QUERY_DATA).isArray();
 		String[][] data = new String[arr.size()][5];
 		for(int i = 0 ; i < arr.size() ; i ++){
 			JSONObject json = arr.get(i).isObject();
@@ -128,7 +131,7 @@ public class TradeData extends OPlatformData {
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
 			packet.put(Constanst.ACTION_INVOKER,new JSONString(Constanst.ACTION_INVOKER_WEB_CLIENT));
-			packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_MY_SETTLEMENT_SERVICE));
+			packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_DATABASE));
 		} catch (JSONException e) {			
 			e.printStackTrace();
 			return null;
@@ -147,6 +150,9 @@ public class TradeData extends OPlatformData {
 		}
 		if(trans_id!=0){
 			json.put(TradeConstanst.TRANS_ID, new JSONNumber(trans_id));
+		}
+		if(third_id != null && !third_id.equals("")){
+			json.put(TradeConstanst.THIRD_ID, new JSONString(third_id));
 		}
 		if(amount != null && !amount.equals("")){
 			json.put(TradeConstanst.AMOUNT, new JSONString(amount));
@@ -331,6 +337,14 @@ public class TradeData extends OPlatformData {
 
 	public void setValidity(String validity) {
 		this.validity = validity;
+	}
+
+	public String getThird_id() {
+		return third_id;
+	}
+
+	public void setThird_id(String third_id) {
+		this.third_id = third_id;
 	}	
 	
 }

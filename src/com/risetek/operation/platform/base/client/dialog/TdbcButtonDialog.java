@@ -105,7 +105,7 @@ public class TdbcButtonDialog extends BaseDialog {
 				String json = EPay2Packet.listToString(epay2Packet);
 				String packet = RequestFactory.PACKET + "="+ json ;	
 				request.getBill(packet, TdbcController.RemoteCaller);
-			}else if(Constanst.ACTION_NAME_ADD_TDBC_INFO.equals(ACTION_NAME)){
+			}else if(Constanst.ACTION_NAME_QUERY_TDBC_INFO.equals(ACTION_NAME)){
 				TdbcController.queryData = tdbcData ;
 				String jsonStr = tdbcData.toHttpPacket();
 				EPay2Packet epay2Packet = new EPay2Packet(jsonStr);

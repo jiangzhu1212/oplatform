@@ -50,10 +50,11 @@ public class AnnoucementData extends OPlatformData {
 	
 	public void parseData(String text){
 		JSONObject jo = JSONParser.parse(text).isObject();
-		JSONNumber item_total = (JSONNumber)jo.get(Constanst.ITEM_TOTAL);
+		String jsonStr = jo.get(Constanst.ACTION_INFO).isString().stringValue();
+		JSONObject actionInfo = JSONParser.parse(jsonStr).isObject();
+		JSONNumber item_total = (JSONNumber)actionInfo.get(Constanst.QUERY_TOTAL);
 		setSum(Integer.parseInt(item_total.toString()));
-		JSONObject actionInfo = jo.get(Constanst.ACTION_INFO).isObject();
-		JSONArray arr = actionInfo.get(Constanst.ITEMS).isArray();
+		JSONArray arr = actionInfo.get(Constanst.QUERY_DATA).isArray();
 		String[][] data = new String[arr.size()][10];
 		for(int i = 0 ; i < arr.size() ; i ++){
 			JSONObject annoucement = arr.get(i).isObject();
@@ -77,43 +78,43 @@ public class AnnoucementData extends OPlatformData {
 					// TODO: handle exception
 				}
 				try {
-					data[i][3] = annoucement.get(AnnoucementConstanst.DESCRIPTION)
+					data[i][3] = annoucement.get(AnnoucementConstanst.ADDIITION)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					data[i][4] = annoucement.get(AnnoucementConstanst.ADDIITION)
+					data[i][4] = annoucement.get(AnnoucementConstanst.CREATE_TIME)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					data[i][5] = annoucement.get(AnnoucementConstanst.CREATE_TIME)
+					data[i][5] = annoucement.get(AnnoucementConstanst.STOP_TIME)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					data[i][6] = annoucement.get(AnnoucementConstanst.STOP_TIME)
+					data[i][6] = annoucement.get(AnnoucementConstanst.TARGET_TYPE)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					data[i][7] = annoucement.get(AnnoucementConstanst.TARGET_TYPE)
+					data[i][7] = annoucement.get(AnnoucementConstanst.TARGET_ID)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					data[i][8] = annoucement.get(AnnoucementConstanst.TARGET_ID)
+					data[i][8] = annoucement.get(AnnoucementConstanst.VALIDITY)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				try {
-					data[i][9] = annoucement.get(AnnoucementConstanst.VALIDITY)
+					data[i][9] = annoucement.get(AnnoucementConstanst.DESCRIPTION)
 							.isString().stringValue();
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -142,7 +143,7 @@ public class AnnoucementData extends OPlatformData {
 			}
 			packet.put(Constanst.ACTION_INFO,actionInfo);
 			packet.put(Constanst.ACTION_INVOKER,new JSONString(Constanst.ACTION_INVOKER_WEB_CLIENT));
-			packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_MY_SETTLEMENT_SERVICE));
+			packet.put(Constanst.ACTION_MODULE,new JSONString(Constanst.ACTION_MODULE_DATABASE));
 		} catch (JSONException e) {			
 			e.printStackTrace();
 			return null;
