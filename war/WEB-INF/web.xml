@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+  
+  <!-- Servlets -->
+ <servlet>
+		<servlet-name>uploadFile</servlet-name>
+		<servlet-class>com.risetek.test.appeng.file.server.FileUploadServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>uploadFile</servlet-name>
+		<url-pattern>/testfileupload/uploadFile</url-pattern>
+	</servlet-mapping>
+  
+  	<servlet>
+		<servlet-name>list</servlet-name>
+		<servlet-class>com.risetek.test.appeng.file.server.FileOperationServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>list</servlet-name>
+		<url-pattern>/testfileupload/list</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>down</servlet-name>
+		<servlet-class>com.risetek.test.appeng.file.server.FileDownServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>down</servlet-name>
+		<url-pattern>/testfileupload/down</url-pattern>
+	</servlet-mapping>
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>TestFileUpload.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>
