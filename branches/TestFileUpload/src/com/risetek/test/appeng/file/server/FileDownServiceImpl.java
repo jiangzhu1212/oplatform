@@ -14,6 +14,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 
 import com.newatlanta.commons.vfs.provider.gae.GaeVFS;
+import com.risetek.test.appeng.file.client.Util;
 
 public class FileDownServiceImpl extends HttpServlet {
 
@@ -25,12 +26,25 @@ public class FileDownServiceImpl extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)	throws ServletException, IOException {
+		downFile(req, resp, null);
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		String path = req.getParameter("path");
+		downFile(req, resp, path);
+	}
+	
+	private void downFile(HttpServletRequest req, HttpServletResponse resp, String path){
 		if(rootPath==null){
 			rootPath = this.getServletContext().getRealPath("/");
 			GaeVFS.setRootPath(rootPath);
 		}
 		try {
-			String path = req.getParameter("path");
+			if(path == null){
+				path = req.getParameter("path");
+			}
 			FileObject file = GaeVFS.resolveFile("gae:/" + path);
 //			String contentType = getServletContext().getMimeType(file.getName().getBaseName());
 //			resp.setContentType(contentType != null ? contentType : file.getContent().getContentInfo().getContentType());
@@ -40,8 +54,20 @@ public class FileDownServiceImpl extends HttpServlet {
 //			resp.flushBuffer();
 			
 			String name = path.substring(path.lastIndexOf("/")+1, path.length());
-			resp.setContentType("application/x-download");
-			resp.setHeader("Content-Disposition","attachment;filename="+URLEncoder.encode(name,"UTF-8"));  
+			String endName = name.substring(name.lastIndexOf(".")+1, name.length());
+			if(endName.equals("apk")){
+				resp.setContentType(Util.CONTENTTYPE_APK);
+			} else if (endName.equals("mp3")){
+				resp.setContentType(Util.CONTENTTYPE_MP3);
+			} else {
+				resp.setContentType("application/x-download");
+			}
+//			resp.setContentType("audio/x-mpeg");
+//			resp.setContentType("application/x-download");
+			resp.setHeader("Content-Disposition","attachment;filename="+URLEncoder.encode(name,"gb2312"));
+			String temp = Long.toString(file.getContent().getSize());
+			int length = Integer.parseInt(temp);
+			resp.setContentLength(length);
 			   
 			ServletOutputStream sout = resp.getOutputStream(); 
 
@@ -64,5 +90,4 @@ public class FileDownServiceImpl extends HttpServlet {
 			GaeVFS.clearFilesCache();
 		}
 	}
-
 }
