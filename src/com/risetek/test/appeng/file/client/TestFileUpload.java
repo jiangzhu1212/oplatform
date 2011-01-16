@@ -215,7 +215,10 @@ public class TestFileUpload implements EntryPoint {
 			down.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					listForm.submit();
+					String url = GWT.getModuleBaseURL() + "down";
+					url+= "?path=" + entry.getFloder() + "/" + entry.getName();
+					Window.open(url, "_blank", "");
+//					listForm.submit();
 				}
 			});
 			
