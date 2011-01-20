@@ -16,10 +16,10 @@ import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-
-import com.newatlanta.commons.vfs.provider.gae.GaeVFS;
+//import org.apache.commons.vfs.FileObject;
+//import org.apache.commons.vfs.FileSystemException;
+//
+//import com.newatlanta.commons.vfs.provider.gae.GaeVFS;
 
 public class FileUploadServiceImpl extends HttpServlet {
 
@@ -27,21 +27,21 @@ public class FileUploadServiceImpl extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private FileObject rootFolder;
+//	private FileObject rootFolder;
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
-		GaeVFS.setRootPath(this.getServletContext().getRealPath("/"));
-		try {
-			rootFolder = GaeVFS.resolveFile("gae://main");
-			if(!rootFolder.exists()){
-				rootFolder.createFolder();
-			}
-		} catch (FileSystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		GaeVFS.setRootPath(this.getServletContext().getRealPath("/"));
+//		try {
+//			rootFolder = GaeVFS.resolveFile("gae://main");
+//			if(!rootFolder.exists()){
+//				rootFolder.createFolder();
+//			}
+//		} catch (FileSystemException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	@Override
@@ -52,6 +52,7 @@ public class FileUploadServiceImpl extends HttpServlet {
 		ServletFileUpload upload = new ServletFileUpload();
 		req.setCharacterEncoding("utf-8");
 		PrintWriter jout = resp.getWriter();
+		S3Action s3a = new S3Action();
 		try {
 			// Parse the request
 			FileItemIterator iter = upload.getItemIterator(req);
@@ -60,12 +61,12 @@ public class FileUploadServiceImpl extends HttpServlet {
 				String fileName = item.getName();
 				InputStream stream = item.openStream();
 				BufferedInputStream inputStream = new BufferedInputStream(stream);// 获得输入流
-				FileObject fileObject = rootFolder.resolveFile(fileName);
+//				FileObject fileObject = rootFolder.resolveFile(fileName);
 //				FileObject fileObject = GaeVFS.resolveFile("/" + fileName);
-				OutputStream out = fileObject.getContent().getOutputStream();
-				BufferedOutputStream outputStream = new BufferedOutputStream(out);// 获得文件输出流
-				Streams.copy(inputStream, outputStream, true); // 开始把文件写到你指定的上传文件夹
-				out.close();
+//				OutputStream out = fileObject.getContent().getOutputStream();
+//				BufferedOutputStream outputStream = new BufferedOutputStream(out);// 获得文件输出流
+//				Streams.copy(inputStream, outputStream, true); // 开始把文件写到你指定的上传文件夹
+//				out.close();
 //				String name = item.getFieldName();
 				
 //				if (item.isFormField()) {
@@ -84,15 +85,15 @@ public class FileUploadServiceImpl extends HttpServlet {
 			ex.printStackTrace();
 			jout.print("exception");
 		} finally{
-			GaeVFS.clearFilesCache();
+//			GaeVFS.clearFilesCache();
 		}
-		try {
-			FileObject fileObject = GaeVFS.resolveFile("gae://");
-			fileObject.getChildren();
-		} catch (FileSystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			FileObject fileObject = GaeVFS.resolveFile("gae://");
+//			fileObject.getChildren();
+//		} catch (FileSystemException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //		PrintWriter jout = resp.getWriter();
 //		if (ok) {
 //			jout.print("file ok");

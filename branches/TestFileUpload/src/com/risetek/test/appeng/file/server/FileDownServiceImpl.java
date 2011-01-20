@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-
-import com.newatlanta.commons.vfs.provider.gae.GaeVFS;
+//import org.apache.commons.vfs.FileObject;
+//import org.apache.commons.vfs.FileSystemException;
+//
+//import com.newatlanta.commons.vfs.provider.gae.GaeVFS;
 import com.risetek.test.appeng.file.client.Util;
 
 public class FileDownServiceImpl extends HttpServlet {
@@ -39,17 +39,17 @@ public class FileDownServiceImpl extends HttpServlet {
 	private void downFile(HttpServletRequest req, HttpServletResponse resp, String path){
 		if(rootPath==null){
 			rootPath = this.getServletContext().getRealPath("/");
-			GaeVFS.setRootPath(rootPath);
+//			GaeVFS.setRootPath(rootPath);
 		}
 		try {
 			if(path == null){
 				path = req.getParameter("path");
 			}
-			FileObject file = GaeVFS.resolveFile("gae:/" + path);
+//			FileObject file = GaeVFS.resolveFile("gae:/" + path);
 //			String contentType = getServletContext().getMimeType(file.getName().getBaseName());
 //			resp.setContentType(contentType != null ? contentType : file.getContent().getContentInfo().getContentType());
 //			OutputStream out = resp.getOutputStream();
-			InputStream in = file.getContent().getInputStream();
+//			InputStream in = file.getContent().getInputStream();
 //			Streams.copy(in, out, true);
 //			resp.flushBuffer();
 			
@@ -65,29 +65,29 @@ public class FileDownServiceImpl extends HttpServlet {
 //			resp.setContentType("audio/x-mpeg");
 //			resp.setContentType("application/x-download");
 			resp.setHeader("Content-Disposition","attachment;filename="+URLEncoder.encode(name,"gb2312"));
-			String temp = Long.toString(file.getContent().getSize());
-			int length = Integer.parseInt(temp);
-			resp.setContentLength(length);
+//			String temp = Long.toString(file.getContent().getSize());
+//			int length = Integer.parseInt(temp);
+//			resp.setContentLength(length);
 			   
 			ServletOutputStream sout = resp.getOutputStream(); 
 
 			byte b[] = new byte[1024 * 8];
-			for (int i = in.read(b); i != -1;) {
-				sout.write(b);
-				i = in.read(b);
-			}
+//			for (int i = in.read(b); i != -1;) {
+//				sout.write(b);
+//				i = in.read(b);
+//			}
 			sout.flush();
 			sout.close();
-			in.close(); 
+//			in.close(); 
 
-		} catch (FileSystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//		} catch (FileSystemException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			GaeVFS.clearFilesCache();
+//			GaeVFS.clearFilesCache();
 		}
 	}
 }
