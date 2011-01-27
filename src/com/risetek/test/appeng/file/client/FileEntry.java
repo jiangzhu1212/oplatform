@@ -16,6 +16,8 @@ public class FileEntry implements Serializable {
 	private String size;
 	
 	private String creatTime;
+	
+	private String key;
 
 	public String getName() {
 		return name;
@@ -47,6 +49,14 @@ public class FileEntry implements Serializable {
 
 	public void setCreatTime(String creatTime) {
 		this.creatTime = creatTime;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 }

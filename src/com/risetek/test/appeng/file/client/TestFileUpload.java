@@ -192,7 +192,8 @@ public class TestFileUpload implements EntryPoint {
 			operationGrid.setWidget(0, 0, delFile);
 			operationGrid.setWidget(0, 1, down);
 			
-			final Hidden hidden = new Hidden("path", entry.getFloder() + "/" + entry.getName());
+//			final Hidden hidden = new Hidden("path", entry.getFloder() + "/" + entry.getName());
+			final Hidden hidden = new Hidden("path", entry.getKey());
 			
 			operationGrid.setWidget(0, 2, hidden);
 			
@@ -216,7 +217,7 @@ public class TestFileUpload implements EntryPoint {
 				@Override
 				public void onClick(ClickEvent event) {
 					String url = GWT.getModuleBaseURL() + "down";
-					url+= "?path=" + entry.getFloder() + "/" + entry.getName();
+					url+= "?path=" + entry.getKey();
 					Window.open(url, "_blank", "");
 //					listForm.submit();
 				}
