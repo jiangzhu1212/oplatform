@@ -1,10 +1,6 @@
 package com.risetek.test.appeng.file.server;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -15,11 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
-//import org.apache.commons.vfs.FileObject;
-//import org.apache.commons.vfs.FileSystemException;
-//
-//import com.newatlanta.commons.vfs.provider.gae.GaeVFS;
 
 public class FileUploadServiceImpl extends HttpServlet {
 
@@ -58,9 +49,10 @@ public class FileUploadServiceImpl extends HttpServlet {
 			FileItemIterator iter = upload.getItemIterator(req);
 			while (iter.hasNext()) { 
 				FileItemStream item = iter.next();
-				String fileName = item.getName();
-				InputStream stream = item.openStream();
-				BufferedInputStream inputStream = new BufferedInputStream(stream);// 获得输入流
+				s3a.uploadFile(item);
+//				String fileName = item.getName();
+//				InputStream stream = item.openStream();
+//				BufferedInputStream inputStream = new BufferedInputStream(stream);// 获得输入流
 //				FileObject fileObject = rootFolder.resolveFile(fileName);
 //				FileObject fileObject = GaeVFS.resolveFile("/" + fileName);
 //				OutputStream out = fileObject.getContent().getOutputStream();
@@ -78,7 +70,7 @@ public class FileUploadServiceImpl extends HttpServlet {
 //							+ " detected.");
 					
 //				}
-				stream.close();
+//				stream.close();
 			}
 //			System.out.println("上传成功!");
 		} catch (Exception ex) {

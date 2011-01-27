@@ -1,13 +1,10 @@
 package com.risetek.test.appeng.file.server;
 
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-//import org.apache.commons.vfs.FileObject;
-//import org.apache.commons.vfs.FileSystemException;
-//import org.apache.commons.vfs.FileType;
-
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-//import com.newatlanta.commons.vfs.provider.gae.GaeVFS;
 import com.risetek.test.appeng.file.client.FileEntry;
 import com.risetek.test.appeng.file.client.service.FileOperationService;
 
@@ -17,14 +14,46 @@ public class FileOperationServiceImpl extends RemoteServiceServlet implements Fi
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String rootPath = null;
+	S3Action s3a = new S3Action();
+//	private String rootPath = null;
 	
 	@Override
 	public FileEntry[] listFile() {
-		if(rootPath==null){
-			rootPath = this.getServletContext().getRealPath("/");
-//			GaeVFS.setRootPath(rootPath);
+		
+		List<S3ObjectSummary> list = s3a.getFileList();
+		FileEntry[] entryList = null;
+		if(list.isEmpty()){
+			entryList = new FileEntry[0];
+		} else {
+			entryList = new FileEntry[list.size()];
 		}
+		for(int i=0;i<list.size();i++){
+			S3ObjectSummary summary = list.get(i);
+			FileEntry entry = new FileEntry();
+			String key = summary.getKey();
+			String[] temp = key.split("_");
+			String name = "";
+			if(temp.length>2){
+				for(int a=0;a<temp.length-1;a++){
+					name += temp[a];
+				}
+			} else {
+				name = temp[temp.length-2];
+			}
+			String time = temp[temp.length-1];
+			Date date = new Date();
+			date.setTime(Long.parseLong(time));
+			entry.setCreatTime(summary.getLastModified().toString());
+			entry.setFloder(summary.getBucketName());
+			entry.setName(name);
+			entry.setSize(Long.toString(summary.getSize()));
+			entry.setKey(key);
+			entryList[i] = entry;
+		}
+//		if(rootPath==null){
+//			rootPath = this.getServletContext().getRealPath("/");
+//			GaeVFS.setRootPath(rootPath);
+//		}
 //		ArrayList<FileObject> list = new ArrayList<FileObject>();
 //		try {
 //			FileObject baseObject = GaeVFS.resolveFile("gae://");
@@ -53,7 +82,7 @@ public class FileOperationServiceImpl extends RemoteServiceServlet implements Fi
 //		for(int i=0;i<result.length;i++){
 //			result[i] = list.get(i);
 //		}
-		FileEntry[] entryList = new FileEntry[0];//[result.length];
+//		FileEntry[] entryList = new FileEntry[0];//[result.length];
 //		for(int i=0;i<entryList.length;i++){
 //			FileObject fileObject = result[i];
 //			FileEntry entry = new FileEntry();
@@ -108,6 +137,7 @@ public class FileOperationServiceImpl extends RemoteServiceServlet implements Fi
 
 	@Override
 	public FileEntry[] deleteFile(String path) {
+		s3a.deleteFile(path);
 //		if(rootPath==null){
 //			rootPath = this.getServletContext().getRealPath("/");
 //			GaeVFS.setRootPath(rootPath);
